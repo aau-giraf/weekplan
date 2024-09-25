@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "your-app-scheme",
     "name": "weekplan",
     "slug": "weekplan",
     "version": "1.0.0",
@@ -21,7 +22,9 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": ["expo-router"]
   }
 }
