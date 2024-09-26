@@ -1,5 +1,5 @@
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { Stack } from 'expo-router';
 
 const RootLayout = () => {
   const queryClient = new QueryClient();
@@ -9,6 +9,7 @@ const RootLayout = () => {
       <Stack>
         <Stack.Screen name="index" />
         <Stack.Screen name="example/index" />
+        <Stack.Screen name="login" />
       </Stack>
     </QueryClientProvider>
   );

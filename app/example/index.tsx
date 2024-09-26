@@ -1,19 +1,19 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { View, Text } from "react-native";
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { View, Text } from 'react-native';
 
 type LoginData = {
   data: string;
 };
 
 const login = async () => {
-  const res = await fetch("http://localhost:5000/v2/Account/login", {
-    method: "POST",
+  const res = await fetch('http://localhost:5000/v2/Account/login', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: "Guardian-dev",
-      password: "password",
+      username: 'Guardian-dev',
+      password: 'password',
     }),
   });
 
@@ -22,13 +22,13 @@ const login = async () => {
 
 const Example = () => {
   const { isPending, error, data }: UseQueryResult<LoginData> = useQuery({
-    queryKey: ["repoData"],
+    queryKey: ['repoData'],
     queryFn: login,
   });
 
   return (
     <View>
-      <Text>{data?.data ?? "Loading..."}</Text>
+      <Text>{data?.data ?? 'Loading...'}</Text>
       <Text>Example Page</Text>
     </View>
   );
