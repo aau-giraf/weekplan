@@ -1,12 +1,13 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { View, Text } from "react-native";
+import { BASE_URL } from "../../utils/globals";
 
 type LoginData = {
   data: string;
 };
 
 const login = async () => {
-  const res = await fetch("http://localhost:5000/v2/Account/login", {
+  const res = await fetch(`${BASE_URL}/v2/Account/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
