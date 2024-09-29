@@ -8,6 +8,9 @@ const HomePage = () => {
       <Link href="/example">
         <Text>Go to Example Page</Text>
       </Link>
+        <Link href="/weekPlanScreen">
+            <Text>Go to Week Plan</Text>
+        </Link>
     </View>
   );
 };
