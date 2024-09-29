@@ -1,22 +1,27 @@
-const calculateWeekDates = (date: Date) : Date[] => {
-    const weekStart = new Date(date);
+const calculateWeekDates = (date: Date): Date[] => {
+  //Check for invalid date
+  if (isNaN(date.getTime())) {
+    throw new Error("Invalid date");
+  }
 
-    // Get the current day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-    const currentDay = weekStart.getDay();
+  const weekStart = new Date(date);
 
-    // Calculate how many days to subtract to get to the previous Monday
-    const daysToMonday = (currentDay === 0) ? -6 : 1 - currentDay;
+  // Get the current day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  const currentDay = weekStart.getDay();
 
-    weekStart.setDate(weekStart.getDate() + daysToMonday);
+  // Calculate how many days to subtract to get to the previous Monday
+  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay;
 
-    const dates = [];
-    for (let i = 0; i < 5; i++) {
-        const day = new Date(weekStart);
-        day.setDate(weekStart.getDate() + i);
-        dates.push(day);
-    }
+  weekStart.setDate(weekStart.getDate() + daysToMonday);
 
-    return dates
-}
+  const dates = [];
+  for (let i = 0; i < 5; i++) {
+    const day = new Date(weekStart);
+    day.setDate(weekStart.getDate() + i);
+    dates.push(day);
+  }
 
-export default calculateWeekDates
+  return dates;
+};
+
+export default calculateWeekDates;

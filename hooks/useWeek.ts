@@ -1,34 +1,34 @@
-import  {useEffect, useState} from 'react';
+import { useMemo, useState } from "react";
 import calculateWeekDates from "../utils/calculateWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
 
-const UseWeek = () => {
-    const [currentWeek, setCurrentWeek] = useState(new Date());
-    const [weekDates, setWeekDates] = useState<Date[]>([]);
+const useWeek = (initialDate = new Date()) => {
+  const [currentWeek, setCurrentWeek] = useState(initialDate);
 
-    useEffect(() => {
-        const weekDays = calculateWeekDates(currentWeek)
-        setWeekDates(weekDays);
-    }, [currentWeek]);
+  const goToPreviousWeek = () => {
+    const previousWeek = new Date(currentWeek);
+    previousWeek.setDate(currentWeek.getDate() - 7);
+    setCurrentWeek(() => previousWeek);
+  };
 
-    const goToPreviousWeek = () => {
-        const previousWeek = new Date(currentWeek.setDate(currentWeek.getDate() - 7));
-        setCurrentWeek(previousWeek);
-    };
+  const goToNextWeek = () => {
+    const nextWeek = new Date(currentWeek);
+    nextWeek.setDate(currentWeek.getDate() + 7);
+    setCurrentWeek(() => nextWeek);
+  };
 
-    const goToNextWeek = () => {
-        const nextWeek = new Date(currentWeek.setDate(currentWeek.getDate() + 7));
-        setCurrentWeek(nextWeek);
-    };
+  const weekNumber = getWeekNumber(currentWeek);
+  const weekDates = useMemo(
+    () => calculateWeekDates(currentWeek),
+    [currentWeek]
+  );
 
-    const weekNumber = getWeekNumber(new Date(currentWeek));
+  return {
+    weekDates,
+    goToPreviousWeek,
+    goToNextWeek,
+    weekNumber,
+  };
+};
 
-    return {
-        weekDates,
-        goToPreviousWeek,
-        goToNextWeek,
-        weekNumber
-    }
-}
-
-export default UseWeek;
+export default useWeek;
