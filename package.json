@@ -8,11 +8,19 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "test-ci": "jest --ci",
+    "test-ci": "jest --coverage --ci",
     "lint": "expo lint"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "coverageDirectory": ".coverage",
+    "coverageReporters": [
+      "text-summary",
+      "json"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg)"
+    ]
   },
   "dependencies": {
     "@tanstack/react-query": "^5.56.2",
