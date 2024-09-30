@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#F9EBAE',
   },
   title: {
     fontSize: 24,
@@ -52,5 +53,6 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
   },
 });
+
 
 export default LoginPage;
