@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import calculateWeekDates from "../utils/calculateWeekDates";
+import getWeekDates from "../utils/getWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
 
 const useWeek = (initialDate = new Date()) => {
@@ -19,7 +19,7 @@ const useWeek = (initialDate = new Date()) => {
 
   const weekNumber = getWeekNumber(currentWeek);
   const weekDates = useMemo(
-    () => calculateWeekDates(currentWeek),
+    () => getWeekDates(currentWeek),
     [currentWeek]
   );
 

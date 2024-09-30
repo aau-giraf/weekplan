@@ -9,7 +9,7 @@ const RootLayout = () => {
       <Stack>
         <Stack.Screen name="index" />
         <Stack.Screen name="example/index" />
-        <Stack.Screen name="weekPlanScreen" />
+        <Stack.Screen name="weekplanscreen" />
       </Stack>
     </QueryClientProvider>
   );

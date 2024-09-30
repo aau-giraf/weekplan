@@ -1,4 +1,4 @@
-const calculateWeekDates = (date: Date): Date[] => {
+const getWeekDates = (date: Date): Date[] => {
   //Check for invalid date
   if (isNaN(date.getTime())) {
     throw new Error("Invalid date");
@@ -14,6 +14,7 @@ const calculateWeekDates = (date: Date): Date[] => {
 
   weekStart.setDate(weekStart.getDate() + daysToMonday);
 
+  //Given a Date, fetches the other dates in the same week
   const dates = [];
   for (let i = 0; i < 5; i++) {
     const day = new Date(weekStart);
@@ -24,4 +25,4 @@ const calculateWeekDates = (date: Date): Date[] => {
   return dates;
 };
 
-export default calculateWeekDates;
+export default getWeekDates;
