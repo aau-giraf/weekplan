@@ -9,7 +9,8 @@ type WeekDayHeaderProps = {
 }
 
 const WeekDayHeader: React.FC<WeekDayHeaderProps> = ({ onDayPress }) => {
-  const [selectedDay, setSelectedDay] = useState(0);
+  const currentDate = new Date();
+  const [selectedDay, setSelectedDay] = useState(currentDate.getDay());
   const { weekDates,
           goToPreviousWeek,
           goToNextWeek,
