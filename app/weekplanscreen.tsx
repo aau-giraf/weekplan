@@ -24,10 +24,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
   },
-  contentText: {
-    color: "#ECEFF1",
-    marginTop: 20,
-  },
 });
 
 export default WeekPlanScreen;
