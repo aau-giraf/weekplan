@@ -25,6 +25,7 @@ function LeftAction(
   return (
     <Reanimated.View style={styleAnimation}>
       <TouchableOpacity
+        testID="deleteTaskItemButton"
         onPress={deleteTask}
         style={[styles.action, { backgroundColor: "crimson" }]}
       >
@@ -49,6 +50,7 @@ function RightAction(
   return (
     <Reanimated.View style={[styleAnimation, { flexDirection: "row" }]}>
       <TouchableOpacity
+        testID="editTaskItemButton"
         onPress={editTask}
         style={[styles.action, { backgroundColor: "#0077b6" }]}
       >
@@ -56,6 +58,7 @@ function RightAction(
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="checkTaskItemButton"
         onPress={checkTask}
         style={[styles.action, { backgroundColor: "green" }]}
       >
