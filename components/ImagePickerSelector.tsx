@@ -1,29 +1,20 @@
 import { useState } from 'react';
 import { Button, Image, View, StyleSheet } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import pickImage from "../utils/pickImage";
 
 const ImagePickerSelector = () => {
     const [image, setImage] = useState<string | null>(null);
 
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        console.log(result);
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
+    const handlePickImage = async () => {
+        const result = await pickImage();
+        if (result) {
+            setImage(result);
         }
     };
 
     return (
         <View style={styles.container}>
-            <Button title="Upload an image from camera roll" onPress={pickImage} />
+            <Button title="Vælg et billede i dit billede bibliotek" onPress={handlePickImage} />
             {image && <Image source={{ uri: image }} style={styles.image} />}
         </View>
     );

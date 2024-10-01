@@ -2,27 +2,35 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
-const TimeCalender = () => {
+type TimeCalenderProps = {
+    onTimeChange: (startTime: Date, endTime: Date) => void;
+};
+
+const TimeCalender: React.FC<TimeCalenderProps> = ({ onTimeChange }) => {
     const [startDate, setStartDate] = React.useState(new Date());
     const [endDate, setEndDate] = React.useState(new Date());
 
     const handleStartDateChange = (event: any, selectedDate: Date | undefined) => {
         if (selectedDate) {
             setStartDate(selectedDate);
+            onTimeChange(selectedDate, endDate);
         }
     };
 
     const handleEndDateChange = (event: any, selectedDate: Date | undefined) => {
         if (selectedDate) {
             setEndDate(selectedDate);
+            onTimeChange(startDate, selectedDate);
         }
-    }
+    };
 
     return (
         <View>
             <View style={styles.pickerContainer}>
+                {/* Time pickers in hour/minute form*/}
                 <RNDateTimePicker
                     value={startDate}
+                    maximumDate={endDate}
                     mode={'time'}
                     onChange={handleStartDateChange}
                     style={styles.picker}
@@ -43,7 +51,7 @@ const TimeCalender = () => {
             </Text>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     pickerContainer: {
