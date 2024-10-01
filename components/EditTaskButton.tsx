@@ -13,7 +13,7 @@ type SubmitProps = {
     endTime: Date,
 }
 
-
+//Button to make a Modal for editing a task pop up
 const EditTaskButton: React.FC<EditTaskButtonProps> = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [submitProps, setSubmitProps] = useState<SubmitProps>({

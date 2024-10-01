@@ -6,7 +6,7 @@ type CalenderProps = {
     minDate: Date,
     onTimeChange: (date: Date) => void;
 }
-
+//Normal Calender component with a date picker used for selecting a date, can't select a date prior to the minDate
 const NormalCalender: React.FC<CalenderProps> = ({ minDate, onTimeChange }) => {
     const [date, setDate] = useState(new Date());
 
