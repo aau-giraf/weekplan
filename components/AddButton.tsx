@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import {Pressable} from "expo-router/build/views/Pressable";
-import {Link, useRouter} from "expo-router";
+import {useRouter} from "expo-router";
 
 interface AddButtonProps {
     label: string;
