@@ -8,8 +8,8 @@ jest.mock('expo-image-picker', () => ({
     },
 }));
 
-describe('pickImage', () => {
-    it('should return the image URI when an image is selected', async () => {
+describe('The pickImage function can find a picture from a ImageLibrary based on its location/URI', () => {
+    it('should return the image URI/Location when an image is selected', async () => {
         const mockResult = {
             canceled: false,
             assets: [{ uri: 'test-uri' }],

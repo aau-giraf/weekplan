@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text } from "react-native";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
@@ -7,7 +7,7 @@ type CalenderProps = {
 }
 
 const NormalCalender: React.FC<CalenderProps> = ({ minDate }) => {
-    const [date, setDate] = React.useState(new Date());
+    const [date, setDate] = useState(new Date());
 
     const handleDateChange = (event: any, selectedDate: Date | undefined) => {
         if (selectedDate) {

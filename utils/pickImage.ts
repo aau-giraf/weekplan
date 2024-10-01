@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 
-const pickImage = async () => {
-    //The result object contains information about the selected image
+//The result object contains information about the selected image, such as the URI of the image file.
+const pickImage = async () => { 
     let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,

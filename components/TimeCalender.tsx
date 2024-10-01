@@ -6,6 +6,7 @@ type TimeCalenderProps = {
     onTimeChange: (startTime: Date, endTime: Date) => void;
 };
 
+// TimeCalender component with two time pickers both used for selecting a start and end time in hour/minute form
 const TimeCalender: React.FC<TimeCalenderProps> = ({ onTimeChange }) => {
     const [startDate, setStartDate] = React.useState(new Date());
     const [endDate, setEndDate] = React.useState(new Date());
