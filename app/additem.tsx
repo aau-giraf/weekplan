@@ -1,49 +1,53 @@
 import { useGlobalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableWithoutFeedback,
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Alert,
-    View,
-    TouchableOpacity,
-} from "react-native";
+import {StyleSheet, Text, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Alert, View, TouchableOpacity,} from "react-native";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const AddItem = () => {
     const router = useRouter();
     const { day, date } = useGlobalSearchParams();
-    const [label, setLabel] = useState("");
-    const [description, setDescription] = useState("");
-    const [startTime, setStartTime] = useState(new Date(0, 0, 0, 0, 0)); // Default to 00:00
-    const [endTime, setEndTime] = useState(new Date(0, 0, 0, 23, 59)); // Default to 23:59
+    const [formData, setFormData] = useState({
+        label: "",
+        description: "",
+        startTime: new Date(0, 0, 0, 0, 0),
+        endTime: new Date(0, 0, 0, 23, 59),
+    });
 
     const handleStartTimeChange = (event: any, selectedDate: Date | undefined) => {
         if (selectedDate) {
-            if (selectedDate > endTime) {
-                Alert.alert("Ugyldig tid", "Starttiden kan ikke være senere end sluttiden.");
+            if (selectedDate < formData.endTime) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    startTime: selectedDate
+                }));
             } else {
-                setStartTime(selectedDate);
+                Alert.alert("Ugyldig tid", "Starttiden kan ikke være senere end sluttiden.");
             }
         }
     };
 
     const handleEndTimeChange = (event: any, selectedDate: Date | undefined) => {
         if (selectedDate) {
-            if (selectedDate < startTime) {
-                Alert.alert("Ugyldig tid", "Sluttiden kan ikke være før starttiden.");
+            if (selectedDate > formData.startTime) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    endTime: selectedDate
+                }));
             } else {
-                setEndTime(selectedDate);
+                Alert.alert("Ugyldig tid", "Sluttiden kan ikke være før starttiden.");
             }
         }
     };
 
+    const handleInputChange = (field: string, value: string) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            [field]: value
+        }));
+    };
+
     const handleSubmit = () => {
+        const { label, description, startTime, endTime } = formData;
         const formattedStartTime = startTime.toLocaleTimeString("da-DK", {
             hour: "2-digit",
             minute: "2-digit",
@@ -52,6 +56,7 @@ const AddItem = () => {
             hour: "2-digit",
             minute: "2-digit",
         });
+
         console.log(`Adding item for ${day} on ${date} with label ${label}, description ${description}, start time ${formattedStartTime}, and end time ${formattedEndTime}`);
         router.back();
     };
@@ -64,19 +69,21 @@ const AddItem = () => {
                 keyboardVerticalOffset={80}
             >
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <Text style={styles.headerText}>Opret en begivnhed til {day} ({date})</Text>
+                    <Text style={styles.headerText}>Opret en begivenhed til {day} ({date})</Text>
+
                     <TextInput
                         style={styles.input}
                         placeholder="Navn"
-                        value={label}
-                        onChangeText={setLabel}
+                        value={formData.label}
+                        onChangeText={(text) => handleInputChange("label", text)}
                         returnKeyType="done"
                     />
+
                     <TextInput
                         style={styles.description}
                         placeholder="Beskrivelse"
-                        value={description}
-                        onChangeText={setDescription}
+                        value={formData.description}
+                        onChangeText={(text) => handleInputChange("description", text)}
                         multiline
                         returnKeyType="done"
                     />
@@ -85,8 +92,8 @@ const AddItem = () => {
                         <Text style={styles.header}>Vælg start tid</Text>
                         <RNDateTimePicker
                             mode="time"
-                            maximumDate={endTime}
-                            value={startTime}
+                            value={formData.startTime}
+                            maximumDate={formData.endTime}
                             is24Hour={true}
                             display="default"
                             onChange={handleStartTimeChange}
@@ -98,14 +105,15 @@ const AddItem = () => {
                         <Text style={styles.header}>Vælg slut tid</Text>
                         <RNDateTimePicker
                             mode="time"
-                            minimumDate={startTime}
-                            value={endTime}
+                            value={formData.endTime}
+                            minimumDate={formData.startTime}
                             is24Hour={true}
                             display="default"
                             onChange={handleEndTimeChange}
                             style={styles.timePicker}
                         />
                     </View>
+
                     <TouchableOpacity style={[styles.button, styles.addButton]} onPress={handleSubmit}>
                         <Text style={styles.buttonText}>Tilføj</Text>
                     </TouchableOpacity>
