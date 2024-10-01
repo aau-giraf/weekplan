@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Button, Modal, StyleSheet, ScrollView, TextInput, Text, Pressable } from "react-native";
 import TimeCalender from "./TimeCalender";
 import ImagePickerSelector from "./ImagePickerSelector";
@@ -7,21 +7,30 @@ type EditTaskButtonProps = {
     label: string,
 };
 
-const EditTaskButton: React.FC<EditTaskButtonProps> = (props) => {
-    const [showModal, setShowModal] = React.useState(false);
-    const [newTitle, setNewTitle] = React.useState(props.label);
-    const [startTime, setStartTime] = React.useState(new Date());
-    const [endTime, setEndTime] = React.useState(new Date());
+type SumbitProps = {
+    title: string,
+    startTime: Date,
+    endTime: Date,
+}
 
+
+const EditTaskButton: React.FC<EditTaskButtonProps> = (props) => {
+    const [showModal, setShowModal] = useState(false);
+    const [submitProps, setSubmitProps] = useState<SumbitProps>({
+        title: props.label,
+        startTime: new Date(),
+        endTime: new Date(),
+    });
     const handleTimeChange = (start: Date, end: Date) => {
-        setStartTime(start);
-        setEndTime(end);
+        setSubmitProps({
+            title: submitProps.title,
+            startTime: start,
+            endTime: end,
+        });
     };
 
     const handleSubmit = () => {
-        console.log("Title: ", newTitle);
-        console.log("Start time: ", startTime);
-        console.log("End time: ", endTime);
+        console.log(submitProps);
     };
 
     return (
@@ -37,7 +46,12 @@ const EditTaskButton: React.FC<EditTaskButtonProps> = (props) => {
                     <ScrollView contentContainerStyle={styles.scrollViewContent}>
                         <View style={styles.modalContent}>
                             <Text style={styles.modalTitle}>Ændre Aktivitet</Text>
-                            <TextInput value={newTitle} style={styles.input} onChangeText={(text) => setNewTitle(text)} />
+                            <TextInput value={submitProps.title} style={styles.input} onChangeText={(text) =>
+                                setSubmitProps({
+                                    title: text,
+                                    startTime: submitProps.startTime,
+                                    endTime: submitProps.endTime,
+                                })} />
                             <ImagePickerSelector />
                             <TimeCalender onTimeChange={handleTimeChange} />
                             <Button title="Gem" onPress={() => { handleSubmit(); setShowModal(false); }} />
