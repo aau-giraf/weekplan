@@ -3,7 +3,6 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {DAYS_OF_WEEK} from "../constants/daysOfWeek";
 import useWeek from "../hooks/useWeek";
 import WeekdayButton from "./WeekdayButton";
-import NormalCalender from "./NormalCalender";
 
 type WeekDayHeaderProps = {
   onDayPress: (day: string, date: Date) => void;
