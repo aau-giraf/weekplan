@@ -7,7 +7,7 @@ type EditTaskButtonProps = {
     label: string,
 };
 
-type SumbitProps = {
+type SubmitProps = {
     title: string,
     startTime: Date,
     endTime: Date,
@@ -16,7 +16,7 @@ type SumbitProps = {
 
 const EditTaskButton: React.FC<EditTaskButtonProps> = (props) => {
     const [showModal, setShowModal] = useState(false);
-    const [submitProps, setSubmitProps] = useState<SumbitProps>({
+    const [submitProps, setSubmitProps] = useState<SubmitProps>({
         title: props.label,
         startTime: new Date(),
         endTime: new Date(),
