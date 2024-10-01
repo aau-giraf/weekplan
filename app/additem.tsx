@@ -22,11 +22,8 @@ const AddItem = () => {
     const [description, setDescription] = useState("");
     const [startTime, setStartTime] = useState(new Date(0, 0, 0, 0, 0)); // Default to 00:00
     const [endTime, setEndTime] = useState(new Date(0, 0, 0, 23, 59)); // Default to 23:59
-    const [showStartPicker, setShowStartPicker] = useState(false);
-    const [showEndPicker, setShowEndPicker] = useState(false);
 
     const handleStartTimeChange = (event: any, selectedDate: Date | undefined) => {
-        setShowStartPicker(false);
         if (selectedDate) {
             if (selectedDate > endTime) {
                 Alert.alert("Ugyldig tid", "Starttiden kan ikke være senere end sluttiden.");
@@ -37,7 +34,6 @@ const AddItem = () => {
     };
 
     const handleEndTimeChange = (event: any, selectedDate: Date | undefined) => {
-        setShowEndPicker(false);
         if (selectedDate) {
             if (selectedDate < startTime) {
                 Alert.alert("Ugyldig tid", "Sluttiden kan ikke være før starttiden.");
@@ -57,6 +53,7 @@ const AddItem = () => {
             minute: "2-digit",
         });
         console.log(`Adding item for ${day} on ${date} with label ${label}, description ${description}, start time ${formattedStartTime}, and end time ${formattedEndTime}`);
+        router.back();
     };
 
     return (
@@ -177,22 +174,9 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: '#333',
     },
-    timeSelector: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 8,
-        padding: 10,
-        width: '100%',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    timeText: {
-        fontSize: 24,
-        color: '#333',
-    },
     timePicker: {
         position: 'static',
-        marginRight: 5
+        marginRight: 5,
     }
 });
 
