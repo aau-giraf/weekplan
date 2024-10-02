@@ -3,6 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {DAYS_OF_WEEK} from "../constants/daysOfWeek";
 import useWeek from "../hooks/useWeek";
 import WeekdayButton from "./WeekdayButton";
+import WeekSelection from "./WeekSelection";
 
 type WeekDayHeaderProps = {
   onDayPress: (day: string, date: Date) => void;
@@ -11,10 +12,7 @@ type WeekDayHeaderProps = {
 const WeekDayHeader: React.FC<WeekDayHeaderProps> = ({ onDayPress }) => {
   const currentDate = new Date();
   const [selectedDay, setSelectedDay] = useState(currentDate.getDay());
-  const { weekDates,
-          goToPreviousWeek,
-          goToNextWeek,
-          weekNumber } = useWeek()
+  const { weekDates, goToPreviousWeek, goToNextWeek, weekNumber, setWeekAndYear } = useWeek();
 
   return (
       <View style={styles.container}>
@@ -23,7 +21,13 @@ const WeekDayHeader: React.FC<WeekDayHeaderProps> = ({ onDayPress }) => {
           <TouchableOpacity onPress={goToPreviousWeek} style={styles.navButton}>
             <Text style={styles.navText}>Forrige</Text>
           </TouchableOpacity>
-          <Text style={styles.weekText}>Uge: {weekNumber}</Text>
+
+          {/* Pass setWeekAndYear to WeekSelection */}
+          <WeekSelection
+              text={`Uge: ${weekNumber}`}
+              setWeekAndYear={setWeekAndYear}
+          />
+
           <TouchableOpacity onPress={goToNextWeek} style={styles.navButton}>
             <Text style={styles.navText}>Næste</Text>
           </TouchableOpacity>
@@ -33,12 +37,12 @@ const WeekDayHeader: React.FC<WeekDayHeaderProps> = ({ onDayPress }) => {
         <View style={styles.daysContainer}>
           {DAYS_OF_WEEK.map((day, index) => (
               <WeekdayButton
-                    key={day.id}
-                    selectedDay={selectedDay}
-                    setSelectedDay={setSelectedDay}
-                    onPress={onDayPress}
-                    date={weekDates[index]}
-                    day={day}
+                  key={day.id}
+                  selectedDay={selectedDay}
+                  setSelectedDay={setSelectedDay}
+                  onPress={onDayPress}
+                  date={weekDates[index]}
+                  day={day}
               />
           ))}
         </View>
@@ -65,11 +69,6 @@ const styles = StyleSheet.create({
   navText: {
     color: '#263238',
     fontSize: 16,
-  },
-  weekText: {
-    color: '#263238',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   daysContainer: {
     flexDirection: 'row',

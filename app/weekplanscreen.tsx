@@ -7,6 +7,7 @@ import AddButton from "../components/AddButton";
 const Weekplanscreen = () => {
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
   const handleDayPress = (day: string, date: Date) => {
     const formattedDate = date.toLocaleDateString("da-DK", {
       day: "numeric",
@@ -43,4 +44,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Weekplanscreen;
+export default WeekPlanScreen;

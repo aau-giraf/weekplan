@@ -21,18 +21,19 @@ const AddItem = () => {
     });
 
     const handleTimeChange = (event: any, selectedDate: Date | undefined, isStartTime: boolean) => {
-        if (selectedDate) {
-            if (isStartTime) {
-                setFormData((prevData) => ({
-                    ...prevData,
-                    startTime: selectedDate,
-                }));
-            } else {
-                setFormData((prevData) => ({
-                    ...prevData,
-                    endTime: selectedDate,
-                }));
-            }
+        if (!selectedDate) {
+            return;
+        }
+        if (isStartTime) {
+            setFormData((prevData) => ({
+                ...prevData,
+                startTime: selectedDate,
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                endTime: selectedDate,
+            }));
         }
     };
 
@@ -46,6 +47,7 @@ const AddItem = () => {
 
     const handleSubmit = () => {
         const { label, description, startTime, endTime } = formData;
+
         const formattedStartTime = startTime.toLocaleTimeString("da-DK", {
             hour: "2-digit",
             minute: "2-digit",
@@ -57,6 +59,7 @@ const AddItem = () => {
 
         console.log(`Adding item for ${day} on ${date} with label ${label}, description ${description}, start time ${formattedStartTime}, and end time ${formattedEndTime}`);
         router.back();
+
     };
 
     return (
@@ -187,3 +190,4 @@ const styles = StyleSheet.create({
 });
 
 export default AddItem;
+
