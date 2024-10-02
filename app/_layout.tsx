@@ -7,6 +7,7 @@ const RootLayout = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+
       <GestureHandlerRootView>
         <Stack>
           <Stack.Screen name="index" />
