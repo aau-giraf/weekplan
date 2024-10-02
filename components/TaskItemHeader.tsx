@@ -5,7 +5,6 @@ const TaskItemHeader: React.FC = () => {
     return (
         <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Navn</Text>
-            <Text style={styles.headerText}>Description</Text>
             <Text style={styles.headerText}>Tid</Text>
             <Text style={styles.headerText}>Foto</Text>
         </View>
