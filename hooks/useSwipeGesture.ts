@@ -9,7 +9,7 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-const DURATIONS_MS = 200;
+const DURATIONS_MS = 250;
 const X_AXIS_SENSITIVITY = 30;
 
 const useSwipeGesture = (
@@ -22,6 +22,7 @@ const useSwipeGesture = (
 
   const handleSwipeAnimation = useCallback(
     (width: number, action: () => void) => {
+      //WE NEED THIS TO RUN ON THE UI THREAD
       "worklet";
       translateX.value = withTiming(
         width,
@@ -42,6 +43,7 @@ const useSwipeGesture = (
   const swipeGesture = useMemo(
     () =>
       Gesture.Fling()
+        .withTestId("testDetector")
         .direction(Directions.RIGHT | Directions.LEFT)
         .onBegin((event) => {
           startTranslateX.value = event.x;
