@@ -1,19 +1,26 @@
 import { useGlobalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {StyleSheet, Text, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Alert, View, TouchableOpacity,} from "react-native";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
+import RNDateTimePicker, {DateTimePickerEvent} from "@react-native-community/datetimepicker";
+
+interface FormData {
+    label: string;
+    description: string;
+    startTime: Date;
+    endTime: Date;
+}
 
 const AddItem = () => {
     const router = useRouter();
     const { day, date } = useGlobalSearchParams();
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         label: "",
         description: "",
         startTime: new Date(0, 0, 0, 0, 0),
         endTime: new Date(0, 0, 0, 23, 59),
     });
 
-    const handleStartTimeChange = (event: any, selectedDate: Date | undefined) => {
+    const handleStartTimeChange = (event: DateTimePickerEvent, selectedDate: Date | undefined) => {
         if (selectedDate) {
             if (selectedDate < formData.endTime) {
                 setFormData((prevData) => ({
@@ -26,7 +33,7 @@ const AddItem = () => {
         }
     };
 
-    const handleEndTimeChange = (event: any, selectedDate: Date | undefined) => {
+    const handleEndTimeChange = (event: DateTimePickerEvent, selectedDate: Date | undefined) => {
         if (selectedDate) {
             if (selectedDate > formData.startTime) {
                 setFormData((prevData) => ({
