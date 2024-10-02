@@ -1,8 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const CONTAINER_HEIGHT = 40; // Height for the header
-
 const TaskItemHeader: React.FC = () => {
     return (
         <View style={styles.headerContainer}>
@@ -17,7 +15,7 @@ const TaskItemHeader: React.FC = () => {
 const styles = StyleSheet.create({
     headerContainer: {
         width: "100%",
-        height: CONTAINER_HEIGHT,
+        height: 40,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
