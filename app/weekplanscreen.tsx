@@ -3,6 +3,8 @@ import {View, StyleSheet} from "react-native";
 import WeekdayHeader from "../components/WeekdayHeader";
 import TaskItem from "../components/TaskItem";
 import AddButton from "../components/AddButton";
+import TaskItemHeader from "../components/TaskItemHeader";
+
 
 const Weekplanscreen = () => {
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -22,12 +24,11 @@ const Weekplanscreen = () => {
     return (
         <View style={styles.container}>
             <WeekdayHeader onDayPress={handleDayPress}/>
-
+            <TaskItemHeader/>
             {selectedDay && selectedDate && (
                 <AddButton label='+' pathname={"./additem"} params={{day: selectedDay, date: selectedDate}}/>
             )}
         </View>
-
     );
 };
 
