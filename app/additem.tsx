@@ -20,31 +20,22 @@ const AddItem = () => {
         endTime: new Date(0, 0, 0, 23, 59),
     });
 
-    const handleStartTimeChange = (event: DateTimePickerEvent, selectedDate: Date | undefined) => {
+    const handleTimeChange = (event: any, selectedDate: Date | undefined, isStartTime: boolean) => {
         if (selectedDate) {
-            if (selectedDate < formData.endTime) {
+            if (isStartTime) {
                 setFormData((prevData) => ({
                     ...prevData,
-                    startTime: selectedDate
+                    startTime: selectedDate,
                 }));
             } else {
-                Alert.alert("Ugyldig tid", "Starttiden kan ikke være senere end sluttiden.");
+                setFormData((prevData) => ({
+                    ...prevData,
+                    endTime: selectedDate,
+                }));
             }
         }
     };
 
-    const handleEndTimeChange = (event: DateTimePickerEvent, selectedDate: Date | undefined) => {
-        if (selectedDate) {
-            if (selectedDate > formData.startTime) {
-                setFormData((prevData) => ({
-                    ...prevData,
-                    endTime: selectedDate
-                }));
-            } else {
-                Alert.alert("Ugyldig tid", "Sluttiden kan ikke være før starttiden.");
-            }
-        }
-    };
 
     const handleInputChange = (field: string, value: string) => {
         setFormData((prevData) => ({
@@ -103,7 +94,7 @@ const AddItem = () => {
                             maximumDate={formData.endTime}
                             is24Hour={true}
                             display="default"
-                            onChange={handleStartTimeChange}
+                            onChange={(event, selectedDate) => handleTimeChange(event, selectedDate, true)}
                             style={styles.timePicker}
                         />
                     </View>
@@ -116,7 +107,7 @@ const AddItem = () => {
                             minimumDate={formData.startTime}
                             is24Hour={true}
                             display="default"
-                            onChange={handleEndTimeChange}
+                            onChange={(event, selectedDate) => handleTimeChange(event, selectedDate, false)}
                             style={styles.timePicker}
                         />
                     </View>
