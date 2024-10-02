@@ -1,6 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import WeekdayHeader from "../components/WeekdayHeader";
+import TaskItemHeader from "../components/TaskItemHeader";
+import TaskItem from "../components/TaskItem";
 
 const WeekPlanScreen = () => {
   const handleDayPress = (day: string, date: Date) => {
@@ -15,6 +17,7 @@ const WeekPlanScreen = () => {
   return (
     <View style={styles.container}>
       <WeekdayHeader onDayPress={handleDayPress} />
+      <TaskItemHeader/>
     </View>
   );
 };
