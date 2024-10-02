@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import WeekdayHeader from "../components/WeekdayHeader";
 import TaskItem from "../components/TaskItem";
 
+
 const Weekplanscreen = () => {
   const handleDayPress = (day: string, date: Date) => {
     const formattedDate = date.toLocaleDateString("da-DK", {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import EditTaskButton from "./EditTaskButton";
 
 interface TaskItemProps {
     time: string;
@@ -14,6 +15,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ time, label }) => {
             <View style={styles.iconContainer}>
                 <Text style={styles.iconPlaceholderText}>Photo</Text>
             </View>
+            <EditTaskButton label={label}/>
         </View>
     );
 };
