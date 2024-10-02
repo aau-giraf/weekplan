@@ -1,0 +1,37 @@
+
+> weekplan@1.0.0 test-ci
+> jest --ci --coverage
+
+watchman warning:  Recrawled this watch 1 time, most recently because:
+MustScanSubDirs UserDroppedTo resolve, please review the information on
+https://facebook.github.io/watchman/docs/troubleshooting.html#recrawl
+To clear this warning, run:
+`watchman watch-del '/Users/mertz/Documents/Programming/weekplan' ; watchman watch-project '/Users/mertz/Documents/Programming/weekplan'`
+
+PASS __tests__/getWeekNumber.test.ts
+PASS __tests__/getWeekDates.test.ts
+PASS __tests__/getNumberOfWeeksInYear.test.ts
+PASS __tests__/useWeek.test.ts
+PASS __tests__/TaskItem.test.tsx
+PASS __tests__/useSwipeGesture.test.tsx
+----------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------------------
+File                        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                                                           
+----------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------------------
+All files                   |   62.03 |    21.84 |   55.76 |   61.24 |                                                                                             
+ components                 |   43.83 |    11.76 |   32.35 |   44.13 |                                                                                             
+  ReanimatedSwipeable.tsx   |   37.87 |    11.76 |   14.81 |   38.16 | 267-272,277-329,339-345,353-359,370-407,423,437-453,477,503,516-547,552,556-557,563-583,588 
+  TaskItem.tsx              |     100 |      100 |     100 |     100 |                                                                                             
+ hooks                      |     100 |    71.42 |     100 |     100 |                                                                                             
+  useSwipeGesture.ts        |     100 |      100 |     100 |     100 |                                                                                             
+  useWeek.ts                |     100 |    33.33 |     100 |     100 | 5-24                                                                                        
+ utils                      |     100 |       90 |     100 |     100 |                                                                                             
+  getNumberOfWeeksInYear.ts |     100 |       50 |     100 |     100 | 6                                                                                           
+  getWeekDates.ts           |     100 |      100 |     100 |     100 |                                                                                             
+  getWeekNumber.ts          |     100 |      100 |     100 |     100 |                                                                                             
+----------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------------------
+
+Test Suites: 6 passed, 6 total
+Tests:       28 passed, 28 total
+Snapshots:   0 total
+Time:        2.094 s
+Ran all test suites.

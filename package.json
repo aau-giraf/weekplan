@@ -7,12 +7,15 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watchAll",
-    "test-ci": "jest --ci",
+    "test": "jest --watch",
+    "test-ci": "jest --ci --coverage ",
     "lint": "expo lint"
   },
   "jest": {
     "preset": "jest-expo",
+    "coverageReporters": [
+      "text"
+    ],
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],

@@ -14,6 +14,21 @@ jobs:
         with:
           node-version: 20
           cache: "npm"
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm run test-ci
+      - name: Run tests and append coverage table to summary
+        run: |
+          # Run tests and capture output
+          OUTPUT=$(npm run test-ci 2>&1)
+
+          # Extract the markdown table (from the line that starts with `----------------------------`)
+          TABLE=$(echo "$OUTPUT" | grep -A 999999 '----------------------------')
+
+          # Log the table to the console for verification
+          echo "Extracted table:"
+          echo "$TABLE"
+
+          # Append the table to the GitHub step summary
+          echo "$TABLE" >> $GITHUB_STEP_SUMMARY
+        shell: bash
+
+      - name: Print output to log
+        run: cat $GITHUB_STEP_SUMMARY
