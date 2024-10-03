@@ -35,7 +35,7 @@ export default function useActivity({ date }: { date: Date }) {
     mutationFn: deleteRequest,
 
     onMutate: async (activityId: number) => {
-      queryClient.cancelQueries({ queryKey });
+      await queryClient.cancelQueries({queryKey});
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(
@@ -62,7 +62,7 @@ export default function useActivity({ date }: { date: Date }) {
       updateRequest(variables),
 
     onMutate: async (variables) => {
-      queryClient.cancelQueries({ queryKey });
+      await queryClient.cancelQueries({queryKey});
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(
@@ -93,7 +93,7 @@ export default function useActivity({ date }: { date: Date }) {
       createActivityRequest(variables),
 
     onMutate: async (variables) => {
-      queryClient.cancelQueries({ queryKey });
+      await queryClient.cancelQueries({queryKey});
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(queryKey, (oldData) => [
@@ -118,7 +118,7 @@ export default function useActivity({ date }: { date: Date }) {
     mutationFn: toggleActivityStatusRequest,
 
     onMutate: async (id: number) => {
-      queryClient.cancelQueries({ queryKey });
+      await queryClient.cancelQueries({queryKey});
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(

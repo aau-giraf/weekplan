@@ -32,11 +32,11 @@ jest.mock("../apis/activityAPI", () => ({
   }),
 }));
 
-beforeEach(() => {
+afterEach(() => {
   act(() => {
-    queryClient.clear();
-    queryClient.cancelQueries();
-  });
+  queryClient.clear();
+  queryClient.cancelQueries();
+    });
 });
 
 test("query key is correct", () => {
@@ -208,6 +208,9 @@ test("toggleActivityStatus does not update the list if the activity is not found
   });
 });
 
+
+//THESE ARE THE FUCKERS
+//ONE OR ALL OF THESE FAILS
 test("toggleActivityStatus does not update data if the key differs from initial", async () => {
   const initialDate = new Date("2024-10-01");
   const { result } = renderHook(() => useActivity({ date: initialDate }), {
@@ -216,11 +219,11 @@ test("toggleActivityStatus does not update data if the key differs from initial"
 
   const differentKey = dateToQueryKey(new Date("2024-10-02"));
 
+  queryClient.setQueryData<Activity[]>(differentKey, [
+    { id: 1, isCompleted: false },
+  ]);
+
   await act(async () => {
-    // Set initial data for the initial date key
-    queryClient.setQueryData<Activity[]>(differentKey, [
-      { id: 1, isCompleted: false },
-    ]);
     await result.current.toggleActivityStatus.mutateAsync(1);
   });
 
@@ -238,37 +241,16 @@ test("deleteActivity does not remove data if the key differs from initial", asyn
 
   const differentKey = dateToQueryKey(new Date("2024-10-02"));
 
+  queryClient.setQueryData<Activity[]>(differentKey, [
+    { id: 1, isCompleted: false },
+  ]);
+
   await act(async () => {
-    // Set initial data for the different date key
-    queryClient.setQueryData<Activity[]>(differentKey, [
-      { id: 1, isCompleted: false },
-    ]);
     await result.current.deleteActivity.mutateAsync(1);
   });
 
-  await waitFor(() => {
-    const differentKeyData = queryClient.getQueryData<Activity[]>(differentKey);
-    expect(differentKeyData).toEqual([{ id: 1, isCompleted: false }]);
-  });
-});
+  // Use waitFor to ensure the query client is updated before asserting
 
-test("deleteActivity does not remove data if the key differs from initial", async () => {
-  const initialDate = new Date("2024-10-01");
-  const { result } = renderHook(() => useActivity({ date: initialDate }), {
-    wrapper,
-  });
-
-  const differentKey = dateToQueryKey(new Date("2024-10-02"));
-
-  await act(async () => {
-    queryClient.setQueryData<Activity[]>(differentKey, [
-      { id: 1, isCompleted: false },
-    ]);
-    await result.current.deleteActivity.mutateAsync(1);
-  });
-
-  await waitFor(() => {
-    const differentKeyData = queryClient.getQueryData<Activity[]>(differentKey);
-    expect(differentKeyData).toEqual([{ id: 1, isCompleted: false }]);
-  });
+  const differentKeyData = queryClient.getQueryData<Activity[]>(differentKey);
+  expect(differentKeyData).toEqual([{ id: 1, isCompleted: false }]);
 });
