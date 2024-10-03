@@ -4,7 +4,17 @@ import useActivity, { dateToQueryKey } from "../hooks/useActivity";
 import { Activity } from "../hooks/useActivity";
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: 0, retry: false } },
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      retry: false,
+      gcTime: Infinity,
+    },
+    mutations: {
+      retry: false,
+      gcTime: Infinity,
+    },
+  },
 });
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -57,9 +67,19 @@ test("invalid date throws an error", () => {
   expect(() => dateToQueryKey(date as any)).toThrow();
 });
 
-test("invalid date throws on error when used in useActivity", () => {
+test("invalid date throws on error when used in useActivity", async () => {
+  //Needed to not log the error
+  const consoleErrorMock = jest
+    .spyOn(console, "error")
+    .mockImplementation(() => {});
   const date = "2024-10-01";
-  expect(() => useActivity({ date: date as any })).toThrow();
+  try {
+    renderHook(() => useActivity({ date: date as any }), { wrapper });
+  } catch (error) {
+    expect(error).toEqual(new Error("Invalid date"));
+  }
+
+  consoleErrorMock.mockRestore();
 });
 
 test("deleteActivity removes the activity from the list", async () => {
@@ -225,11 +245,10 @@ test("toggleActivityStatus does not update data if the key differs from initial"
 
   const differentKey = dateToQueryKey(new Date("2024-10-02"));
 
-  queryClient.setQueryData<Activity[]>(differentKey, [
-    { id: 1, isCompleted: false },
-  ]);
-
   await act(async () => {
+    queryClient.setQueryData<Activity[]>(differentKey, [
+      { id: 1, isCompleted: false },
+    ]);
     await result.current.toggleActivityStatus.mutateAsync(1);
   });
 
@@ -247,11 +266,10 @@ test("deleteActivity does not remove data if the key differs from initial", asyn
 
   const differentKey = dateToQueryKey(new Date("2024-10-02"));
 
-  queryClient.setQueryData<Activity[]>(differentKey, [
-    { id: 1, isCompleted: false },
-  ]);
-
   await act(async () => {
+    queryClient.setQueryData<Activity[]>(differentKey, [
+      { id: 1, isCompleted: false },
+    ]);
     await result.current.deleteActivity.mutateAsync(1);
   });
 

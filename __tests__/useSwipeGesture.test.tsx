@@ -31,8 +31,6 @@ function SwipeGestureTestComponent({
   );
 }
 
-jest.useFakeTimers();
-
 describe("useSwipeGesture", () => {
   let goToPreviousWeek: jest.Mock, goToNextWeek: jest.Mock;
 
