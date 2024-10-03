@@ -32,11 +32,18 @@ jest.mock("../apis/activityAPI", () => ({
   }),
 }));
 
-afterEach(() => {
-  act(() => {
-  queryClient.clear();
-  queryClient.cancelQueries();
-    });
+beforeEach(async () => {
+  await act(async () => {
+    queryClient.clear();
+    await queryClient.cancelQueries();
+  });
+});
+
+afterEach(async () => {
+  await act(async () => {
+    queryClient.clear();
+    await queryClient.cancelQueries();
+  });
 });
 
 test("query key is correct", () => {
@@ -208,7 +215,6 @@ test("toggleActivityStatus does not update the list if the activity is not found
   });
 });
 
-
 //THESE ARE THE FUCKERS
 //ONE OR ALL OF THESE FAILS
 test("toggleActivityStatus does not update data if the key differs from initial", async () => {
@@ -249,8 +255,8 @@ test("deleteActivity does not remove data if the key differs from initial", asyn
     await result.current.deleteActivity.mutateAsync(1);
   });
 
-  // Use waitFor to ensure the query client is updated before asserting
-
-  const differentKeyData = queryClient.getQueryData<Activity[]>(differentKey);
-  expect(differentKeyData).toEqual([{ id: 1, isCompleted: false }]);
+  await waitFor(() => {
+    const differentKeyData = queryClient.getQueryData<Activity[]>(differentKey);
+    expect(differentKeyData).toEqual([{ id: 1, isCompleted: false }]);
+  });
 });
