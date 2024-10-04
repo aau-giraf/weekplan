@@ -1,11 +1,28 @@
 import { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [login, setLogin] = useState({ username: '', password: '' });
+  const navigation = useNavigation();
+
+  const handleInput = (field, value) => {
+    setLogin((prevForm) => ({ ...prevForm, [field]: value }));
+  };
 
   const handleLogin = () => {
+    navigation.navigate('mainScreen');
+    // Put backend auth here with implementing
+  };
+
+  const handleForgotPassword = () => {
     // Todo
   };
 
@@ -15,17 +32,22 @@ const LoginPage = () => {
       <TextInput
         style={styles.input}
         placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        value={login.username}
+        onChangeText={(value) => handleInput('username', value)}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
-        value={password}
-        onChangeText={setPassword}
+        value={login.password}
+        onChangeText={(value) => handleInput('password', value)}
       />
-      <Button title="Login" onPress={handleLogin} />
+      <View style={styles.buttonContainer}>
+        <Button title="Login" onPress={handleLogin} />
+        <TouchableOpacity onPress={handleForgotPassword}>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -52,7 +74,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: 10,
+  },
+  forgotPasswordText: {
+    color: '#000000',
+    marginLeft: 10,
+  },
 });
-
 
 export default LoginPage;
