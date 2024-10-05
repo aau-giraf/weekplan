@@ -10,7 +10,7 @@ interface DaysContainerProps {
   weekDates: Date[];
   goToPreviousWeek: () => void;
   goToNextWeek: () => void;
-  onDayPress: (day: string, date: Date) => void;
+  onDayPress: (date: Date) => void;
 }
 
 const DaysContainer = ({
