@@ -4,45 +4,32 @@ import { DayOfWeek } from "../constants/daysOfWeek";
 import { useDate } from "../providers/DateProvider";
 
 type WeekdayButtonProps = {
-  selectedDay: number;
-  setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
   date: Date;
   day: DayOfWeek;
 };
 
-const WeekdayButton = ({
-  date,
-  day,
-  selectedDay,
-  setSelectedDay,
-}: WeekdayButtonProps) => {
-  const { setSelectedDate } = useDate();
+const formattedDate = (date: Date) => {
+  return date.toLocaleDateString("da-DK", {
+    day: "numeric",
+    month: "short",
+  });
+};
+
+const WeekdayButton = ({ date, day }: WeekdayButtonProps) => {
+  const { selectedDate, setSelectedDate } = useDate();
+  const isSelected = selectedDate.toDateString() === date.toDateString();
 
   return (
     <TouchableOpacity
-      key={day.id}
       style={styles.dayButton}
-      onPress={() => {
-        setSelectedDay(day.index);
-        setSelectedDate(date);
-      }}
+      onPress={() => setSelectedDate(date)}
     >
-      {/* Circle with the day letter inside */}
-      <View
-        style={[
-          styles.circle,
-          selectedDay === day.index && styles.selectedCircle,
-        ]}
-      >
+      <View style={[styles.circle, isSelected && styles.selectedCircle]}>
         <Text style={[styles.dayText]}>{day.name}</Text>
       </View>
-      {/* Date (day and month) displayed below the circle */}
-      <Text style={styles.dateText}>
-        {date &&
-          date.toLocaleDateString("da-DK", {
-            day: "numeric",
-            month: "short",
-          })}
+
+      <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.dateText}>
+        {formattedDate(date)}
       </Text>
     </TouchableOpacity>
   );
@@ -56,7 +43,7 @@ const styles = StyleSheet.create({
     height: 80,
   },
   dayText: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#263238",
   },
   circle: {
@@ -72,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFCC80",
   },
   dateText: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#263238",
   },
 });
