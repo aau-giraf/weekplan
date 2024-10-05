@@ -5,7 +5,7 @@ import { DayOfWeek } from "../constants/daysOfWeek";
 type WeekdayButtonProps = {
   selectedDay: number;
   setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
-  onPress: (day: string, date: Date) => void;
+  onPress: (date: Date) => void;
   date: Date;
   day: DayOfWeek;
 };
@@ -23,7 +23,7 @@ const WeekdayButton = ({
       style={styles.dayButton}
       onPress={() => {
         setSelectedDay(day.index);
-        onPress(day.id, date);
+        onPress(date);
       }}
     >
       {/* Circle with the day letter inside */}

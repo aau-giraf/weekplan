@@ -5,7 +5,7 @@ import DaysContainer from "./DaysContainer";
 import WeekSelection from "./WeekSelection";
 
 type WeekDayHeaderProps = {
-  onDayPress: (day: string, date: Date) => void;
+  onDayPress: (date: Date) => void;
 };
 
 const WeekDayHeader: React.FC<WeekDayHeaderProps> = ({ onDayPress }) => {
