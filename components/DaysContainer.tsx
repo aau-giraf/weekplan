@@ -5,25 +5,16 @@ import Animated from "react-native-reanimated";
 import { DAYS_OF_WEEK } from "../constants/daysOfWeek";
 import WeekdayButton from "./WeekdayButton";
 import useSwipeGesture from "../hooks/useSwipeGesture";
+import useWeek from "../hooks/useWeek";
 
-interface DaysContainerProps {
-  weekDates: Date[];
-  goToPreviousWeek: () => void;
-  goToNextWeek: () => void;
-  onDayPress: (date: Date) => void;
-}
-
-const DaysContainer = ({
-  weekDates,
-  goToPreviousWeek,
-  goToNextWeek,
-  onDayPress,
-}: DaysContainerProps) => {
+const DaysContainer = () => {
   const [selectedDay, setSelectedDay] = useState(new Date().getDay());
+  const { weekDates, goToPreviousWeek, goToNextWeek } = useWeek();
   const { swipeGesture, boxAnimatedStyles } = useSwipeGesture(
     goToPreviousWeek,
     goToNextWeek
   );
+
   return (
     <GestureDetector gesture={swipeGesture}>
       <Animated.View style={[styles.daysContainer, boxAnimatedStyles]}>
@@ -32,7 +23,6 @@ const DaysContainer = ({
             key={day.id}
             selectedDay={selectedDay}
             setSelectedDay={setSelectedDay}
-            onPress={onDayPress}
             date={weekDates[index]}
             day={day}
           />

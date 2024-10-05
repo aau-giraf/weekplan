@@ -1,29 +1,30 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DayOfWeek } from "../constants/daysOfWeek";
+import { useDate } from "../providers/DateProvider";
 
 type WeekdayButtonProps = {
   selectedDay: number;
   setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
-  onPress: (date: Date) => void;
   date: Date;
   day: DayOfWeek;
 };
 
 const WeekdayButton = ({
-  onPress,
   date,
   day,
   selectedDay,
   setSelectedDay,
 }: WeekdayButtonProps) => {
+  const { setSelectedDate } = useDate();
+
   return (
     <TouchableOpacity
       key={day.id}
       style={styles.dayButton}
       onPress={() => {
         setSelectedDay(day.index);
-        onPress(date);
+        setSelectedDate(date);
       }}
     >
       {/* Circle with the day letter inside */}

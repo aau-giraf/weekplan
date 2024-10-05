@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Pressable } from "expo-router/build/views/Pressable";
 import { useRouter } from "expo-router";
@@ -6,17 +5,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 interface AddButtonProps {
   pathname: `./${string}` | `../${string}` | `${string}:${string}`;
-  date: Date;
 }
 
-const AddButton: React.FC<AddButtonProps> = ({ pathname, date }) => {
+const AddButton: React.FC<AddButtonProps> = ({ pathname }) => {
   const router = useRouter();
 
   const handlePress = () => {
-    router.push({
-      pathname,
-      params: { date: JSON.stringify(date) },
-    });
+    router.push(pathname);
   };
 
   return (
