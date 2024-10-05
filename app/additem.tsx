@@ -33,7 +33,7 @@ const AddItem = () => {
   });
 
   //This will be a problem if the date is an array with multiple entries and will need to be fixed
-  const dayString = Array.isArray(date)
+  const dateString = Array.isArray(date)
     ? JSON.parse(date[0])
     : JSON.parse(date);
 
@@ -71,7 +71,7 @@ const AddItem = () => {
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Text style={styles.headerText}>
-            Opret en begivenhed til {formattedDate(new Date(dayString))}
+            Opret en begivenhed til {formattedDate(new Date(dateString))}
           </Text>
 
           <TextInput
