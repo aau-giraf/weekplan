@@ -58,8 +58,6 @@ const AddItem = () => {
     router.back();
   };
 
-  console.log(selectedDate);
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView

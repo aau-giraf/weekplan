@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import useWeek from "../hooks/useWeek";
 
 type DataProviderValues = {
@@ -13,9 +13,10 @@ type DataProviderValues = {
 const DateContext = createContext<DataProviderValues | undefined>(undefined);
 
 const DateProvider = ({ children }: { children: React.ReactNode }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const {
     weekDates,
+    currentDate: selectedDate,
+    setCurrentDate: setSelectedDate,
     goToPreviousWeek,
     goToNextWeek,
     weekNumber,

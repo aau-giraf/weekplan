@@ -2,18 +2,6 @@ import { renderHook, act, render } from "@testing-library/react-native";
 import DateProvider, { useDate } from "../providers/DateProvider";
 import { View, Text } from "react-native";
 
-// Mocking useWeek hook
-jest.mock("../hooks/useWeek", () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    weekDates: [new Date("2024-01-01"), new Date("2024-01-07")],
-    goToPreviousWeek: jest.fn(),
-    goToNextWeek: jest.fn(),
-    weekNumber: 1,
-    setWeekAndYear: jest.fn(),
-  })),
-}));
-
 describe("DateProvider and useDate", () => {
   it("should update selectedDate when setSelectedDate is called", () => {
     const { result } = renderHook(() => useDate(), {

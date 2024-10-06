@@ -7,7 +7,7 @@ import DaysContainer from "../components/DaysContainer";
 const WeekPlanScreen = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.container2}>
+      <View style={styles.header}>
         <WeekSelection />
         <DaysContainer />
       </View>
@@ -19,11 +19,10 @@ const WeekPlanScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     flex: 1,
     paddingHorizontal: 20,
   },
-  container2: {
+  header: {
     paddingVertical: 10,
     backgroundColor: "#F2F5FA",
   },

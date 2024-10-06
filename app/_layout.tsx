@@ -6,7 +6,6 @@ const RootLayout = () => {
     <ProviderWrapper>
       <Stack>
         <Stack.Screen name="index" />
-        <Stack.Screen name="example/index" />
         <Stack.Screen name="weekplanscreen" />
         <Stack.Screen name="additem" />
       </Stack>
