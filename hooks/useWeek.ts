@@ -3,18 +3,18 @@ import getWeekDates from "../utils/getWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
 
 const useWeek = (initialDate = new Date()) => {
-  const [currentDate, setCurrentDate] = useState(initialDate);
+  const [currentDate, setCurrentDate] = useState<Date>(initialDate);
 
   const goToPreviousWeek = useCallback(() => {
-    const previousWeek = new Date(currentDate);
-    previousWeek.setDate(currentDate.getDate() - 7);
-    setCurrentDate(() => previousWeek);
+    const newDate = new Date(currentDate);
+    newDate.setDate(currentDate.getDate() - 7);
+    setCurrentDate(() => newDate);
   }, [currentDate]);
 
   const goToNextWeek = useCallback(() => {
-    const nextWeek = new Date(currentDate);
-    nextWeek.setDate(currentDate.getDate() + 7);
-    setCurrentDate(() => nextWeek);
+    const newDate = new Date(currentDate);
+    newDate.setDate(currentDate.getDate() + 7);
+    setCurrentDate(() => newDate);
   }, [currentDate]);
 
   const setWeekAndYear = useCallback((weekNumber: number, year: number) => {
