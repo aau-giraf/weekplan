@@ -5,15 +5,23 @@ const MainScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Weekplanner</Text>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Weekplanner')}
+            activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>Weekplanner</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Foodplanner </Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Foodplanner')}
+            activeOpacity={0.8} 
+        >
+          <Text style={styles.buttonText}>Foodplanner</Text>
+        </TouchableOpacity>
+      </View>
   );
 };
 
@@ -22,19 +30,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#6ba239',
+    backgroundColor: '#A7C6ED',
   },
   button: {
-    backgroundColor: '#71d219',
+    backgroundColor: '#B7E2D8',
     padding: 15,
     borderRadius: 5,
     marginVertical: 10,
     width: '80%',
   },
   buttonText: {
-    color: 'white',
+    color: '#4A4A4A',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 22,
   },
 });
 
