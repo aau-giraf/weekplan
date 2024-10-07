@@ -3,19 +3,19 @@ import getWeekDates from "../utils/getWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
 
 const useWeek = (initialDate = new Date()) => {
-  const [currentWeek, setCurrentWeek] = useState(initialDate);
+  const [currentDate, setCurrentDate] = useState(initialDate);
 
   const goToPreviousWeek = useCallback(() => {
-    const previousWeek = new Date(currentWeek);
-    previousWeek.setDate(currentWeek.getDate() - 7);
-    setCurrentWeek(() => previousWeek);
-  }, [currentWeek]);
+    const previousWeek = new Date(currentDate);
+    previousWeek.setDate(currentDate.getDate() - 7);
+    setCurrentDate(() => previousWeek);
+  }, [currentDate]);
 
   const goToNextWeek = useCallback(() => {
-    const nextWeek = new Date(currentWeek);
-    nextWeek.setDate(currentWeek.getDate() + 7);
-    setCurrentWeek(() => nextWeek);
-  }, [currentWeek]);
+    const nextWeek = new Date(currentDate);
+    nextWeek.setDate(currentDate.getDate() + 7);
+    setCurrentDate(() => nextWeek);
+  }, [currentDate]);
 
   const setWeekAndYear = useCallback((weekNumber: number, year: number) => {
     //Months are indexed from 0
@@ -31,14 +31,16 @@ const useWeek = (initialDate = new Date()) => {
       firstMondayOfYear.getUTCDate() + (weekNumber - 1) * 7
     );
 
-    setCurrentWeek(firstMondayOfYear);
+    setCurrentDate(firstMondayOfYear);
   }, []);
 
-  const weekNumber = useMemo(() => getWeekNumber(currentWeek), [currentWeek]);
-  const weekDates = useMemo(() => getWeekDates(currentWeek), [currentWeek]);
+  const weekNumber = useMemo(() => getWeekNumber(currentDate), [currentDate]);
+  const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);
 
   return {
     weekDates,
+    currentDate,
+    setCurrentDate,
     goToPreviousWeek,
     goToNextWeek,
     weekNumber,

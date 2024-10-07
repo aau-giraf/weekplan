@@ -1,4 +1,4 @@
-import { useGlobalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { formattedDate } from "../utils/formattedDate";
+import { useDate } from "../providers/DateProvider";
 
 interface FormData {
   label: string;
@@ -24,18 +25,13 @@ interface FormData {
 
 const AddItem = () => {
   const router = useRouter();
-  const { date } = useGlobalSearchParams();
+  const { selectedDate } = useDate();
   const [formData, setFormData] = useState<FormData>({
     label: "",
     description: "",
     startTime: new Date(0, 0, 0, 0, 0),
     endTime: new Date(0, 0, 0, 23, 59),
   });
-
-  //This will be a problem if the date is an array with multiple entries and will need to be fixed
-  const dateString = Array.isArray(date)
-    ? JSON.parse(date[0])
-    : JSON.parse(date);
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
     setFormData((prevData) => ({
@@ -57,7 +53,7 @@ const AddItem = () => {
     });
 
     console.log(
-      `Adding item for ${date} on ${date} with label ${label}, description ${description}, start time ${formattedStartTime}, and end time ${formattedEndTime}`
+      `Adding item on ${selectedDate} with label ${label}, description ${description}, start time ${formattedStartTime}, and end time ${formattedEndTime}`
     );
     router.back();
   };
@@ -71,7 +67,7 @@ const AddItem = () => {
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Text style={styles.headerText}>
-            Opret en begivenhed til {formattedDate(new Date(dateString))}
+            Opret en begivenhed til {formattedDate(selectedDate)}
           </Text>
 
           <TextInput
