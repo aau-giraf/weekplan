@@ -3,8 +3,13 @@ import AddButton from "../components/AddButton";
 import ActivityItemHeader from "../components/ActivityItemHeader";
 import WeekSelection from "../components/WeekSelection";
 import DaysContainer from "../components/DaysContainer";
+import ActivityItemList from "../components/ActivityItemList";
 
 const WeekPlanScreen = () => {
+    const id = 1;
+    const date = '2024-10-08';
+
+
   return (
       <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -12,6 +17,7 @@ const WeekPlanScreen = () => {
         <DaysContainer />
       </View>
       <ActivityItemHeader />
+          <ActivityItemList id={id} date={date}/>
       <AddButton pathname={"./additem"} />
     </SafeAreaView>
   );

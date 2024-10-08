@@ -7,6 +7,7 @@ import {
   updateRequest,
 } from "../apis/activityAPI";
 
+
 const MINUTE = 1000 * 60;
 
 export const dateToQueryKey = (date: Date) => {
@@ -17,7 +18,13 @@ export const dateToQueryKey = (date: Date) => {
 };
 
 export type Activity = {
-  id: number;
+  activityId: number;
+  citizenId: number;
+  date: string;
+  description: string;
+  endTime: string;
+  name: string;
+  startTime: string;
   isCompleted: boolean;
 };
 
@@ -25,11 +32,14 @@ export default function useActivity({ date }: { date: Date }) {
   const queryKey = dateToQueryKey(date);
   const queryClient = useQueryClient();
 
-  const fetchActivities = useQuery<Activity[]>({
-    queryFn: () => fetchRequest(date),
-    queryKey: queryKey,
-    staleTime: MINUTE * 10,
-  });
+  const useFetchActivities = (id : number) => {
+    return useQuery<Activity[]>({
+      queryFn: () => fetchRequest(id, date),
+      queryKey: queryKey,
+      staleTime: MINUTE * 10,
+    });
+  };
+
 
   const deleteActivity = useMutation({
     mutationFn: deleteRequest,
@@ -41,7 +51,7 @@ export default function useActivity({ date }: { date: Date }) {
       queryClient.setQueryData<Activity[]>(
         queryKey,
         (oldData) =>
-          oldData?.filter((activity) => activity.id !== activityId) || []
+          oldData?.filter((activity) => activity.activityId !== activityId) || []
       );
 
       return { previousActivities };
@@ -69,7 +79,7 @@ export default function useActivity({ date }: { date: Date }) {
         queryKey,
         (oldData) =>
           oldData?.map((activity) =>
-            activity.id === variables.id
+            activity.activityId === variables.id
               ? { ...activity, ...variables.data }
               : activity
           ) || []
@@ -125,7 +135,7 @@ export default function useActivity({ date }: { date: Date }) {
         queryKey,
         (oldData) =>
           oldData?.map((activity) =>
-            activity.id === id
+            activity.activityId === id
               ? { ...activity, isCompleted: !activity.isCompleted }
               : activity
           ) || []
@@ -145,7 +155,7 @@ export default function useActivity({ date }: { date: Date }) {
   });
 
   return {
-    fetchActivities,
+    useFetchActivities,
     deleteActivity,
     updateActivity,
     toggleActivityStatus,

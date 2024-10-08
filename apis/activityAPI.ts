@@ -1,6 +1,15 @@
-export const fetchRequest = async (date: Date) => {
-  const res = await fetch(`https://example.com/api/activity/${date}`);
-  if (!res.ok) throw new Error("Failed to fetch activities");
+
+export const fetchRequest = async (id: number, date: string) => {
+  // Format the date as needed
+  const formattedDate = date.replace(/-/g, '/');
+  const encodedDate = encodeURIComponent(formattedDate);
+
+  const res = await fetch(`http://localhost:5171/weekplan/${id}?date=${encodedDate}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch activities');
   return await res.json();
 };
 
@@ -45,3 +54,4 @@ export const createActivityRequest = async (data: unknown) => {
   if (!res.ok) throw new Error("Failed to create activity");
   return await res.json();
 };
+
