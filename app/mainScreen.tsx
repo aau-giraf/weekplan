@@ -7,23 +7,21 @@ const MainScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Weekplanner')}
+        activeOpacity={0.8}
+      >
         <Text style={styles.buttonText}>Weekplanner</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Weekplanner')}
-          activeOpacity={0.8}
-        ></TouchableOpacity>
-      </Text>
+      </TouchableOpacity>
 
-      <Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Foodplanner')}
+        activeOpacity={0.8}
+      >
         <Text style={styles.buttonText}>Foodplanner</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Foodplanner')}
-          activeOpacity={0.8}
-        ></TouchableOpacity>
-      </Text>
+      </TouchableOpacity>
     </View>
   );
 };
