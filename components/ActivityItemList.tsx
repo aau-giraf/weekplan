@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  FlatList,
-  ActivityIndicator,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 import ActivityItem from './ActivityItem'; // Import your existing ActivityItem component
 import useActivity from '../hooks/useActivity';
 import { useDate } from '../providers/DateProvider';
@@ -56,7 +50,7 @@ const ActivityItemList = ({ id }: { id: number }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {data && data.length > 0 ? (
         <FlatList
           data={data}
@@ -69,11 +63,5 @@ const ActivityItemList = ({ id }: { id: number }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-  },
-});
 
 export default ActivityItemList;

@@ -1,16 +1,14 @@
 import formatQueryDate from '../utils/formatQueryDate';
+import { BASE_URL } from '../utils/globals';
 
 export const fetchRequest = async (id: number, date: Date) => {
   const params = new URLSearchParams();
   params.append('date', formatQueryDate(date));
 
-  const res = await fetch(
-    `http://localhost:5171/weekplan/${id}?${params.toString()}`,
-    {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    }
-  );
+  const res = await fetch(`${BASE_URL}/weekplan/${id}?${params.toString()}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
 
   if (!res.ok) throw new Error('Failed to fetch activities');
   return await res.json();
