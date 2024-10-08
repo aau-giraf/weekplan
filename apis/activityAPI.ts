@@ -1,13 +1,16 @@
+import formatQueryDate from '../utils/formatQueryDate';
 
-export const fetchRequest = async (id: number, date: string) => {
-  // Format the date as needed
-  const formattedDate = date.replace(/-/g, '/');
-  const encodedDate = encodeURIComponent(formattedDate);
+export const fetchRequest = async (id: number, date: Date) => {
+  const params = new URLSearchParams();
+  params.append('date', formatQueryDate(date));
 
-  const res = await fetch(`http://localhost:5171/weekplan/${id}?date=${encodedDate}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
+  const res = await fetch(
+    `http://localhost:5171/weekplan/${id}?${params.toString()}`,
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
 
   if (!res.ok) throw new Error('Failed to fetch activities');
   return await res.json();
@@ -15,9 +18,9 @@ export const fetchRequest = async (id: number, date: string) => {
 
 export const deleteRequest = async (id: number) => {
   const res = await fetch(`https://example.com/api/activity/${id}`, {
-    method: "DELETE",
+    method: 'DELETE',
   });
-  if (!res.ok) throw new Error("Failed to delete activity");
+  if (!res.ok) throw new Error('Failed to delete activity');
   return await res.json();
 };
 
@@ -29,29 +32,28 @@ export const updateRequest = async ({
   id: number;
 }) => {
   const res = await fetch(`https://example.com/api/activity/${id}`, {
-    method: "PUT",
+    method: 'PUT',
     body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
-  if (!res.ok) throw new Error("Failed to update activity");
+  if (!res.ok) throw new Error('Failed to update activity');
   return await res.json();
 };
 
 export const toggleActivityStatusRequest = async (id: number) => {
   const res = await fetch(`https://example.com/api/activity/${id}/status`, {
-    method: "PATCH",
+    method: 'PATCH',
   });
-  if (!res.ok) throw new Error("Failed to toggle activity status");
+  if (!res.ok) throw new Error('Failed to toggle activity status');
   return await res.json();
 };
 
 export const createActivityRequest = async (data: unknown) => {
   const res = await fetch(`https://example.com/api/activity`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
-  if (!res.ok) throw new Error("Failed to create activity");
+  if (!res.ok) throw new Error('Failed to create activity');
   return await res.json();
 };
-

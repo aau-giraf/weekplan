@@ -13,8 +13,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { formattedDate } from '../utils/formattedDate';
+
 import { useDate } from '../providers/DateProvider';
+import { prettyDate } from '../utils/prettyDate';
 
 interface FormData {
   label: string;
@@ -66,7 +67,7 @@ const AddItem = () => {
         keyboardVerticalOffset={80}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Text style={styles.headerText}>
-            Opret en begivenhed til {formattedDate(selectedDate)}
+            Opret en begivenhed til {prettyDate(selectedDate)}
           </Text>
 
           <TextInput
