@@ -1,20 +1,19 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   createActivityRequest,
   deleteRequest,
   fetchRequest,
   toggleActivityStatusRequest,
   updateRequest,
-} from "../apis/activityAPI";
-
+} from '../apis/activityAPI';
 
 const MINUTE = 1000 * 60;
 
 export const dateToQueryKey = (date: Date) => {
   if (!(date instanceof Date)) {
-    throw new Error("Invalid date");
+    throw new Error('Invalid date');
   }
-  return ["activity", date.toISOString().split("T")[0]];
+  return ['activity', date.toISOString().split('T')[0]];
 };
 
 export type Activity = {
@@ -32,7 +31,7 @@ export default function useActivity({ date }: { date: Date }) {
   const queryKey = dateToQueryKey(date);
   const queryClient = useQueryClient();
 
-  const useFetchActivities = (id : number) => {
+  const useFetchActivities = (id: number) => {
     return useQuery<Activity[]>({
       queryFn: () => fetchRequest(id, date),
       queryKey: queryKey,
@@ -40,18 +39,17 @@ export default function useActivity({ date }: { date: Date }) {
     });
   };
 
-
   const deleteActivity = useMutation({
     mutationFn: deleteRequest,
-
     onMutate: async (activityId: number) => {
-      await queryClient.cancelQueries({queryKey});
+      await queryClient.cancelQueries({ queryKey });
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(
         queryKey,
         (oldData) =>
-          oldData?.filter((activity) => activity.activityId !== activityId) || []
+          oldData?.filter((activity) => activity.activityId !== activityId) ||
+          []
       );
 
       return { previousActivities };
@@ -72,7 +70,7 @@ export default function useActivity({ date }: { date: Date }) {
       updateRequest(variables),
 
     onMutate: async (variables) => {
-      await queryClient.cancelQueries({queryKey});
+      await queryClient.cancelQueries({ queryKey });
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(
@@ -103,7 +101,7 @@ export default function useActivity({ date }: { date: Date }) {
       createActivityRequest(variables),
 
     onMutate: async (variables) => {
-      await queryClient.cancelQueries({queryKey});
+      await queryClient.cancelQueries({ queryKey });
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(queryKey, (oldData) => [
@@ -128,7 +126,7 @@ export default function useActivity({ date }: { date: Date }) {
     mutationFn: toggleActivityStatusRequest,
 
     onMutate: async (id: number) => {
-      await queryClient.cancelQueries({queryKey});
+      await queryClient.cancelQueries({ queryKey });
       const previousActivities = queryClient.getQueryData<Activity[]>(queryKey);
 
       queryClient.setQueryData<Activity[]>(

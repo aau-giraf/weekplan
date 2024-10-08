@@ -16,8 +16,10 @@ type Activity = {
 
 const ActivityItemList = ({ id }: { id: number }) => {
   const { selectedDate } = useDate();
-  const { useFetchActivities } = useActivity({ date: selectedDate });
-  const { data, error, isLoading } = useFetchActivities(id);
+  const { useFetchActivities, deleteActivity } = useActivity({
+    date: selectedDate,
+  });
+  const { data, error, isLoading, refetch } = useFetchActivities(id);
 
   if (isLoading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -29,7 +31,7 @@ const ActivityItemList = ({ id }: { id: number }) => {
 
   const renderActivityItem = ({ item }: { item: Activity }) => (
     <ActivityItem
-      time={`${item.startTime} - ${item.endTime}`}
+      time={`${item.startTime}-${item.endTime}`}
       label={item.name}
       deleteTask={() => handleDeleteTask(item.activityId)}
       editTask={() => handleEditTask(item.activityId)}
@@ -37,8 +39,9 @@ const ActivityItemList = ({ id }: { id: number }) => {
     />
   );
 
-  const handleDeleteTask = (id: number) => {
+  const handleDeleteTask = async (id: number) => {
     console.log(`Delete activity with id: ${id}`);
+    await deleteActivity.mutateAsync(id);
   };
 
   const handleEditTask = (id: number) => {
@@ -50,17 +53,15 @@ const ActivityItemList = ({ id }: { id: number }) => {
   };
 
   return (
-    <View>
-      {data && data.length > 0 ? (
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.activityId.toString()}
-          renderItem={renderActivityItem}
-        />
-      ) : (
-        <Text>No activities found.</Text>
-      )}
-    </View>
+    <FlatList
+      data={data}
+      onRefresh={async () => await refetch()}
+      refreshing={isLoading}
+      ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
+      keyExtractor={(item) => item.activityId.toString()}
+      renderItem={renderActivityItem}
+      ListEmptyComponent={() => <Text>No activities found</Text>}
+    />
   );
 };
 

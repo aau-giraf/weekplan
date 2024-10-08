@@ -15,11 +15,11 @@ export const fetchRequest = async (id: number, date: Date) => {
 };
 
 export const deleteRequest = async (id: number) => {
-  const res = await fetch(`https://example.com/api/activity/${id}`, {
+  console.log(`${BASE_URL}/weekplan/${id}`);
+  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('Failed to delete activity');
-  return await res.json();
 };
 
 export const updateRequest = async ({
