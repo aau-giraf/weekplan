@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { formattedDate } from "../utils/formattedDate";
 import { useDate } from "../providers/DateProvider";
 
@@ -32,8 +32,8 @@ const AddItem = () => {
   const [formData, setFormData] = useState<FormData>({
     label: "",
     description: "",
-    startTime: new Date(0, 0, 0, 0, 0),
-    endTime: new Date(0, 0, 0, 23, 59),
+    startTime: new Date(),
+    endTime: new Date(new Date().setHours(23, 59)),
   });
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
@@ -101,19 +101,20 @@ const AddItem = () => {
           <View style={styles.pickerContainer}>
             <Text style={styles.header}>Vælg start tid</Text>
             <TouchableOpacity onPress={() => setStartTimePickerVisible(true)}>
-              <Text>{formData.startTime.toLocaleTimeString()}</Text>
+              <Text>{formatTime(formData.startTime)}</Text>
             </TouchableOpacity>
           </View>
 
           {isStartTimePickerVisible && (
-              <DateTimePicker
+              <RNDateTimePicker
                   mode="time"
                   value={formData.startTime}
                   is24Hour={true}
-                  display="default"
-                  onChange={(_event, selectedDate) => {
-                    if (selectedDate) {
-                      handleInputChange("startTime", selectedDate);
+                  display="spinner"
+                  minuteInterval={5}
+                  onChange={(_event, selectedTime) => {
+                    if (selectedTime) {
+                      handleInputChange("startTime", selectedTime);
                     }
                     setStartTimePickerVisible(false);
                   }}
@@ -124,19 +125,20 @@ const AddItem = () => {
           <View style={styles.pickerContainer}>
             <Text style={styles.header}>Vælg slut tid</Text>
             <TouchableOpacity onPress={() => setEndTimePickerVisible(true)}>
-              <Text>{formData.endTime.toLocaleTimeString()}</Text>
+              <Text>{formatTime(formData.endTime)}</Text>
             </TouchableOpacity>
           </View>
 
           {isEndTimePickerVisible && (
-              <DateTimePicker
+              <RNDateTimePicker
                   mode="time"
                   value={formData.endTime}
                   is24Hour={true}
-                  display="default"
-                  onChange={(_event, selectedDate) => {
-                    if (selectedDate) {
-                      handleInputChange("endTime", selectedDate);
+                  display="spinner"
+                  minuteInterval={5}
+                  onChange={(_event, selectedTime) => {
+                    if (selectedTime) {
+                      handleInputChange("endTime", selectedTime);
                     }
                     setEndTimePickerVisible(false);
                   }}
@@ -217,7 +219,7 @@ const styles = StyleSheet.create({
   },
   timePicker: {
     position: "static",
-    marginRight: 5,
+    alignItems: "center",
   },
 });
 
