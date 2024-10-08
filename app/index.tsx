@@ -1,15 +1,21 @@
 import { Link } from 'expo-router';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HomePage = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Page</Text>
       <Link href="/example" style={styles.link}>
         <Text style={styles.link}>Go to Example Page</Text>
       </Link>
-      <Link href="/login" style={styles.link}>
-        <TouchableOpacity style={styles.button}>
+      <Link href="login" style={styles.link}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('login')}
+        >
           <Text style={styles.buttonText}>Go to Login Page</Text>
         </TouchableOpacity>
       </Link>
