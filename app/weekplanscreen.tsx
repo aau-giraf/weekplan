@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import AddButton from "../components/AddButton";
-import TaskItemHeader from "../components/TaskItemHeader";
+import ActivityItemHeader from "../components/ActivityItemHeader";
 import WeekSelection from "../components/WeekSelection";
 import DaysContainer from "../components/DaysContainer";
 
@@ -11,7 +11,7 @@ const WeekPlanScreen = () => {
         <WeekSelection />
         <DaysContainer />
       </View>
-      <TaskItemHeader />
+      <ActivityItemHeader />
       <AddButton pathname={"./additem"} />
     </View>
   );

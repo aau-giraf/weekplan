@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const TaskItemHeader: React.FC = () => {
+const ActivityItemHeader: React.FC = () => {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.headerText}>Tid</Text>
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskItemHeader;
+export default ActivityItemHeader;
