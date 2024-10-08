@@ -16,7 +16,7 @@ const getWeekDates = (date: Date): Date[] => {
 
   //Given a Date, fetches the other dates in the same week
   const dates = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 7; i++) {
     const day = new Date(weekStart);
     day.setDate(weekStart.getDate() + i);
     dates.push(day);

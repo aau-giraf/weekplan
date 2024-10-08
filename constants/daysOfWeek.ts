@@ -10,5 +10,7 @@ export const DAYS_OF_WEEK : DayOfWeek[] = [
     { name: 'O', id: 'Onsdag', index: 3, },
     { name: 'T', id: 'Torsdag',index: 4, },
     { name: 'F', id: 'Fredag', index: 5, },
+    { name: 'L', id: 'Lørdag', index: 6, },
+    { name: 'S', id: 'Søndag', index: 7, },
 ];
 

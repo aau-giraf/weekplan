@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import {View, StyleSheet, SafeAreaView} from "react-native";
 import AddButton from "../components/AddButton";
 import ActivityItemHeader from "../components/ActivityItemHeader";
 import WeekSelection from "../components/WeekSelection";
@@ -6,14 +6,14 @@ import DaysContainer from "../components/DaysContainer";
 
 const WeekPlanScreen = () => {
   return (
-    <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <WeekSelection />
         <DaysContainer />
       </View>
       <ActivityItemHeader />
       <AddButton pathname={"./additem"} />
-    </View>
+    </SafeAreaView>
   );
 };
 
