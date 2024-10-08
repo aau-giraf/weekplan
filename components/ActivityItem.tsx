@@ -68,7 +68,7 @@ function RightAction(
   );
 }
 
-interface TaskItemProps {
+interface ActivityItemProps {
   time: string;
   label: string;
   deleteTask: () => void;
@@ -76,7 +76,7 @@ interface TaskItemProps {
   checkTask: () => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({
+const ActivityItem: React.FC<ActivityItemProps> = ({
   time,
   label,
   deleteTask,
@@ -146,4 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskItem;
+export default ActivityItem;

@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, act } from "@testing-library/react-native";
-import TaskItem from "../components/TaskItem";
+import ActivityItem from "../components/ActivityItem";
 
 test("swiping left triggers deleteTask", () => {
   const deleteTask = jest.fn();
@@ -8,7 +8,7 @@ test("swiping left triggers deleteTask", () => {
   const checkTask = jest.fn();
 
   const { getByTestId } = render(
-    <TaskItem
+    <ActivityItem
       time="09:00-10:00"
       label="Task 1"
       deleteTask={deleteTask}
@@ -30,7 +30,7 @@ test("swiping right triggers editTask and checkTask", () => {
   const checkTask = jest.fn();
 
   const { getByTestId } = render(
-    <TaskItem
+    <ActivityItem
       time="09:00-10:00"
       label="Task 1"
       deleteTask={deleteTask}
