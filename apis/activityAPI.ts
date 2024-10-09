@@ -46,8 +46,11 @@ export const toggleActivityStatusRequest = async (id: number) => {
   return await res.json();
 };
 
-export const createActivityRequest = async (data: unknown) => {
-  const res = await fetch(`https://example.com/api/activity`, {
+export const createActivityRequest = async ({ data,citizenId, }: {
+  data: unknown;
+  citizenId: number;
+}) => {
+  const res = await fetch(`${BASE_URL}/weekplan/${citizenId}`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },

@@ -1,22 +1,13 @@
 import React from 'react';
 import { View, FlatList, ActivityIndicator, Text } from 'react-native';
-import ActivityItem from './ActivityItem'; // Import your existing ActivityItem component
+import ActivityItem from './ActivityItem';
 import useActivity from '../hooks/useActivity';
 import { useDate } from '../providers/DateProvider';
-
-type Activity = {
-  activityId: number;
-  citizenId: number;
-  date: string;
-  description: string;
-  endTime: string;
-  name: string;
-  startTime: string;
-};
+import { FullActivityDTO } from "../DTO/fullActivityDTO";
 
 const ActivityItemList = ({ id }: { id: number }) => {
   const { selectedDate } = useDate();
-  const { useFetchActivities, deleteActivity } = useActivity({
+  const { useFetchActivities, useDeleteActivity } = useActivity({
     date: selectedDate,
   });
   const { data, error, isLoading, refetch } = useFetchActivities(id);
@@ -29,7 +20,7 @@ const ActivityItemList = ({ id }: { id: number }) => {
     return <Text>Error fetching activities: {error.message}</Text>;
   }
 
-  const renderActivityItem = ({ item }: { item: Activity }) => (
+  const renderActivityItem = ({ item }: { item: FullActivityDTO }) => (
     <ActivityItem
       time={`${item.startTime}-${item.endTime}`}
       label={item.name}
@@ -41,7 +32,7 @@ const ActivityItemList = ({ id }: { id: number }) => {
 
   const handleDeleteTask = async (id: number) => {
     console.log(`Delete activity with id: ${id}`);
-    await deleteActivity.mutateAsync(id);
+    await useDeleteActivity.mutateAsync(id);
   };
 
   const handleEditTask = (id: number) => {
