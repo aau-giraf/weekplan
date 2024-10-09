@@ -16,14 +16,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { useDate } from '../providers/DateProvider';
 import { prettyDate } from '../utils/prettyDate';
-import useActivity from "../hooks/useActivity";
+import useActivity from '../hooks/useActivity';
 
 type FormData = {
   label: string;
   description: string;
   startTime: Date;
   endTime: Date;
-}
+};
 
 const AddItem = () => {
   const router = useRouter();
@@ -46,20 +46,13 @@ const AddItem = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const { label, description, startTime, endTime } = formData;
 
-    const formattedStartTime = startTime.toLocaleTimeString('da-DK', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    const formattedStartTime = startTime.toLocaleTimeString('it-IT');
+    const formattedEndTime = endTime.toLocaleTimeString('it-IT');
 
-    const formattedEndTime = endTime.toLocaleTimeString('da-DK', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-
-    createActivity.mutate({
+    await createActivity.mutateAsync({
       citizenId: 1,
       data: {
         activityId: 0,
@@ -69,79 +62,77 @@ const AddItem = () => {
         endTime: formattedEndTime,
         date: selectedDate.toISOString().split('T')[0],
         isCompleted: false,
-      }
+      },
     });
     router.back();
   };
 
   return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            keyboardVerticalOffset={80}
-        >
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <Text style={styles.headerText}>
-              Opret en begivenhed til {prettyDate(selectedDate)}
-            </Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={80}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <Text style={styles.headerText}>
+            Opret en begivenhed til {prettyDate(selectedDate)}
+          </Text>
 
-            <TextInput
-                style={styles.input}
-                placeholder="Navn"
-                value={formData.label}
-                onChangeText={(text) => handleInputChange('label', text)}
-                returnKeyType="done"
+          <TextInput
+            style={styles.input}
+            placeholder="Navn"
+            value={formData.label}
+            onChangeText={(text) => handleInputChange('label', text)}
+            returnKeyType="done"
+          />
+
+          <TextInput
+            style={styles.description}
+            placeholder="Beskrivelse"
+            value={formData.description}
+            onChangeText={(text) => handleInputChange('description', text)}
+            multiline
+            returnKeyType="done"
+          />
+
+          <View style={styles.pickerContainer}>
+            <Text style={styles.header}>Vælg start tid</Text>
+            <DateTimePicker
+              mode="time"
+              value={formData.startTime}
+              is24Hour={true}
+              display="default"
+              onChange={(_event, selectedDate) => {
+                if (!selectedDate) return;
+                handleInputChange('startTime', selectedDate);
+              }}
+              style={styles.timePicker}
             />
+          </View>
 
-            <TextInput
-                style={styles.description}
-                placeholder="Beskrivelse"
-                value={formData.description}
-                onChangeText={(text) => handleInputChange('description', text)}
-                multiline
-                returnKeyType="done"
+          <View style={styles.pickerContainer}>
+            <Text style={styles.header}>Vælg slut tid</Text>
+            <DateTimePicker
+              mode="time"
+              value={formData.endTime}
+              is24Hour={true}
+              display="default"
+              onChange={(_event, selectedDate) => {
+                if (!selectedDate) return;
+                handleInputChange('endTime', selectedDate);
+              }}
+              style={styles.timePicker}
             />
+          </View>
 
-            <View style={styles.pickerContainer}>
-              <Text style={styles.header}>Vælg start tid</Text>
-              <DateTimePicker
-                  mode="time"
-                  value={formData.startTime}
-                  is24Hour={true}
-                  display="default"
-                  onChange={(_event, selectedDate) => {
-                    if (!selectedDate) return;
-                    handleInputChange('startTime', selectedDate);
-                  }}
-                  style={styles.timePicker}
-              />
-            </View>
-
-            <View style={styles.pickerContainer}>
-              <Text style={styles.header}>Vælg slut tid</Text>
-              <DateTimePicker
-                  mode="time"
-                  value={formData.endTime}
-                  is24Hour={true}
-                  display="default"
-                  onChange={(_event, selectedDate) => {
-                    if (!selectedDate) return;
-                    handleInputChange('endTime', selectedDate);
-                  }}
-                  style={styles.timePicker}
-              />
-            </View>
-
-            <TouchableOpacity
-                style={[styles.button, styles.addButton]}
-                onPress={handleSubmit}
-            >
-              <Text style={styles.buttonText}>Tilføj</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+          <TouchableOpacity
+            style={[styles.button, styles.addButton]}
+            onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Tilføj</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
