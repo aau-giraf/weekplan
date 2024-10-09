@@ -30,7 +30,7 @@ const AddItem = () => {
   const { selectedDate } = useDate();
 
   // Initialize the mutation for creating activity
-  const createActivity = useActivity({ date: selectedDate }).useCreateActivity;
+  const { useCreateActivity } = useActivity({ date: selectedDate });
 
   const [formData, setFormData] = useState<FormData>({
     label: '',
@@ -52,7 +52,7 @@ const AddItem = () => {
     const formattedStartTime = startTime.toLocaleTimeString('it-IT');
     const formattedEndTime = endTime.toLocaleTimeString('it-IT');
 
-    await createActivity.mutateAsync({
+    await useCreateActivity.mutateAsync({
       citizenId: 1,
       data: {
         activityId: 0,

@@ -3,7 +3,7 @@ import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 import ActivityItem from './ActivityItem';
 import useActivity from '../hooks/useActivity';
 import { useDate } from '../providers/DateProvider';
-import { FullActivityDTO } from "../DTO/fullActivityDTO";
+import { FullActivityDTO } from '../DTO/activityDTO';
 
 const ActivityItemList = ({ id }: { id: number }) => {
   const { selectedDate } = useDate();

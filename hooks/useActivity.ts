@@ -19,7 +19,7 @@ export default function useActivity({ date }: { date: Date }) {
   const queryClient = useQueryClient();
 
   const useFetchActivities = (id: number) => {
-    return useQuery<FullActivityDTO[]>({
+    return useQuery<ActivityDTO[]>({
       queryFn: () => fetchRequest(id, date),
       queryKey: queryKey,
     });
@@ -30,9 +30,9 @@ export default function useActivity({ date }: { date: Date }) {
     onMutate: async (activityId: number) => {
       await queryClient.cancelQueries({ queryKey });
       const previousActivities =
-        queryClient.getQueryData<FullActivityDTO[]>(queryKey);
+        queryClient.getQueryData<ActivityDTO[]>(queryKey);
 
-      queryClient.setQueryData<FullActivityDTO[]>(
+      queryClient.setQueryData<ActivityDTO[]>(
         queryKey,
         (oldData) =>
           oldData?.filter((activity) => activity.activityId !== activityId) ||
@@ -44,7 +44,7 @@ export default function useActivity({ date }: { date: Date }) {
 
     onError: (error, variables, context) => {
       if (context?.previousActivities) {
-        queryClient.setQueryData<FullActivityDTO[]>(
+        queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
           context.previousActivities
         );
@@ -53,9 +53,8 @@ export default function useActivity({ date }: { date: Date }) {
   });
 
   const updateActivity = useMutation({
-    mutationFn: (variables: { id: number; data: Partial<FullActivityDTO> }) =>
-      updateRequest(variables),
-
+    mutationFn: (variables: { activityId: number; data: ActivityDTO }) =>
+      updateRequest(variables.data, variables.activityId),
     onMutate: async (variables) => {
       await queryClient.cancelQueries({ queryKey });
       const previousActivities =
@@ -65,7 +64,7 @@ export default function useActivity({ date }: { date: Date }) {
         queryKey,
         (oldData) =>
           oldData?.map((activity) =>
-            activity.activityId === variables.id
+            activity.activityId === variables.activityId
               ? { ...activity, ...variables.data }
               : activity
           ) || []
@@ -76,7 +75,7 @@ export default function useActivity({ date }: { date: Date }) {
 
     onError: (error, variables, context) => {
       if (context?.previousActivities) {
-        queryClient.setQueryData<FullActivityDTO[]>(
+        queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
           context.previousActivities
         );
@@ -86,7 +85,7 @@ export default function useActivity({ date }: { date: Date }) {
 
   const useCreateActivity = useMutation({
     mutationFn: (variables: { citizenId: number; data: ActivityDTO }) =>
-      createActivityRequest(variables),
+      createActivityRequest(variables.data, variables.citizenId),
 
     onMutate: async (variables) => {
       await queryClient.cancelQueries({ queryKey });
@@ -115,9 +114,9 @@ export default function useActivity({ date }: { date: Date }) {
     onMutate: async (id: number) => {
       await queryClient.cancelQueries({ queryKey });
       const previousActivities =
-        queryClient.getQueryData<FullActivityDTO[]>(queryKey);
+        queryClient.getQueryData<ActivityDTO[]>(queryKey);
 
-      queryClient.setQueryData<FullActivityDTO[]>(
+      queryClient.setQueryData<ActivityDTO[]>(
         queryKey,
         (oldData) =>
           oldData?.map((activity) =>
@@ -132,7 +131,7 @@ export default function useActivity({ date }: { date: Date }) {
 
     onError: (error, variables, context) => {
       if (context?.previousActivities) {
-        queryClient.setQueryData<FullActivityDTO[]>(
+        queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
           context.previousActivities
         );

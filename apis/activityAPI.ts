@@ -1,3 +1,4 @@
+import { ActivityDTO } from '../DTO/activityDTO';
 import formatQueryDate from '../utils/formatQueryDate';
 import { BASE_URL } from '../utils/globals';
 
@@ -22,13 +23,7 @@ export const deleteRequest = async (id: number) => {
   if (!res.ok) throw new Error('Failed to delete activity');
 };
 
-export const updateRequest = async ({
-  data,
-  id,
-}: {
-  data: unknown;
-  id: number;
-}) => {
+export const updateRequest = async (data: ActivityDTO, id: number) => {
   const res = await fetch(`https://example.com/api/activity/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
@@ -46,15 +41,16 @@ export const toggleActivityStatusRequest = async (id: number) => {
   return await res.json();
 };
 
-export const createActivityRequest = async ({ data,citizenId, }: {
-  data: unknown;
-  citizenId: number;
-}) => {
+export const createActivityRequest = async (
+  data: ActivityDTO,
+  citizenId: number
+) => {
   const res = await fetch(`${BASE_URL}/weekplan/${citizenId}`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) throw new Error('Failed to create activity');
+  console.log('RES: ', await res.json());
   return await res.json();
 };
