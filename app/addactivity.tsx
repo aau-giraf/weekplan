@@ -19,7 +19,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDate } from '../providers/DateProvider';
 import { prettyDate } from '../utils/prettyDate';
 import useActivity from '../hooks/useActivity';
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 type FormData = {
   label: string;
@@ -117,17 +116,20 @@ const AddActivity = () => {
               <View style={styles.pickerContainer}>
                 <Text style={styles.header}>Vælg start tid</Text>
                 {Platform.OS === 'android' && (
-                    <Text>{formatTime(formData.startTime)}</Text>
+                    <TouchableOpacity onPress={() => setStartTimePickerVisible(true)}>
+                      <Text>{formatTime(formData.startTime)}</Text>
+                    </TouchableOpacity>
                 )}
               </View>
 
               {Platform.OS === 'ios' ? (
                   <View style={styles.centeredPicker}>
-                    <RNDateTimePicker
+                    <DateTimePicker
                         mode="time"
                         value={formData.startTime}
                         maximumDate={formData.endTime}
                         is24Hour={true}
+                        minuteInterval={5}
                         onChange={(_event, selectedTime) => {
                           if (selectedTime) {
                             handleInputChange("startTime", selectedTime);
@@ -136,35 +138,42 @@ const AddActivity = () => {
                         style={styles.timePicker}
                     />
                   </View>
-              ) : (
-                  <DateTimePicker
-                      mode="time"
-                      value={formData.startTime}
-                      is24Hour={true}
-                      onChange={(_event, selectedTime) => {
-                        if (selectedTime) {
-                          handleInputChange("startTime", selectedTime);
-                        }
-                      }}
-                      style={styles.timePicker}
-                  />
+              ) : (isStartTimePickerVisible && (
+                      <DateTimePicker
+                          mode="time"
+                          value={formData.startTime}
+                          is24Hour={true}
+                          minuteInterval={5}
+                          display={'spinner'}
+                          onChange={(_event, selectedTime) => {
+                            setStartTimePickerVisible(false);
+                            if (selectedTime) {
+                              handleInputChange("startTime", selectedTime);
+                            }
+                          }}
+                          style={styles.timePicker}
+                      />
+                  )
               )}
 
               <View style={styles.pickerContainer}>
                 <Text style={styles.header}>Vælg slut tid</Text>
                 {Platform.OS === 'android' && (
-                    <Text>{formatTime(formData.endTime)}</Text>
+                    <TouchableOpacity onPress={() => setEndTimePickerVisible(true)}>
+                      <Text>{formatTime(formData.endTime)}</Text>
+                    </TouchableOpacity>
                 )}
               </View>
 
-              {/*When EndTimePickerVisible is set to true show the DateTimePicker for EndTime*/}
+              {/*Check if platform is iOS*/}
               {Platform.OS === 'ios' ? (
                   <View style={styles.centeredPicker}>
-                    <RNDateTimePicker
+                    <DateTimePicker
                         mode="time"
                         minimumDate={formData.startTime}
                         value={formData.endTime}
                         is24Hour={true}
+                        minuteInterval={5}
                         onChange={(_event, selectedTime) => {
                           if (selectedTime) {
                             handleInputChange("endTime", selectedTime);
@@ -173,20 +182,24 @@ const AddActivity = () => {
                         style={styles.timePicker}
                     />
                   </View>
-              ) : (
+              ) : (isEndTimePickerVisible && (
                   <DateTimePicker
                       mode="time"
                       value={formData.endTime}
                       is24Hour={true}
+                      minuteInterval={5}
+                      display={'spinner'}
                       onChange={(_event, selectedTime) => {
+                        setEndTimePickerVisible(false);
                         if (selectedTime) {
                           handleInputChange("endTime", selectedTime);
                         }
                       }}
                       style={styles.timePicker}
                   />
+                  )
               )}
-
+              
               <TouchableOpacity
                   style={[styles.button, styles.addButton]}
                   onPress={handleSubmit}
