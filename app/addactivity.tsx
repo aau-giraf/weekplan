@@ -19,6 +19,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDate } from '../providers/DateProvider';
 import { prettyDate } from '../utils/prettyDate';
 import useActivity from '../hooks/useActivity';
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 type FormData = {
   label: string;
@@ -115,21 +116,32 @@ const AddActivity = () => {
 
               <View style={styles.pickerContainer}>
                 <Text style={styles.header}>Vælg start tid</Text>
-                <TouchableOpacity onPress={() => setStartTimePickerVisible(true)}>
-                  <Text>{formatTime(formData.startTime)}</Text>
-                </TouchableOpacity>
+                {Platform.OS === 'android' && (
+                    <Text>{formatTime(formData.startTime)}</Text>
+                )}
               </View>
 
-              {/*When StartTimePickerVisible is set to true show the DateTimePicker for EndTime*/}
-              {isStartTimePickerVisible && (
+              {Platform.OS === 'ios' ? (
+                  <View style={styles.centeredPicker}>
+                    <RNDateTimePicker
+                        mode="time"
+                        value={formData.startTime}
+                        maximumDate={formData.endTime}
+                        is24Hour={true}
+                        onChange={(_event, selectedTime) => {
+                          if (selectedTime) {
+                            handleInputChange("startTime", selectedTime);
+                          }
+                        }}
+                        style={styles.timePicker}
+                    />
+                  </View>
+              ) : (
                   <DateTimePicker
                       mode="time"
                       value={formData.startTime}
                       is24Hour={true}
-                      display={Platform.OS === 'android' ? 'spinner' : 'default'} // Use spinner for Android, default for iOS
-                      minuteInterval={5}
                       onChange={(_event, selectedTime) => {
-                        setStartTimePickerVisible(false);
                         if (selectedTime) {
                           handleInputChange("startTime", selectedTime);
                         }
@@ -140,21 +152,33 @@ const AddActivity = () => {
 
               <View style={styles.pickerContainer}>
                 <Text style={styles.header}>Vælg slut tid</Text>
-                <TouchableOpacity onPress={() => setEndTimePickerVisible(true)}>
-                  <Text>{formatTime(formData.endTime)}</Text>
-                </TouchableOpacity>
+                {Platform.OS === 'android' && (
+                    <Text>{formatTime(formData.endTime)}</Text>
+                )}
               </View>
 
               {/*When EndTimePickerVisible is set to true show the DateTimePicker for EndTime*/}
-              {isEndTimePickerVisible && (
+              {Platform.OS === 'ios' ? (
+                  <View style={styles.centeredPicker}>
+                    <RNDateTimePicker
+                        mode="time"
+                        minimumDate={formData.startTime}
+                        value={formData.endTime}
+                        is24Hour={true}
+                        onChange={(_event, selectedTime) => {
+                          if (selectedTime) {
+                            handleInputChange("endTime", selectedTime);
+                          }
+                        }}
+                        style={styles.timePicker}
+                    />
+                  </View>
+              ) : (
                   <DateTimePicker
                       mode="time"
                       value={formData.endTime}
                       is24Hour={true}
-                      display={Platform.OS === 'android' ? 'spinner' : 'default'} // Use spinner for Android, default for iOS
-                      minuteInterval={5}
                       onChange={(_event, selectedTime) => {
-                        setEndTimePickerVisible(false);
                         if (selectedTime) {
                           handleInputChange("endTime", selectedTime);
                         }
@@ -238,6 +262,12 @@ const styles = StyleSheet.create({
   timePicker: {
     position: "static",
     alignItems: "center",
+  },
+  centeredPicker: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: '100%',
+    marginBottom: 30,
   },
 });
 
