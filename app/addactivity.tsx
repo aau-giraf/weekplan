@@ -61,7 +61,7 @@ const AddActivity = () => {
     const formattedStartTime = formatTime(startTime);
     const formattedEndTime = formatTime(endTime);
 
-    // Validation check end time is after start time
+    // Validation to check if end time is set to after start time
     if (endTime < startTime) {
       Alert.alert("Fejl", "Start tid skal være før slut tid.");
       return;
@@ -79,6 +79,7 @@ const AddActivity = () => {
         isCompleted: false,
       },
     });
+    console.log("Activity added successfully, navigating back...");
     router.back();
   };
 
@@ -119,13 +120,13 @@ const AddActivity = () => {
                 </TouchableOpacity>
               </View>
 
-              {/*When StartTimePickerVisible is set to true it shows the DateTimePicker for EndTime*/}
+              {/*When StartTimePickerVisible is set to true show the DateTimePicker for EndTime*/}
               {isStartTimePickerVisible && (
                   <DateTimePicker
                       mode="time"
                       value={formData.startTime}
                       is24Hour={true}
-                      display="spinner"
+                      display={Platform.OS === 'android' ? 'spinner' : 'default'} // Use spinner for Android, default for iOS
                       minuteInterval={5}
                       onChange={(_event, selectedTime) => {
                         setStartTimePickerVisible(false);
@@ -144,13 +145,13 @@ const AddActivity = () => {
                 </TouchableOpacity>
               </View>
 
-              {/*When EndTimePickerVisible is set to true it shows the DateTimePicker for EndTime*/}
+              {/*When EndTimePickerVisible is set to true show the DateTimePicker for EndTime*/}
               {isEndTimePickerVisible && (
                   <DateTimePicker
                       mode="time"
                       value={formData.endTime}
                       is24Hour={true}
-                      display="spinner"
+                      display={Platform.OS === 'android' ? 'spinner' : 'default'} // Use spinner for Android, default for iOS
                       minuteInterval={5}
                       onChange={(_event, selectedTime) => {
                         setEndTimePickerVisible(false);
