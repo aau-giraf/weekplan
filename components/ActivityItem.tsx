@@ -1,11 +1,11 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import ReanimatedSwipeable from "./ReanimatedSwipeable";
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import ReanimatedSwipeable from './ReanimatedSwipeable';
 import Reanimated, {
   SharedValue,
   useAnimatedStyle,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 const CONTAINER_HEIGHT = 80;
 const CONTAINER_PADDING = 12;
@@ -27,8 +27,7 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteTaskItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: "crimson" }]}
-      >
+        style={[styles.action, { backgroundColor: 'crimson' }]}>
         <Ionicons name="trash-outline" size={32} color="white" />
       </TouchableOpacity>
     </Reanimated.View>
@@ -48,21 +47,19 @@ function RightAction(
   });
 
   return (
-    <Reanimated.View style={[styleAnimation, { flexDirection: "row" }]}>
+    <Reanimated.View style={[styleAnimation, { flexDirection: 'row' }]}>
       <TouchableOpacity
         testID="editTaskItemButton"
         onPress={editTask}
-        style={[styles.action, { backgroundColor: "#0077b6" }]}
-      >
-        <Ionicons name={"pencil-outline"} size={32} color="white" />
+        style={[styles.action, { backgroundColor: '#0077b6' }]}>
+        <Ionicons name={'pencil-outline'} size={32} color="white" />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkTaskItemButton"
         onPress={checkTask}
-        style={[styles.action, { backgroundColor: "green" }]}
-      >
-        <Ionicons name={"checkmark"} size={32} color="white" />
+        style={[styles.action, { backgroundColor: 'green' }]}>
+        <Ionicons name={'checkmark'} size={32} color="white" />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -85,14 +82,16 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
 }) => {
   return (
     <ReanimatedSwipeable
+      overshootFriction={10}
+      overshootLeft={false}
+      overshootRight={false}
       renderLeftActions={(prog, drag) => LeftAction(prog, drag, deleteTask)}
       renderRightActions={(prog, drag) =>
         RightAction(prog, drag, editTask, checkTask)
       }
-      friction={2}
-    >
+      friction={2}>
       <View style={styles.taskContainer}>
-        <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
+        <Text style={styles.timeText}>{time.replace('-', '\n')}</Text>
         <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
           {label}
         </Text>
@@ -106,43 +105,43 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
 
 const styles = StyleSheet.create({
   taskContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: CONTAINER_PADDING,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     height: CONTAINER_HEIGHT,
-    backgroundColor: "#E3F2FD",
+    backgroundColor: '#E3F2FD',
   },
   timeText: {
-    color: "#37474F",
+    color: '#37474F',
     fontSize: 16,
   },
   labelText: {
-    color: "#37474F",
+    color: '#37474F',
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
     flex: 0.6,
   },
   iconContainer: {
     width: 65,
     height: 65,
     borderRadius: 100,
-    backgroundColor: "#FFCC80",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#FFCC80',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   iconPlaceholderText: {
-    color: "#000",
+    color: '#000',
     fontSize: 12,
   },
   action: {
     width: ACTION_WIDTH,
     height: 80,
-    backgroundColor: "crimson",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'crimson',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

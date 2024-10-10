@@ -13,24 +13,27 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { formattedDate } from '../utils/formattedDate';
-import { useDate } from '../providers/DateProvider';
 
-interface FormData {
+import { useDate } from '../providers/DateProvider';
+import { prettyDate } from '../utils/prettyDate';
+import useActivity from '../hooks/useActivity';
+
+type FormData = {
   label: string;
   description: string;
   startTime: Date;
   endTime: Date;
-}
+};
 
 const AddItem = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
+  const { useCreateActivity } = useActivity({ date: selectedDate });
   const [formData, setFormData] = useState<FormData>({
     label: '',
     description: '',
-    startTime: new Date(0, 0, 0, 0, 0),
-    endTime: new Date(0, 0, 0, 23, 59),
+    startTime: new Date(),
+    endTime: new Date(),
   });
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
@@ -40,21 +43,30 @@ const AddItem = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const { label, description, startTime, endTime } = formData;
 
-    const formattedStartTime = startTime.toLocaleTimeString('da-DK', {
+    const formattedStartTime = startTime.toLocaleTimeString('it-IT', {
       hour: '2-digit',
       minute: '2-digit',
     });
-    const formattedEndTime = endTime.toLocaleTimeString('da-DK', {
+    const formattedEndTime = endTime.toLocaleTimeString('it-IT', {
       hour: '2-digit',
       minute: '2-digit',
     });
 
-    console.log(
-      `Adding item on ${selectedDate} with label ${label}, description ${description}, start time ${formattedStartTime}, and end time ${formattedEndTime}`
-    );
+    await useCreateActivity.mutateAsync({
+      citizenId: 1,
+      data: {
+        activityId: -1,
+        name: label,
+        description,
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
+        date: selectedDate.toISOString().split('T')[0],
+        isCompleted: false,
+      },
+    });
     router.back();
   };
 
@@ -66,7 +78,7 @@ const AddItem = () => {
         keyboardVerticalOffset={80}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Text style={styles.headerText}>
-            Opret en begivenhed til {formattedDate(selectedDate)}
+            Opret en begivenhed til {prettyDate(selectedDate)}
           </Text>
 
           <TextInput
@@ -91,7 +103,6 @@ const AddItem = () => {
             <DateTimePicker
               mode="time"
               value={formData.startTime}
-              maximumDate={formData.endTime}
               is24Hour={true}
               display="default"
               onChange={(_event, selectedDate) => {
@@ -107,7 +118,6 @@ const AddItem = () => {
             <DateTimePicker
               mode="time"
               value={formData.endTime}
-              minimumDate={formData.startTime}
               is24Hour={true}
               display="default"
               onChange={(_event, selectedDate) => {
