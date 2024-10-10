@@ -28,10 +28,7 @@ type FormData = {
 const AddItem = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
-
-  // Initialize the mutation for creating activity
   const { useCreateActivity } = useActivity({ date: selectedDate });
-
   const [formData, setFormData] = useState<FormData>({
     label: '',
     description: '',
@@ -49,13 +46,19 @@ const AddItem = () => {
   const handleSubmit = async () => {
     const { label, description, startTime, endTime } = formData;
 
-    const formattedStartTime = startTime.toLocaleTimeString('it-IT');
-    const formattedEndTime = endTime.toLocaleTimeString('it-IT');
+    const formattedStartTime = startTime.toLocaleTimeString('it-IT', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    const formattedEndTime = endTime.toLocaleTimeString('it-IT', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
 
     await useCreateActivity.mutateAsync({
       citizenId: 1,
       data: {
-        activityId: 0,
+        activityId: -1,
         name: label,
         description,
         startTime: formattedStartTime,

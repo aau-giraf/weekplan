@@ -6,8 +6,6 @@ import DaysContainer from '../components/DaysContainer';
 import ActivityItemList from '../components/ActivityItemList';
 
 const WeekPlanScreen = () => {
-  const id = 1;
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -15,7 +13,7 @@ const WeekPlanScreen = () => {
         <DaysContainer />
       </View>
       <ActivityItemHeader />
-      <ActivityItemList id={id} />
+      <ActivityItemList />
       <AddButton pathname={'./additem'} />
     </SafeAreaView>
   );

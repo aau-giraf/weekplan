@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 import useActivity, { dateToQueryKey } from '../hooks/useActivity';
 import { ActivityDTO } from '../DTO/activityDTO';
+import CitizenProvider from '../providers/CitizenProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +29,9 @@ const mockActivity: ActivityDTO = {
 };
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  <CitizenProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  </CitizenProvider>
 );
 
 jest.mock('../apis/activityAPI', () => ({
@@ -52,7 +55,7 @@ jest.mock('../apis/activityAPI', () => ({
   createActivityRequest: jest
     .fn()
     .mockImplementation((activity: ActivityDTO) => {
-      return Promise.resolve({ ...activity });
+      return Promise.resolve({ ...activity, activityId: 3 });
     }),
 }));
 
@@ -87,11 +90,10 @@ test('invalid date throws on error when used in useActivity', async () => {
     .spyOn(console, 'error')
     .mockImplementation(() => {});
   const date = '2024-10-01';
-  try {
+
+  expect(() => {
     renderHook(() => useActivity({ date: date as any }), { wrapper });
-  } catch (error) {
-    expect(error).toEqual(new Error('Invalid date'));
-  }
+  }).toThrow();
 
   consoleErrorMock.mockRestore();
 });
@@ -101,6 +103,10 @@ test('deleteActivity removes the activity from the list', async () => {
   const { result } = renderHook(() => useActivity({ date }), {
     wrapper,
   });
+
+  await waitFor(() =>
+    expect(result.current.useFetchActivities.isSuccess).toBe(true)
+  );
 
   const key = dateToQueryKey(date);
 
@@ -113,16 +119,21 @@ test('deleteActivity removes the activity from the list', async () => {
   });
 
   await waitFor(() => {
-    expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
-      { ...mockActivity, activityId: 2 },
-    ]);
+    expect(result.current.useDeleteActivity.isSuccess).toBe(true);
   });
+  expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
+    { ...mockActivity, activityId: 2 },
+  ]);
 });
 
 test('updateActivity updates the activity in the list', async () => {
   const date = new Date('2024-10-01');
   const { result } = renderHook(() => useActivity({ date }), {
     wrapper,
+  });
+
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
 
   const key = dateToQueryKey(date);
@@ -152,14 +163,13 @@ test('fetchActivities retrieves and sets activities', async () => {
     wrapper,
   });
 
-  await waitFor(() =>
-    expect(result.current.useFetchActivities(1).isSuccess).toBe(true)
-  );
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
+  });
 
-  //TODO NEED PROVIDER INSTEAD OF THIS
-  expect(result.current.useFetchActivities().data).toEqual([
-    { activityId: 1, isCompleted: false },
-    { activityId: 2, isCompleted: false },
+  expect(result.current.useFetchActivities.data).toEqual([
+    { ...mockActivity, activityId: 1 },
+    { ...mockActivity, activityId: 2 },
   ]);
 });
 
@@ -169,6 +179,10 @@ test('createActivity adds a new activity to the list', async () => {
     wrapper,
   });
 
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
+  });
+
   const key = dateToQueryKey(date);
 
   await act(async () => {
@@ -176,22 +190,22 @@ test('createActivity adds a new activity to the list', async () => {
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-  });
-
-  await act(async () => {
     await result.current.useCreateActivity.mutateAsync({
       citizenId: 1,
-      data: { ...mockActivity, activityId: 3 },
+      data: { ...mockActivity, activityId: -1 },
     });
   });
 
   await waitFor(() => {
-    expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
-      { ...mockActivity, activityId: 1 },
-      { ...mockActivity, activityId: 2 },
-      { ...mockActivity, activityId: 3 },
-    ]);
+    expect(result.current.useCreateActivity.isSuccess).toBe(true);
   });
+
+  const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
+  expect(updatedData).toEqual([
+    { ...mockActivity, activityId: 1 },
+    { ...mockActivity, activityId: 2 },
+    { ...mockActivity, activityId: 3 },
+  ]);
 });
 
 test('toggleActivityStatus toggles the status of the activity', async () => {
@@ -200,6 +214,9 @@ test('toggleActivityStatus toggles the status of the activity', async () => {
     wrapper,
   });
 
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
+  });
   const key = dateToQueryKey(date);
 
   await act(async () => {
@@ -207,22 +224,19 @@ test('toggleActivityStatus toggles the status of the activity', async () => {
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-  });
-
-  await act(async () => {
     await result.current.toggleActivityStatus.mutateAsync(1);
   });
 
+  await waitFor(() => {
+    expect(result.current.toggleActivityStatus.isSuccess).toBe(true);
+  });
   const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
   const activityWithId1 = updatedData?.find(
     (activity) => activity.activityId === 1
   );
-
-  await waitFor(() => {
-    expect(activityWithId1).toEqual(
-      expect.objectContaining({ isCompleted: true })
-    );
-  });
+  expect(activityWithId1).toEqual(
+    expect.objectContaining({ isCompleted: true })
+  );
 });
 
 test('toggleActivityStatus does not update the list if the activity is not found', async () => {
@@ -230,7 +244,9 @@ test('toggleActivityStatus does not update the list if the activity is not found
   const { result } = renderHook(() => useActivity({ date }), {
     wrapper,
   });
-
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
+  });
   const key = dateToQueryKey(date);
 
   await act(async () => {
@@ -238,29 +254,27 @@ test('toggleActivityStatus does not update the list if the activity is not found
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-  });
-
-  await act(async () => {
     await result.current.toggleActivityStatus.mutateAsync(3);
   });
 
   await waitFor(() => {
-    const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
-    expect(updatedData).toEqual([
-      { ...mockActivity, activityId: 1 },
-      { ...mockActivity, activityId: 2 },
-    ]);
+    expect(result.current.toggleActivityStatus.isSuccess).toBe(true);
   });
+  const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
+  expect(updatedData).toEqual([
+    { ...mockActivity, activityId: 1 },
+    { ...mockActivity, activityId: 2 },
+  ]);
 });
 
-//THESE ARE THE FUCKERS
-//ONE OR ALL OF THESE FAILS
 test('toggleActivityStatus does not update data if the key differs from initial', async () => {
   const initialDate = new Date('2024-10-01');
   const { result } = renderHook(() => useActivity({ date: initialDate }), {
     wrapper,
   });
-
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
+  });
   const differentKey = dateToQueryKey(new Date('2024-10-02'));
 
   await act(async () => {
@@ -271,10 +285,11 @@ test('toggleActivityStatus does not update data if the key differs from initial'
   });
 
   await waitFor(() => {
-    const differentKeyData =
-      queryClient.getQueryData<ActivityDTO[]>(differentKey);
-    expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
+    expect(result.current.toggleActivityStatus.isSuccess).toBe(true);
   });
+  const differentKeyData =
+    queryClient.getQueryData<ActivityDTO[]>(differentKey);
+  expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
 });
 
 test('deleteActivity does not remove data if the key differs from initial', async () => {
@@ -282,7 +297,9 @@ test('deleteActivity does not remove data if the key differs from initial', asyn
   const { result } = renderHook(() => useActivity({ date: initialDate }), {
     wrapper,
   });
-
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
+  });
   const differentKey = dateToQueryKey(new Date('2024-10-02'));
 
   await act(async () => {
@@ -293,8 +310,10 @@ test('deleteActivity does not remove data if the key differs from initial', asyn
   });
 
   await waitFor(() => {
-    const differentKeyData =
-      queryClient.getQueryData<ActivityDTO[]>(differentKey);
-    expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
+    expect(result.current.useDeleteActivity.isSuccess).toBe(true);
   });
+
+  const differentKeyData =
+    queryClient.getQueryData<ActivityDTO[]>(differentKey);
+  expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
 });

@@ -3,14 +3,14 @@ import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 import ActivityItem from './ActivityItem';
 import useActivity from '../hooks/useActivity';
 import { useDate } from '../providers/DateProvider';
-import { FullActivityDTO } from '../DTO/activityDTO';
+import { ActivityDTO } from '../DTO/activityDTO';
 
-const ActivityItemList = ({ id }: { id: number }) => {
+const ActivityItemList = () => {
   const { selectedDate } = useDate();
   const { useFetchActivities, useDeleteActivity } = useActivity({
     date: selectedDate,
   });
-  const { data, error, isLoading, refetch } = useFetchActivities(id);
+  const { data, error, isLoading, refetch } = useFetchActivities;
 
   if (isLoading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -20,7 +20,7 @@ const ActivityItemList = ({ id }: { id: number }) => {
     return <Text>Error fetching activities: {error.message}</Text>;
   }
 
-  const renderActivityItem = ({ item }: { item: FullActivityDTO }) => (
+  const renderActivityItem = ({ item }: { item: ActivityDTO }) => (
     <ActivityItem
       time={`${item.startTime}-${item.endTime}`}
       label={item.name}
