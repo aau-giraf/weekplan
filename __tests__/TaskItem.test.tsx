@@ -1,13 +1,13 @@
-import React from "react";
-import { render, fireEvent, act } from "@testing-library/react-native";
-import ActivityItem from "../components/ActivityItem";
+import React from 'react';
+import { render, fireEvent, screen } from '@testing-library/react-native';
+import ActivityItem from '../components/ActivityItem';
 
-test("swiping left triggers deleteTask", () => {
+test('swiping left triggers deleteTask', () => {
   const deleteTask = jest.fn();
   const editTask = jest.fn();
   const checkTask = jest.fn();
 
-  const { getByTestId } = render(
+  render(
     <ActivityItem
       time="09:00-10:00"
       label="Task 1"
@@ -17,19 +17,17 @@ test("swiping left triggers deleteTask", () => {
     />
   );
 
-  act(() => {
-    fireEvent.press(getByTestId("deleteTaskItemButton"));
-  });
+  fireEvent.press(screen.getByTestId('deleteTaskItemButton'));
 
   expect(deleteTask).toHaveBeenCalled();
 });
 
-test("swiping right triggers editTask and checkTask", () => {
+test('swiping right triggers editTask and checkTask', () => {
   const deleteTask = jest.fn();
   const editTask = jest.fn();
   const checkTask = jest.fn();
 
-  const { getByTestId } = render(
+  render(
     <ActivityItem
       time="09:00-10:00"
       label="Task 1"
@@ -39,14 +37,10 @@ test("swiping right triggers editTask and checkTask", () => {
     />
   );
 
-  act(() => {
-    // Simulate right swipe
-    fireEvent.press(getByTestId("editTaskItemButton"));
-  });
+  fireEvent.press(screen.getByTestId('editTaskItemButton'));
   expect(editTask).toHaveBeenCalled();
 
-  act(() => {
-    fireEvent.press(getByTestId("checkTaskItemButton"));
-  });
+  fireEvent.press(screen.getByTestId('checkTaskItemButton'));
+  expect(checkTask).toHaveBeenCalled();
   expect(checkTask).toHaveBeenCalled();
 });

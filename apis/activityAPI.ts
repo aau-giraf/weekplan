@@ -51,6 +51,5 @@ export const createActivityRequest = async (
     headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) throw new Error('Failed to create activity');
-  console.log('RES: ', await res.json());
   return await res.json();
 };
