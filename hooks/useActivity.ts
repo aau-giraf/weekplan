@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   createActivityRequest,
-  deleteRequest,
+  deleteRequest, fetchActivityRequest,
   fetchRequest,
   toggleActivityStatusRequest,
   updateRequest,
@@ -15,6 +15,19 @@ export const dateToQueryKey = (date: Date) => {
   }
   return ['activity', date.toISOString().split('T')[0]];
 };
+
+export function useSingleActivity({ activityId }: { activityId: number }) {
+
+  const useFetchActivity = useQuery<ActivityDTO>({
+    queryFn: () => fetchActivityRequest(activityId),
+    queryKey: ['activity', activityId],
+  });
+
+  return {
+    useFetchActivity,
+  };
+}
+
 export default function useActivity({ date }: { date: Date }) {
   const queryKey = dateToQueryKey(date);
   const queryClient = useQueryClient();

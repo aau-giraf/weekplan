@@ -32,6 +32,7 @@ const TimeCalendar: React.FC<TimeCalendarProps> = ({ onTimeChange }) => {
                     value={startDate}
                     maximumDate={endDate}
                     mode={'time'}
+                    display={'spinner'}
                     onChange={handleStartDateChange}
                     style={styles.picker}
                 />
@@ -39,6 +40,7 @@ const TimeCalendar: React.FC<TimeCalendarProps> = ({ onTimeChange }) => {
                     value={endDate}
                     minimumDate={startDate}
                     mode={'time'}
+                    display={'spinner'}
                     onChange={handleEndDateChange}
                     style={styles.picker}
                 />

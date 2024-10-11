@@ -22,6 +22,7 @@ const NormalCalendar: React.FC<CalendarProps> = ({ minDate, onTimeChange }) => {
             <DateTimePicker
                     value={date}
                     minimumDate={minDate}
+                    display={"spinner"}
                     mode={"date"}
                     onChange={handleDateChange}
                 />
