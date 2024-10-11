@@ -1,12 +1,12 @@
 import DateTimePicker, {
   DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
-import React from "react";
-import { TouchableOpacity, View, Text } from "react-native"; // Added Text import
-import { formattedDate } from "../utils/formattedDate";
+} from '@react-native-community/datetimepicker';
+import React from 'react';
+import { TouchableOpacity, View, Text } from 'react-native'; // Added Text import
+import { formattedDate } from '../utils/formattedDate';
 
 type PlatformDateTimePickerProps = {
-  platform: "ios" | "android" | "windows" | "macos" | "web";
+  platform: 'ios' | 'android' | 'windows' | 'macos' | 'web';
   startDate: Date;
   callback: (event: DateTimePickerEvent, date: Date | undefined) => any;
 };
@@ -14,12 +14,12 @@ type PlatformDateTimePickerProps = {
 export const PlatformDateTimePicker = (props: PlatformDateTimePickerProps) => {
   const [DTPVisible, setDTPVisible] = React.useState(false); // For Android picker visibility
   const [selectedDate, setDate] = React.useState<Date>(
-    props.startDate ?? new Date(),
+    props.startDate ?? new Date()
   );
 
   const handleDateChange = (
     event: DateTimePickerEvent,
-    date: Date | undefined,
+    date: Date | undefined
   ) => {
     setDTPVisible(false); // Close the picker (mainly for Android)
     if (date) {
@@ -28,7 +28,7 @@ export const PlatformDateTimePicker = (props: PlatformDateTimePickerProps) => {
     }
   };
 
-  if (props.platform === "android") {
+  if (props.platform === 'android') {
     return (
       <View>
         <TouchableOpacity onPress={() => setDTPVisible(true)}>
@@ -51,7 +51,7 @@ export const PlatformDateTimePicker = (props: PlatformDateTimePickerProps) => {
         value={selectedDate} // Use the selected date
         is24Hour={true}
         mode="date"
-        display="spinner" // Optional: You can change this for iOS or other platforms
+        display="default" // Optional: You can change this for iOS or other platforms
         onChange={handleDateChange}
       />
     );
