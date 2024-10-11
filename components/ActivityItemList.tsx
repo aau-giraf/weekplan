@@ -3,45 +3,65 @@ import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 import ActivityItem from './ActivityItem';
 import useActivity from '../hooks/useActivity';
 import { useDate } from '../providers/DateProvider';
-import { ActivityDTO } from '../DTO/activityDTO';
+import { ActivityDTO, FullActivityDTO } from '../DTO/activityDTO';
+import { router } from 'expo-router';
+import { useCitizen } from '../providers/CitizenProvider';
+import dateAndTimeToISO from '../utils/dateAndTimeToISO';
 
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
+  const { citizenId } = useCitizen();
   const { useFetchActivities, useDeleteActivity } = useActivity({
     date: selectedDate,
   });
   const { data, error, isLoading, refetch } = useFetchActivities;
 
   if (isLoading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return (
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   if (error) {
     return <Text>Error fetching activities: {error.message}</Text>;
   }
 
-  const renderActivityItem = ({ item }: { item: ActivityDTO }) => (
-    <ActivityItem
-      time={`${item.startTime}-${item.endTime}`}
-      label={item.name}
-      deleteTask={() => handleDeleteTask(item.activityId)}
-      editTask={() => handleEditTask(item.activityId)}
-      checkTask={() => handleCheckTask(item.activityId)}
-    />
-  );
+  const renderActivityItem = ({ item }: { item: ActivityDTO }) => {
+    const handleEditTask = () => {
+      const data: FullActivityDTO = {
+        citizenId: citizenId,
+        name: item.name,
+        description: item.description,
+        activityId: item.activityId,
+        date: dateAndTimeToISO(item.date).toISOString(),
+        endTime: dateAndTimeToISO(item.date, item.endTime).toISOString(),
+        startTime: dateAndTimeToISO(item.date, item.startTime).toISOString(),
+        isCompleted: item.isCompleted,
+      };
+      router.push({
+        pathname: './edititem',
+        params: { ...data, isCompleted: item.isCompleted.toString() },
+      });
+    };
+
+    return (
+      <ActivityItem
+        time={`${item.startTime}-${item.endTime}`}
+        label={item.name}
+        deleteTask={() => handleDeleteTask(item.activityId)}
+        editTask={() => handleEditTask()}
+        checkTask={() => handleCheckTask(item.activityId)}
+      />
+    );
+  };
 
   const handleDeleteTask = async (id: number) => {
-    console.log(`Delete activity with id: ${id}`);
     await useDeleteActivity.mutateAsync(id);
   };
 
-  const handleEditTask = (id: number) => {
-    console.log(`Edit activity with id: ${id}`);
-  };
-
-  const handleCheckTask = (id: number) => {
-    console.log(`Check activity with id: ${id}`);
-  };
+  const handleCheckTask = (id: number) => {};
 
   return (
     <FlatList

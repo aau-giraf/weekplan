@@ -63,7 +63,7 @@ const AddItem = () => {
         description,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
-        date: selectedDate.toISOString().split('T')[0],
+        date: selectedDate.toDateString(),
         isCompleted: false,
       },
     });

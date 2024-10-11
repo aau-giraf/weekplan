@@ -6,7 +6,7 @@ import {
   toggleActivityStatusRequest,
   updateRequest,
 } from '../apis/activityAPI';
-import { ActivityDTO } from '../DTO/activityDTO';
+import { ActivityDTO, FullActivityDTO } from '../DTO/activityDTO';
 import { useCitizen } from '../providers/CitizenProvider';
 
 export const dateToQueryKey = (date: Date) => {
@@ -15,13 +15,18 @@ export const dateToQueryKey = (date: Date) => {
   }
   return ['activity', date.toISOString().split('T')[0]];
 };
+
+/* It's highly recommeneded to read the docs at https://tanstack.com/query/latest
+ * to understand how to use react-query. This hook utilises optimisitic updates
+ * and caching to provide a good user experience.
+ */
 export default function useActivity({ date }: { date: Date }) {
   const queryKey = dateToQueryKey(date);
   const queryClient = useQueryClient();
   const { citizenId } = useCitizen();
 
   const useFetchActivities = useQuery<ActivityDTO[]>({
-    queryFn: () => fetchRequest(citizenId, date),
+    queryFn: async () => fetchRequest(citizenId, date),
     queryKey: queryKey,
   });
 
@@ -51,28 +56,40 @@ export default function useActivity({ date }: { date: Date }) {
       }
     },
   });
-
   const updateActivity = useMutation({
-    mutationFn: (variables: { activityId: number; data: ActivityDTO }) =>
-      updateRequest(variables.data, variables.activityId),
-    onMutate: async (variables) => {
+    mutationFn: (data: FullActivityDTO) => updateRequest(data, data.activityId),
+    onMutate: async (data: FullActivityDTO) => {
+      const { citizenId, ...activityData } = data;
       await queryClient.cancelQueries({ queryKey });
-      const previousActivities =
-        queryClient.getQueryData<ActivityDTO[]>(queryKey);
 
-      queryClient.setQueryData<ActivityDTO[]>(
-        queryKey,
-        (oldData) =>
-          oldData?.map((activity) =>
-            activity.activityId === variables.activityId
-              ? { ...activity, ...variables.data }
-              : activity
-          ) || []
-      );
+      const isSameDate =
+        new Date(activityData.date).toDateString() ===
+        new Date(date).toDateString();
 
-      return { previousActivities };
+      if (isSameDate) {
+        queryClient.setQueryData<ActivityDTO[]>(
+          queryKey,
+          (oldData) =>
+            oldData?.map((activity) =>
+              activity.activityId === activityData.activityId
+                ? activityData
+                : activity
+            ) || []
+        );
+      } else {
+        queryClient.setQueryData<ActivityDTO[]>(
+          queryKey,
+          (oldData) =>
+            oldData?.filter(
+              (activity) => activity.activityId !== activityData.activityId
+            ) || []
+        );
+      }
+
+      return {
+        previousActivities: queryClient.getQueryData<ActivityDTO[]>(queryKey),
+      };
     },
-
     onError: (_error, _variables, context) => {
       if (context?.previousActivities) {
         queryClient.setQueryData<ActivityDTO[]>(
@@ -81,6 +98,7 @@ export default function useActivity({ date }: { date: Date }) {
         );
       }
     },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
   const useCreateActivity = useMutation({
@@ -95,10 +113,8 @@ export default function useActivity({ date }: { date: Date }) {
 
       queryClient.setQueryData<ActivityDTO[]>(queryKey, (oldData) => [
         ...(oldData || []),
-        //Temporary activityId until the server responds with the actual id
         { ...variables.data, activityId: -1 },
       ]);
-
       return { previousActivities };
     },
 
@@ -114,6 +130,7 @@ export default function useActivity({ date }: { date: Date }) {
           activity.activityId === variables.data.activityId ? data : activity
         );
       });
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 
