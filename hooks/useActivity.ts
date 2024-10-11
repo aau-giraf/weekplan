@@ -117,10 +117,10 @@ export default function useActivity({ date }: { date: Date }) {
     },
   });
 
-  const toggleActivityStatus = useMutation({
-    mutationFn: toggleActivityStatusRequest,
+  const useToggleActivityStatus = useMutation({
+    mutationFn: ({ id, isCompleted }: { id: number; isCompleted: boolean }) => toggleActivityStatusRequest(id, isCompleted),
 
-    onMutate: async (id: number) => {
+    onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey });
       const previousActivities =
         queryClient.getQueryData<ActivityDTO[]>(queryKey);
@@ -152,7 +152,7 @@ export default function useActivity({ date }: { date: Date }) {
     useFetchActivities,
     useDeleteActivity,
     updateActivity,
-    toggleActivityStatus,
+    useToggleActivityStatus,
     useCreateActivity,
   };
 }

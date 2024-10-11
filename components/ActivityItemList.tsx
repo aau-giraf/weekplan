@@ -7,7 +7,7 @@ import { ActivityDTO } from '../DTO/activityDTO';
 
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
-  const { useFetchActivities, useDeleteActivity } = useActivity({
+  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } = useActivity({
     date: selectedDate,
   });
   const { data, error, isLoading, refetch } = useFetchActivities;
@@ -24,14 +24,14 @@ const ActivityItemList = () => {
     <ActivityItem
       time={`${item.startTime}-${item.endTime}`}
       label={item.name}
+      isCompleted={item.isCompleted}
       deleteTask={() => handleDeleteTask(item.activityId)}
       editTask={() => handleEditTask(item.activityId)}
-      checkTask={() => handleCheckTask(item.activityId)}
+      checkTask={() => handleCheckTask(item.activityId, item.isCompleted)}
     />
   );
 
   const handleDeleteTask = async (id: number) => {
-    console.log(`Delete activity with id: ${id}`);
     await useDeleteActivity.mutateAsync(id);
   };
 
@@ -39,8 +39,8 @@ const ActivityItemList = () => {
     console.log(`Edit activity with id: ${id}`);
   };
 
-  const handleCheckTask = (id: number) => {
-    console.log(`Check activity with id: ${id}`);
+  const handleCheckTask = async (id: number, isCompleted: boolean) => {
+    await useToggleActivityStatus.mutateAsync({ id, isCompleted: !isCompleted });
   };
 
   return (
