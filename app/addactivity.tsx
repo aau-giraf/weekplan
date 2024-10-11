@@ -14,9 +14,9 @@ import {
   SafeAreaView,
 } from "react-native";
 
-import { useDate } from '../providers/DateProvider';
-import { prettyDate } from '../utils/prettyDate';
-import useActivity from '../hooks/useActivity';
+import { useDate } from "../providers/DateProvider";
+import { prettyDate } from "../utils/prettyDate";
+import useActivity from "../hooks/useActivity";
 import ActivityTimePicker from "../components/ActivityTimePicker";
 import formatTime from "../utils/formatTime";
 
@@ -32,8 +32,8 @@ const AddActivity = () => {
   const { selectedDate } = useDate();
   const { useCreateActivity } = useActivity({ date: selectedDate });
   const [formData, setFormData] = useState<FormData>({
-    label: '',
-    description: '',
+    label: "",
+    description: "",
     startTime: new Date(),
     endTime: new Date(),
   });
@@ -65,7 +65,7 @@ const AddActivity = () => {
         description,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
-        date: selectedDate.toISOString().split('T')[0],
+        date: selectedDate.toISOString().split("T")[0],
         isCompleted: false,
       },
     });
@@ -73,57 +73,57 @@ const AddActivity = () => {
   };
 
   return (
-      <SafeAreaView style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <KeyboardAvoidingView
-              style={styles.container}
-              behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
-              keyboardVerticalOffset={80}
-          >
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-              <Text style={styles.headerText}>
-                Opret en aktivitet til {prettyDate(selectedDate)}
-              </Text>
+    <SafeAreaView style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
+          keyboardVerticalOffset={80}
+        >
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <Text style={styles.headerText}>
+              Opret en aktivitet til {prettyDate(selectedDate)}
+            </Text>
 
-              <TextInput
-                  style={styles.input}
-                  placeholder="Navn"
-                  value={formData.label}
-                  onChangeText={(text) => handleInputChange("label", text)}
-                  returnKeyType="done"
-              />
+            <TextInput
+              style={styles.input}
+              placeholder="Navn"
+              value={formData.label}
+              onChangeText={(text) => handleInputChange("label", text)}
+              returnKeyType="done"
+            />
 
-              <TextInput
-                  style={styles.description}
-                  placeholder="Beskrivelse"
-                  value={formData.description}
-                  onChangeText={(text) => handleInputChange("description", text)}
-                  multiline
-                  returnKeyType="done"
-              />
+            <TextInput
+              style={styles.description}
+              placeholder="Beskrivelse"
+              value={formData.description}
+              onChangeText={(text) => handleInputChange("description", text)}
+              multiline
+              returnKeyType="done"
+            />
 
-              <ActivityTimePicker
-                  label="Vælg start tid"
-                  value={formData.startTime}
-                  onChange={(time) => handleInputChange("startTime", time)}
-              />
+            <ActivityTimePicker
+              label="Vælg start tid"
+              value={formData.startTime}
+              onChange={(time) => handleInputChange("startTime", time)}
+            />
 
-              <ActivityTimePicker
-                  label="Vælg slut tid"
-                  value={formData.endTime}
-                  onChange={(time) => handleInputChange("endTime", time)}
-              />
+            <ActivityTimePicker
+              label="Vælg slut tid"
+              value={formData.endTime}
+              onChange={(time) => handleInputChange("endTime", time)}
+            />
 
-              <TouchableOpacity
-                  style={[styles.button, styles.addButton]}
-                  onPress={handleSubmit}
-              >
-                <Text style={styles.buttonText}>Tilføj</Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
-      </SafeAreaView>
+            <TouchableOpacity
+              style={[styles.button, styles.addButton]}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.buttonText}>Tilføj</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 };
 
