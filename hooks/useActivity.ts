@@ -16,18 +16,6 @@ export const dateToQueryKey = (date: Date) => {
   return ['activity', date.toISOString().split('T')[0]];
 };
 
-export function useSingleActivity({ activityId }: { activityId: number }) {
-
-  const useFetchActivity = useQuery<ActivityDTO>({
-    queryFn: () => fetchActivityRequest(activityId),
-    queryKey: ['activity', activityId],
-  });
-
-  return {
-    useFetchActivity,
-  };
-}
-
 export default function useActivity({ date }: { date: Date }) {
   const queryKey = dateToQueryKey(date);
   const queryClient = useQueryClient();
@@ -167,5 +155,17 @@ export default function useActivity({ date }: { date: Date }) {
     updateActivity,
     toggleActivityStatus,
     useCreateActivity,
+  };
+}
+
+export function useSingleActivity({ activityId }: { activityId: number }) {
+
+  const useFetchActivity = useQuery<ActivityDTO>({
+    queryFn: () => fetchActivityRequest(activityId),
+    queryKey: ['activity', activityId],
+  });
+
+  return {
+    useFetchActivity,
   };
 }

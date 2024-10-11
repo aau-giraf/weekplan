@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, ActivityIndicator, Button, StyleSheet } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useSingleActivity } from "../../hooks/useActivity";
+import { useSingleActivity } from "../hooks/useActivity";
 
-const ViewActivity = () => {
+const ViewItem = () => {
     const id = parseInt(useLocalSearchParams<{ activityId: string }>().activityId);
     const { useFetchActivity } = useSingleActivity({ activityId: id });
     const { data, error, isLoading } = useFetchActivity;
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ViewActivity;
+export default ViewItem;

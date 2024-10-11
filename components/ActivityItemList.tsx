@@ -6,11 +6,11 @@ import { useDate } from '../providers/DateProvider';
 import { ActivityDTO } from '../DTO/activityDTO';
 import { useRouter } from 'expo-router';
 
-interface ActivityPressProps {
+interface AddButtonProps {
   pathname: `./${string}` | `../${string}` | `${string}:${string}`;
 }
 
-const ActivityItemList: React.FC<ActivityPressProps> = ({pathname}) => {
+const ActivityItemList: React.FC<AddButtonProps>= ({pathname}) => {
   const { selectedDate } = useDate();
   const router = useRouter();
   const { useFetchActivities, useDeleteActivity } = useActivity({
@@ -27,7 +27,7 @@ const ActivityItemList: React.FC<ActivityPressProps> = ({pathname}) => {
   }
 
   const handleDetails = (activityId: number) => {
-    router.push({pathname: "/activity[activityId]", params: {activityId}});
+    router.push({pathname: pathname, params: {activityId}});
   };
 
   const handleDeleteTask = async (id: number) => {

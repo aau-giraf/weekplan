@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
-import useActivity, { dateToQueryKey } from '../hooks/useActivity';
+import useActivity, {dateToQueryKey, useSingleActivity} from '../hooks/useActivity';
 import { ActivityDTO } from '../DTO/activityDTO';
 import CitizenProvider from '../providers/CitizenProvider';
 
@@ -57,6 +57,9 @@ jest.mock('../apis/activityAPI', () => ({
     .mockImplementation((activity: ActivityDTO) => {
       return Promise.resolve({ ...activity, activityId: 3 });
     }),
+  fetchActivityRequest: jest.fn().mockImplementation((activityId: number) => {
+    return Promise.resolve({ ...mockActivity, activityId });
+  }),
 }));
 
 beforeEach(async () => {
@@ -316,4 +319,15 @@ test('deleteActivity does not remove data if the key differs from initial', asyn
   const differentKeyData =
     queryClient.getQueryData<ActivityDTO[]>(differentKey);
   expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
+});
+
+test('useSingleActivity returns the correct activity', async () => {
+const id = 1;
+const {result} = renderHook(() => useSingleActivity({activityId: id}),
+    {wrapper});
+  await waitFor(() => {
+    expect(result.current.useFetchActivity.isSuccess).toBe(true);
+  });
+
+    expect(result.current.useFetchActivity.data).toEqual(mockActivity);
 });

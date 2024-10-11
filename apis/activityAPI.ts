@@ -16,7 +16,7 @@ export const fetchRequest = async (id: number, date: Date) => {
 };
 
 export const fetchActivityRequest = async (id: number) => {
-  const res = await fetch(`${BASE_URL}/activity/${id}$`, {
+  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
