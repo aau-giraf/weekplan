@@ -26,11 +26,8 @@ const ActivityItemList: React.FC<ActivityPressProps> = ({pathname}) => {
     return <Text>Error fetching activities: {error.message}</Text>;
   }
 
-  const handleDetails = (id: number) => {
-    router.push({
-      pathname,
-      params: { id },
-    });
+  const handleDetails = (activityId: number) => {
+    router.push({pathname: "/activity[activityId]", params: {activityId}});
   };
 
   const handleDeleteTask = async (id: number) => {
