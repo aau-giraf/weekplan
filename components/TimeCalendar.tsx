@@ -1,24 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { View, StyleSheet } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
-type TimeCalenderProps = {
+type TimeCalendarProps = {
     onTimeChange: (startTime: Date, endTime: Date) => void;
 };
 
 // TimeCalender component with two time pickers both used for selecting a start and end time in hour/minute form
-const TimeCalender: React.FC<TimeCalenderProps> = ({ onTimeChange }) => {
+const TimeCalendar: React.FC<TimeCalendarProps> = ({ onTimeChange }) => {
     const [startDate, setStartDate] = React.useState(new Date());
     const [endDate, setEndDate] = React.useState(new Date());
 
-    const handleStartDateChange = (event: any, selectedDate: Date | undefined) => {
+    const handleStartDateChange = (_event: any, selectedDate: Date | undefined) => {
         if (selectedDate) {
             setStartDate(selectedDate);
             onTimeChange(selectedDate, endDate);
         }
     };
 
-    const handleEndDateChange = (event: any, selectedDate: Date | undefined) => {
+    const handleEndDateChange = (_event: any, selectedDate: Date | undefined) => {
         if (selectedDate) {
             setEndDate(selectedDate);
             onTimeChange(startDate, selectedDate);
@@ -26,17 +26,16 @@ const TimeCalender: React.FC<TimeCalenderProps> = ({ onTimeChange }) => {
     };
 
     return (
-        <View>
             <View style={styles.pickerContainer}>
                 {/* Time pickers in hour/minute form*/}
-                <RNDateTimePicker
+                <DateTimePicker
                     value={startDate}
                     maximumDate={endDate}
                     mode={'time'}
                     onChange={handleStartDateChange}
                     style={styles.picker}
                 />
-                <RNDateTimePicker
+                <DateTimePicker
                     value={endDate}
                     minimumDate={startDate}
                     mode={'time'}
@@ -44,13 +43,6 @@ const TimeCalender: React.FC<TimeCalenderProps> = ({ onTimeChange }) => {
                     style={styles.picker}
                 />
             </View>
-            <Text>
-                {startDate.getHours()}:
-                {startDate.getMinutes() > 9 ? startDate.getMinutes() : "0" + startDate.getMinutes()} -
-                {endDate.getHours()}:
-                {endDate.getMinutes() > 9 ? endDate.getMinutes() : "0" + endDate.getMinutes()}
-            </Text>
-        </View>
     );
 };
 
@@ -65,4 +57,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TimeCalender;
+export default TimeCalendar;

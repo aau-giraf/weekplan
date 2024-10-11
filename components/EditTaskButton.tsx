@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { View, Button, Modal, StyleSheet, ScrollView, TextInput, Text, Pressable } from "react-native";
-import TimeCalender from "./TimeCalender";
+import TimeCalendar from "./TimeCalendar";
 import ImagePickerSelector from "./ImagePickerSelector";
 
 type EditTaskButtonProps = {
@@ -53,7 +53,7 @@ const EditTaskButton: React.FC<EditTaskButtonProps> = (props) => {
                                     endTime: submitProps.endTime,
                                 })} />
                             <ImagePickerSelector />
-                            <TimeCalender onTimeChange={handleTimeChange} />
+                            <TimeCalendar onTimeChange={handleTimeChange} />
                             <Button title="Gem" onPress={() => { handleSubmit(); setShowModal(false); }} />
                         </View>
                     </ScrollView>
