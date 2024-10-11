@@ -13,7 +13,7 @@ const WeekPlanScreen = () => {
         <DaysContainer />
       </View>
       <ActivityItemHeader />
-      <ActivityItemList />
+      <ActivityItemList pathname={`./activity`}/>
       <AddButton pathname={'./additem'} />
     </SafeAreaView>
   );
