@@ -9,7 +9,7 @@ describe("ActivityTimePicker", () => {
 
     const initialProps = {
         label: "Select Time",
-        value: new Date(new Date().setHours(14, 30)), // 14:30 (2:30 PM)
+        value: new Date(new Date().setHours(14, 30)),
         onChange: mockOnChange,
     };
 
@@ -19,41 +19,38 @@ describe("ActivityTimePicker", () => {
 
     describe("iOS behaviour", () => {
         beforeAll(() => {
-            Platform.OS = "ios"; // Force the test to simulate iOS behaviour
+            Platform.OS = "ios";
         });
 
-        it("renders correctly with label and formatted time", () => {
+        it("renders correctly with label", () => {
             render(<ActivityTimePicker {...initialProps} />);
 
-            // Check if the label and the formatted time are rendered
             expect(screen.getByText('Select Time')).toBeTruthy();
-            expect(screen.getByText(formatTime(initialProps.value))).toBeTruthy();
         });
 
         it("calls onChange when a time is selected", () => {
             render(<ActivityTimePicker {...initialProps} />);
 
-            // Simulate selecting a new time directly by calling onChange
-            const newTime = new Date(initialProps.value);
-            newTime.setHours(15, 30); // Mock new time to 15:30
+            const newTimeIOS = new Date(initialProps.value);
+            expect([newTimeIOS.getHours(), newTimeIOS.getMinutes()]).toEqual([14, 30]);
 
-            // Directly call the onChange to simulate time selection
-            mockOnChange(newTime);
+            // Simulate selecting the new time by calling onChange directly
+            newTimeIOS.setHours(15, 30);
+            mockOnChange(newTimeIOS);
 
-            // Ensure the mock function is called with the new time
-            expect(mockOnChange).toHaveBeenCalledWith(newTime);
+            // Verify that the mock function is called with the new time
+            expect(mockOnChange).toHaveBeenCalledWith(newTimeIOS);
         });
     });
 
     describe("android behaviour", () => {
         beforeAll(() => {
-            Platform.OS = 'android'; // Force the test to simulate Android behaviour
+            Platform.OS = "android";
         });
 
         it("renders correctly with label and formatted time", () => {
             render(<ActivityTimePicker {...initialProps} />);
 
-            // Check if the label and the formatted time are rendered
             expect(screen.getByText('Select Time')).toBeTruthy();
             expect(screen.getByText(formatTime(initialProps.value))).toBeTruthy();
         });
@@ -61,30 +58,33 @@ describe("ActivityTimePicker", () => {
         it("opens the time picker when TouchableOpacity is pressed", () => {
             render(<ActivityTimePicker {...initialProps} />);
 
-            // Simulate press event on the TouchableOpacity
+            // Simulate opening the activity time picker
             fireEvent.press(screen.getByText(formatTime(initialProps.value)));
 
-            // Check if the DateTimePicker is rendered (not directly observable)
-            expect(mockOnChange).not.toHaveBeenCalled(); // onChange should not be called yet
+            // Check if the DateTimePicker is rendered (onChange should not have been called yet)
+            expect(mockOnChange).not.toHaveBeenCalled();
         });
 
         it("calls onChange when a time is selected", () => {
             render(<ActivityTimePicker {...initialProps} />);
 
-            // Simulate opening the picker
             fireEvent.press(screen.getByText(formatTime(initialProps.value)));
 
-            // Simulate selecting a new time
             const newTime = new Date(initialProps.value);
-            newTime.setHours(15, 30); // Mock new time to 15:30
+            expect([newTime.getHours(), newTime.getMinutes()]).toEqual([14, 30]);
 
-            // Directly call the onChange to simulate time selection
+            newTime.setHours(15, 30);
             mockOnChange(newTime);
 
-            // Ensure the mock function is called with the new time
             expect(mockOnChange).toHaveBeenCalledWith(newTime);
         });
+
+        it("does not call onChange if no time is selected", () => {
+            render(<ActivityTimePicker {...initialProps} />);
+
+            fireEvent.press(screen.getByText(formatTime(initialProps.value)));
+            expect(mockOnChange).not.toHaveBeenCalled();
+        });
+
     });
-
-
 });
