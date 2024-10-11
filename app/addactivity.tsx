@@ -9,16 +9,16 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  View,
   TouchableOpacity,
   Alert,
   SafeAreaView,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { useDate } from '../providers/DateProvider';
 import { prettyDate } from '../utils/prettyDate';
 import useActivity from '../hooks/useActivity';
+import ActivityTimePicker from "../components/ActivityTimePicker";
+import formatTime from "../utils/formatTime";
 
 type FormData = {
   label: string;
@@ -30,8 +30,6 @@ type FormData = {
 const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
-  const [isStartTimePickerVisible, setStartTimePickerVisible] = useState(false);
-  const [isEndTimePickerVisible, setEndTimePickerVisible] = useState(false);
   const { useCreateActivity } = useActivity({ date: selectedDate });
   const [formData, setFormData] = useState<FormData>({
     label: '',
@@ -45,14 +43,6 @@ const AddActivity = () => {
       ...prevData,
       [field]: value,
     }));
-  };
-
-  const formatTime = (date: Date) => {
-    // Format the time as HH:MM
-    return date.toLocaleTimeString('it-IT', {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
   };
 
   const handleSubmit = async () => {
@@ -79,7 +69,6 @@ const AddActivity = () => {
         isCompleted: false,
       },
     });
-    console.log("Activity added successfully, navigating back...");
     router.back();
   };
 
@@ -113,93 +102,18 @@ const AddActivity = () => {
                   returnKeyType="done"
               />
 
-              <View style={styles.pickerContainer}>
-                <Text style={styles.header}>Vælg start tid</Text>
-                {Platform.OS === 'android' && (
-                    <TouchableOpacity onPress={() => setStartTimePickerVisible(true)}>
-                      <Text>{formatTime(formData.startTime)}</Text>
-                    </TouchableOpacity>
-                )}
-              </View>
+              <ActivityTimePicker
+                  label="Vælg start tid"
+                  value={formData.startTime}
+                  onChange={(time) => handleInputChange("startTime", time)}
+              />
 
-              {Platform.OS === 'ios' ? (
-                  <View style={styles.centeredPicker}>
-                    <DateTimePicker
-                        mode="time"
-                        value={formData.startTime}
-                        maximumDate={formData.endTime}
-                        is24Hour={true}
-                        minuteInterval={5}
-                        onChange={(_event, selectedTime) => {
-                          if (selectedTime) {
-                            handleInputChange("startTime", selectedTime);
-                          }
-                        }}
-                        style={styles.timePicker}
-                    />
-                  </View>
-              ) : (isStartTimePickerVisible && (
-                      <DateTimePicker
-                          mode="time"
-                          value={formData.startTime}
-                          is24Hour={true}
-                          minuteInterval={5}
-                          display={'spinner'}
-                          onChange={(_event, selectedTime) => {
-                            setStartTimePickerVisible(false);
-                            if (selectedTime) {
-                              handleInputChange("startTime", selectedTime);
-                            }
-                          }}
-                          style={styles.timePicker}
-                      />
-                  )
-              )}
+              <ActivityTimePicker
+                  label="Vælg slut tid"
+                  value={formData.endTime}
+                  onChange={(time) => handleInputChange("endTime", time)}
+              />
 
-              <View style={styles.pickerContainer}>
-                <Text style={styles.header}>Vælg slut tid</Text>
-                {Platform.OS === 'android' && (
-                    <TouchableOpacity onPress={() => setEndTimePickerVisible(true)}>
-                      <Text>{formatTime(formData.endTime)}</Text>
-                    </TouchableOpacity>
-                )}
-              </View>
-
-              {/*Check if platform is iOS*/}
-              {Platform.OS === 'ios' ? (
-                  <View style={styles.centeredPicker}>
-                    <DateTimePicker
-                        mode="time"
-                        minimumDate={formData.startTime}
-                        value={formData.endTime}
-                        is24Hour={true}
-                        minuteInterval={5}
-                        onChange={(_event, selectedTime) => {
-                          if (selectedTime) {
-                            handleInputChange("endTime", selectedTime);
-                          }
-                        }}
-                        style={styles.timePicker}
-                    />
-                  </View>
-              ) : (isEndTimePickerVisible && (
-                  <DateTimePicker
-                      mode="time"
-                      value={formData.endTime}
-                      is24Hour={true}
-                      minuteInterval={5}
-                      display={'spinner'}
-                      onChange={(_event, selectedTime) => {
-                        setEndTimePickerVisible(false);
-                        if (selectedTime) {
-                          handleInputChange("endTime", selectedTime);
-                        }
-                      }}
-                      style={styles.timePicker}
-                  />
-                  )
-              )}
-              
               <TouchableOpacity
                   style={[styles.button, styles.addButton]}
                   onPress={handleSubmit}
@@ -262,25 +176,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
-  pickerContainer: {
-    marginBottom: 20,
-    alignItems: "center",
-  },
   header: {
     fontSize: 16,
     fontWeight: "500",
     marginBottom: 10,
     color: "#333",
-  },
-  timePicker: {
-    position: "static",
-    alignItems: "center",
-  },
-  centeredPicker: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: '100%',
-    marginBottom: 30,
   },
 });
 
