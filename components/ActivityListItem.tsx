@@ -2,12 +2,14 @@ import { TaskDTO } from "../types/TaskDTO";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
-export const ActivityEntry = (
-  activity: TaskDTO,
-  index: number,
-  toggleCallback: (index: number) => void,
-  selectedActivities: boolean[],
-) => {
+type ActivityListItemProps = {
+  activity: TaskDTO;
+  index: number;
+  toggleCallback: (index: number) => void;
+  selectedActivities: boolean[];
+};
+
+export const ActivityListItem = (props: ActivityListItemProps) => {
   function formatTime(date: Date) {
     return date.toLocaleTimeString("da-DK", {
       hour: "2-digit",
@@ -15,25 +17,22 @@ export const ActivityEntry = (
     });
   }
 
-  const activityName = activity.name
-    ? activity.name.length <= 27
-      ? activity.name
-      : activity.name.substring(0, 25).concat("...")
+  const activityName = props.activity.name
+    ? props.activity.name.length <= 27
+      ? props.activity.name
+      : props.activity.name.substring(0, 25).concat("...")
     : "";
-  const startTime = formatTime(activity.startTime);
-  const endTime = formatTime(activity.endTime);
+  const startTime = formatTime(props.activity.startTime);
+  const endTime = formatTime(props.activity.endTime);
 
   return (
-    <TouchableOpacity
-      onPress={() => toggleCallback(index)}
-      key={index.toString()}
-    >
+    <TouchableOpacity onPress={() => props.toggleCallback(props.index)}>
       <View
         style={[
           styles.activityEntry,
-          { borderLeftWidth: selectedActivities[index] ? 1 : 0 },
+          { borderLeftWidth: props.selectedActivities[props.index] ? 1 : 0 },
         ]}
-        key={index.toString()}
+        key={props.index.toString()}
       >
         <Text style={{ width: "70%" }}>{activityName}</Text>
         <Text style={{ width: "30%", textAlign: "center" }}>

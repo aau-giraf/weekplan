@@ -11,7 +11,7 @@ type CopyDayDataModalProps = {
 
 type DayData = {
   sourceDate: Date;
-  sourceDateData: TaskDTO[];
+  sourceData: TaskDTO[];
   destinationDate: Date;
 };
 
@@ -22,7 +22,7 @@ const useCopyDataModal = ({
   const [error, setError] = useState<string>();
   const [dates, setDates] = useState<DayData>({
     sourceDate: sourceDate,
-    sourceDateData: [],
+    sourceData: [],
     destinationDate: destinationDate,
   });
   const queryClient = useQueryClient();
@@ -37,14 +37,14 @@ const useCopyDataModal = ({
       );
       setDates((prevData) => ({
         ...prevData,
-        sourceDateData: [],
+        sourceData: [],
       }));
       return;
     }
 
     setDates((prevData) => ({
       ...prevData,
-      sourceDateData: sourceDataActivities,
+      sourceData: sourceDataActivities,
     }));
     setError('');
   }, [dates.sourceDate, queryClient]);

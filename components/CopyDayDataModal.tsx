@@ -6,12 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import useCopyDataModal from '../hooks/useCopyDataModal';
-import React, { useState } from 'react';
-import { ActivityList } from './ActivityList';
-import { PlatformDateTimePicker } from './PlatformDateTimePicker';
+} from "react-native";
+import useCopyDataModal from "../hooks/useCopyDataModal";
+import React, { useState } from "react";
+import { ActivityList } from "./ActivityList";
+import { PlatformDateTimePicker } from "./PlatformDateTimePicker";
 
 type CopyDayDataModalProps = {
   destinationDate?: Date;
@@ -29,7 +28,6 @@ export const CopyDayDataModal = ({
     destinationDate,
     sourceDate,
   });
-
   return (
     <Modal
       visible={modalVisible}
@@ -37,21 +35,24 @@ export const CopyDayDataModal = ({
       transparent={true}
       onRequestClose={() => {
         setModalVisible(false);
-      }}>
+      }}
+    >
       <TouchableOpacity
         style={styles.modalBackground}
         onPress={() => {
           setModalVisible(false);
-        }}>
+        }}
+      >
         <View
           style={styles.modalContainer}
-          onStartShouldSetResponder={() => true}>
+          onStartShouldSetResponder={() => true}
+        >
           <Text style={styles.header}>Kopier Aktiviteter</Text>
           <PlatformDateTimePicker
             platform={Platform.OS}
             startDate={sourceDate}
             callback={(_event, date) => {
-              handleDateChange(date, 'source');
+              handleDateChange(date, "source");
             }}
           />
           <Text style={styles.header}>Til Dato</Text>
@@ -59,12 +60,11 @@ export const CopyDayDataModal = ({
             platform={Platform.OS}
             startDate={sourceDate}
             callback={(_event, date) => {
-              handleDateChange(date, 'destination');
+              handleDateChange(date, "destination");
             }}
           />
-          {ActivityList(dates.sourceDateData)}
+          <ActivityList activities={dates.sourceData} />
           {error && <Text>{error}</Text>}
-
           <Button
             title="Kopier Aktiviteter"
             onPress={() => {
@@ -80,26 +80,26 @@ export const CopyDayDataModal = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    width: '80%',
-    height: '80%',
+    width: "80%",
+    height: "80%",
     padding: 30,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
     gap: 10,
   },
   modalBackground: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   header: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 10,
-    color: '#333',
+    color: "#333",
   },
 });

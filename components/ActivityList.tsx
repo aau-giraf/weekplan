@@ -1,17 +1,17 @@
 import { TaskDTO } from "../types/TaskDTO";
-import React, { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import {ActivityEntry} from "./ActivityListItem";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import { ActivityListItem } from "./ActivityListItem";
 
-export const ActivityList = (activities: TaskDTO[]) => {
+type ActivityListProps = {
+  activities: TaskDTO[];
+};
+
+export const ActivityList = (props: ActivityListProps) => {
   const [selectedActivities, setSelectedActivities] = useState<boolean[]>(
-    new Array(activities.length).fill(true),
+    () => {
+      return new Array(props.activities.length).fill(true);
+    },
   );
 
   function toggleSelected(index: number) {
@@ -21,19 +21,26 @@ export const ActivityList = (activities: TaskDTO[]) => {
   }
 
   function findSelected(): TaskDTO[] {
-    return activities.filter((_activity, index) => selectedActivities[index]);
+    return props.activities.filter(
+      (_activity, index) => selectedActivities[index],
+    );
   }
 
+  useEffect(() => {
+    setSelectedActivities(new Array(props.activities.length).fill(true));
+  }, [props.activities]);
+
   return (
-    <ScrollView style={styles.activityView}>
-      {activities.map((activity, index) => {
-        return ActivityEntry(
-          activity,
-          index,
-          toggleSelected,
-          selectedActivities,
-        );
-      })}
+    <ScrollView style={styles.activityView} key={props.activities.length}>
+      {props.activities.map((activity, index) => (
+        <ActivityListItem
+          activity={activity}
+          index={index}
+          toggleCallback={toggleSelected}
+          selectedActivities={selectedActivities}
+          key={index.toString()}
+        />
+      ))}
     </ScrollView>
   );
 };
@@ -44,5 +51,5 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 15,
-  }
+  },
 });
