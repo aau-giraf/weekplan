@@ -11,7 +11,8 @@ import dateAndTimeToISO from '../utils/dateAndTimeToISO';
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
-  const { useFetchActivities, useDeleteActivity } = useActivity({
+  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } = useActivity({
+
     date: selectedDate,
   });
   const { data, error, isLoading, refetch } = useFetchActivities;
@@ -27,6 +28,7 @@ const ActivityItemList = () => {
   if (error) {
     return <Text>Error fetching activities: {error.message}</Text>;
   }
+
 
   const renderActivityItem = ({ item }: { item: ActivityDTO }) => {
     const handleEditTask = () => {
@@ -55,13 +57,25 @@ const ActivityItemList = () => {
         checkTask={() => handleCheckTask(item.activityId)}
       />
     );
-  };
+
+  const renderActivityItem = ({ item }: { item: ActivityDTO }) => (
+    <ActivityItem
+      time={`${item.startTime}-${item.endTime}`}
+      label={item.name}
+      isCompleted={item.isCompleted}
+      deleteTask={() => handleDeleteTask(item.activityId)}
+      editTask={() => handleEditTask(item.activityId)}
+      checkTask={() => handleCheckTask(item.activityId, item.isCompleted)}
+    />
+  );
 
   const handleDeleteTask = async (id: number) => {
     await useDeleteActivity.mutateAsync(id);
   };
 
-  const handleCheckTask = (id: number) => {};
+  const handleCheckTask = async (id: number, isCompleted: boolean) => {
+    await useToggleActivityStatus.mutateAsync({ id, isCompleted: !isCompleted });
+  };
 
   return (
     <FlatList

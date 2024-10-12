@@ -34,12 +34,12 @@ export const updateRequest = async (
   if (!res.ok) throw new Error('Failed to update activity');
 };
 
-export const toggleActivityStatusRequest = async (id: number) => {
-  const res = await fetch(`https://example.com/api/activity/${id}/status`, {
-    method: 'PATCH',
+export const toggleActivityStatusRequest = async (id: number, isCompleted: boolean) => {
+  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) throw new Error('Failed to toggle activity status');
-  return await res.json();
 };
 
 export const createActivityRequest = async (
