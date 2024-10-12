@@ -11,10 +11,10 @@ import dateAndTimeToISO from '../utils/dateAndTimeToISO';
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
-  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } = useActivity({
-
-    date: selectedDate,
-  });
+  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } =
+    useActivity({
+      date: selectedDate,
+    });
   const { data, error, isLoading, refetch } = useFetchActivities;
 
   if (isLoading) {
@@ -28,7 +28,6 @@ const ActivityItemList = () => {
   if (error) {
     return <Text>Error fetching activities: {error.message}</Text>;
   }
-
 
   const renderActivityItem = ({ item }: { item: ActivityDTO }) => {
     const handleEditTask = () => {
@@ -50,31 +49,25 @@ const ActivityItemList = () => {
 
     return (
       <ActivityItem
+        isCompleted={item.isCompleted}
         time={`${item.startTime}-${item.endTime}`}
         label={item.name}
         deleteTask={() => handleDeleteTask(item.activityId)}
         editTask={() => handleEditTask()}
-        checkTask={() => handleCheckTask(item.activityId)}
+        checkTask={() => handleCheckTask(item.activityId, item.isCompleted)}
       />
     );
-
-  const renderActivityItem = ({ item }: { item: ActivityDTO }) => (
-    <ActivityItem
-      time={`${item.startTime}-${item.endTime}`}
-      label={item.name}
-      isCompleted={item.isCompleted}
-      deleteTask={() => handleDeleteTask(item.activityId)}
-      editTask={() => handleEditTask(item.activityId)}
-      checkTask={() => handleCheckTask(item.activityId, item.isCompleted)}
-    />
-  );
+  };
 
   const handleDeleteTask = async (id: number) => {
     await useDeleteActivity.mutateAsync(id);
   };
 
   const handleCheckTask = async (id: number, isCompleted: boolean) => {
-    await useToggleActivityStatus.mutateAsync({ id, isCompleted: !isCompleted });
+    await useToggleActivityStatus.mutateAsync({
+      id,
+      isCompleted: !isCompleted,
+    });
   };
 
   return (
