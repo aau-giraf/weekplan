@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Text, Button } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useDate } from '../providers/DateProvider';
 import useActivity from '../hooks/useActivity';
@@ -77,20 +83,27 @@ const EditTask = ({
   };
 
   return (
-    <View style={styles.modalContent}>
-      <Text style={styles.modalTitle}>Ændre Aktivitet</Text>
-      <TextInput
-        value={form.title}
-        style={styles.input}
-        onChangeText={(text) => setForm((prev) => ({ ...prev, title: text }))}
-      />
-      <TextInput
-        value={form.description}
-        style={styles.input}
-        onChangeText={(text) =>
-          setForm((prev) => ({ ...prev, description: text }))
-        }
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>Ændre Aktivitet</Text>
+      <View>
+        <TextInput
+          value={form.title}
+          placeholder="Navn"
+          style={styles.input}
+          onChangeText={(text) => setForm((prev) => ({ ...prev, title: text }))}
+        />
+      </View>
+      <View>
+        <TextInput
+          value={form.description}
+          multiline
+          placeholder="Beskrivelse"
+          style={[styles.input, { height: 80 }]}
+          onChangeText={(text) =>
+            setForm((prev) => ({ ...prev, description: text }))
+          }
+        />
+      </View>
       <View style={styles.pickerContainer}>
         <Text style={styles.header}>Vælg start tid</Text>
         <DateTimePicker
@@ -102,7 +115,6 @@ const EditTask = ({
             if (!selectedDate) return;
             handleInputChange('startTime', selectedDate);
           }}
-          style={styles.timePicker}
         />
       </View>
 
@@ -117,10 +129,9 @@ const EditTask = ({
             if (!selectedDate) return;
             handleInputChange('endTime', selectedDate);
           }}
-          style={styles.timePicker}
         />
       </View>
-      <View>
+      <View style={styles.pickerContainer}>
         <Text style={styles.header}>Dato for aktivitet</Text>
         <DateTimePicker
           value={form.date}
@@ -129,45 +140,34 @@ const EditTask = ({
             if (!selectedDate) return;
             handleInputChange('date', selectedDate);
           }}
-          style={styles.timePicker}
         />
       </View>
-      <Button title="Submit" onPress={handleSubmit} />
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Tilføj</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    maxHeight: '100%',
-    maxWidth: '100%',
-  },
-  scrollViewContent: {
+  container: {
+    padding: 25,
+    backgroundColor: '#f9f9f9',
+    height: '100%',
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    gap: 15,
   },
-  modalContent: {
-    width: '100%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  title: {
+    fontSize: 25,
+    textAlign: 'center',
+    fontWeight: '600',
   },
   input: {
     width: '100%',
     padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
+    backgroundColor: '#fff',
     borderRadius: 5,
     marginBottom: 15,
   },
@@ -176,14 +176,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '500',
     marginBottom: 10,
     color: '#333',
   },
-  timePicker: {
-    position: 'static',
-    marginRight: 5,
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 10,
+    marginTop: 'auto',
+    alignItems: 'center',
+    backgroundColor: '#38A169',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '500',
   },
 });
 
