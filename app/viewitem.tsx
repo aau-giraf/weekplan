@@ -10,7 +10,7 @@ const ViewItem = () => {
     const router = useRouter();
 
     const handlePress = () => {
-        router.push("/weekplanscreen");
+        router.back();
     }
 
     if (isLoading) {
