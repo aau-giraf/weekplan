@@ -227,11 +227,11 @@ test('toggleActivityStatus toggles the status of the activity', async () => {
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-    await result.current.toggleActivityStatus.mutateAsync(1);
+    await result.current.useToggleActivityStatus.mutateAsync({ id: 1, isCompleted: true });
   });
 
   await waitFor(() => {
-    expect(result.current.toggleActivityStatus.isSuccess).toBe(true);
+    expect(result.current.useToggleActivityStatus.isSuccess).toBe(true);
   });
   const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
   const activityWithId1 = updatedData?.find(
@@ -257,11 +257,11 @@ test('toggleActivityStatus does not update the list if the activity is not found
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-    await result.current.toggleActivityStatus.mutateAsync(3);
+    await result.current.useToggleActivityStatus.mutateAsync({ id: 3, isCompleted: true });
   });
 
   await waitFor(() => {
-    expect(result.current.toggleActivityStatus.isSuccess).toBe(true);
+    expect(result.current.useToggleActivityStatus.isSuccess).toBe(true);
   });
   const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
   expect(updatedData).toEqual([
@@ -284,11 +284,11 @@ test('toggleActivityStatus does not update data if the key differs from initial'
     queryClient.setQueryData<ActivityDTO[]>(differentKey, [
       { ...mockActivity, activityId: 1 },
     ]);
-    await result.current.toggleActivityStatus.mutateAsync(1);
+    await result.current.useToggleActivityStatus.mutateAsync({ id: 1, isCompleted: true });
   });
 
   await waitFor(() => {
-    expect(result.current.toggleActivityStatus.isSuccess).toBe(true);
+    expect(result.current.useToggleActivityStatus.isSuccess).toBe(true);
   });
   const differentKeyData =
     queryClient.getQueryData<ActivityDTO[]>(differentKey);
