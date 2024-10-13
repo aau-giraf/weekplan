@@ -9,14 +9,25 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTime from "../utils/formatTime";
 
-
 type ActivityTimeSelectorProps = {
     label: string;
     value: Date;
     onChange: (selectedTime: Date) => void;
+    minuteInterval?: 1 | 5 | 15 | 30;
+    is24Hour?: boolean; //only available for android
+    androidDisplay?: "default" | "spinner" | "clock";
+    iosDisplay?: "default" | "inline" | "spinner" | "compact";
 };
 
-const ActivityTimePicker = ({ label, value, onChange}: ActivityTimeSelectorProps) => {
+const ActivityTimePicker = ({ 
+    label, 
+    value, 
+    onChange,
+    minuteInterval = 1,
+    is24Hour = true,
+    androidDisplay = "spinner",
+    iosDisplay = "default",
+}: ActivityTimeSelectorProps) => {
     const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
     return (
         <View style={styles.pickerContainer}>
@@ -35,8 +46,8 @@ const ActivityTimePicker = ({ label, value, onChange}: ActivityTimeSelectorProps
                     <DateTimePicker
                         mode="time"
                         value={value}
-                        is24Hour={true}
-                        minuteInterval={5}
+                        minuteInterval={minuteInterval}
+                        display={iosDisplay}
                         onChange={(_event, selectedTime) => {
                             if (selectedTime) {
                                 onChange(selectedTime);
@@ -49,9 +60,9 @@ const ActivityTimePicker = ({ label, value, onChange}: ActivityTimeSelectorProps
                     <DateTimePicker
                         mode="time"
                         value={value}
-                        is24Hour={true}
-                        minuteInterval={5}
-                        display="spinner"
+                        is24Hour={is24Hour}
+                        minuteInterval={minuteInterval}
+                        display={androidDisplay}
                         onChange={(_event, selectedTime) => {
                             setTimeSelectorVisible(false);
                             if (selectedTime) {

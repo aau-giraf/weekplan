@@ -105,12 +105,18 @@ const AddActivity = () => {
             <ActivityTimePicker
               label="Vælg start tid"
               value={formData.startTime}
+              minuteInterval={5}
+              androidDisplay={"spinner"}
+              iosDisplay={"default"}
               onChange={(time) => handleInputChange("startTime", time)}
             />
 
             <ActivityTimePicker
               label="Vælg slut tid"
               value={formData.endTime}
+              minuteInterval={5}
+              androidDisplay={"spinner"}
+              iosDisplay={"default"}
               onChange={(time) => handleInputChange("endTime", time)}
             />
 
