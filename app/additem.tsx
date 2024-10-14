@@ -103,6 +103,7 @@ const AddItem = () => {
             <DateTimePicker
               mode="time"
               value={formData.startTime}
+              maximumDate={formData.endTime}
               is24Hour={true}
               display="default"
               onChange={(_event, selectedDate) => {
@@ -117,6 +118,7 @@ const AddItem = () => {
             <Text style={styles.header}>Vælg slut tid</Text>
             <DateTimePicker
               mode="time"
+              minimumDate={formData.startTime}
               value={formData.endTime}
               is24Hour={true}
               display="default"

@@ -109,6 +109,7 @@ const EditTask = ({
         <DateTimePicker
           mode="time"
           value={form.startTime}
+          maximumDate={form.endTime}
           is24Hour={true}
           display="default"
           onChange={(_event, selectedDate) => {
@@ -123,6 +124,7 @@ const EditTask = ({
         <DateTimePicker
           mode="time"
           value={form.endTime}
+          minimumDate={form.startTime}
           is24Hour={true}
           display="default"
           onChange={(_event, selectedDate) => {

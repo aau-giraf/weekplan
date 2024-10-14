@@ -10,7 +10,7 @@ type Params = {
   isCompleted: string;
 };
 
-const HomePage = () => {
+const EditActivity = () => {
   const { name, description, startTime, endTime, activityId, isCompleted } =
     useLocalSearchParams<Params>();
 
@@ -45,4 +45,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default EditActivity;
