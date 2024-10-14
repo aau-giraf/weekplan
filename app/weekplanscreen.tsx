@@ -14,7 +14,7 @@ const WeekPlanScreen = () => {
       </View>
       <ActivityItemHeader />
       <ActivityItemList />
-      <AddButton pathname={'./addactivity'} />
+      <AddButton />
     </SafeAreaView>
   );
 };

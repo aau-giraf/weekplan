@@ -1,4 +1,4 @@
-import { ActivityDTO } from '../DTO/activityDTO';
+import { ActivityDTO, FullActivityDTO } from '../DTO/activityDTO';
 import formatQueryDate from '../utils/formatQueryDate';
 import { BASE_URL } from '../utils/globals';
 
@@ -26,21 +26,22 @@ export const fetchActivityRequest = async (id: number) => {
 }
 
 export const deleteRequest = async (id: number) => {
-  console.log(`${BASE_URL}/weekplan/${id}`);
   const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('Failed to delete activity');
 };
 
-export const updateRequest = async (data: ActivityDTO, id: number) => {
-  const res = await fetch(`https://example.com/api/activity/${id}`, {
+export const updateRequest = async (
+  data: FullActivityDTO,
+  activityId: number
+) => {
+  const res = await fetch(`${BASE_URL}/weekplan/activity/${activityId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   });
   if (!res.ok) throw new Error('Failed to update activity');
-  return await res.json();
 };
 
 export const toggleActivityStatusRequest = async (id: number, isCompleted: boolean) => {

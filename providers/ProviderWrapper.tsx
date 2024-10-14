@@ -8,7 +8,19 @@ type CustomLayoutProps = {
 };
 
 const ProviderWrapper = ({ children }: CustomLayoutProps) => {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
+        retry: 1,
+      },
+      mutations: {
+        retry: 1,
+      },
+    },
+  });
+
   return (
     <CitizenProvider>
       <QueryClientProvider client={queryClient}>

@@ -1,7 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
-import useActivity, {dateToQueryKey, useSingleActivity} from '../hooks/useActivity';
-import { ActivityDTO } from '../DTO/activityDTO';
+import useActivity, {
+  dateToQueryKey,
+  useSingleActivity,
+} from '../hooks/useActivity';
+import { ActivityDTO, FullActivityDTO } from '../DTO/activityDTO';
 import CitizenProvider from '../providers/CitizenProvider';
 
 const queryClient = new QueryClient({
@@ -18,7 +21,8 @@ const queryClient = new QueryClient({
   },
 });
 
-const mockActivity: ActivityDTO = {
+const mockActivity: FullActivityDTO = {
+  citizenId: 1,
   activityId: 1,
   name: 'test',
   description: 'testDescription',
@@ -33,6 +37,10 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   </CitizenProvider>
 );
+
+jest
+  .spyOn(queryClient, 'invalidateQueries')
+  .mockImplementation(() => Promise.resolve());
 
 jest.mock('../apis/activityAPI', () => ({
   fetchRequest: jest.fn().mockImplementation((activityId: number, date) => {
@@ -130,7 +138,7 @@ test('deleteActivity removes the activity from the list', async () => {
 });
 
 test('updateActivity updates the activity in the list', async () => {
-  const date = new Date('2024-10-01');
+  const date = new Date('2024-10-13');
   const { result } = renderHook(() => useActivity({ date }), {
     wrapper,
   });
@@ -140,24 +148,57 @@ test('updateActivity updates the activity in the list', async () => {
   });
 
   const key = dateToQueryKey(date);
-
+  const { citizenId, ...localMock } = mockActivity;
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
-      { ...mockActivity, activityId: 1 },
-      { ...mockActivity, activityId: 2 },
+      { ...localMock, activityId: 1 },
+      { ...localMock, activityId: 2 },
     ]);
     await result.current.updateActivity.mutateAsync({
-      activityId: 1,
-      data: { ...mockActivity, activityId: 1, isCompleted: true },
+      ...mockActivity,
+      name: 'updatedName',
     });
   });
 
   await waitFor(() => {
-    expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
-      { ...mockActivity, activityId: 1, isCompleted: true },
-      { ...mockActivity, activityId: 2 },
-    ]);
+    expect(result.current.updateActivity.isSuccess).toBe(true);
   });
+
+  expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
+    { ...localMock, activityId: 1, name: 'updatedName' },
+    { ...localMock, activityId: 2 },
+  ]);
+});
+
+test('updateActivity removes activity when date differs', async () => {
+  const date = new Date('2024-10-14');
+  const { result } = renderHook(() => useActivity({ date }), {
+    wrapper,
+  });
+
+  await waitFor(() => {
+    expect(result.current.useFetchActivities.isSuccess).toBe(true);
+  });
+
+  const key = dateToQueryKey(date);
+  const { citizenId, ...localMock } = mockActivity;
+  await act(async () => {
+    queryClient.setQueryData<ActivityDTO[]>(key, [
+      { ...localMock, activityId: 1 },
+      { ...localMock, activityId: 2 },
+    ]);
+    await result.current.updateActivity.mutateAsync({
+      ...mockActivity,
+    });
+  });
+
+  await waitFor(() => {
+    expect(result.current.updateActivity.isSuccess).toBe(true);
+  });
+
+  expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
+    { ...localMock, activityId: 2 },
+  ]);
 });
 
 test('fetchActivities retrieves and sets activities', async () => {
@@ -227,7 +268,10 @@ test('toggleActivityStatus toggles the status of the activity', async () => {
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-    await result.current.useToggleActivityStatus.mutateAsync({ id: 1, isCompleted: true });
+    await result.current.useToggleActivityStatus.mutateAsync({
+      id: 1,
+      isCompleted: true,
+    });
   });
 
   await waitFor(() => {
@@ -257,7 +301,10 @@ test('toggleActivityStatus does not update the list if the activity is not found
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-    await result.current.useToggleActivityStatus.mutateAsync({ id: 3, isCompleted: true });
+    await result.current.useToggleActivityStatus.mutateAsync({
+      id: 3,
+      isCompleted: true,
+    });
   });
 
   await waitFor(() => {
@@ -284,7 +331,10 @@ test('toggleActivityStatus does not update data if the key differs from initial'
     queryClient.setQueryData<ActivityDTO[]>(differentKey, [
       { ...mockActivity, activityId: 1 },
     ]);
-    await result.current.useToggleActivityStatus.mutateAsync({ id: 1, isCompleted: true });
+    await result.current.useToggleActivityStatus.mutateAsync({
+      id: 1,
+      isCompleted: true,
+    });
   });
 
   await waitFor(() => {
@@ -322,12 +372,13 @@ test('deleteActivity does not remove data if the key differs from initial', asyn
 });
 
 test('useSingleActivity returns the correct activity', async () => {
-const id = 1;
-const {result} = renderHook(() => useSingleActivity({activityId: id}),
-    {wrapper});
+  const id = 1;
+  const { result } = renderHook(() => useSingleActivity({ activityId: id }), {
+    wrapper,
+  });
   await waitFor(() => {
     expect(result.current.useFetchActivity.isSuccess).toBe(true);
   });
 
-    expect(result.current.useFetchActivity.data).toEqual(mockActivity);
+  expect(result.current.useFetchActivity.data).toEqual(mockActivity);
 });

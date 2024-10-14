@@ -1,7 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import ReanimatedSwipeable, {SwipeableMethods} from './ReanimatedSwipeable';
+import ReanimatedSwipeable, { SwipeableMethods } from './ReanimatedSwipeable';
 import Reanimated, {
   SharedValue,
   useAnimatedStyle,
@@ -75,7 +81,6 @@ type ActivityItemProps = {
   showDetails: () => void;
 };
 
-
 const ActivityItem: React.FC<ActivityItemProps> = ({
   time,
   label,
@@ -83,9 +88,8 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   deleteTask,
   editTask,
   checkTask,
-  showDetails
+  showDetails,
 }) => {
-
   const swipeableRef = React.useRef<SwipeableMethods>(null);
 
   const handleCloseOnCheckTaskPress = () => {
@@ -93,32 +97,40 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
       swipeableRef.current.close();
     }
     checkTask();
-  }
+  };
 
   const handleCloseOnEditTaskPress = () => {
-    if (swipeableRef.current) {
-      swipeableRef.current.close();
-    }
+    setTimeout(() => {
+      if (swipeableRef.current) {
+        swipeableRef.current.close();
+      }
+    }, 300);
+
     editTask();
-  }
+  };
 
   return (
-      <ReanimatedSwipeable
-          ref={swipeableRef}
-          overshootFriction={10}
-          overshootLeft={false}
-          overshootRight={false}
-          renderLeftActions={(prog, drag) => LeftAction(prog, drag, deleteTask)}
-          renderRightActions={(prog, drag) =>
-              RightAction(prog, drag, handleCloseOnEditTaskPress, handleCloseOnCheckTaskPress)
-          }
-          friction={2}>
-         <Pressable onPress={showDetails}>
+    <ReanimatedSwipeable
+      ref={swipeableRef}
+      overshootFriction={10}
+      overshootLeft={false}
+      overshootRight={false}
+      renderLeftActions={(prog, drag) => LeftAction(prog, drag, deleteTask)}
+      renderRightActions={(prog, drag) =>
+        RightAction(
+          prog,
+          drag,
+          handleCloseOnEditTaskPress,
+          handleCloseOnCheckTaskPress
+        )
+      }
+      friction={2}>
+      <Pressable onPress={showDetails}>
         <View
-            style={[
-              styles.taskContainer,
-              { backgroundColor: isCompleted ? '#A5D6A7' : '#E3F2FD' },
-            ]}>
+          style={[
+            styles.taskContainer,
+            { backgroundColor: isCompleted ? '#A5D6A7' : '#E3F2FD' },
+          ]}>
           <Text style={styles.timeText}>{time.replace('-', '\n')}</Text>
           <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
             {label}
@@ -131,7 +143,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     </ReanimatedSwipeable>
   );
 };
-
 
 const styles = StyleSheet.create({
   taskContainer: {
