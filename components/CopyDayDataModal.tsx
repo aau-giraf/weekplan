@@ -17,14 +17,14 @@ type CopyDayDataModalProps = {
   sourceDate?: Date;
 };
 
-const nextDay = () => new Date(new Date().setDate(new Date().getDate() + 1));
+const nextDay = (d: Date = new Date()) => new Date(d.setDate(d.getDate() + 1));
 
 export const CopyDayDataModal = ({
   sourceDate = new Date(),
   destinationDate = nextDay(),
 }: CopyDayDataModalProps) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const { handleDateChange, error, dates } = useCopyDataModal({
+  const { handleDateChange, error, dayData } = useCopyDataModal({
     destinationDate,
     sourceDate,
   });
@@ -63,7 +63,7 @@ export const CopyDayDataModal = ({
               handleDateChange(date, "destination");
             }}
           />
-          <ActivityList activities={dates.sourceData} />
+          <ActivityList activities={dayData.sourceData} />
           {error && <Text>{error}</Text>}
           <Button
             title="Kopier Aktiviteter"
