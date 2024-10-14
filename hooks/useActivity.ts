@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   createActivityRequest,
   deleteRequest,
+  fetchActivityRequest,
   fetchRequest,
   toggleActivityStatusRequest,
   updateRequest,
@@ -20,6 +21,7 @@ export const dateToQueryKey = (date: Date) => {
  * to understand how to use react-query. This hook utilises optimisitic updates
  * and caching to provide a good user experience.
  */
+
 export default function useActivity({ date }: { date: Date }) {
   const queryKey = dateToQueryKey(date);
   const queryClient = useQueryClient();
@@ -135,7 +137,8 @@ export default function useActivity({ date }: { date: Date }) {
   });
 
   const useToggleActivityStatus = useMutation({
-    mutationFn: ({ id, isCompleted }: { id: number; isCompleted: boolean }) => toggleActivityStatusRequest(id, isCompleted),
+    mutationFn: ({ id, isCompleted }: { id: number; isCompleted: boolean }) =>
+      toggleActivityStatusRequest(id, isCompleted),
 
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey });
@@ -171,5 +174,16 @@ export default function useActivity({ date }: { date: Date }) {
     updateActivity,
     useToggleActivityStatus,
     useCreateActivity,
+  };
+}
+
+export function useSingleActivity({ activityId }: { activityId: number }) {
+  const useFetchActivity = useQuery<ActivityDTO>({
+    queryFn: () => fetchActivityRequest(activityId),
+    queryKey: ['activity', activityId],
+  });
+
+  return {
+    useFetchActivity,
   };
 }

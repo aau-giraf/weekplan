@@ -7,7 +7,8 @@ const RootLayout = () => {
       <Stack>
         <Stack.Screen name="index" />
         <Stack.Screen name="weekplanscreen" />
-        <Stack.Screen name="additem" />
+        <Stack.Screen name="viewitem" />
+        <Stack.Screen name="addactivity" />
         <Stack.Screen name="edititem" />
       </Stack>
     </ProviderWrapper>

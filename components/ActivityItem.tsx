@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ReanimatedSwipeable, { SwipeableMethods } from './ReanimatedSwipeable';
 import Reanimated, {
@@ -72,6 +78,7 @@ type ActivityItemProps = {
   deleteTask: () => void;
   editTask: () => void;
   checkTask: () => void;
+  showDetails: () => void;
 };
 
 const ActivityItem: React.FC<ActivityItemProps> = ({
@@ -81,6 +88,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   deleteTask,
   editTask,
   checkTask,
+  showDetails,
 }) => {
   const swipeableRef = React.useRef<SwipeableMethods>(null);
 
@@ -117,19 +125,21 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
         )
       }
       friction={2}>
-      <View
-        style={[
-          styles.taskContainer,
-          { backgroundColor: isCompleted ? '#A5D6A7' : '#E3F2FD' },
-        ]}>
-        <Text style={styles.timeText}>{time.replace('-', '\n')}</Text>
-        <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
-          {label}
-        </Text>
-        <View style={styles.iconContainer}>
-          <Text style={styles.iconPlaceholderText}>Photo</Text>
+      <Pressable onPress={showDetails}>
+        <View
+          style={[
+            styles.taskContainer,
+            { backgroundColor: isCompleted ? '#A5D6A7' : '#E3F2FD' },
+          ]}>
+          <Text style={styles.timeText}>{time.replace('-', '\n')}</Text>
+          <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
+            {label}
+          </Text>
+          <View style={styles.iconContainer}>
+            <Text style={styles.iconPlaceholderText}>Photo</Text>
+          </View>
         </View>
-      </View>
+      </Pressable>
     </ReanimatedSwipeable>
   );
 };

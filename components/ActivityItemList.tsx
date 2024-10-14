@@ -28,6 +28,9 @@ const ActivityItemList = () => {
   if (error) {
     return <Text>Error fetching activities: {error.message}</Text>;
   }
+  const handleDetails = (activityId: number) => {
+    router.push({ pathname: '/viewitem', params: { activityId } });
+  };
 
   const renderActivityItem = ({ item }: { item: ActivityDTO }) => {
     const handleEditTask = () => {
@@ -55,6 +58,7 @@ const ActivityItemList = () => {
         deleteTask={() => handleDeleteTask(item.activityId)}
         editTask={() => handleEditTask()}
         checkTask={() => handleCheckTask(item.activityId, item.isCompleted)}
+        showDetails={() => handleDetails(item.activityId)}
       />
     );
   };

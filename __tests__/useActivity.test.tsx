@@ -1,6 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
-import useActivity, { dateToQueryKey } from '../hooks/useActivity';
+import useActivity, {
+  dateToQueryKey,
+  useSingleActivity,
+} from '../hooks/useActivity';
 import { ActivityDTO, FullActivityDTO } from '../DTO/activityDTO';
 import CitizenProvider from '../providers/CitizenProvider';
 
@@ -62,6 +65,9 @@ jest.mock('../apis/activityAPI', () => ({
     .mockImplementation((activity: ActivityDTO) => {
       return Promise.resolve({ ...activity, activityId: 3 });
     }),
+  fetchActivityRequest: jest.fn().mockImplementation((activityId: number) => {
+    return Promise.resolve({ ...mockActivity, activityId });
+  }),
 }));
 
 beforeEach(async () => {
@@ -262,7 +268,10 @@ test('toggleActivityStatus toggles the status of the activity', async () => {
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-    await result.current.useToggleActivityStatus.mutateAsync({ id: 1, isCompleted: true });
+    await result.current.useToggleActivityStatus.mutateAsync({
+      id: 1,
+      isCompleted: true,
+    });
   });
 
   await waitFor(() => {
@@ -292,7 +301,10 @@ test('toggleActivityStatus does not update the list if the activity is not found
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
     ]);
-    await result.current.useToggleActivityStatus.mutateAsync({ id: 3, isCompleted: true });
+    await result.current.useToggleActivityStatus.mutateAsync({
+      id: 3,
+      isCompleted: true,
+    });
   });
 
   await waitFor(() => {
@@ -319,7 +331,10 @@ test('toggleActivityStatus does not update data if the key differs from initial'
     queryClient.setQueryData<ActivityDTO[]>(differentKey, [
       { ...mockActivity, activityId: 1 },
     ]);
-    await result.current.useToggleActivityStatus.mutateAsync({ id: 1, isCompleted: true });
+    await result.current.useToggleActivityStatus.mutateAsync({
+      id: 1,
+      isCompleted: true,
+    });
   });
 
   await waitFor(() => {
@@ -354,4 +369,16 @@ test('deleteActivity does not remove data if the key differs from initial', asyn
   const differentKeyData =
     queryClient.getQueryData<ActivityDTO[]>(differentKey);
   expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
+});
+
+test('useSingleActivity returns the correct activity', async () => {
+  const id = 1;
+  const { result } = renderHook(() => useSingleActivity({ activityId: id }), {
+    wrapper,
+  });
+  await waitFor(() => {
+    expect(result.current.useFetchActivity.isSuccess).toBe(true);
+  });
+
+  expect(result.current.useFetchActivity.data).toEqual(mockActivity);
 });
