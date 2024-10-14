@@ -15,6 +15,16 @@ export const fetchRequest = async (id: number, date: Date) => {
   return await res.json();
 };
 
+export const fetchActivityRequest = async (id: number) => {
+  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch activity');
+  return await res.json();
+}
+
 export const deleteRequest = async (id: number) => {
   console.log(`${BASE_URL}/weekplan/${id}`);
   const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Pressable} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ReanimatedSwipeable, {SwipeableMethods} from './ReanimatedSwipeable';
 import Reanimated, {
@@ -72,7 +72,9 @@ type ActivityItemProps = {
   deleteTask: () => void;
   editTask: () => void;
   checkTask: () => void;
+  showDetails: () => void;
 };
+
 
 const ActivityItem: React.FC<ActivityItemProps> = ({
   time,
@@ -81,6 +83,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   deleteTask,
   editTask,
   checkTask,
+  showDetails
 }) => {
 
   const swipeableRef = React.useRef<SwipeableMethods>(null);
@@ -110,6 +113,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
               RightAction(prog, drag, handleCloseOnEditTaskPress, handleCloseOnCheckTaskPress)
           }
           friction={2}>
+         <Pressable onPress={showDetails}>
         <View
             style={[
               styles.taskContainer,
@@ -123,7 +127,8 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             <Text style={styles.iconPlaceholderText}>Photo</Text>
           </View>
         </View>
-      </ReanimatedSwipeable>
+      </Pressable>
+    </ReanimatedSwipeable>
   );
 };
 
