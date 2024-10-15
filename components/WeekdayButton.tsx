@@ -6,6 +6,7 @@ import { useDate } from "../providers/DateProvider";
 type WeekdayButtonProps = {
   date: Date;
   day: DayOfWeek;
+  setModalVisible: () => void;
 };
 
 const formattedDate = (date: Date) => {
@@ -15,7 +16,7 @@ const formattedDate = (date: Date) => {
   });
 };
 
-const WeekdayButton = ({ date, day }: WeekdayButtonProps) => {
+const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
   const { selectedDate, setSelectedDate } = useDate();
   const isSelected = selectedDate.toDateString() === date.toDateString();
 
@@ -23,6 +24,11 @@ const WeekdayButton = ({ date, day }: WeekdayButtonProps) => {
     <TouchableOpacity
       style={styles.dayButton}
       onPress={() => setSelectedDate(date)}
+      onLongPress={() => {
+        setSelectedDate(date);
+        console.log(selectedDate);
+        setModalVisible();
+      }}
     >
       <View style={[styles.circle, isSelected && styles.selectedCircle]}>
         <Text style={[styles.dayText]}>{day.name}</Text>
