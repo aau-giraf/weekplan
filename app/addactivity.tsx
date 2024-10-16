@@ -17,8 +17,8 @@ import {
 import { useDate } from "../providers/DateProvider";
 import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
-import ActivityTimePicker from "../components/weekoverview_components/activity_components/ActivityTimePicker";
-import formatTime from "../utils/formatTime";
+import TimePicker from "../components/TimePicker";
+import formatTimeHHMM from "../utils/formatTimeHHMM";
 
 type FormData = {
   label: string;
@@ -48,8 +48,8 @@ const AddActivity = () => {
   const handleSubmit = async () => {
     const { label, description, startTime, endTime } = formData;
 
-    const formattedStartTime = formatTime(startTime);
-    const formattedEndTime = formatTime(endTime);
+    const formattedStartTime = formatTimeHHMM(startTime);
+    const formattedEndTime = formatTimeHHMM(endTime);
 
     // Validation to check if end time is set to after start time
     if (endTime < startTime) {
@@ -102,7 +102,7 @@ const AddActivity = () => {
               returnKeyType="done"
             />
 
-            <ActivityTimePicker
+            <TimePicker
               label="Vælg start tid"
               value={formData.startTime}
               minuteInterval={5}
@@ -111,7 +111,7 @@ const AddActivity = () => {
               onChange={(time) => handleInputChange("startTime", time)}
             />
 
-            <ActivityTimePicker
+            <TimePicker
               label="Vælg slut tid"
               value={formData.endTime}
               minuteInterval={5}

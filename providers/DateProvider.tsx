@@ -43,7 +43,7 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
 export const useDate = () => {
   const context = useContext(DateContext);
   if (context === undefined) {
-    throw new Error("useDate must be used within a DateProvider");
+    throw new Error("useDate skal bruges i en DateProvider");
   }
   return context;
 };

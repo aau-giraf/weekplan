@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
-import PickerColumn from "../pickerColumn";
+import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
 
 type WeekSelectionProps = {};

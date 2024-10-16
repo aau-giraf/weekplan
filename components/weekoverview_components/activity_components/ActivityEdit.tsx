@@ -11,6 +11,7 @@ import { useDate } from "../../../providers/DateProvider";
 import useActivity from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import { router } from "expo-router";
+import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 
 type EditActivityButtonProps = {
   title: string;
@@ -60,14 +61,8 @@ const ActivityEdit = ({
   };
 
   const handleSubmit = async () => {
-    const startTimeHHMM = form.startTime.toLocaleTimeString("it-IT", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const endTimeHHMM = form.endTime.toLocaleTimeString("it-IT", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    const startTimeHHMM = formatTimeHHMM(startTime);
+    const endTimeHHMM = formatTimeHHMM(endTime);
 
     await updateActivity.mutateAsync({
       activityId: activityId,
