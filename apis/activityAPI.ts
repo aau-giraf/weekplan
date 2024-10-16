@@ -70,3 +70,24 @@ export const createActivityRequest = async (
   if (!res.ok) throw new Error("Fejl: Kunne ikke oprette aktivitet");
   return await res.json();
 };
+
+export const copyActivitiesRequest = async (
+  citizenId: number,
+  activityIds: number[],
+  sourceDate: Date,
+  destinationDate: Date,
+) => {
+  const params = new URLSearchParams();
+  params.append("citizenId", citizenId.toString());
+  params.append("dateStr", formatQueryDate(sourceDate));
+  params.append("newDateStr", formatQueryDate(destinationDate));
+  const res = await fetch(
+    `${BASE_URL}/weekplan/activity/copy?${params.toString()}`,
+    {
+      method: "POST",
+      body: JSON.stringify(activityIds),
+      headers: { "Content-Type": "application/json" },
+    },
+  );
+  if (!res.ok) throw new Error("Fejl: Kunne ikke kopier aktiviteter");
+};
