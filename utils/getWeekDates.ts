@@ -1,7 +1,7 @@
 const getWeekDates = (date: Date): Date[] => {
   //Check for invalid date
   if (isNaN(date.getTime())) {
-    throw new Error("Invalid date");
+    throw new Error("Ugyldig dato");
   }
 
   const weekStart = new Date(date);

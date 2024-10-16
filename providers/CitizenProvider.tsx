@@ -1,10 +1,10 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
 type CitizenProviderValues = {
   citizenId: number;
 };
 const CitizenContext = createContext<CitizenProviderValues | undefined>(
-  undefined
+  undefined,
 );
 
 const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
@@ -12,7 +12,8 @@ const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
     <CitizenContext.Provider
       value={{
         citizenId: 1,
-      }}>
+      }}
+    >
       {children}
     </CitizenContext.Provider>
   );
@@ -21,7 +22,7 @@ const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
 export const useCitizen = () => {
   const context = useContext(CitizenContext);
   if (context === undefined) {
-    throw new Error('useCitizen must be used within a CitizenProvider');
+    throw new Error("useCitizen skal bruges i en CitizenProvider");
   }
   return context;
 };

@@ -27,7 +27,7 @@ const ViewActivity = () => {
   if (error) {
     return (
       <Text style={styles.errorText}>
-        Error fetching activities: {error.message}
+        Fejl med at hente aktiviteter: {error.message}
       </Text>
     );
   }

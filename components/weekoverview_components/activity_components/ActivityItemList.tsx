@@ -26,7 +26,7 @@ const ActivityItemList = () => {
   }
 
   if (error) {
-    return <Text>Error fetching activities: {error.message}</Text>;
+    return <Text>Fejl med at hente aktiviteter: {error.message}</Text>;
   }
   const handleDetails = (activityId: number) => {
     router.push({ pathname: "../../viewactivity", params: { activityId } });
@@ -84,7 +84,7 @@ const ActivityItemList = () => {
       ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
       keyExtractor={(item) => item.activityId.toString()}
       renderItem={renderActivityItem}
-      ListEmptyComponent={() => <Text>No activities found</Text>}
+      ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
     />
   );
 };

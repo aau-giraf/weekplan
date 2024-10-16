@@ -22,15 +22,15 @@ const EditActivity = () => {
     !activityId ||
     !isCompleted
   ) {
-    throw new Error("Missing required parameters");
+    throw new Error("Mangler påkrævet parameter");
   }
 
   if (isNaN(parseInt(activityId))) {
-    throw new Error("Invalid activity id");
+    throw new Error("Ugyldigt aktivitet id");
   }
 
   if (isCompleted !== "true" && isCompleted !== "false") {
-    throw new Error("Invalid isCompleted value");
+    throw new Error("Ugyldigt isCompleted værdi");
   }
 
   return (
