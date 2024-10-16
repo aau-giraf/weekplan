@@ -5,11 +5,11 @@ import {
   Button,
   View,
   Text,
-} from 'react-native';
-import React from 'react';
-import ActivityTimePicker from './weekoverview_components/activity_components/ActivityTimePicker';
-import useCopyDayData from '../hooks/useCopyDateActivities';
-import ActivitySelectList from './weekoverview_components/activity_components/ActivitySelectList';
+} from "react-native";
+import React from "react";
+import TimePicker from "./TimePicker";
+import useCopyDayData from "../hooks/useCopyDateActivities";
+import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;
@@ -36,29 +36,32 @@ export default function CopyDateActivitiesModal({
       visible={modalVisible}
       transparent
       animationType="slide"
-      onRequestClose={() => setModalVisible(false)}>
+      onRequestClose={() => setModalVisible(false)}
+    >
       <TouchableOpacity
         style={styles.modalBackground}
-        onPress={() => setModalVisible(false)}>
+        onPress={() => setModalVisible(false)}
+      >
         <View
           style={styles.modalContainer}
-          onStartShouldSetResponder={() => true}>
-          <ActivityTimePicker
+          onStartShouldSetResponder={() => true}
+        >
+          <TimePicker
             value={dates.sourceDate}
-            label={'Kopier Fra'}
+            label={"Kopier Fra"}
             mode="date"
             onChange={(date) => setDates({ ...dates, sourceDate: date })}
           />
 
-          <ActivityTimePicker
+          <TimePicker
             value={dates.destinationDate}
-            label={'Kopier til'}
+            label={"Kopier til"}
             onChange={(date) => setDates({ ...dates, destinationDate: date })}
             mode="date"
           />
           {error && <Text style={{ fontSize: 16 }}>{error}</Text>}
           {!error && data && (
-            <View style={{ display: 'flex', gap: 10 }}>
+            <View style={{ display: "flex", gap: 10 }}>
               <Text style={{ fontSize: 16 }}>Aktiviteter som vil kopieres</Text>
               <ActivitySelectList
                 activities={data}
@@ -83,19 +86,19 @@ export default function CopyDateActivitiesModal({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    width: '80%',
-    height: '80%',
+    width: "80%",
+    height: "80%",
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     gap: 5,
   },
   modalBackground: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });

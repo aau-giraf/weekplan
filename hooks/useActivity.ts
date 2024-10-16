@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   copyActivitiesRequest,
   createActivityRequest,
@@ -7,15 +7,15 @@ import {
   fetchRequest,
   toggleActivityStatusRequest,
   updateRequest,
-} from '../apis/activityAPI';
-import { ActivityDTO, FullActivityDTO } from '../DTO/activityDTO';
-import { useCitizen } from '../providers/CitizenProvider';
+} from "../apis/activityAPI";
+import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
+import { useCitizen } from "../providers/CitizenProvider";
 
 export const dateToQueryKey = (date: Date) => {
   if (!(date instanceof Date)) {
-    throw new Error('Invalid date');
+    throw new Error("Invalid date");
   }
-  return ['activity', date.toISOString().split('T')[0]];
+  return ["activity", date.toISOString().split("T")[0]];
 };
 
 /* It's highly recommeneded to read the docs at https://tanstack.com/query/latest
@@ -44,7 +44,7 @@ export default function useActivity({ date }: { date: Date }) {
         queryKey,
         (oldData) =>
           oldData?.filter((activity) => activity.activityId !== activityId) ||
-          []
+          [],
       );
 
       return { previousActivities };
@@ -54,7 +54,7 @@ export default function useActivity({ date }: { date: Date }) {
       if (context?.previousActivities) {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
-          context.previousActivities
+          context.previousActivities,
         );
       }
     },
@@ -76,16 +76,16 @@ export default function useActivity({ date }: { date: Date }) {
             oldData?.map((activity) =>
               activity.activityId === activityData.activityId
                 ? activityData
-                : activity
-            ) || []
+                : activity,
+            ) || [],
         );
       } else {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
           (oldData) =>
             oldData?.filter(
-              (activity) => activity.activityId !== activityData.activityId
-            ) || []
+              (activity) => activity.activityId !== activityData.activityId,
+            ) || [],
         );
       }
 
@@ -97,7 +97,7 @@ export default function useActivity({ date }: { date: Date }) {
       if (context?.previousActivities) {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
-          context.previousActivities
+          context.previousActivities,
         );
       }
     },
@@ -130,7 +130,7 @@ export default function useActivity({ date }: { date: Date }) {
     onSuccess: (data, variables) => {
       queryClient.setQueryData<ActivityDTO[]>(queryKey, (oldData) => {
         return oldData?.map((activity) =>
-          activity.activityId === variables.data.activityId ? data : activity
+          activity.activityId === variables.data.activityId ? data : activity,
         );
       });
       queryClient.invalidateQueries({ queryKey });
@@ -147,7 +147,7 @@ export default function useActivity({ date }: { date: Date }) {
         citizenId,
         variables.activityIds,
         variables.sourceDate,
-        variables.destinationDate
+        variables.destinationDate,
       ),
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
@@ -167,8 +167,8 @@ export default function useActivity({ date }: { date: Date }) {
           oldData?.map((activity) =>
             activity.activityId === id
               ? { ...activity, isCompleted: !activity.isCompleted }
-              : activity
-          ) || []
+              : activity,
+          ) || [],
       );
 
       return { previousActivities };
@@ -178,7 +178,7 @@ export default function useActivity({ date }: { date: Date }) {
       if (context?.previousActivities) {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
-          context.previousActivities
+          context.previousActivities,
         );
       }
     },
@@ -199,7 +199,7 @@ export default function useActivity({ date }: { date: Date }) {
 export function useSingleActivity({ activityId }: { activityId: number }) {
   const useFetchActivity = useQuery<ActivityDTO>({
     queryFn: () => fetchActivityRequest(activityId),
-    queryKey: ['activity', activityId],
+    queryKey: ["activity", activityId],
   });
 
   return {

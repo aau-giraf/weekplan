@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDate } from '../providers/DateProvider';
-import useActivity from './useActivity';
+import { useEffect, useState } from "react";
+import { useDate } from "../providers/DateProvider";
+import useActivity from "./useActivity";
 
 const DAY_IN_MILLISECONDS = 86400000;
 
@@ -11,7 +11,7 @@ const useCopyDayData = () => {
     destinationDate: new Date(selectedDate),
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [selectedActivityIds, setSelectedActivityIds] = useState<number[]>([]);
   const { useFetchActivities, copyActivities } = useActivity({
     date: dates.sourceDate,
@@ -20,18 +20,18 @@ const useCopyDayData = () => {
 
   useEffect(() => {
     if (!data || data.length === 0) {
-      setError('Ingen aktiviteter på den valgte dag');
+      setError("Ingen aktiviteter på den valgte dag");
       setSelectedActivityIds([]);
       return;
     }
     setSelectedActivityIds(data.map((d) => d.activityId));
-    setError('');
+    setError("");
   }, [data]);
 
   const toggleActivitySelection = (activityId: number) => {
     if (selectedActivityIds.includes(activityId)) {
       setSelectedActivityIds(
-        selectedActivityIds.filter((id) => id !== activityId)
+        selectedActivityIds.filter((id) => id !== activityId),
       );
     } else {
       setSelectedActivityIds([...selectedActivityIds, activityId]);
