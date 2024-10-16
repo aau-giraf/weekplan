@@ -1,4 +1,4 @@
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 
 //The result object contains information about the selected image, such as the URI of the image file.
 const pickImage = async () => {

@@ -44,7 +44,7 @@ describe("useSwipeGesture", () => {
       <SwipeGestureTestComponent
         goToPreviousWeek={goToPreviousWeek}
         goToNextWeek={goToNextWeek}
-      />
+      />,
     );
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
@@ -64,7 +64,7 @@ describe("useSwipeGesture", () => {
       <SwipeGestureTestComponent
         goToPreviousWeek={goToPreviousWeek}
         goToNextWeek={goToNextWeek}
-      />
+      />,
     );
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
@@ -84,7 +84,7 @@ describe("useSwipeGesture", () => {
       <SwipeGestureTestComponent
         goToPreviousWeek={goToPreviousWeek}
         goToNextWeek={goToNextWeek}
-      />
+      />,
     );
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
