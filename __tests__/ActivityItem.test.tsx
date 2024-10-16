@@ -5,6 +5,7 @@ import usePictogram from "../hooks/usePictogram";
 
 
 jest.mock("../hooks/usePictogram");
+jest.useRealTimers();
 
 test("swiping left triggers deleteActivity", async () => {
   const deleteActivity = jest.fn();

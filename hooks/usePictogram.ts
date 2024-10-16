@@ -5,7 +5,7 @@ export default function usePictogram() {
     const queryKey = ['pictograms'];
 
     const useFetchPictograms = useQuery({
-        queryFn: fetchPictograms,
+        queryFn: async () => fetchPictograms(27575),
         queryKey: queryKey,
     });
 

@@ -1,5 +1,5 @@
-export const fetchPictograms = async () => {
-    const res = await fetch(`https://api.arasaac.org/v1/pictograms/27575?color=true&download=false`);
+export const fetchPictograms = async (id: number) => {
+    const res = await fetch(`https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`);
 
     if (!res.ok) throw new Error(`Failed to fetch pictograms, status code: ${res.status}`);
 
