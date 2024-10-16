@@ -19,12 +19,12 @@ import usePictogram from "../../../hooks/usePictogram";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 12;
-const ACTION_WIDTH = 70;
+const ACTION_WIDTH = 100;
 
 function LeftAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
-  deleteTask: () => void,
+  deleteTask: () => void
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -37,8 +37,7 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: "crimson" }]}
-      >
+        style={[styles.action, { backgroundColor: "crimson" }]}>
         <Ionicons name="trash-outline" size={32} color="white" />
       </TouchableOpacity>
     </Reanimated.View>
@@ -49,7 +48,7 @@ function RightAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
   editActivity: () => void,
-  checkActivity: () => void,
+  checkActivity: () => void
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -62,16 +61,14 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: "#0077b6" }]}
-      >
+        style={[styles.action, { backgroundColor: "#0077b6" }]}>
         <Ionicons name={"pencil-outline"} size={32} color="white" />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: "green" }]}
-      >
+        style={[styles.action, { backgroundColor: "green" }]}>
         <Ionicons name={"checkmark"} size={32} color="white" />
       </TouchableOpacity>
     </Reanimated.View>
@@ -86,6 +83,8 @@ type ActivityItemProps = {
   editActivity: () => void;
   checkActivity: () => void;
   showDetails: () => void;
+  setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ActivityItem: React.FC<ActivityItemProps> = ({
@@ -96,6 +95,8 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   editActivity,
   checkActivity,
   showDetails,
+  setImageUri,
+  setModalVisible,
 }) => {
   const { useFetchPictograms } = usePictogram(27575);
   const { data, error, isLoading } = useFetchPictograms;
@@ -118,52 +119,64 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     editActivity();
   };
 
+  const handleImagePress = (uri: string) => {
+    setImageUri(uri);
+    setModalVisible(true);
+  };
+
   if (!isLoading && error) {
     throw new Error("Failed to fetch pictograms");
   }
 
   return (
+    <>
       <ReanimatedSwipeable
-          ref={swipeableRef}
-          overshootFriction={10}
-          overshootLeft={false}
-          overshootRight={false}
-          renderLeftActions={(prog, drag) => LeftAction(prog, drag, deleteActivity)}
-          renderRightActions={(prog, drag) =>
-              RightAction(
-                  prog,
-                  drag,
-                  handleCloseOnEditTaskPress,
-                  handleCloseOnCheckTaskPress,
-              )
-          }
-          friction={2}
-      >
+        ref={swipeableRef}
+        overshootFriction={10}
+        overshootLeft={false}
+        overshootRight={false}
+        renderLeftActions={(prog, drag) =>
+          LeftAction(prog, drag, deleteActivity)
+        }
+        renderRightActions={(prog, drag) =>
+          RightAction(
+            prog,
+            drag,
+            handleCloseOnEditTaskPress,
+            handleCloseOnCheckTaskPress
+          )
+        }
+        friction={2}>
         <Pressable onPress={showDetails}>
           <View
-              style={[
-                styles.taskContainer,
-                { backgroundColor: isCompleted ? "#A5D6A7" : "#E3F2FD" },
-              ]}
-          >
+            style={[
+              styles.taskContainer,
+              { backgroundColor: isCompleted ? "#A5D6A7" : "#E3F2FD" },
+            ]}>
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
-            <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
+            <Text
+              style={styles.labelText}
+              numberOfLines={2}
+              ellipsizeMode="tail">
               {label}
             </Text>
             <View style={styles.iconContainer}>
               {data ? (
+                <Pressable onPress={() => handleImagePress(data)}>
                   <Image
-                      source={{ uri: data }}
-                      style={{ width: 90, height: 90 }}
-                      resizeMode="contain"
+                    source={{ uri: data }}
+                    style={{ width: 90, height: 90 }}
+                    resizeMode="contain"
                   />
+                </Pressable>
               ) : (
-                  <Text style={styles.iconPlaceholderText}>No Icon</Text>
+                <Text style={styles.iconPlaceholderText}>No Icon</Text>
               )}
             </View>
           </View>
         </Pressable>
       </ReanimatedSwipeable>
+    </>
   );
 };
 

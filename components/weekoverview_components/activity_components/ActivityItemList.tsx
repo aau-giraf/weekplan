@@ -1,5 +1,14 @@
-import React from "react";
-import { View, FlatList, ActivityIndicator, Text } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  Text,
+  Modal,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import ActivityItem from "./ActivityItem";
 import useActivity from "../../../hooks/useActivity";
 import { useDate } from "../../../providers/DateProvider";
@@ -16,6 +25,8 @@ const ActivityItemList = () => {
       date: selectedDate,
     });
   const { data, error, isLoading, refetch } = useFetchActivities;
+  const [modalVisible, setModalVisible] = useState(false);
+  const [imageUri, setImageUri] = useState<string>();
 
   if (isLoading) {
     return (
@@ -61,6 +72,8 @@ const ActivityItemList = () => {
           handleCheckActivity(item.activityId, item.isCompleted)
         }
         showDetails={() => handleDetails(item.activityId)}
+        setImageUri={setImageUri}
+        setModalVisible={setModalVisible}
       />
     );
   };
@@ -77,16 +90,63 @@ const ActivityItemList = () => {
   };
 
   return (
-    <FlatList
-      data={data}
-      onRefresh={async () => await refetch()}
-      refreshing={isLoading}
-      ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
-      keyExtractor={(item) => item.activityId.toString()}
-      renderItem={renderActivityItem}
-      ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
-    />
+    <>
+      <FlatList
+        data={data}
+        onRefresh={async () => await refetch()}
+        refreshing={isLoading}
+        ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
+        keyExtractor={(item) => item.activityId.toString()}
+        renderItem={renderActivityItem}
+        ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
+      />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Image
+              source={{ uri: imageUri }}
+              style={{ width: 300, height: 300 }}
+              resizeMode="contain"
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}>
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "#0077b6",
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: "white",
+    fontSize: 16,
+  },
+});
 
 export default ActivityItemList;
