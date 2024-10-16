@@ -6,6 +6,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Image,
+  ImageBackground,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -26,9 +28,12 @@ const LoginPage = () => {
     // Todo
   };
 
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Giraf Login</Text>
+  <View style={styles.app}>
+  <ImageBackground source={require('../assets/backgroundImage.png')} resizeMode='cover' style={styles.app}>
+    <View style={styles.logincontainer}>
+      <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -49,16 +54,31 @@ const LoginPage = () => {
         </TouchableOpacity>
       </View>
     </View>
+      <Image
+        style={styles.image}
+        source={require('../assets/giraffe_ex1.png')}
+      />
+  </ImageBackground>
+  </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  app: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
     backgroundColor: '#F9EBAE',
+    width: '100%',
+  },
+  logincontainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    height: 300,
+    width: 250,
+    zIndex: 2,
   },
   title: {
     fontSize: 24,
@@ -66,7 +86,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    width: '30%',
+    width: '80%',
     padding: 10,
     marginBottom: 15,
     backgroundColor: '#fff',
@@ -84,6 +104,14 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     color: '#000000',
     marginLeft: 10,
+  },
+  image: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    width: 200,
+    resizeMode: 'contain',
+    zIndex: 1,
+    right: -20,
   },
 });
 
