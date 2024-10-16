@@ -91,5 +91,5 @@ export const copyActivitiesRequest = async (
       headers: { 'Content-Type': 'application/json' },
     }
   );
-  if (!res.ok) throw new Error('Failed to copy activities');
+  if (!res.ok) throw new Error('Fejl: Kunne ikke kopier aktiviteter');
 };
