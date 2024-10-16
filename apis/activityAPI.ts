@@ -5,6 +5,7 @@ import { BASE_URL } from '../utils/globals';
 export const fetchRequest = async (id: number, date: Date) => {
   const params = new URLSearchParams();
   params.append('date', formatQueryDate(date));
+
   const res = await fetch(`${BASE_URL}/weekplan/${id}?${params.toString()}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
@@ -12,8 +13,8 @@ export const fetchRequest = async (id: number, date: Date) => {
 
   const body = await res.json();
 
-  if (!res.ok) throw new Error('Failed to fetch activities');
-  return body;
+  if (!res.ok) throw new Error('Fejl: Kunne ikke hente aktiviteter');
+  return await res.json();
 };
 
 export const fetchActivityRequest = async (id: number) => {
@@ -22,7 +23,7 @@ export const fetchActivityRequest = async (id: number) => {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  if (!res.ok) throw new Error('Failed to fetch activity');
+  if (!res.ok) throw new Error('Fejl: Kunne ikke hente aktivitet');
   return await res.json();
 };
 
@@ -30,7 +31,7 @@ export const deleteRequest = async (id: number) => {
   const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
     method: 'DELETE',
   });
-  if (!res.ok) throw new Error('Failed to delete activity');
+  if (!res.ok) throw new Error('Fejl: Kunne ikke slette aktivitet');
 };
 
 export const updateRequest = async (
@@ -42,7 +43,7 @@ export const updateRequest = async (
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   });
-  if (!res.ok) throw new Error('Failed to update activity');
+  if (!res.ok) throw new Error('Fejl: Kunne ikke opdatere aktivitet');
 };
 
 export const toggleActivityStatusRequest = async (
@@ -56,7 +57,7 @@ export const toggleActivityStatusRequest = async (
       headers: { 'Content-Type': 'application/json' },
     }
   );
-  if (!res.ok) throw new Error('Failed to toggle activity status');
+  if (!res.ok) throw new Error('Fejl: Kunne ikke ændre aktivitet status');
 };
 
 export const createActivityRequest = async (
@@ -68,7 +69,7 @@ export const createActivityRequest = async (
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   });
-  if (!res.ok) throw new Error('Failed to create activity');
+  if (!res.ok) throw new Error('Fejl: Kunne ikke oprette aktivitet');
   return await res.json();
 };
 

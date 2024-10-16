@@ -4,28 +4,28 @@ import { Text, View } from "react-native";
 import SplashScreen from "../components/SplashScreen";
 
 const HomePage: React.FC = () => {
-    const [isSplashVisible, setSplashVisible] = useState(true);
+  const [isSplashVisible, setSplashVisible] = useState(true);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setSplashVisible(false);
-        }, 3000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSplashVisible(false);
+    }, 3000);
 
-        return () => clearTimeout(timer);
-    }, []);
+    return () => clearTimeout(timer);
+  }, []);
 
-    if (isSplashVisible) {
-        return <SplashScreen />;
-    }
+  if (isSplashVisible) {
+    return <SplashScreen />;
+  }
 
-    return (
-        <View>
-            <Text>Home Page</Text>
-            <Link href="/weekplanscreen">
-                <Text>Go to Week Plan</Text>
-            </Link>
-        </View>
-    );
+  return (
+    <View>
+      <Text>Home Page</Text>
+      <Link href="/weekplanscreen">
+        <Text>Gå til ugeplan</Text>
+      </Link>
+    </View>
+  );
 };
 
 export default HomePage;

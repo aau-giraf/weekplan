@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import formatTime from '../../../utils/formatTime';
+import formatTimeHHMM from '../utils/formatTimeHHMM';
 
 type ActivityTimeSelectorProps = {
   label: string;
@@ -17,10 +17,9 @@ type ActivityTimeSelectorProps = {
   is24Hour?: boolean; //only available for android
   androidDisplay?: 'default' | 'spinner' | 'clock';
   iosDisplay?: 'default' | 'inline' | 'spinner' | 'compact';
-  mode?: 'time' | 'date' | 'datetime';
 };
 
-const ActivityTimePicker = ({
+const TimePicker = ({
   label,
   value,
   onChange,
@@ -28,7 +27,6 @@ const ActivityTimePicker = ({
   is24Hour = true,
   androidDisplay = 'spinner',
   iosDisplay = 'default',
-  mode = 'time',
 }: ActivityTimeSelectorProps) => {
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
@@ -38,7 +36,7 @@ const ActivityTimePicker = ({
       {/* Android - Touchable and DateTimePicker visibility */}
       {Platform.OS === 'android' && (
         <TouchableOpacity onPress={() => setTimeSelectorVisible(true)}>
-          <Text>{formatTime(value)}</Text>
+          <Text>{formatTimeHHMM(value)}</Text>
         </TouchableOpacity>
       )}
 
@@ -46,7 +44,7 @@ const ActivityTimePicker = ({
       {Platform.OS === 'ios' ? (
         <View style={styles.centeredPicker}>
           <DateTimePicker
-            mode={mode}
+            mode="time"
             value={value}
             minuteInterval={minuteInterval}
             display={iosDisplay}
@@ -61,7 +59,7 @@ const ActivityTimePicker = ({
       ) : (
         isTimeSelectorVisible && (
           <DateTimePicker
-            mode={mode}
+            mode="time"
             value={value}
             is24Hour={is24Hour}
             minuteInterval={minuteInterval}
@@ -103,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityTimePicker;
+export default TimePicker;
