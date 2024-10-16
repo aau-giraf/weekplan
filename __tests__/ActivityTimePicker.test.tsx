@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react-native";
 import { Platform } from "react-native";
-import ActivityTimePicker from "../components/ActivityTimePicker";
+import ActivityTimePicker from "../components/weekoverview_components/activity_components/ActivityTimePicker";
 import formatTime from "../utils/formatTime";
 
 describe("ActivityTimePicker", () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   TouchableOpacity,
   View,
@@ -6,11 +6,11 @@ import {
   Text,
   Modal,
   Button,
-} from 'react-native';
-import getWeekNumber from '../utils/getWeekNumber';
-import getNumberOfWeeksInYear from '../utils/getNumberOfWeeksInYear';
-import PickerColumn from './pickerColumn';
-import { useDate } from '../providers/DateProvider';
+} from "react-native";
+import getWeekNumber from "../../utils/getWeekNumber";
+import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
+import PickerColumn from "../pickerColumn";
+import { useDate } from "../../providers/DateProvider";
 
 type WeekSelectionProps = {};
 
@@ -80,33 +80,33 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
 
 const styles = StyleSheet.create({
   weekSelection: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 10,
   },
   weekText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   pickerContainer: {
     marginLeft: 10,
     marginRight: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: '#fff',
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#fff",
     padding: 50,
     borderRadius: 25,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   button: {
     padding: 10,
     width: 100,
-    alignSelf: 'center',
-    position: 'absolute',
+    alignSelf: "center",
+    position: "absolute",
     bottom: 5,
   },
 });

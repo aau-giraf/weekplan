@@ -17,7 +17,7 @@ import {
 import { useDate } from "../providers/DateProvider";
 import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
-import ActivityTimePicker from "../components/ActivityTimePicker";
+import ActivityTimePicker from "../components/weekoverview_components/activity_components/ActivityTimePicker";
 import formatTime from "../utils/formatTime";
 
 type FormData = {

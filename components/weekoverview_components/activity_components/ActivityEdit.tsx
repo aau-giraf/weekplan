@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TextInput,
   Text,
   TouchableOpacity,
-} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { useDate } from '../providers/DateProvider';
-import useActivity from '../hooks/useActivity';
-import { useCitizen } from '../providers/CitizenProvider';
-import { router } from 'expo-router';
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useDate } from "../../../providers/DateProvider";
+import useActivity from "../../../hooks/useActivity";
+import { useCitizen } from "../../../providers/CitizenProvider";
+import { router } from "expo-router";
 
-type EditTaskButtonProps = {
+type EditActivityButtonProps = {
   title: string;
   description: string;
   startTime: Date;
@@ -29,14 +29,14 @@ type SubmitProps = {
   date: Date;
 };
 
-const EditTask = ({
+const ActivityEdit = ({
   title,
   description,
   startTime,
   endTime,
   activityId,
   isCompleted,
-}: EditTaskButtonProps) => {
+}: EditActivityButtonProps) => {
   const [form, setForm] = useState<SubmitProps>({
     title: title,
     description: description,
@@ -51,7 +51,7 @@ const EditTask = ({
 
   const handleInputChange = (
     field: keyof SubmitProps,
-    value: string | Date
+    value: string | Date,
   ) => {
     setForm((prevData) => ({
       ...prevData,
@@ -60,13 +60,13 @@ const EditTask = ({
   };
 
   const handleSubmit = async () => {
-    const startTimeHHMM = form.startTime.toLocaleTimeString('it-IT', {
-      hour: '2-digit',
-      minute: '2-digit',
+    const startTimeHHMM = form.startTime.toLocaleTimeString("it-IT", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
-    const endTimeHHMM = form.endTime.toLocaleTimeString('it-IT', {
-      hour: '2-digit',
-      minute: '2-digit',
+    const endTimeHHMM = form.endTime.toLocaleTimeString("it-IT", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
 
     await updateActivity.mutateAsync({
@@ -114,7 +114,7 @@ const EditTask = ({
           display="default"
           onChange={(_event, selectedDate) => {
             if (!selectedDate) return;
-            handleInputChange('startTime', selectedDate);
+            handleInputChange("startTime", selectedDate);
           }}
         />
       </View>
@@ -129,7 +129,7 @@ const EditTask = ({
           display="default"
           onChange={(_event, selectedDate) => {
             if (!selectedDate) return;
-            handleInputChange('endTime', selectedDate);
+            handleInputChange("endTime", selectedDate);
           }}
         />
       </View>
@@ -137,10 +137,10 @@ const EditTask = ({
         <Text style={styles.header}>Dato for aktivitet</Text>
         <DateTimePicker
           value={form.date}
-          mode={'date'}
+          mode={"date"}
           onChange={(_event, selectedDate) => {
             if (!selectedDate) return;
-            handleInputChange('date', selectedDate);
+            handleInputChange("date", selectedDate);
           }}
         />
       </View>
@@ -154,49 +154,49 @@ const EditTask = ({
 const styles = StyleSheet.create({
   container: {
     padding: 25,
-    backgroundColor: '#f9f9f9',
-    height: '100%',
+    backgroundColor: "#f9f9f9",
+    height: "100%",
     flexGrow: 1,
     gap: 15,
   },
   title: {
     fontSize: 25,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
   },
   input: {
-    width: '100%',
+    width: "100%",
     padding: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
-    backgroundColor: '#fff',
+    borderColor: "#ccc",
+    backgroundColor: "#fff",
     borderRadius: 5,
     marginBottom: 15,
   },
   pickerContainer: {
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   header: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: "500",
     marginBottom: 10,
-    color: '#333',
+    color: "#333",
   },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     marginVertical: 10,
-    marginTop: 'auto',
-    alignItems: 'center',
-    backgroundColor: '#38A169',
+    marginTop: "auto",
+    alignItems: "center",
+    backgroundColor: "#38A169",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });
 
-export default EditTask;
+export default ActivityEdit;

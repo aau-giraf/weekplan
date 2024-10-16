@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { DayOfWeek } from "../constants/daysOfWeek";
-import { useDate } from "../providers/DateProvider";
+import { DayOfWeek } from "../../constants/daysOfWeek";
+import { useDate } from "../../providers/DateProvider";
 
 type WeekdayButtonProps = {
   date: Date;
