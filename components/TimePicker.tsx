@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import formatTime from "../../../utils/formatTime";
+import formatTimeHHMM from "../utils/formatTimeHHMM";
 
 type ActivityTimeSelectorProps = {
   label: string;
@@ -19,7 +19,7 @@ type ActivityTimeSelectorProps = {
   iosDisplay?: "default" | "inline" | "spinner" | "compact";
 };
 
-const ActivityTimePicker = ({
+const TimePicker = ({
   label,
   value,
   onChange,
@@ -36,7 +36,7 @@ const ActivityTimePicker = ({
       {/* Android - Touchable and DateTimePicker visibility */}
       {Platform.OS === "android" && (
         <TouchableOpacity onPress={() => setTimeSelectorVisible(true)}>
-          <Text>{formatTime(value)}</Text>
+          <Text>{formatTimeHHMM(value)}</Text>
         </TouchableOpacity>
       )}
 
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityTimePicker;
+export default TimePicker;

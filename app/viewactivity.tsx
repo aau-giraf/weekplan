@@ -43,7 +43,7 @@ const ViewActivity = () => {
           </Text>
         </View>
       )}
-      <Button title="Go Back" onPress={handlePress} />
+      <Button title="Gå tilbage" onPress={handlePress} />
     </View>
   );
 };

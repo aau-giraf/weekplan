@@ -1,8 +1,8 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react-native";
 import { Platform } from "react-native";
-import ActivityTimePicker from "../components/weekoverview_components/activity_components/ActivityTimePicker";
-import formatTime from "../utils/formatTime";
+import TimePicker from "../components/TimePicker";
+import formatTimeHHMM from "../utils/formatTimeHHMM";
 
 describe("ActivityTimePicker", () => {
   const mockOnChange = jest.fn();
@@ -23,13 +23,13 @@ describe("ActivityTimePicker", () => {
     });
 
     it("renders correctly with label", () => {
-      render(<ActivityTimePicker {...initialProps} />);
+      render(<TimePicker {...initialProps} />);
 
       expect(screen.getByText("Select Time")).toBeTruthy();
     });
 
     it("calls onChange when a time is selected", () => {
-      render(<ActivityTimePicker {...initialProps} />);
+      render(<TimePicker {...initialProps} />);
 
       const newTimeIOS = new Date(initialProps.value);
       expect([newTimeIOS.getHours(), newTimeIOS.getMinutes()]).toEqual([
@@ -51,23 +51,23 @@ describe("ActivityTimePicker", () => {
     });
 
     it("renders correctly with label and formatted time", () => {
-      render(<ActivityTimePicker {...initialProps} />);
+      render(<TimePicker {...initialProps} />);
 
       expect(screen.getByText("Select Time")).toBeTruthy();
-      expect(screen.getByText(formatTime(initialProps.value))).toBeTruthy();
+      expect(screen.getByText(formatTimeHHMM(initialProps.value))).toBeTruthy();
     });
 
     it("does not call onChange if no time is selected", () => {
-      render(<ActivityTimePicker {...initialProps} />);
+      render(<TimePicker {...initialProps} />);
 
-      fireEvent.press(screen.getByText(formatTime(initialProps.value)));
+      fireEvent.press(screen.getByText(formatTimeHHMM(initialProps.value)));
       expect(mockOnChange).not.toHaveBeenCalled();
     });
 
     it("calls onChange when a time is selected", () => {
-      render(<ActivityTimePicker {...initialProps} />);
+      render(<TimePicker {...initialProps} />);
 
-      fireEvent.press(screen.getByText(formatTime(initialProps.value)));
+      fireEvent.press(screen.getByText(formatTimeHHMM(initialProps.value)));
 
       const newTime = new Date(initialProps.value);
       expect([newTime.getHours(), newTime.getMinutes()]).toEqual([14, 30]);
