@@ -1,5 +1,5 @@
-import { Stack } from 'expo-router';
-import ProviderWrapper from '../providers/ProviderWrapper';
+import { Stack } from "expo-router";
+import ProviderWrapper from "../providers/ProviderWrapper";
 
 const RootLayout = () => {
   return (
@@ -7,9 +7,9 @@ const RootLayout = () => {
       <Stack>
         <Stack.Screen name="index" />
         <Stack.Screen name="weekplanscreen" />
-        <Stack.Screen name="viewitem" />
+        <Stack.Screen name="viewactivity" />
         <Stack.Screen name="addactivity" />
-        <Stack.Screen name="edititem" />
+        <Stack.Screen name="editactivity" />
       </Stack>
     </ProviderWrapper>
   );

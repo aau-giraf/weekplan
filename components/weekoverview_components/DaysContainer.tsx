@@ -1,16 +1,16 @@
 import { StyleSheet } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
-import { DAYS_OF_WEEK } from "../constants/daysOfWeek";
+import { DAYS_OF_WEEK } from "../../constants/daysOfWeek";
 import WeekdayButton from "./WeekdayButton";
-import useSwipeGesture from "../hooks/useSwipeGesture";
-import { useDate } from "../providers/DateProvider";
+import useSwipeGesture from "../../hooks/useSwipeGesture";
+import { useDate } from "../../providers/DateProvider";
 
 const DaysContainer = () => {
   const { weekDates, goToPreviousWeek, goToNextWeek } = useDate();
   const { swipeGesture, boxAnimatedStyles } = useSwipeGesture(
     goToPreviousWeek,
-    goToNextWeek
+    goToNextWeek,
   );
 
   return (
