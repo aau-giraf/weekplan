@@ -97,7 +97,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   checkActivity,
   showDetails,
 }) => {
-  const { useFetchPictograms } = usePictogram();
+  const { useFetchPictograms } = usePictogram(27575);
   const { data, error, isLoading } = useFetchPictograms;
   const swipeableRef = React.useRef<SwipeableMethods>(null);
 
