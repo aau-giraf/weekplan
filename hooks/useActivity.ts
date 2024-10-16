@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
+  copyActivitiesRequest,
   createActivityRequest,
   deleteRequest,
   fetchActivityRequest,
@@ -136,6 +137,21 @@ export default function useActivity({ date }: { date: Date }) {
     },
   });
 
+  const copyActivities = useMutation({
+    mutationFn: (variables: {
+      activityIds: number[];
+      sourceDate: Date;
+      destinationDate: Date;
+    }) =>
+      copyActivitiesRequest(
+        citizenId,
+        variables.activityIds,
+        variables.sourceDate,
+        variables.destinationDate
+      ),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+  });
+
   const useToggleActivityStatus = useMutation({
     mutationFn: ({ id, isCompleted }: { id: number; isCompleted: boolean }) =>
       toggleActivityStatusRequest(id, isCompleted),
@@ -169,11 +185,14 @@ export default function useActivity({ date }: { date: Date }) {
   });
 
   return {
+    invalidateQueries: () => queryClient.invalidateQueries({ queryKey }),
+    data: useFetchActivities.data,
     useFetchActivities,
     useDeleteActivity,
     updateActivity,
     useToggleActivityStatus,
     useCreateActivity,
+    copyActivities,
   };
 }
 
