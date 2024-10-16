@@ -123,47 +123,47 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   }
 
   return (
-    <ReanimatedSwipeable
-      ref={swipeableRef}
-      overshootFriction={10}
-      overshootLeft={false}
-      overshootRight={false}
-      renderLeftActions={(prog, drag) => LeftAction(prog, drag, deleteActivity)}
-      renderRightActions={(prog, drag) =>
-        RightAction(
-          prog,
-          drag,
-          handleCloseOnEditTaskPress,
-          handleCloseOnCheckTaskPress,
-        )
-      }
-      friction={2}
-    >
-      <Pressable onPress={showDetails}>
-        <View
-          style={[
-            styles.taskContainer,
-            { backgroundColor: isCompleted ? "#A5D6A7" : "#E3F2FD" },
-          ]}
-        >
-          <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
-          <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
-            {label}
-          </Text>
-          <View style={styles.iconContainer}>
-            {data ? (
-                <Image
-                    source={{ uri: data }}
-                    style={{ width: 90, height: 90 }}
-                    resizeMode="contain"
-                />
-            ) : (
-                <Text style={styles.iconPlaceholderText}>No Icon</Text>
-            )}
+      <ReanimatedSwipeable
+          ref={swipeableRef}
+          overshootFriction={10}
+          overshootLeft={false}
+          overshootRight={false}
+          renderLeftActions={(prog, drag) => LeftAction(prog, drag, deleteActivity)}
+          renderRightActions={(prog, drag) =>
+              RightAction(
+                  prog,
+                  drag,
+                  handleCloseOnEditTaskPress,
+                  handleCloseOnCheckTaskPress,
+              )
+          }
+          friction={2}
+      >
+        <Pressable onPress={showDetails}>
+          <View
+              style={[
+                styles.taskContainer,
+                { backgroundColor: isCompleted ? "#A5D6A7" : "#E3F2FD" },
+              ]}
+          >
+            <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
+            <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
+              {label}
+            </Text>
+            <View style={styles.iconContainer}>
+              {data ? (
+                  <Image
+                      source={{ uri: data }}
+                      style={{ width: 90, height: 90 }}
+                      resizeMode="contain"
+                  />
+              ) : (
+                  <Text style={styles.iconPlaceholderText}>No Icon</Text>
+              )}
+            </View>
           </View>
-        </View>
-      </Pressable>
-    </ReanimatedSwipeable>
+        </Pressable>
+      </ReanimatedSwipeable>
   );
 };
 
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   },
   action: {
     width: ACTION_WIDTH,
-    height: 80,
+    height: 140,
     backgroundColor: "crimson",
     justifyContent: "center",
     alignItems: "center",
