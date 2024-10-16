@@ -1,4 +1,4 @@
-export type ActivityDTO = Omit<FullActivityDTO, 'citizenId'>;
+export type ActivityDTO = Omit<FullActivityDTO, "citizenId">;
 export type FullActivityDTO = {
   activityId: number;
   citizenId: number;

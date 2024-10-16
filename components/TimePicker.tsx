@@ -17,7 +17,7 @@ type ActivityTimeSelectorProps = {
   is24Hour?: boolean; //only available for android
   androidDisplay?: "default" | "spinner" | "clock";
   iosDisplay?: "default" | "inline" | "spinner" | "compact";
-  mode: "time" | "date";
+  mode?: "time" | "date";
 };
 
 const TimePicker = ({

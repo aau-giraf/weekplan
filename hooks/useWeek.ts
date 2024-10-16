@@ -28,7 +28,7 @@ const useWeek = (initialDate = new Date()) => {
 
     // Calculate the target date by adding weeks to the first Monday
     firstMondayOfYear.setUTCDate(
-      firstMondayOfYear.getUTCDate() + (weekNumber - 1) * 7
+      firstMondayOfYear.getUTCDate() + (weekNumber - 1) * 7,
     );
 
     setCurrentDate(firstMondayOfYear);

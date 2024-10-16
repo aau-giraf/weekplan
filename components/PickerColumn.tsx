@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React from "react";
+import { View, StyleSheet, Text } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 interface PickerColumnProps {
   title: string;
@@ -21,7 +21,8 @@ const PickerColumn: React.FC<PickerColumnProps> = ({
       selectedValue={selectedValue}
       onValueChange={(itemValue) => setSelectedValue(itemValue)}
       style={styles.picker}
-      itemStyle={styles.pickerItem}>
+      itemStyle={styles.pickerItem}
+    >
       {weeksOrYear.map((item) => (
         <Picker.Item key={item} label={item.toString()} value={item} />
       ))}
@@ -31,12 +32,12 @@ const PickerColumn: React.FC<PickerColumnProps> = ({
 
 const styles = StyleSheet.create({
   pickerColumn: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   pickerTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   picker: {
