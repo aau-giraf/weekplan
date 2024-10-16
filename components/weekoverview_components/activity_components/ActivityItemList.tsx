@@ -45,7 +45,7 @@ const ActivityItemList = () => {
         isCompleted: item.isCompleted,
       };
       router.push({
-        pathname: "./edititem",
+        pathname: "./editactivity",
         params: { ...data, isCompleted: item.isCompleted.toString() },
       });
     };
