@@ -43,7 +43,7 @@ jest
   .mockImplementation(() => Promise.resolve());
 
 jest.mock("../apis/activityAPI", () => ({
-  fetchRequest: jest.fn().mockImplementation((activityId: number, date) => {
+  fetchByDateRequest: jest.fn().mockImplementation((activityId: number, date) => {
     return Promise.resolve([
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },

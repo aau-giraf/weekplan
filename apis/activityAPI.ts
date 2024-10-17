@@ -2,7 +2,7 @@ import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
 import formatQueryDate from "../utils/formatQueryDate";
 import { BASE_URL } from "../utils/globals";
 
-export const fetchRequest = async (id: number, date: Date) => {
+export const fetchByDateRequest = async (id: number, date: Date) => {
   const params = new URLSearchParams();
   params.append("date", formatQueryDate(date));
 

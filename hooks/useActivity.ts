@@ -4,7 +4,7 @@ import {
   createActivityRequest,
   deleteRequest,
   fetchActivityRequest,
-  fetchRequest,
+  fetchByDateRequest,
   toggleActivityStatusRequest,
   updateRequest,
 } from "../apis/activityAPI";
@@ -18,8 +18,8 @@ export const dateToQueryKey = (date: Date) => {
   return ["activity", date.toISOString().split("T")[0]];
 };
 
-/* It's highly recommeneded to read the docs at https://tanstack.com/query/latest
- * to understand how to use react-query. This hook utilises optimisitic updates
+/* It's highly recommended to read the docs at https://tanstack.com/query/latest
+ * to understand how to use react-query. This hook utilises optimistic updates
  * and caching to provide a good user experience.
  */
 
@@ -29,7 +29,7 @@ export default function useActivity({ date }: { date: Date }) {
   const { citizenId } = useCitizen();
 
   const useFetchActivities = useQuery<ActivityDTO[]>({
-    queryFn: async () => fetchRequest(citizenId, date),
+    queryFn: async () => fetchByDateRequest(citizenId, date),
     queryKey: queryKey,
   });
 
