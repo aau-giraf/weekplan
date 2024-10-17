@@ -104,7 +104,8 @@ const ActivityItemList = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
+        onRequestClose={() => setModalVisible(false)}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Image
@@ -114,8 +115,9 @@ const ActivityItemList = () => {
             />
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Close</Text>
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Luk</Text>
             </TouchableOpacity>
           </View>
         </View>

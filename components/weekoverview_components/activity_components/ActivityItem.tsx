@@ -24,7 +24,7 @@ const ACTION_WIDTH = 100;
 function LeftAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
-  deleteTask: () => void
+  deleteTask: () => void,
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -37,7 +37,8 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: "crimson" }]}>
+        style={[styles.action, { backgroundColor: "crimson" }]}
+      >
         <Ionicons name="trash-outline" size={32} color="white" />
       </TouchableOpacity>
     </Reanimated.View>
@@ -48,7 +49,7 @@ function RightAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
   editActivity: () => void,
-  checkActivity: () => void
+  checkActivity: () => void,
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -61,14 +62,16 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: "#0077b6" }]}>
+        style={[styles.action, { backgroundColor: "#0077b6" }]}
+      >
         <Ionicons name={"pencil-outline"} size={32} color="white" />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: "green" }]}>
+        style={[styles.action, { backgroundColor: "green" }]}
+      >
         <Ionicons name={"checkmark"} size={32} color="white" />
       </TouchableOpacity>
     </Reanimated.View>
@@ -125,7 +128,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   };
 
   if (!isLoading && error) {
-    throw new Error("Failed to fetch pictograms");
+    throw new Error("Fejl kunne ikke hente piktogramerne");
   }
 
   return (
@@ -143,21 +146,24 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             prog,
             drag,
             handleCloseOnEditTaskPress,
-            handleCloseOnCheckTaskPress
+            handleCloseOnCheckTaskPress,
           )
         }
-        friction={2}>
+        friction={2}
+      >
         <Pressable onPress={showDetails}>
           <View
             style={[
               styles.taskContainer,
               { backgroundColor: isCompleted ? "#A5D6A7" : "#E3F2FD" },
-            ]}>
+            ]}
+          >
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <Text
               style={styles.labelText}
               numberOfLines={2}
-              ellipsizeMode="tail">
+              ellipsizeMode="tail"
+            >
               {label}
             </Text>
             <View style={styles.iconContainer}>
