@@ -1,7 +1,7 @@
 const getWeekDates = (date: Date): Date[] => {
   //Check for invalid date
   if (isNaN(date.getTime())) {
-    throw new Error("Invalid date");
+    throw new Error("Ugyldig dato");
   }
 
   const weekStart = new Date(date);
@@ -16,7 +16,7 @@ const getWeekDates = (date: Date): Date[] => {
 
   //Given a Date, fetches the other dates in the same week
   const dates = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 7; i++) {
     const day = new Date(weekStart);
     day.setDate(weekStart.getDate() + i);
     dates.push(day);

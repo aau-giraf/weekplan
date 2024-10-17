@@ -1,16 +1,29 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "expo-router";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
+import SplashScreen from "../components/SplashScreen";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
+  const [isSplashVisible, setSplashVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSplashVisible(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isSplashVisible) {
+    return <SplashScreen />;
+  }
+
   return (
     <View>
       <Text>Home Page</Text>
-      <Link href="/example">
-        <Text>Go to Example Page</Text>
+      <Link href="/weekplanscreen">
+        <Text>Gå til ugeplan</Text>
       </Link>
-        <Link href="/weekplanscreen">
-            <Text>Go to Week Plan</Text>
-        </Link>
     </View>
   );
 };
