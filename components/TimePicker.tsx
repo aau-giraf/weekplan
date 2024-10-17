@@ -17,7 +17,7 @@ type ActivityTimeSelectorProps = {
   is24Hour?: boolean; //only available for android
   androidDisplay?: "default" | "spinner" | "clock";
   iosDisplay?: "default" | "inline" | "spinner" | "compact";
-  mode?: "time" | "date" | "datetime";
+  mode?: "time" | "date";
 };
 
 const TimePicker = ({
@@ -28,6 +28,7 @@ const TimePicker = ({
   is24Hour = true,
   androidDisplay = "spinner",
   iosDisplay = "default",
+  mode = "time",
 }: ActivityTimeSelectorProps) => {
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
@@ -45,7 +46,7 @@ const TimePicker = ({
       {Platform.OS === "ios" ? (
         <View style={styles.centeredPicker}>
           <DateTimePicker
-            mode="time"
+            mode={mode}
             value={value}
             minuteInterval={minuteInterval}
             display={iosDisplay}
@@ -60,7 +61,7 @@ const TimePicker = ({
       ) : (
         isTimeSelectorVisible && (
           <DateTimePicker
-            mode="time"
+            mode={mode}
             value={value}
             is24Hour={is24Hour}
             minuteInterval={minuteInterval}

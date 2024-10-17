@@ -55,8 +55,9 @@ describe("useSwipeGesture", () => {
 
     await waitFor(() => {
       expect(goToNextWeek).toHaveBeenCalled();
-      expect(goToPreviousWeek).not.toHaveBeenCalled();
+
     });
+    expect(goToPreviousWeek).not.toHaveBeenCalled();
   });
 
   it("should call goToPreviousWeek on right swipe", async () => {
@@ -75,8 +76,8 @@ describe("useSwipeGesture", () => {
 
     await waitFor(() => {
       expect(goToPreviousWeek).toHaveBeenCalled();
-      expect(goToNextWeek).not.toHaveBeenCalled();
     });
+    expect(goToNextWeek).not.toHaveBeenCalled();
   });
 
   it("should not call any function if swipe is not enough", async () => {
@@ -95,8 +96,8 @@ describe("useSwipeGesture", () => {
 
     await waitFor(() => {
       expect(goToPreviousWeek).not.toHaveBeenCalled();
-      expect(goToNextWeek).not.toHaveBeenCalled();
     });
+    expect(goToNextWeek).not.toHaveBeenCalled();
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
       { state: State.BEGAN, x: 0 },
@@ -106,7 +107,7 @@ describe("useSwipeGesture", () => {
 
     await waitFor(() => {
       expect(goToPreviousWeek).not.toHaveBeenCalled();
-      expect(goToNextWeek).not.toHaveBeenCalled();
     });
+    expect(goToNextWeek).not.toHaveBeenCalled();
   });
 });
