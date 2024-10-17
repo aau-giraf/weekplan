@@ -78,9 +78,8 @@ const AddActivity = () => {
         <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
-          keyboardVerticalOffset={80}
-        >
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          keyboardVerticalOffset={80}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
             <Text style={styles.headerText}>
               Opret en aktivitet til {prettyDate(selectedDate)}
             </Text>
@@ -120,10 +119,7 @@ const AddActivity = () => {
               onChange={(time) => handleInputChange("endTime", time)}
             />
 
-            <TouchableOpacity
-              style={[styles.button, styles.addButton]}
-              onPress={handleSubmit}
-            >
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
               <Text style={styles.buttonText}>Tilføj</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -167,15 +163,13 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   button: {
-    backgroundColor: "#5A67D8",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     marginVertical: 10,
     alignItems: "center",
-  },
-  addButton: {
     backgroundColor: "#38A169",
+    marginTop: "auto",
   },
   buttonText: {
     color: "#fff",

@@ -9,7 +9,7 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 
-type ActivityTimeSelectorProps = {
+type TimeSelectorProps = {
   label: string;
   value: Date;
   onChange: (selectedTime: Date) => void;
@@ -18,6 +18,8 @@ type ActivityTimeSelectorProps = {
   androidDisplay?: "default" | "spinner" | "clock";
   iosDisplay?: "default" | "inline" | "spinner" | "compact";
   mode?: "time" | "date";
+  minDate?: Date;
+  maxDate?: Date;
 };
 
 const TimePicker = ({
@@ -29,7 +31,9 @@ const TimePicker = ({
   androidDisplay = "spinner",
   iosDisplay = "default",
   mode = "time",
-}: ActivityTimeSelectorProps) => {
+  minDate,
+  maxDate,
+}: TimeSelectorProps) => {
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
     <View style={styles.pickerContainer}>
@@ -49,6 +53,8 @@ const TimePicker = ({
             mode={mode}
             value={value}
             minuteInterval={minuteInterval}
+            minimumDate={minDate}
+            maximumDate={maxDate}
             display={iosDisplay}
             onChange={(_event, selectedTime) => {
               if (selectedTime) {
@@ -65,6 +71,8 @@ const TimePicker = ({
             value={value}
             is24Hour={is24Hour}
             minuteInterval={minuteInterval}
+            minimumDate={minDate}
+            maximumDate={maxDate}
             display={androidDisplay}
             onChange={(_event, selectedTime) => {
               setTimeSelectorVisible(false);
@@ -82,20 +90,18 @@ const TimePicker = ({
 
 const styles = StyleSheet.create({
   pickerContainer: {
-    marginBottom: 20,
     alignItems: "center",
   },
   header: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "500",
-    marginBottom: 10,
+    marginBottom: 15,
     color: "#333",
   },
   centeredPicker: {
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    marginBottom: 30,
   },
   timePicker: {
     position: "static",

@@ -12,6 +12,7 @@ import useActivity from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
+import TimePicker from "../../TimePicker";
 
 type EditActivityButtonProps = {
   title: string;
@@ -52,8 +53,9 @@ const ActivityEdit = ({
 
   const handleInputChange = (
     field: keyof SubmitProps,
-    value: string | Date,
+    value: string | Date
   ) => {
+    console.log(field.toString(), value);
     setForm((prevData) => ({
       ...prevData,
       [field]: value,
@@ -61,10 +63,9 @@ const ActivityEdit = ({
   };
 
   const handleSubmit = async () => {
-    const startTimeHHMM = formatTimeHHMM(startTime);
-    const endTimeHHMM = formatTimeHHMM(endTime);
-
-    await updateActivity.mutateAsync({
+    const startTimeHHMM = formatTimeHHMM(form.startTime);
+    const endTimeHHMM = formatTimeHHMM(form.endTime);
+    const data = {
       activityId: activityId,
       citizenId: citizenId,
       date: form.date.toDateString(),
@@ -73,7 +74,9 @@ const ActivityEdit = ({
       startTime: startTimeHHMM,
       endTime: endTimeHHMM,
       isCompleted: isCompleted,
-    });
+    };
+    console.log("SUBMITTED: ", data);
+    await updateActivity.mutateAsync(data);
     router.back();
   };
 
@@ -100,30 +103,24 @@ const ActivityEdit = ({
         />
       </View>
       <View style={styles.pickerContainer}>
-        <Text style={styles.header}>Vælg start tid</Text>
-        <DateTimePicker
+        <TimePicker
+          label="Vælg start tid"
           mode="time"
           value={form.startTime}
-          maximumDate={form.endTime}
-          is24Hour={true}
-          display="default"
-          onChange={(_event, selectedDate) => {
-            if (!selectedDate) return;
+          maxDate={form.endTime}
+          onChange={(selectedDate) => {
             handleInputChange("startTime", selectedDate);
           }}
         />
       </View>
 
       <View style={styles.pickerContainer}>
-        <Text style={styles.header}>Vælg slut tid</Text>
-        <DateTimePicker
+        <TimePicker
+          label="Vælg slut tid"
           mode="time"
           value={form.endTime}
-          minimumDate={form.startTime}
-          is24Hour={true}
-          display="default"
-          onChange={(_event, selectedDate) => {
-            if (!selectedDate) return;
+          minDate={form.startTime}
+          onChange={(selectedDate) => {
             handleInputChange("endTime", selectedDate);
           }}
         />
