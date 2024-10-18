@@ -3,6 +3,8 @@ import getWeekDates from "../utils/getWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
 
 const useWeek = (initialDate = new Date()) => {
+  const JANUARY = 0;
+  const DAY_IN_MILLISECONDS = 86400000;
   const [currentDate, setCurrentDate] = useState<Date>(initialDate);
 
   const goToPreviousWeek = useCallback(() => {
@@ -18,20 +20,28 @@ const useWeek = (initialDate = new Date()) => {
   }, [currentDate]);
 
   const setWeekAndYear = useCallback((weekNumber: number, year: number) => {
-    //Months are indexed from 0
-    const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
-    const dayOfWeek = firstDayOfYear.getUTCDay();
-    const daysOffset = dayOfWeek <= 4 ? dayOfWeek - 1 : dayOfWeek - 8;
+    /* Relevant information:
+     * In Denmark Weeks numbers are specialized by the ISO-8601 standard. https://en.wikipedia.org/wiki/ISO_week_date
+     * This means that the first week of the year is the week including Jan. 04.
+     * Which in turn means that monday of week one might be in December of last year.
+     */
 
-    const firstMondayOfYear = new Date(Date.UTC(year, 0, 1));
-    firstMondayOfYear.setUTCDate(firstMondayOfYear.getUTCDate() - daysOffset);
+    const jan4th = new Date(Date.UTC(year, JANUARY, 4));
 
-    // Calculate the target date by adding weeks to the first Monday
-    firstMondayOfYear.setUTCDate(
-      firstMondayOfYear.getUTCDate() + (weekNumber - 1) * 7,
+    // Adjust dayOfWeek to follow ISO (Monday = 1, Sunday = 7)
+    let dayOfWeek = jan4th.getUTCDay();
+    dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek; // Make Sunday (0) become 7
+
+    // Subtract (dayOfWeek - 1) days to move back to the Monday of that week
+    const mondayWeekOne = new Date(
+      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS,
     );
 
-    setCurrentDate(firstMondayOfYear);
+    setCurrentDate(
+      new Date(
+        mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS,
+      ),
+    );
   }, []);
 
   const weekNumber = useMemo(() => getWeekNumber(currentDate), [currentDate]);
