@@ -16,6 +16,14 @@ type CopyDateActivitiesModalProps = {
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+/**
+ * A modal component that allows users to copy activities from one date to another.
+ *
+ * @param {boolean} modalVisible - Determines if the modal is visible.
+ * @param {Function} setModalVisible - Function to set the visibility of the modal.
+ *
+ * @returns {JSX.Element} The rendered modal component.
+ */
 export default function CopyDateActivitiesModal({
   modalVisible,
   setModalVisible,

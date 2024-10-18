@@ -2,6 +2,13 @@ import { useState } from "react";
 import { Button, Image, View, StyleSheet } from "react-native";
 import pickImage from "../utils/pickImage";
 
+/**
+ * ImagePickerSelector component allows users to pick an image from their library.
+ * It displays a button to trigger the image picker and shows the selected image.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ */
 const ImagePickerSelector = () => {
   const [image, setImage] = useState<string | null>(null);
 

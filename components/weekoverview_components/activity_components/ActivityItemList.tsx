@@ -17,6 +17,18 @@ import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 
+/**
+ * Component that renders a list of activities for a selected date.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @remarks
+ * - Fetches activities based on the selected date and citizen ID.
+ * - Handles loading and error states.
+ * - Allows editing, deleting, and toggling the status of activities.
+ * - Displays a modal with an image when an activity item is clicked.
+ */
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
@@ -104,8 +116,7 @@ const ActivityItemList = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
+        onRequestClose={() => setModalVisible(false)}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Image
@@ -115,8 +126,7 @@ const ActivityItemList = () => {
             />
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
+              onPress={() => setModalVisible(false)}>
               <Text style={styles.closeButtonText}>Luk</Text>
             </TouchableOpacity>
           </View>

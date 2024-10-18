@@ -22,6 +22,22 @@ type TimeSelectorProps = {
   maxDate?: Date;
 };
 
+/**
+ * TimePicker component for selecting time on both Android and iOS platforms.
+ *
+ * @param {string} label - The label for the time picker.
+ * @param {Date} value - The current selected time.
+ * @param {function} onChange - Callback function to handle time change.
+ * @param {number} [minuteInterval=1] - The interval at which minutes can be selected.
+ * @param {boolean} [is24Hour=true] - Determines if the time picker uses 24-hour format.
+ * @param {string} [androidDisplay="spinner"] - The display mode for Android time picker.
+ * @param {string} [iosDisplay="default"] - The display mode for iOS time picker.
+ * @param {string} [mode="time"] - The mode of the time picker.
+ * @param {Date} [minDate] - The minimum selectable date.
+ * @param {Date} [maxDate] - The maximum selectable date.
+ *
+ * @returns {JSX.Element} The rendered TimePicker component.
+ */
 const TimePicker = ({
   label,
   value,
