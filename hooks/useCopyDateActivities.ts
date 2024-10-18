@@ -3,7 +3,17 @@ import { useDate } from "../providers/DateProvider";
 import useActivity from "./useActivity";
 
 const DAY_IN_MILLISECONDS = 86400000;
-
+/**
+ * UseHook for {@link CopyDateActivityModal}. Returns an Object that contains:
+ * * data - Data retrieved from {@link useFetchActivities}
+ * * error - A possible error to be displayed regarding the data.
+ * * dates - UseState variable for {@link sourceDate} and {@link destinationDate}.
+ * * selectedActivityIds - Array of IDs of the selected activities.
+ * * canSubmit - Whether it is possible to submit the request (e.g. no data to be copied).
+ * * setDates - UseState function to set {@link sourceDate} and {@link destinationDate}.
+ * * handleCopyActivities - Sends all ID's of the selected activities to the appropriate endpoint.
+ * * toggleActivitySelection - Adds/Removes the activityID from the array of selected activities.
+ */
 const useCopyDayData = () => {
   const { selectedDate } = useDate();
   const [dates, setDates] = useState({
@@ -28,6 +38,10 @@ const useCopyDayData = () => {
     setError("");
   }, [data]);
 
+  /**
+   * Adds/Removes the activityID from the array of selected activities.
+   * @param activityId The ID of the associated activity.
+   */
   const toggleActivitySelection = (activityId: number) => {
     if (selectedActivityIds.includes(activityId)) {
       setSelectedActivityIds(
@@ -38,6 +52,9 @@ const useCopyDayData = () => {
     }
   };
 
+  /**
+   * Sends all ID's of the selected activities to the appropriate endpoint.
+   */
   const handleCopyActivities = async () => {
     await copyActivities.mutateAsync({
       activityIds: selectedActivityIds,
@@ -47,14 +64,14 @@ const useCopyDayData = () => {
   };
 
   return {
-    toggleActivitySelection,
-    dates,
-    selectedActivityIds,
-    setDates,
     data,
     error,
+    dates,
+    selectedActivityIds,
     canSubmit: data?.length ?? 0 > 0,
+    setDates,
     handleCopyActivities,
+    toggleActivitySelection,
   };
 };
 

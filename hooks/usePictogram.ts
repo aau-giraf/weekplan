@@ -1,6 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPictograms } from "../apis/pictogramAPI";
 
+/**
+ *
+ * @param id - ID of the pictogram to be fetched
+ */
 export default function usePictogram(id: number) {
   const queryKey = ["pictograms", id];
 
