@@ -12,6 +12,12 @@ type DataProviderValues = {
 };
 const DateContext = createContext<DataProviderValues | undefined>(undefined);
 
+/**
+ * Provider for date context
+ * @param children
+ * @constructor
+ * @return {ReactNode}
+ */
 const DateProvider = ({ children }: { children: React.ReactNode }) => {
   const {
     weekDates,
@@ -40,6 +46,10 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+/**
+ * Hook to use the date context
+ *
+ */
 export const useDate = () => {
   const context = useContext(DateContext);
   if (context === undefined) {

@@ -1,3 +1,11 @@
+/** Given a Date, fetches the other dates in the same week
+ *
+ * @param date
+ * @returns an array of dates in the same week as the provided date
+ * @example
+ * getWeekDates(new Date("2021-12-24")) // returns [2021-12-20, 2021-12-21, 2021-12-22, 2021-12-23, 2021-12-24, 2021-12-25, 2021-12-26]
+ *
+ */
 const getWeekDates = (date: Date): Date[] => {
   //Check for invalid date
   if (isNaN(date.getTime())) {

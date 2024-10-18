@@ -5,6 +5,7 @@ import getWeekNumber from "../utils/getWeekNumber";
 /**
  * UseHook for
  * @param [initialDate = new Date()] - The initially selected day. Defaults to the current date.
+ *
  */
 const useWeek = (initialDate = new Date()) => {
   const [currentDate, setCurrentDate] = useState<Date>(initialDate);
