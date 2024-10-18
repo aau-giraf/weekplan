@@ -19,7 +19,7 @@ Please link the related issues/tickets here.
 
 ## Checklist
 
-- [] Completed the user story described by the issue
+- [] Completed the user story described by the issue (if applicable)
 - [] Code follows the code guidelines
 - [] Tests have been added/updated (if applicable)
 - [] Documentation has been updated (if applicable)
