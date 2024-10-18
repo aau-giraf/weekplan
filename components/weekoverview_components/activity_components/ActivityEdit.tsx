@@ -31,6 +31,30 @@ type SubmitProps = {
   date: Date;
 };
 
+/**
+ * Component for editing an activity.
+ *
+ * @component
+ * @param {EditActivityButtonProps} props - The properties for the component.
+ * @param {string} props.title - The title of the activity.
+ * @param {string} props.description - The description of the activity.
+ * @param {Date} props.startTime - The start time of the activity.
+ * @param {Date} props.endTime - The end time of the activity.
+ * @param {string} props.activityId - The ID of the activity.
+ * @param {boolean} props.isCompleted - The completion status of the activity.
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @example
+ * <ActivityEdit
+ *   title="Meeting"
+ *   description="Discuss project updates"
+ *   startTime={new Date()}
+ *   endTime={new Date()}
+ *   activityId="12345"
+ *   isCompleted={false}
+ * />
+ */
 const ActivityEdit = ({
   title,
   description,

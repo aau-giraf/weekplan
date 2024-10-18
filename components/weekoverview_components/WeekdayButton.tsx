@@ -16,6 +16,15 @@ const formattedDate = (date: Date) => {
   });
 };
 
+/**
+ * WeekdayButton component renders a button for a specific weekday.
+ *
+ * @param {Date} props.date - The date associated with the button.
+ * @param {Object} props.day - The day object containing the name of the day.
+ * @param {Function} props.setModalVisible - Function to set the visibility of the modal.
+ *
+ * @returns {JSX.Element} The rendered WeekdayButton component.
+ */
 const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
   const { selectedDate, setSelectedDate } = useDate();
   const isSelected = selectedDate.toDateString() === date.toDateString();
@@ -27,8 +36,7 @@ const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
       onLongPress={() => {
         setModalVisible(true);
         setSelectedDate(date);
-      }}
-    >
+      }}>
       <View style={[styles.circle, isSelected && styles.selectedCircle]}>
         <Text style={[styles.dayText]}>{day.name}</Text>
       </View>

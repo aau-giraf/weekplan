@@ -22,6 +22,16 @@ export const dateToQueryKey = (date: Date) => {
  * to understand how to use react-query. This hook utilises optimistic updates
  * and caching to provide a good user experience.
  */
+/**
+ * Hook to fetch activities for a specific date
+ * @param date
+ * @constructor
+ * @return {useFetchActivities, useDeleteActivity, updateActivity, useToggleActivityStatus, useCreateActivity, copyActivities}
+ * @return {invalidateQueries, data}
+ * @return {useFetchActivity}
+ *
+ *
+ */
 
 export default function useActivity({ date }: { date: Date }) {
   const queryKey = dateToQueryKey(date);

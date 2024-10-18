@@ -9,6 +9,16 @@ interface PickerColumnProps {
   setSelectedValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
+/**
+ * PickerColumn component renders a column with a title and a picker.
+ *
+ * @param {string} title - The title displayed above the picker.
+ * @param {Array<number | string>} weeksOrYear - The array of items to be displayed in the picker.
+ * @param {number | string} selectedValue - The currently selected value in the picker.
+ * @param {function} setSelectedValue - The function to update the selected value.
+ *
+ * @returns {JSX.Element} The rendered PickerColumn component.
+ */
 const PickerColumn: React.FC<PickerColumnProps> = ({
   title,
   weeksOrYear,
@@ -21,8 +31,7 @@ const PickerColumn: React.FC<PickerColumnProps> = ({
       selectedValue={selectedValue}
       onValueChange={(itemValue) => setSelectedValue(itemValue)}
       style={styles.picker}
-      itemStyle={styles.pickerItem}
-    >
+      itemStyle={styles.pickerItem}>
       {weeksOrYear.map((item) => (
         <Picker.Item key={item} label={item.toString()} value={item} />
       ))}

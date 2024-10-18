@@ -12,6 +12,13 @@ import {
 const DURATIONS_MS = 250;
 const X_AXIS_SENSITIVITY = 30;
 
+/**
+ * UseHook to handle horizontal swiping
+ * @param goToPreviousWeek - Function to be called upon right swipe.
+ * @param goToNextWeek - Function to be called upon left swipe.
+ * * swipeGesture - {@link useMemo} to handle whether the swipe has crossed the threshold set by {@link X_AXIS_SENSITIVITY}
+ * * boxAnimatedStyles - {@link useAnimatedStyle} to be assigned to the component to be animated
+ */
 const useSwipeGesture = (
   goToPreviousWeek: () => void,
   goToNextWeek: () => void,
@@ -22,8 +29,7 @@ const useSwipeGesture = (
 
   const handleSwipeAnimation = useCallback(
     (width: number, action: () => void) => {
-      //WE NEED THIS TO RUN ON THE UI THREAD
-      "worklet";
+      "worklet"; //Makes this run on the UI-Thread
       translateX.value = withTiming(
         width,
         { duration: DURATIONS_MS, easing: Easing.in(Easing.exp) },

@@ -8,6 +8,16 @@ type ActivitySelectListProps = {
   selectedIds: number[];
 };
 
+/**
+ * Component that renders a list of activities with selectable items.
+ *
+ * @param {Object} props - The component props.
+ * @param {ActivityDTO[]} props.activities - The list of activities to display.
+ * @param {Function} props.toggleCheck - Function to toggle the selection state of an activity.
+ * @param {number[]} props.selectedIds - Array of selected activity IDs.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 const ActivitySelectList = ({
   activities,
   toggleCheck,
@@ -20,8 +30,7 @@ const ActivitySelectList = ({
         style={[
           styles.activityEntry,
           { borderLeftWidth: selectedIds.includes(item.activityId) ? 1 : 0 },
-        ]}
-      >
+        ]}>
         <Text style={{ fontSize: 18 }}>{item.name}</Text>
       </TouchableOpacity>
     );
