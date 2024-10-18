@@ -4,6 +4,7 @@ import { fetchPictograms } from "../apis/pictogramAPI";
 /**
  *
  * @param id - ID of the pictogram to be fetched
+ * @return {useFetchPictograms}
  */
 export default function usePictogram(id: number) {
   const queryKey = ["pictograms", id];
