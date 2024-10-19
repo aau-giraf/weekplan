@@ -8,12 +8,19 @@ import { useDate } from "../../providers/DateProvider";
 import { useState } from "react";
 import CopyDateActivitiesModal from "../CopyDateActivitiesModal";
 
+/**
+ * DaysContainer component renders a container for displaying the days of the week.
+ * It includes swipe gestures to navigate between weeks and a modal for copying date activities.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered DaysContainer component.
+ */
 const DaysContainer = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { weekDates, goToPreviousWeek, goToNextWeek, selectedDate } = useDate();
   const { swipeGesture, boxAnimatedStyles } = useSwipeGesture(
     goToPreviousWeek,
-    goToNextWeek,
+    goToNextWeek
   );
 
   return (

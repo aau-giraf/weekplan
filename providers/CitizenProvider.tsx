@@ -7,6 +7,12 @@ const CitizenContext = createContext<CitizenProviderValues | undefined>(
   undefined,
 );
 
+/**
+ * Provider for citizen context
+ * @param children
+ * @constructor
+ * @return {ReactNode}
+ */
 const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <CitizenContext.Provider
@@ -18,7 +24,10 @@ const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
     </CitizenContext.Provider>
   );
 };
-
+/**
+ * Hook to use the citizen context
+ *
+ */
 export const useCitizen = () => {
   const context = useContext(CitizenContext);
   if (context === undefined) {

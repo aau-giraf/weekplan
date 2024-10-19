@@ -31,6 +31,14 @@ const getYears = () => {
   return years;
 };
 
+/**
+ * WeekSelection component allows users to select a specific week and year.
+ *
+ * @property {boolean} modalVisible - State to control the visibility of the modal.
+ * @property {number} selectedWeek - State to store the selected week number.
+ * @property {number} selectedYear - State to store the selected year.
+ * @returns {JSX.Element} The WeekSelection component.
+ */
 const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const currentDate = new Date();
   const { setWeekAndYear, weekNumber } = useDate();

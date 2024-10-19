@@ -6,7 +6,12 @@ import CitizenProvider from "./CitizenProvider";
 type CustomLayoutProps = {
   children: React.ReactNode;
 };
-
+/**
+ * Wrapper for providers
+ * @param children
+ * @constructor
+ * @return {ReactNode}
+ */
 const ProviderWrapper = ({ children }: CustomLayoutProps) => {
   const queryClient = new QueryClient({
     defaultOptions: {

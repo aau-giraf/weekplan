@@ -2,6 +2,11 @@ import { useMemo, useState, useCallback } from "react";
 import getWeekDates from "../utils/getWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
 
+/**
+ * UseHook for
+ * @param [initialDate = new Date()] - The initially selected day. Defaults to the current date.
+ *
+ */
 const useWeek = (initialDate = new Date()) => {
   const JANUARY = 0;
   const DAY_IN_MILLISECONDS = 86400000;
@@ -25,7 +30,6 @@ const useWeek = (initialDate = new Date()) => {
      * This means that the first week of the year is the week including Jan. 04.
      * Which in turn means that monday of week one might be in December of last year.
      */
-
     const jan4th = new Date(Date.UTC(year, JANUARY, 4));
 
     // Adjust dayOfWeek to follow ISO (Monday = 1, Sunday = 7)

@@ -3,6 +3,10 @@ import { Pressable } from "expo-router/build/views/Pressable";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
+/**
+ * ActivityAddButton component renders a button that navigates to the add activity screen.
+ * @component
+ */
 const ActivityAddButton = () => {
   const handlePress = () => {
     router.push("./addactivity");

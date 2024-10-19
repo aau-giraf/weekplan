@@ -1,3 +1,10 @@
+/** Gets the current week number of the provided date
+ *
+ * @param date
+ * @returns the week number of the provided date
+ * @example
+ * getWeekNumber(new Date("2021-12-24")) // returns 51
+ */
 const getWeekNumber = (date: Date): number => {
   const referenceDate = new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),

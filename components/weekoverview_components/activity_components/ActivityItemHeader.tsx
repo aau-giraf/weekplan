@@ -1,6 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
+/**
+ * ActivityItemHeader component renders the header for an activity item.
+ * It displays three text elements: "Tid", "Navn", and "Foto".
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
 const ActivityItemHeader: React.FC = () => {
   return (
     <View style={styles.headerContainer}>
