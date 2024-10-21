@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
+import {colors} from "../../utils/colors";
 
 type WeekdayButtonProps = {
   date: Date;
@@ -57,23 +58,23 @@ const styles = StyleSheet.create({
   },
   dayText: {
     fontSize: 18,
-    color: "#263238",
+    color: colors.black,
   },
   circle: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#B0BEC5",
+    backgroundColor: colors.gray,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 5,
   },
   selectedCircle: {
-    backgroundColor: "#FFCC80",
+    backgroundColor: colors.orange,
   },
   dateText: {
     fontSize: 16,
-    color: "#263238",
+    color: colors.black,
   },
 });
 

@@ -11,6 +11,7 @@ import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
+import {colors} from "../../utils/colors";
 
 type WeekSelectionProps = {};
 
@@ -98,14 +99,14 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.backgroundBlack,
   },
   pickerContainer: {
     marginLeft: 10,
     marginRight: 10,
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 50,
     borderRadius: 25,
     justifyContent: "center",

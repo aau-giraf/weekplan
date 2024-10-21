@@ -13,6 +13,7 @@ import { useCitizen } from "../../../providers/CitizenProvider";
 import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
+import {colors} from "../../../utils/colors";
 
 type EditActivityButtonProps = {
   title: string;
@@ -99,7 +100,6 @@ const ActivityEdit = ({
       endTime: endTimeHHMM,
       isCompleted: isCompleted,
     };
-    console.log("SUBMITTED: ", data);
     await updateActivity.mutateAsync(data);
     router.back();
   };
@@ -170,7 +170,7 @@ const ActivityEdit = ({
 const styles = StyleSheet.create({
   container: {
     padding: 25,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: colors.white,
     height: "100%",
     flexGrow: 1,
     gap: 15,
@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
     borderRadius: 5,
     marginBottom: 15,
   },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     marginBottom: 10,
-    color: "#333",
+    color: colors.black,
   },
   button: {
     paddingVertical: 12,
@@ -206,10 +206,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginTop: "auto",
     alignItems: "center",
-    backgroundColor: "#38A169",
+    backgroundColor: colors.green,
   },
   buttonText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 18,
     fontWeight: "500",
   },

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSingleActivity } from "../hooks/useActivity";
+import {colors} from "../utils/colors";
 
 const ViewActivity = () => {
   const id = parseInt(
@@ -53,31 +54,31 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#F2F5FA",
+    backgroundColor: colors.white,
   },
   activityContainer: {
-    backgroundColor: "#E3F2FD",
+    backgroundColor: colors.white,
     padding: 12,
     borderRadius: 8,
     marginBottom: 20,
   },
   activityName: {
-    color: "#37474F",
+    color: colors.black,
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
   },
   activityDescription: {
-    color: "#37474F",
+    color: colors.black,
     fontSize: 16,
     marginBottom: 8,
   },
   activityTime: {
-    color: "#37474F",
+    color: colors.black,
     fontSize: 14,
   },
   errorText: {
-    color: "red",
+    color: colors.red,
     fontSize: 16,
     textAlign: "center",
     marginVertical: 20,
