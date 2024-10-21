@@ -13,6 +13,8 @@ import { useCitizen } from "../../../providers/CitizenProvider";
 import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
+import { z } from "zod";
+import useValidation from "../../../hooks/useValidation";
 
 type EditActivityButtonProps = {
   title: string;
@@ -23,13 +25,15 @@ type EditActivityButtonProps = {
   isCompleted: boolean;
 };
 
-type SubmitProps = {
-  title: string;
-  description: string;
-  startTime: Date;
-  endTime: Date;
-  date: Date;
-};
+const schema = z.object({
+  title: z.string().min(1, "Du skal have en titel"),
+  description: z.string().min(1, "Du skal have en beskrivelse"),
+  startTime: z.date(),
+  endTime: z.date(),
+  date: z.date(),
+});
+
+type FormData = z.infer<typeof schema>;
 
 /**
  * Component for editing an activity.
@@ -63,7 +67,7 @@ const ActivityEdit = ({
   activityId,
   isCompleted,
 }: EditActivityButtonProps) => {
-  const [form, setForm] = useState<SubmitProps>({
+  const [form, setForm] = useState<FormData>({
     title: title,
     description: description,
     startTime: startTime,
@@ -75,11 +79,9 @@ const ActivityEdit = ({
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
 
-  const handleInputChange = (
-    field: keyof SubmitProps,
-    value: string | Date
-  ) => {
-    console.log(field.toString(), value);
+  const { errors, valid } = useValidation({ formData: form, schema });
+
+  const handleInputChange = (field: keyof FormData, value: string | Date) => {
     setForm((prevData) => ({
       ...prevData,
       [field]: value,
@@ -87,6 +89,7 @@ const ActivityEdit = ({
   };
 
   const handleSubmit = async () => {
+    if (!valid) throw new Error("Formularen er ikke udfyldt korrekt");
     const startTimeHHMM = formatTimeHHMM(form.startTime);
     const endTimeHHMM = formatTimeHHMM(form.endTime);
     const data = {
@@ -99,7 +102,6 @@ const ActivityEdit = ({
       endTime: endTimeHHMM,
       isCompleted: isCompleted,
     };
-    console.log("SUBMITTED: ", data);
     await updateActivity.mutateAsync(data);
     router.back();
   };
@@ -111,24 +113,32 @@ const ActivityEdit = ({
         <TextInput
           value={form.title}
           placeholder="Navn"
-          style={styles.input}
+          style={errors?.title?._errors ? styles.inputError : styles.inputValid}
           onChangeText={(text) => setForm((prev) => ({ ...prev, title: text }))}
         />
+        <Text>{errors?.title?._errors}</Text>
       </View>
       <View>
         <TextInput
           value={form.description}
           multiline
           placeholder="Beskrivelse"
-          style={[styles.input, { height: 80 }]}
+          style={[
+            errors?.description?._errors
+              ? styles.inputError
+              : styles.inputValid,
+            { height: 80 },
+          ]}
           onChangeText={(text) =>
             setForm((prev) => ({ ...prev, description: text }))
           }
         />
+
+        <Text>{errors?.description?._errors}</Text>
       </View>
       <View style={styles.pickerContainer}>
         <TimePicker
-          label="Vælg start tid"
+          title="Vælg start tid"
           mode="time"
           value={form.startTime}
           maxDate={form.endTime}
@@ -136,11 +146,12 @@ const ActivityEdit = ({
             handleInputChange("startTime", selectedDate);
           }}
         />
+        <Text>{errors?.startTime?._errors}</Text>
       </View>
 
       <View style={styles.pickerContainer}>
         <TimePicker
-          label="Vælg slut tid"
+          title="Vælg slut tid"
           mode="time"
           value={form.endTime}
           minDate={form.startTime}
@@ -148,6 +159,7 @@ const ActivityEdit = ({
             handleInputChange("endTime", selectedDate);
           }}
         />
+        <Text>{errors?.endTime?._errors}</Text>
       </View>
       <View style={styles.pickerContainer}>
         <Text style={styles.header}>Dato for aktivitet</Text>
@@ -159,8 +171,13 @@ const ActivityEdit = ({
             handleInputChange("date", selectedDate);
           }}
         />
+        <Text>{errors?.date?._errors}</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+      <TouchableOpacity
+        style={valid ? styles.buttonValid : styles.buttonDisabled}
+        onPress={handleSubmit}
+        disabled={!valid}
+      >
         <Text style={styles.buttonText}>Tilføj</Text>
       </TouchableOpacity>
     </View>
@@ -180,11 +197,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
   },
-  input: {
+  inputValid: {
     width: "100%",
     padding: 10,
     borderWidth: 1,
     borderColor: "#ccc",
+    backgroundColor: "#fff",
+    borderRadius: 5,
+    marginBottom: 15,
+  },
+  inputError: {
+    width: "100%",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ff0000",
     backgroundColor: "#fff",
     borderRadius: 5,
     marginBottom: 15,
@@ -199,7 +225,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#333",
   },
-  button: {
+  buttonValid: {
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -207,6 +233,15 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: "#38A169",
+  },
+  buttonDisabled: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 10,
+    marginTop: "auto",
+    alignItems: "center",
+    backgroundColor: "#949393",
   },
   buttonText: {
     color: "#fff",
