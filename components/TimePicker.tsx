@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
+import {colors} from "../utils/colors";
 
 type TimeSelectorProps = {
   label: string;
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     marginBottom: 15,
-    color: "#333",
+    color: colors.black,
   },
   centeredPicker: {
     alignItems: "center",
