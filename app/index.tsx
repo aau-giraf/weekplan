@@ -21,6 +21,9 @@ const HomePage: React.FC = () => {
   return (
     <View>
       <Text>Home Page</Text>
+      <Link href="/register">
+        <Text>Gå til registrering</Text>
+      </Link>
       <Link href="/weekplanscreen">
         <Text>Gå til ugeplan</Text>
       </Link>
