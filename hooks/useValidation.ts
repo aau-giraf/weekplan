@@ -7,6 +7,15 @@ type UseValidationProps<T> = {
   formData: T;
 };
 
+/**
+ * Custom hook for validating form data against a Zod schema.
+ * @param schema
+ * @param formData
+ * @returns {Object} An object containing the errors and the validity of the form data.
+ * @returns {Object.errors} The errors object containing the validation errors.
+ * @returns {Object.valid} A boolean indicating if the form data is valid.
+ */
+
 const useValidation = <T>({ schema, formData }: UseValidationProps<T>) => {
   type FormErrors = z.inferFormattedError<typeof schema>;
 
