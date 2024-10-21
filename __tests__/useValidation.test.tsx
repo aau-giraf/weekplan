@@ -3,8 +3,8 @@ import useValidation from "../hooks/useValidation";
 import { renderHook } from "@testing-library/react-native";
 
 const schema = z.object({
-  title: z.string().min(1, "Du skal have en titel"),
-  description: z.string().min(1, "Du skal have en beskrivelse"),
+  title: z.string().trim().min(1, "Du skal have en titel"),
+  description: z.string().trim().min(1, "Du skal have en beskrivelse"),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -56,6 +56,19 @@ describe("useValidation hook", () => {
     ]);
     expect(result.current.errors?.description?._errors).toEqual([
       "Expected string, received null",
+    ]);
+  });
+  test("returns errors for whitespace-only input", () => {
+    const mockData: FormData = { title: "   ", description: "   " };
+    const { result } = renderHook(() =>
+      useValidation({ formData: mockData, schema }),
+    );
+    expect(result.current.valid).toBe(false);
+    expect(result.current.errors?.title?._errors).toEqual([
+      "Du skal have en titel",
+    ]);
+    expect(result.current.errors?.description?._errors).toEqual([
+      "Du skal have en beskrivelse",
     ]);
   });
 });

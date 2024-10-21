@@ -23,8 +23,8 @@ import { z } from "zod";
 import useValidation from "../hooks/useValidation";
 
 const schema = z.object({
-  title: z.string().min(1, "Du skal have en titel"),
-  description: z.string().min(1, "Du skal have en beskrivelse"),
+  title: z.string().trim().min(1, "Du skal have en titel"),
+  description: z.string().trim().min(1, "Du skal have en beskrivelse"),
   startTime: z.date(),
   endTime: z.date(),
 });
