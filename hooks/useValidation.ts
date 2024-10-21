@@ -14,6 +14,14 @@ type UseValidationProps<T> = {
  * @returns {Object} An object containing the errors and the validity of the form data.
  * @returns {Object.errors} The errors object containing the validation errors.
  * @returns {Object.valid} A boolean indicating if the form data is valid.
+ * @example
+ * const schema = z.object({
+ *  title: z.string().min(1, "Du skal have en titel"),
+ *  description: z.string().min(1, "Du skal have en beskrivelse"),
+ *  startTime: z.date(),
+ *  endTime: z.date(),
+ *  date: z.date(),
+ *  });
  */
 
 const useValidation = <T>({ schema, formData }: UseValidationProps<T>) => {
