@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Animated, StyleSheet } from "react-native";
 import GirafIcon from "./SVG/GirafIcon";
+import {colors} from "../utils/colors";
 
 /**
  * SplashScreenComponent is a React functional component that displays an animated splash screen.
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.backgroundBlack,
   },
   image: {
     width: 250,

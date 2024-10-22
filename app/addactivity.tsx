@@ -19,6 +19,7 @@ import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
+import {colors} from "../utils/colors";
 
 type FormData = {
   label: string;
@@ -133,33 +134,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: colors.white,
   },
   headerText: {
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 20,
     textAlign: "center",
-    color: "#333",
+    color: colors.black,
   },
   input: {
     height: 48,
-    borderColor: "#ccc",
+    borderColor: colors.lightGray,
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 15,
     borderRadius: 8,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
   },
   description: {
     height: 80,
-    borderColor: "#ccc",
+    borderColor: colors.lightGray,
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 8,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     textAlignVertical: "top",
   },
   button: {
@@ -168,11 +169,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginVertical: 10,
     alignItems: "center",
-    backgroundColor: "#38A169",
+    backgroundColor: colors.green,
     marginTop: "auto",
   },
   buttonText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "500",
   },
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     marginBottom: 10,
-    color: "#333",
+    color: colors.black,
   },
 });
 
