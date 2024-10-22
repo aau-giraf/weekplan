@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import ProviderWrapper from "../providers/ProviderWrapper";
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 const RootLayout = () => {
   return (
@@ -10,6 +11,8 @@ const RootLayout = () => {
         <Stack.Screen name="viewactivity" />
         <Stack.Screen name="addactivity" />
         <Stack.Screen name="editactivity" />
+        <Stack.Screen name="mainscreen" />
+        <Stack.Screen name="loginscreen" />
       </Stack>
     </ProviderWrapper>
   );
