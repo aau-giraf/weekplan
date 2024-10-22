@@ -13,7 +13,7 @@ import {
 
 const { width } = Dimensions.get('window');
 
-const LoginScreen = () => {
+const MainPage = () => {
   const navigation = useNavigation();
   const [username, setUsername] = useState('Bruger'); //TODO: Get user/username from backend database
 
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default MainPage;
