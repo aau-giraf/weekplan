@@ -16,6 +16,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
+import {colors} from "../../../utils/colors";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 12;
@@ -45,8 +46,8 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: "crimson" }]}>
-        <Ionicons name="trash-outline" size={32} color="white" />
+        style={[styles.action, { backgroundColor: colors.crimson }]}>
+        <Ionicons name="trash-outline" size={32} color= {colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -78,15 +79,15 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: "#0077b6" }]}>
-        <Ionicons name={"pencil-outline"} size={32} color="white" />
+        style={[styles.action, { backgroundColor: colors.blue }]}>
+        <Ionicons name={"pencil-outline"} size={32} color= {colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: "green" }]}>
-        <Ionicons name={"checkmark"} size={32} color="white" />
+        style={[styles.action, { backgroundColor: colors.green }]}>
+        <Ionicons name={"checkmark"} size={32} color= {colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -184,7 +185,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
           <View
             style={[
               styles.taskContainer,
-              { backgroundColor: isCompleted ? "#A5D6A7" : "#E3F2FD" },
+              { backgroundColor: isCompleted ? colors.lightGreen : colors.lightBlue },
             ]}>
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <Text
@@ -222,14 +223,14 @@ const styles = StyleSheet.create({
     padding: CONTAINER_PADDING,
     justifyContent: "space-between",
     height: CONTAINER_HEIGHT,
-    backgroundColor: "#E3F2FD",
+    backgroundColor: colors.lightBlue,
   },
   timeText: {
-    color: "#37474F",
+    color: colors.black,
     fontSize: 16,
   },
   labelText: {
-    color: "#37474F",
+    color: colors.black,
     fontSize: 16,
     textAlign: "center",
     flex: 0.6,
@@ -238,18 +239,18 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 100,
-    backgroundColor: "#FFCC80",
+    backgroundColor: colors.orange,
     justifyContent: "center",
     alignItems: "center",
   },
   iconPlaceholderText: {
-    color: "#000",
+    color: colors.backgroundBlack,
     fontSize: 12,
   },
   action: {
     width: ACTION_WIDTH,
     height: 140,
-    backgroundColor: "crimson",
+    backgroundColor: colors.crimson,
     justifyContent: "center",
     alignItems: "center",
   },

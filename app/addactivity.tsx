@@ -19,6 +19,7 @@ import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
+import {colors} from "../utils/colors";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
 
@@ -27,7 +28,6 @@ const schema = z.object({
   description: z.string().trim().min(1, "Du skal have en beskrivelse"),
   startTime: z.date(),
   endTime: z.date(),
-});
 
 type FormData = z.infer<typeof schema>;
 
@@ -149,21 +149,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: colors.white,
   },
   headerText: {
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 20,
     textAlign: "center",
-    color: "#333",
+    color: colors.black,
   },
   inputValid: {
     width: "100%",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
     borderRadius: 5,
     marginBottom: 15,
   },
@@ -171,20 +171,20 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#ff0000",
-    backgroundColor: "#fff",
+    borderColor: colors.red,
+    backgroundColor: colors.white,
     borderRadius: 5,
     marginBottom: 15,
   },
   description: {
     height: 80,
-    borderColor: "#ccc",
+    borderColor: colors.lightGray,
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 8,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     textAlignVertical: "top",
   },
   buttonValid: {
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginTop: "auto",
     alignItems: "center",
-    backgroundColor: "#38A169",
+    backgroundColor: colors.green,
   },
   buttonDisabled: {
     paddingVertical: 12,
@@ -203,10 +203,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginTop: "auto",
     alignItems: "center",
-    backgroundColor: "#949393",
+    backgroundColor: colors.grey,
   },
   buttonText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "500",
   },
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     marginBottom: 10,
-    color: "#333",
+    color: colors.black,
   },
 });
 

@@ -10,6 +10,7 @@ import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
+import {colors} from "../utils/colors";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "80%",
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -107,6 +108,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.backgroundBlack,
   },
 });
