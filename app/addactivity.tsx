@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Alert,
   SafeAreaView,
+  View,
 } from "react-native";
 
 import { useDate } from "../providers/DateProvider";
@@ -19,7 +20,7 @@ import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
-import {colors} from "../utils/colors";
+import { colors } from "../utils/colors";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
 
@@ -28,6 +29,7 @@ const schema = z.object({
   description: z.string().trim().min(1, "Du skal have en beskrivelse"),
   startTime: z.date(),
   endTime: z.date(),
+});
 
 type FormData = z.infer<typeof schema>;
 
@@ -84,32 +86,37 @@ const AddActivity = () => {
             <Text style={styles.headerText}>
               Opret en aktivitet til {prettyDate(selectedDate)}
             </Text>
-
-            <TextInput
-              style={
-                errors?.title?._errors ? styles.inputError : styles.inputValid
-              }
-              placeholder="Navn"
-              value={formData.title}
-              onChangeText={(text) => handleInputChange("title", text)}
-              returnKeyType="done"
-            />
-            <Text>{errors?.title?._errors}</Text>
-
-            <TextInput
-              style={
-                errors?.description?._errors
-                  ? styles.inputError
-                  : styles.inputValid
-              }
-              placeholder="Beskrivelse"
-              value={formData.description}
-              onChangeText={(text) => handleInputChange("description", text)}
-              multiline
-              returnKeyType="done"
-            />
-            <Text>{errors?.description?._errors}</Text>
-
+            <View>
+              <TextInput
+                style={
+                  errors?.title?._errors ? styles.inputError : styles.inputValid
+                }
+                placeholder="Titel"
+                value={formData.title}
+                onChangeText={(text) => handleInputChange("title", text)}
+                returnKeyType="done"
+              />
+              <Text>
+                {!errors?.title?._errors ? " " : errors?.title?._errors}
+              </Text>
+            </View>
+            <View>
+              <TextInput
+                style={
+                  errors?.description?._errors
+                    ? styles.inputError
+                    : styles.inputValid
+                }
+                placeholder="Beskrivelse"
+                value={formData.description}
+                onChangeText={(text) => handleInputChange("description", text)}
+                multiline
+                returnKeyType="done"
+              />
+              <Text>
+                {!errors?.title?._errors ? " " : errors?.title?._errors}
+              </Text>
+            </View>
             <TimePicker
               title="Vælg start tid"
               value={formData.startTime}
@@ -165,7 +172,6 @@ const styles = StyleSheet.create({
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: 15,
   },
   inputError: {
     width: "100%",
@@ -174,7 +180,6 @@ const styles = StyleSheet.create({
     borderColor: colors.red,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: 15,
   },
   description: {
     height: 80,
@@ -203,7 +208,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginTop: "auto",
     alignItems: "center",
-    backgroundColor: colors.grey,
+    backgroundColor: colors.gray,
   },
   buttonText: {
     color: colors.white,

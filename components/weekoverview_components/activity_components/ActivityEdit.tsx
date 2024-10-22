@@ -13,7 +13,7 @@ import { useCitizen } from "../../../providers/CitizenProvider";
 import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
-import {colors} from "../../../utils/colors";
+import { colors } from "../../../utils/colors";
 import { z } from "zod";
 import useValidation from "../../../hooks/useValidation";
 
@@ -113,11 +113,11 @@ const ActivityEdit = ({
       <View>
         <TextInput
           value={form.title}
-          placeholder="Navn"
+          placeholder="Title"
           style={errors?.title?._errors ? styles.inputError : styles.inputValid}
           onChangeText={(text) => setForm((prev) => ({ ...prev, title: text }))}
         />
-        <Text>{errors?.title?._errors}</Text>
+        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
       </View>
       <View>
         <TextInput
@@ -135,7 +135,7 @@ const ActivityEdit = ({
           }
         />
 
-        <Text>{errors?.description?._errors}</Text>
+        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
       </View>
       <View style={styles.pickerContainer}>
         <TimePicker
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginTop: "auto",
     alignItems: "center",
-    backgroundColor: colors.grey,
+    backgroundColor: colors.gray,
   },
   buttonText: {
     color: colors.white,
