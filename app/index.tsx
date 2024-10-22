@@ -6,6 +6,8 @@ import SplashScreen from "../components/SplashScreen";
 
 const HomePage: React.FC = () => {
   const [isSplashVisible, setSplashVisible] = useState(true);
+  const navigation = useNavigation();
+  const [login, setLogin] = useState({ username: '', password: '' });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,9 +20,6 @@ const HomePage: React.FC = () => {
   if (isSplashVisible) {
     return <SplashScreen />;
   }
-
-  const navigation = useNavigation();
-  const [login, setLogin] = useState({ username: '', password: '' });
 
   const handleInput = (field, value) => {
     setLogin((prevForm) => ({ ...prevForm, [field]: value }));
@@ -61,10 +60,6 @@ const HomePage: React.FC = () => {
         </TouchableOpacity>
       </View>
     </View>
-      <Image
-        style={styles.image}
-        source={require('../assets/giraffe_ex1.png')}
-      />
   </ImageBackground>
   </View>
   );
@@ -111,14 +106,6 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     color: '#000000',
     marginLeft: 10,
-  },
-  image: {
-    position: 'absolute',
-    alignSelf: 'flex-end',
-    width: 200,
-    resizeMode: 'contain',
-    zIndex: 1,
-    right: -20,
   },
 });
 

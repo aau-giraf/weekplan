@@ -12,7 +12,6 @@ const RootLayout = () => {
         <Stack.Screen name="addactivity" />
         <Stack.Screen name="editactivity" />
         <Stack.Screen name="mainscreen" />
-        <Stack.Screen name="loginscreen" />
       </Stack>
     </ProviderWrapper>
   );
