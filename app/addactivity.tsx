@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Alert,
   SafeAreaView,
+  View,
 } from "react-native";
 
 import { useDate } from "../providers/DateProvider";
@@ -19,25 +20,31 @@ import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
-import {colors} from "../utils/colors";
+import { colors } from "../utils/colors";
+import { z } from "zod";
+import useValidation from "../hooks/useValidation";
 
-type FormData = {
-  label: string;
-  description: string;
-  startTime: Date;
-  endTime: Date;
-};
+const schema = z.object({
+  title: z.string().trim().min(1, "Du skal have en titel"),
+  description: z.string().trim().min(1, "Du skal have en beskrivelse"),
+  startTime: z.date(),
+  endTime: z.date(),
+});
+
+type FormData = z.infer<typeof schema>;
 
 const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
   const { useCreateActivity } = useActivity({ date: selectedDate });
   const [formData, setFormData] = useState<FormData>({
-    label: "",
+    title: "",
     description: "",
     startTime: new Date(),
     endTime: new Date(),
   });
+
+  const { errors, valid } = useValidation({ schema, formData });
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
     setFormData((prevData) => ({
@@ -47,22 +54,16 @@ const AddActivity = () => {
   };
 
   const handleSubmit = async () => {
-    const { label, description, startTime, endTime } = formData;
+    const { title, description, startTime, endTime } = formData;
 
     const formattedStartTime = formatTimeHHMM(startTime);
     const formattedEndTime = formatTimeHHMM(endTime);
-
-    // Validation to check if end time is set to after start time
-    if (endTime < startTime) {
-      Alert.alert("Fejl", "Start tid skal være før slut tid.");
-      return;
-    }
 
     await useCreateActivity.mutateAsync({
       citizenId: 1,
       data: {
         activityId: -1,
-        name: label,
+        name: title,
         description,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
@@ -79,48 +80,69 @@ const AddActivity = () => {
         <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
-          keyboardVerticalOffset={80}>
+          keyboardVerticalOffset={80}
+        >
           <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
             <Text style={styles.headerText}>
               Opret en aktivitet til {prettyDate(selectedDate)}
             </Text>
-
-            <TextInput
-              style={styles.input}
-              placeholder="Navn"
-              value={formData.label}
-              onChangeText={(text) => handleInputChange("label", text)}
-              returnKeyType="done"
-            />
-
-            <TextInput
-              style={styles.description}
-              placeholder="Beskrivelse"
-              value={formData.description}
-              onChangeText={(text) => handleInputChange("description", text)}
-              multiline
-              returnKeyType="done"
-            />
-
+            <View>
+              <TextInput
+                style={
+                  errors?.title?._errors ? styles.inputError : styles.inputValid
+                }
+                placeholder="Titel"
+                value={formData.title}
+                onChangeText={(text) => handleInputChange("title", text)}
+                returnKeyType="done"
+              />
+              <Text>
+                {!errors?.title?._errors ? " " : errors?.title?._errors}
+              </Text>
+            </View>
+            <View>
+              <TextInput
+                style={
+                  errors?.description?._errors
+                    ? styles.inputError
+                    : styles.inputValid
+                }
+                placeholder="Beskrivelse"
+                value={formData.description}
+                onChangeText={(text) => handleInputChange("description", text)}
+                multiline
+                returnKeyType="done"
+              />
+              <Text>
+                {!errors?.title?._errors ? " " : errors?.title?._errors}
+              </Text>
+            </View>
             <TimePicker
-              label="Vælg start tid"
+              title="Vælg start tid"
               value={formData.startTime}
               minuteInterval={5}
+              maxDate={formData.endTime}
               androidDisplay={"spinner"}
               iosDisplay={"default"}
               onChange={(time) => handleInputChange("startTime", time)}
             />
+            <Text>{errors?.startTime?._errors}</Text>
 
             <TimePicker
-              label="Vælg slut tid"
+              title="Vælg slut tid"
               value={formData.endTime}
+              minDate={formData.startTime}
               minuteInterval={5}
               androidDisplay={"spinner"}
               iosDisplay={"default"}
               onChange={(time) => handleInputChange("endTime", time)}
             />
+            <Text>{errors?.endTime?._errors}</Text>
 
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <TouchableOpacity
+              style={valid ? styles.buttonValid : styles.buttonDisabled}
+              onPress={handleSubmit}
+            >
               <Text style={styles.buttonText}>Tilføj</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -143,14 +165,21 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.black,
   },
-  input: {
-    height: 48,
-    borderColor: colors.lightGray,
+  inputValid: {
+    width: "100%",
+    padding: 10,
     borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    borderRadius: 8,
+    borderColor: colors.lightGray,
     backgroundColor: colors.white,
+    borderRadius: 5,
+  },
+  inputError: {
+    width: "100%",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: colors.red,
+    backgroundColor: colors.white,
+    borderRadius: 5,
   },
   description: {
     height: 80,
@@ -163,14 +192,23 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     textAlignVertical: "top",
   },
-  button: {
+  buttonValid: {
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     marginVertical: 10,
+    marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
+  },
+  buttonDisabled: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 10,
     marginTop: "auto",
+    alignItems: "center",
+    backgroundColor: colors.gray,
   },
   buttonText: {
     color: colors.white,
