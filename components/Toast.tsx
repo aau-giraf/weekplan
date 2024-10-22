@@ -52,6 +52,7 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
         name={"close-outline"}
         style={styles.icon}
         onPress={() => onClose(id)}
+        testID="close-toast"
       />
     </Animated.View>
   );

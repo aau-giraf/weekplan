@@ -5,7 +5,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 type ToastProviderValues = {
   toasts: Omit<ToastProps, "onClose">[];
-  addToast: (toast: Omit<ToastProps, "id" | "onClose">) => void;
+  addToast: (
+    toast: Omit<ToastProps, "id" | "onClose">,
+    duration?: number
+  ) => void;
+
   removeToast: (id: number) => void;
 };
 
@@ -19,7 +23,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const addToast = useCallback(
-    (toast: Omit<ToastProps, "id" | "onClose">, duration = 100000) => {
+    (toast: Omit<ToastProps, "id" | "onClose">, duration = 5000) => {
       const id = new Date().getTime();
       const toastWithId = { id, duration, ...toast };
       setToasts((prev) => [...prev, toastWithId]);
