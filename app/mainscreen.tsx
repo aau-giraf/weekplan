@@ -40,16 +40,6 @@ const LoginScreen = () => {
               <Text style={styles.buttonText}>Uge Plan</Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <View style={styles.buttonContent}>
-              <Image
-                source={require('../assets/foodplanIcon.png')}
-                style={styles.icon}
-              />
-              <Text style={styles.buttonText}>Mad Plan</Text>
-            </View>
-          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
