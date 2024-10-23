@@ -3,6 +3,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import DateProvider from "./DateProvider";
 import CitizenProvider from "./CitizenProvider";
 import ToastProvider from "./ToastProvider";
+import AuthenticationProvider from "./AuthenticationProvider";
 
 type CustomLayoutProps = {
   children: React.ReactNode;
@@ -29,13 +30,15 @@ const ProviderWrapper = ({ children }: CustomLayoutProps) => {
 
   return (
     <ToastProvider>
-      <CitizenProvider>
-        <QueryClientProvider client={queryClient}>
-          <GestureHandlerRootView>
-            <DateProvider>{children}</DateProvider>
-          </GestureHandlerRootView>
-        </QueryClientProvider>
-      </CitizenProvider>
+      <AuthenticationProvider>
+        <CitizenProvider>
+          <QueryClientProvider client={queryClient}>
+            <GestureHandlerRootView>
+              <DateProvider>{children}</DateProvider>
+            </GestureHandlerRootView>
+          </QueryClientProvider>
+        </CitizenProvider>
+      </AuthenticationProvider>
     </ToastProvider>
   );
 };

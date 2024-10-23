@@ -17,16 +17,15 @@ const WeekPlanScreen = () => {
       <ActivityItemList />
       <ActivityAddButton />
     </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
+  container:{
+    height: "100%",
   },
   header: {
-    paddingVertical: 10,
     backgroundColor: colors.white,
   },
 });

@@ -73,11 +73,11 @@ const AddActivity = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
           keyboardVerticalOffset={80}
         >
           <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>

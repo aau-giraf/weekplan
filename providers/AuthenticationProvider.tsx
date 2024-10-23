@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import { createUserRequest } from "../apis/registerAPI";
 import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "./ToastProvider";
+import { router } from "expo-router";
 
 type AuthenticationProviderValues = {
   jwt: string | null;
@@ -28,6 +29,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
         const userData = { email, password, firstName, lastName };
         try{
             await createUserRequest(userData);
+            router.replace("/login");
         }catch (e) {
             addToast({ message: (e as Error).message, type: "error"});
         }
@@ -38,6 +40,8 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
             const res = await tryLogin(email, password);
             if(res.token){
                 setJwt(res.token);
+                router.replace("/weekplanscreen");
+                console.log(jwt);
             }else{
                 addToast({ message: "Toast not recieved", type: "error"});
             }
