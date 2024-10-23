@@ -16,6 +16,7 @@ import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
+import {colors} from "../../../utils/colors";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -141,10 +142,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.backgroundBlack,
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
@@ -152,11 +153,11 @@ const styles = StyleSheet.create({
   closeButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: "#0077b6",
+    backgroundColor: colors.blue,
     borderRadius: 5,
   },
   closeButtonText: {
-    color: "white",
+    color: colors.white,
     fontSize: 16,
   },
 });

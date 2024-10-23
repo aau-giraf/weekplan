@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
+import {colors} from "../utils/colors";
 
 type TimeSelectorProps = {
-  label: string;
+  title: string;
   value: Date;
   onChange: (selectedTime: Date) => void;
   minuteInterval?: 1 | 5 | 15 | 30;
@@ -39,7 +40,7 @@ type TimeSelectorProps = {
  * @returns {JSX.Element} The rendered TimePicker component.
  */
 const TimePicker = ({
-  label,
+  title,
   value,
   onChange,
   minuteInterval = 1,
@@ -53,7 +54,7 @@ const TimePicker = ({
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
     <View style={styles.pickerContainer}>
-      <Text style={styles.header}>{label}</Text>
+      <Text style={styles.header}>{title}</Text>
 
       {/* Android - Touchable and DateTimePicker visibility */}
       {Platform.OS === "android" && (
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     marginBottom: 15,
-    color: "#333",
+    color: colors.black,
   },
   centeredPicker: {
     alignItems: "center",

@@ -10,6 +10,7 @@ import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
+import {colors} from "../utils/colors";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;
@@ -44,23 +45,26 @@ export default function CopyDateActivitiesModal({
       visible={modalVisible}
       transparent
       animationType="slide"
-      onRequestClose={() => setModalVisible(false)}>
+      onRequestClose={() => setModalVisible(false)}
+    >
       <TouchableOpacity
         style={styles.modalBackground}
-        onPress={() => setModalVisible(false)}>
+        onPress={() => setModalVisible(false)}
+      >
         <View
           style={styles.modalContainer}
-          onStartShouldSetResponder={() => true}>
+          onStartShouldSetResponder={() => true}
+        >
           <TimePicker
             value={dates.sourceDate}
-            label={"Kopier Fra"}
+            title={"Kopier Fra"}
             mode="date"
             onChange={(date) => setDates({ ...dates, sourceDate: date })}
           />
 
           <TimePicker
             value={dates.destinationDate}
-            label={"Kopier til"}
+            title={"Kopier til"}
             onChange={(date) => setDates({ ...dates, destinationDate: date })}
             mode="date"
           />
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "80%",
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -104,6 +108,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.backgroundBlack,
   },
 });
