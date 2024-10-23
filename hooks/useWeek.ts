@@ -12,6 +12,7 @@ const useWeek = (initialDate = new Date()) => {
   const DAY_IN_MILLISECONDS = 86400000;
   const [currentDate, setCurrentDate] = useState<Date>(initialDate);
 
+
   const goToPreviousWeek = useCallback(() => {
     const newDate = new Date(currentDate);
     newDate.setDate(currentDate.getDate() - 7);
@@ -26,9 +27,9 @@ const useWeek = (initialDate = new Date()) => {
 
   const setWeekAndYear = useCallback((weekNumber: number, year: number) => {
     /* Relevant information:
-     * In Denmark Weeks numbers are specialized by the ISO-8601 standard. https://en.wikipedia.org/wiki/ISO_week_date
+     * In Denmark, week numbers are specialized by the ISO-8601 standard. https://en.wikipedia.org/wiki/ISO_week_date
      * This means that the first week of the year is the week including Jan. 04.
-     * Which in turn means that monday of week one might be in December of last year.
+     * Which in turn means that Monday of week one might be in December of last year.
      */
     const jan4th = new Date(Date.UTC(year, JANUARY, 4));
 
@@ -38,15 +39,27 @@ const useWeek = (initialDate = new Date()) => {
 
     // Subtract (dayOfWeek - 1) days to move back to the Monday of that week
     const mondayWeekOne = new Date(
-      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS,
+        jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS,
     );
-
-    setCurrentDate(
-      new Date(
+    
+    const selectedDate = new Date(
         mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS,
-      ),
     );
+    setCurrentDate(selectedDate);
+
+    // Get the current day of the week (1 = Monday, 7 = Sunday)
+    const today = new Date();
+    const currentDayOfWeek = today.getUTCDay() || 7;
+
+    const daysOffset = currentDayOfWeek - 1;
+
+    const adjustedDate = new Date(selectedDate);
+    adjustedDate.setUTCDate(selectedDate.getUTCDate() + daysOffset);
+
+    setCurrentDate(adjustedDate);
   }, []);
+
+
 
   const weekNumber = useMemo(() => getWeekNumber(currentDate), [currentDate]);
   const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);

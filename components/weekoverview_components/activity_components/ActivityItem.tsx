@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     color: colors.black,
-    fontSize: 16,
+    fontSize: 24,
   },
   iconContainer: {
     width: 400,
