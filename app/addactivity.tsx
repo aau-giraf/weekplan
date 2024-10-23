@@ -10,8 +10,6 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  Alert,
-  SafeAreaView,
   View,
 } from "react-native";
 
@@ -75,7 +73,7 @@ const AddActivity = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           style={styles.container}
@@ -148,7 +146,7 @@ const AddActivity = () => {
           </ScrollView>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </View>
   );
 };
 

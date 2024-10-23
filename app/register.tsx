@@ -8,10 +8,11 @@ import {
     Keyboard,
     ScrollView,
     TouchableOpacity,
-    SafeAreaView,
     Alert,
+    View,
 } from "react-native";
 import { createUserRequest } from "../apis/registerAPI";
+import { colors } from "../utils/colors";
 
 const Register: React.FC = () => {
     const router = useRouter();
@@ -46,7 +47,7 @@ const Register: React.FC = () => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Text style={styles.headerText}>Opret en konto</Text>
@@ -85,14 +86,14 @@ const Register: React.FC = () => {
                         <Text style={styles.buttonText}>Registrer</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={[styles.button, styles.loginButton, { backgroundColor: "#0096C8" }]}
+                        style={[styles.button, styles.loginButton]}
                         onPress={() => router.replace("/login")}
                     >
                         <Text style={styles.buttonText}>Gå til login</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </TouchableWithoutFeedback>
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: colors.white,
     },
     scrollContainer: {
         flexGrow: 1,
@@ -112,16 +113,16 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         marginBottom: 20,
         textAlign: "center",
-        color: "#333",
+        color: colors.black,
     },
     input: {
         height: 48,
-        borderColor: "#ccc",
+        borderColor: colors.gray,
         borderWidth: 1,
         marginBottom: 20,
         paddingHorizontal: 15,
         borderRadius: 8,
-        backgroundColor: "#fff",
+        backgroundColor: colors.white,
         width: "85%",
     },
     button: {
@@ -130,16 +131,16 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginVertical: 10,
         alignItems: "center",
-        backgroundColor: "#38A169",
+        backgroundColor: colors.green,
         width: "85%",
     },
     buttonText: {
-        color: "#fff",
+        color: colors.white,
         fontSize: 16,
         fontWeight: "500",
     },
     loginButton: {
-        backgroundColor: "#0033FF",
+        backgroundColor: colors.blue,
     },
 });
 

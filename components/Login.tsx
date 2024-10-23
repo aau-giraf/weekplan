@@ -8,8 +8,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import GirafIcon from "./SVG/GirafIcon";
-import { Href, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import { colors } from "../utils/colors";
+import ToastProvider from "../providers/ToastProvider";
+import { useToast } from "../providers/ToastProvider";
+
 
 type LoginForm = {
   email: string;
@@ -17,6 +20,7 @@ type LoginForm = {
 };
 
 const LoginScreen = () => {
+  const { addToast } = useToast(); 
   const router = useRouter();
   const [formData, setFormData] = useState<LoginForm>({
     email: "",
@@ -37,6 +41,11 @@ const LoginScreen = () => {
       Alert.alert("Error", "Please fill in all fields.");
       return;
     }
+
+    addToast({
+      message: "Login successful!",
+      type: "success",
+    });
 
     console.log("Logging in with:", formData);
   };
@@ -64,12 +73,12 @@ const LoginScreen = () => {
       />
       <View style={{ width: "100%", height: "auto" }}>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#38A169" }]}
+          style={[styles.button, { backgroundColor: colors.green }]}
           onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#0096C8" }]}
+          style={[styles.button, { backgroundColor: colors.blue }]}
           onPress={() => router.replace("/register")}
         >
           <Text style={styles.buttonText}>Tilføj ny konto</Text>
@@ -81,6 +90,7 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.white,
     flex: 1,
     alignItems: "center",
     padding: 20,
@@ -100,7 +110,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "#ccc",
+    borderColor: colors.gray,
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
@@ -115,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 18,
     fontWeight: "500",
   },
