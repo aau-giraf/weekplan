@@ -1,19 +1,16 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { createUserRequest } from "../apis/registerAPI";
+import { tryLogin } from "../apis/loginAPI";
+import { useToast } from "./ToastProvider";
 
 type AuthenticationProviderValues = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
   jwt: string | null;
   isAuthenticated: boolean;
   register: (email: string, password: string, firstName: string, lastName: string) => void;
-  logout: () => void;
+  login: (email: string, password: string) => void;
 };
 
 const AuthenticationContext = createContext<AuthenticationProviderValues | undefined>(undefined);
-
 
 /**
  * Provider for Authentication context
@@ -22,57 +19,40 @@ const AuthenticationContext = createContext<AuthenticationProviderValues | undef
  * @return {ReactNode}
  */
 const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => {
-    const [formData, setFormData] = useState({
-        email: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-    });
     const [jwt, setJwt] = useState<string | null>(null);
 
     const isAuthenticated = !!jwt;
+    const {addToast} = useToast();
 
     const register = useCallback(async (email: string, password: string, firstName: string, lastName: string) => {
         const userData = { email, password, firstName, lastName };
-
         try{
-            const res = await createUserRequest(userData);
+            await createUserRequest(userData);
+        }catch (e) {
+            addToast({ message: (e as Error).message, type: "error"});
+        }
+    }, [addToast]);
 
+    const login = useCallback(async (email: string, password: string) => {
+        try{
+            const res = await tryLogin(email, password);
             if(res.token){
                 setJwt(res.token);
-                setFormData({
-                    email: email,
-                    firstName: firstName,
-                    lastName: lastName,
-                    password: password,
-                });
+            }else{
+                addToast({ message: "Toast not recieved", type: "error"});
             }
         }catch (e) {
-            throw new Error("Registration failed");
+            addToast({ message: (e as Error).message, type: "error"});
         }
-    }, []);
-
-    const logout = useCallback(() => {
-        setJwt(null);
-        setFormData({
-            email: "",
-            firstName: "",
-            lastName: "",
-            password: "",
-        });
-      }, []);
+    }, [addToast]);
 
     return (
     <AuthenticationContext.Provider
         value={{
-            email: formData.email,
-            password: formData.password,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
             jwt,
             isAuthenticated,
             register,
-            logout,
+            login,
         }}
     >
         {children}

@@ -15,7 +15,6 @@ export const createUserRequest = async (userData: {
     body: JSON.stringify(userData),
     headers: { "Content-Type": "application/json" },
   });
-  console.log(res.status);
   if (!res.ok) throw new Error("Fejl: Kunne ikke oprette bruger");
   return await res.json();
 };

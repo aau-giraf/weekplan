@@ -8,11 +8,10 @@ import {
   Keyboard,
   ScrollView,
   TouchableOpacity,
-  Alert,
   View,
 } from "react-native";
-import { createUserRequest } from "../apis/registerAPI";
 import { colors } from "../utils/colors";
+import { useAuthentication } from "../providers/AuthenticationProvider";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
 
@@ -25,7 +24,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const Register: React.FC = () => {
+const RegisterScreen: React.FC = () => {
+  const {register} = useAuthentication();
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -41,26 +41,6 @@ const Register: React.FC = () => {
       ...prevData,
       [field]: value,
     }));
-  };
-
-  const handleSubmit = async () => {
-    const userData = {
-      email: formData.email,
-      password: formData.password,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-    };
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Send Data:", userData);
-      await createUserRequest(userData);
-      router.replace("/login");
-    } catch (err) {
-      const errorMessage =
-        (err as Error).message || "Der opstod en fejl under registreringen.";
-      Alert.alert("Registrering mislykkedes", errorMessage);
-    }
   };
 
   return (
@@ -119,7 +99,7 @@ const Register: React.FC = () => {
           </Text>
           <TouchableOpacity
             style={valid ? styles.button : styles.buttonDisabled}
-            onPress={handleSubmit}
+            onPress={async () => {register(formData.email, formData.password, formData.firstName, formData.lastName);}}
           >
             <Text style={styles.buttonText}>Registrer</Text>
           </TouchableOpacity>
@@ -198,4 +178,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default RegisterScreen;
