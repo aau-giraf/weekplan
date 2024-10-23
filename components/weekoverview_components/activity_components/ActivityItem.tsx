@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Pressable,
-  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ReanimatedSwipeable, {
@@ -17,8 +16,9 @@ import Reanimated, {
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
 import {colors} from "../../../utils/colors";
+import { Image } from 'expo-image';
 
-const CONTAINER_HEIGHT = 140;
+const CONTAINER_HEIGHT = 280;
 const CONTAINER_PADDING = 12;
 const ACTION_WIDTH = 100;
 
@@ -154,9 +154,11 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   };
 
   const handleImagePress = (uri: string) => {
+    console.log('Image URI:', uri);
     setImageUri(uri);
     setModalVisible(true);
   };
+
 
   if (!isLoading && error) {
     throw new Error("Fejl kunne ikke hente piktogramerne");
@@ -188,19 +190,16 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
               { backgroundColor: isCompleted ? colors.lightGreen : colors.lightBlue },
             ]}>
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
-            <Text
-              style={styles.labelText}
-              numberOfLines={2}
-              ellipsizeMode="tail">
-              {label}
-            </Text>
             <View style={styles.iconContainer}>
               {data ? (
-                <Pressable onPress={() => handleImagePress(data)}>
+                <Pressable
+                    onPress={() => handleImagePress(data)}>
                   <Image
-                    source={{ uri: data }}
-                    style={{ width: 90, height: 90 }}
-                    resizeMode="contain"
+                    style={{ width: 280, height: 280, flex: 1 }}
+                    source={{ uri: data, headers: { 'Accept': 'image/png' } }}
+                    contentFit={"contain"}
+                    cachePolicy={"memory"}
+                    onError={(error) => console.log('Error:', error)}
                   />
                 </Pressable>
               ) : (
@@ -229,17 +228,10 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 16,
   },
-  labelText: {
-    color: colors.black,
-    fontSize: 16,
-    textAlign: "center",
-    flex: 0.6,
-  },
   iconContainer: {
-    width: 120,
-    height: 120,
+    width: 400,
+    height: 300,
     borderRadius: 100,
-    backgroundColor: colors.orange,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -249,7 +241,7 @@ const styles = StyleSheet.create({
   },
   action: {
     width: ACTION_WIDTH,
-    height: 140,
+    height: 280,
     backgroundColor: colors.crimson,
     justifyContent: "center",
     alignItems: "center",

@@ -5,7 +5,6 @@ import {
   ActivityIndicator,
   Text,
   Modal,
-  Image,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
@@ -17,6 +16,8 @@ import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import {colors} from "../../../utils/colors";
+import { Image } from 'expo-image';
+
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -102,6 +103,14 @@ const ActivityItemList = () => {
     });
   };
 
+  const closeModal = () => {
+    if (imageUri) {
+      URL.revokeObjectURL(imageUri);
+    }
+    setModalVisible(false);
+    setImageUri("");
+  }
+
   return (
     <>
       <FlatList
@@ -113,26 +122,28 @@ const ActivityItemList = () => {
         renderItem={renderActivityItem}
         ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
       />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Image
-              source={{ uri: imageUri }}
-              style={{ width: 300, height: 300 }}
-              resizeMode="contain"
-            />
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Luk</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      {modalVisible && (
+          <Modal
+              animationType="slide"
+              transparent={true}
+              onRequestClose={closeModal}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Image
+                    source={{ uri: imageUri}}
+                    style={{ width: 500, height: 500 }}
+                    contentFit={"contain"}
+                />
+                <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={closeModal}>
+                  <Text style={styles.closeButtonText}>Luk</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+      )}
+
     </>
   );
 };

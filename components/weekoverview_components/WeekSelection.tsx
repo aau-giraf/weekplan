@@ -57,9 +57,7 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
 
   return (
     <View style={styles.weekSelection}>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Text style={styles.weekText}>{`Uge ${weekNumber}`}</Text>
-      </TouchableOpacity>
+      <Button title={`Uge ${weekNumber}`} onPress={() => setModalVisible(true)} />
 
       {/* Modal for Week/Year Picker */}
       <Modal visible={modalVisible} animationType="slide" transparent={true}>

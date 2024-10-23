@@ -13,12 +13,8 @@ export const fetchPictograms = async (id: number) => {
     );
 
   const contentType = res.headers.get("Content-Type");
-  if (
-    contentType?.includes("image/png") ||
-    contentType?.includes("image/jpeg")
-  ) {
-    const imageBlob = await res.blob();
-    return URL.createObjectURL(imageBlob);
+  if (contentType?.includes("image/png") || contentType?.includes("image/jpeg")) {
+    return res.url;
   } else {
     throw new Error("Response er ikke et billede");
   }

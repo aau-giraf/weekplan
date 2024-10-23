@@ -1,6 +1,5 @@
 import { View, StyleSheet, SafeAreaView } from "react-native";
 import ActivityAddButton from "../components/weekoverview_components/activity_components/ActivityAddButton";
-import ActivityItemHeader from "../components/weekoverview_components/activity_components/ActivityItemHeader";
 import WeekSelection from "../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../components/weekoverview_components/activity_components/ActivityItemList";
@@ -13,7 +12,6 @@ const WeekPlanScreen = () => {
         <WeekSelection />
         <DaysContainer />
       </View>
-      <ActivityItemHeader />
       <ActivityItemList />
       <ActivityAddButton />
     </SafeAreaView>

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.backgroundBlack,
+    backgroundColor: colors.white,
   },
   image: {
     width: 250,
