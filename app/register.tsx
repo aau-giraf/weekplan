@@ -31,9 +31,8 @@ const Register: React.FC = () => {
 
     const handleSubmit = async () => {
         const userData = {
-            userName: formData.email,
+            email: formData.email,
             password: formData.password,
-            role: "teacher",
             firstName: formData.firstName,
             lastName: formData.lastName,
         };

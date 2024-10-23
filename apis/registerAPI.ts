@@ -5,9 +5,8 @@ import { BASE_URL } from "../utils/globals";
  * @param userData {object} - The user data to be sent to the API.
  */
 export const createUserRequest = async (userData: {
-    userName: string;
+    email: string;
     password: string;
-    role: string;
     firstName: string;
     lastName: string;
 }) => {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
 import SplashScreen from "../components/SplashScreen";
+import LoginScreen from "../components/Login";
 
 const HomePage: React.FC = () => {
   const [isSplashVisible, setSplashVisible] = useState(true);
@@ -18,17 +17,7 @@ const HomePage: React.FC = () => {
     return <SplashScreen />;
   }
 
-  return (
-    <View>
-      <Text>Home Page</Text>
-      <Link href="/register">
-        <Text>Gå til registrering</Text>
-      </Link>
-      <Link href="/weekplanscreen">
-        <Text>Gå til ugeplan</Text>
-      </Link>
-    </View>
-  );
+  return <LoginScreen />;
 };
 
 export default HomePage;
