@@ -41,10 +41,11 @@ const LoginScreen = () => {
       return;
     }
 
-    const login = await tryLogin(email, password).catch((e) =>
-      addToast({ message: "Fejl i login", type: "error" }),
-    );
-    console.log("login: ", login);
+    await tryLogin(email, password)
+      .catch((e) => {
+        addToast({ message: "Fejl i login", type: "error" });
+      })
+      .then((token) => {});
   };
 
   return (
