@@ -16,7 +16,8 @@ import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
-import {colors} from "../../../utils/colors";
+import { colors } from "../../../utils/colors";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -104,9 +105,10 @@ const ActivityItemList = () => {
 
   return (
     <>
-      <FlatList
+      <Animated.FlatList
         data={data}
         onRefresh={async () => await refetch()}
+        itemLayoutAnimation={LinearTransition}
         refreshing={isLoading}
         ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
         keyExtractor={(item) => item.activityId.toString()}
