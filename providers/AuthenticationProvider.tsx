@@ -1,12 +1,13 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
 import { createUserRequest } from "../apis/registerAPI";
 import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "./ToastProvider";
 import { router } from "expo-router";
+import { isTokenExpired } from "../utils/jwtDecode";
 
 type AuthenticationProviderValues = {
   jwt: string | null;
-  isAuthenticated: boolean;
+  isAuthenticated: () => boolean;
   register: (email: string, password: string, firstName: string, lastName: string) => void;
   login: (email: string, password: string) => void;
 };
@@ -21,9 +22,11 @@ const AuthenticationContext = createContext<AuthenticationProviderValues | undef
  */
 const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => {
     const [jwt, setJwt] = useState<string | null>(null);
-
-    const isAuthenticated = !!jwt;
     const {addToast} = useToast();
+
+    const isAuthenticated = useCallback(() => {
+        return !!jwt && !isTokenExpired(jwt as string);
+      }, [jwt]);
 
     const register = useCallback(async (email: string, password: string, firstName: string, lastName: string) => {
         const userData = { email, password, firstName, lastName };
@@ -41,7 +44,6 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
             if(res.token){
                 setJwt(res.token);
                 router.replace("/weekplanscreen");
-                console.log(jwt);
             }else{
                 addToast({ message: "Toast not recieved", type: "error"});
             }
