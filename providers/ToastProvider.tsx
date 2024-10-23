@@ -8,6 +8,8 @@ type ToastProviderValues = {
     toast: Omit<ToastProps, "id" | "onClose">,
     duration?: number
   ) => void;
+  toasts: Omit<ToastProps, "onClose">[];
+  removeToast: (id: number) => void;
 };
 
 const ToastContext = createContext<ToastProviderValues | undefined>(undefined);
@@ -32,7 +34,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <ToastContext.Provider value={{ addToast }}>
+    <ToastContext.Provider value={{ addToast, toasts, removeToast }}>
       {children}
       <SafeAreaView style={styles.container}>
         {toasts.map((toast) => (
