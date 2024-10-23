@@ -46,7 +46,7 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: colors.crimson }]}
+        style={[styles.action, { backgroundColor: colors.red }]}
       >
         <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   action: {
     width: ACTION_WIDTH,
     height: 140,
-    backgroundColor: colors.crimson,
+    backgroundColor: colors.red,
     justifyContent: "center",
     alignItems: "center",
   },
