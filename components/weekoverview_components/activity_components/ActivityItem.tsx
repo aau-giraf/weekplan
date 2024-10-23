@@ -16,7 +16,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import {colors} from "../../../utils/colors";
+import { colors } from "../../../utils/colors";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 12;
@@ -33,7 +33,7 @@ const ACTION_WIDTH = 100;
 function LeftAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
-  deleteTask: () => void
+  deleteTask: () => void,
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -46,8 +46,9 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: colors.crimson }]}>
-        <Ionicons name="trash-outline" size={32} color= {colors.white} />
+        style={[styles.action, { backgroundColor: colors.crimson }]}
+      >
+        <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -66,7 +67,7 @@ function RightAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
   editActivity: () => void,
-  checkActivity: () => void
+  checkActivity: () => void,
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -79,15 +80,17 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: colors.blue }]}>
-        <Ionicons name={"pencil-outline"} size={32} color= {colors.white} />
+        style={[styles.action, { backgroundColor: colors.blue }]}
+      >
+        <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: colors.green }]}>
-        <Ionicons name={"checkmark"} size={32} color= {colors.white} />
+        style={[styles.action, { backgroundColor: colors.green }]}
+      >
+        <Ionicons name={"checkmark"} size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -177,21 +180,28 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             prog,
             drag,
             handleCloseOnEditTaskPress,
-            handleCloseOnCheckTaskPress
+            handleCloseOnCheckTaskPress,
           )
         }
-        friction={2}>
+        friction={2}
+      >
         <Pressable onPress={showDetails}>
           <View
             style={[
               styles.taskContainer,
-              { backgroundColor: isCompleted ? colors.lightGreen : colors.lightBlue },
-            ]}>
+              {
+                backgroundColor: isCompleted
+                  ? colors.lightGreen
+                  : colors.lightBlue,
+              },
+            ]}
+          >
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <Text
               style={styles.labelText}
               numberOfLines={2}
-              ellipsizeMode="tail">
+              ellipsizeMode="tail"
+            >
               {label}
             </Text>
             <View style={styles.iconContainer}>
