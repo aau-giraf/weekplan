@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "expo-router";
 import { Text, View } from "react-native";
 import SplashScreen from "../components/SplashScreen";
-import PrivacyPolicy from "../components/Legal/PrivacyPolicy";
 
 const HomePage: React.FC = () => {
   const [isSplashVisible, setSplashVisible] = useState(true);
@@ -25,7 +24,6 @@ const HomePage: React.FC = () => {
       <Link href="/weekplanscreen">
         <Text>Gå til ugeplan</Text>
       </Link>
-      <PrivacyPolicy />
     </View>
   );
 };
