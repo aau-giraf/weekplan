@@ -42,9 +42,9 @@ const PrivacyPolicy = () => {
             kontaktoplysninger nedenfor.
           </Text>
           <Text style={styles.text}>Navn: Girafs Venner</Text>
-          <Text style={styles.text}>Telefon: 40 89 21 56</Text>
+          <Text style={styles.text}>Telefon: 99 40 78 38</Text>
           <Text style={styles.text}>CVR-nr.: 40519025</Text>
-          <Text style={styles.text}>Mail: ulrik@cs.aau.dk</Text>
+          <Text style={styles.text}>Mail: nbha@cs.aau.dk</Text>
 
           <Text style={styles.subheader}>
             2. Formålene med og retsgrundlaget for behandlingen af dine
