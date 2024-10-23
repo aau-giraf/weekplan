@@ -11,7 +11,7 @@ import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
-import {colors} from "../../utils/colors";
+import { colors } from "../../utils/colors";
 
 type WeekSelectionProps = {};
 
