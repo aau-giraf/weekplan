@@ -10,7 +10,6 @@ import {
 import GirafIcon from "./SVG/GirafIcon";
 import { useRouter } from "expo-router";
 import { colors } from "../utils/colors";
-import ToastProvider from "../providers/ToastProvider";
 import { useToast } from "../providers/ToastProvider";
 
 

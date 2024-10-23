@@ -37,12 +37,14 @@ const Register: React.FC = () => {
             firstName: formData.firstName,
             lastName: formData.lastName,
         };
-
+    
         try {
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            createUserRequest(userData);
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await createUserRequest(userData);
+            router.replace("/login");
         } catch (err) {
-            Alert.alert("Registrering mislykkedes", "Der opstod en fejl under registreringen.");
+            const errorMessage = (err as Error).message || "Der opstod en fejl under registreringen.";
+            Alert.alert("Registrering mislykkedes", errorMessage);
         }
     };
 
