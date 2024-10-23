@@ -11,7 +11,7 @@ import GirafIcon from "./SVG/GirafIcon";
 import { useRouter } from "expo-router";
 import { colors } from "../utils/colors";
 import { useToast } from "../providers/ToastProvider";
-
+import { tryLogin } from "../apis/loginAPI";
 
 type LoginForm = {
   email: string;
@@ -19,7 +19,7 @@ type LoginForm = {
 };
 
 const LoginScreen = () => {
-  const { addToast } = useToast(); 
+  const { addToast } = useToast();
   const router = useRouter();
   const [formData, setFormData] = useState<LoginForm>({
     email: "",
@@ -33,7 +33,7 @@ const LoginScreen = () => {
     });
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const { email, password } = formData;
 
     if (email === "" || password === "") {
@@ -41,12 +41,10 @@ const LoginScreen = () => {
       return;
     }
 
-    addToast({
-      message: "Login successful!",
-      type: "success",
-    });
-
-    console.log("Logging in with:", formData);
+    const login = await tryLogin(email, password).catch((e) =>
+      addToast({ message: "Fejl i login", type: "error" }),
+    );
+    console.log("login: ", login);
   };
 
   return (
@@ -73,7 +71,8 @@ const LoginScreen = () => {
       <View style={{ width: "100%", height: "auto" }}>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: colors.green }]}
-          onPress={handleLogin}>
+          onPress={handleLogin}
+        >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
