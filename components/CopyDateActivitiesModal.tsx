@@ -10,7 +10,7 @@ import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
-import {colors} from "../utils/colors";
+import { SharedStyles, colors } from "../utils/SharedStyles";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;
@@ -95,19 +95,16 @@ export default function CopyDateActivitiesModal({
 
 const styles = StyleSheet.create({
   modalContainer: {
+    ...SharedStyles.container,
+    ...SharedStyles.trueCenter,
     width: "80%",
     height: "80%",
-    padding: 20,
-    backgroundColor: colors.white,
     borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
     gap: 5,
   },
   modalBackground: {
+    ...SharedStyles.trueCenter,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: colors.backgroundBlack,
   },
 });

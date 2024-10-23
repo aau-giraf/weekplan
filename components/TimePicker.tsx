@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
-import {colors} from "../utils/colors";
+import { SharedStyles } from '../utils/SharedStyles';
 
 type TimeSelectorProps = {
   title: string;
@@ -54,7 +54,7 @@ const TimePicker = ({
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
     <View style={styles.pickerContainer}>
-      <Text style={styles.header}>{title}</Text>
+      <Text style={SharedStyles.header}>{title}</Text>
 
       {/* Android - Touchable and DateTimePicker visibility */}
       {Platform.OS === "android" && (
@@ -108,12 +108,6 @@ const TimePicker = ({
 const styles = StyleSheet.create({
   pickerContainer: {
     alignItems: "center",
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: "500",
-    marginBottom: 15,
-    color: colors.black,
   },
   centeredPicker: {
     alignItems: "center",

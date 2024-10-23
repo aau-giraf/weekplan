@@ -23,6 +23,7 @@ import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { colors } from "../utils/colors";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
+import { rem, SharedStyles } from '../utils/SharedStyles';
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: rem(1.5),
     fontWeight: "600",
     marginBottom: 20,
     textAlign: "center",
@@ -169,28 +170,28 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
+    borderRadius: 5,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
-    borderRadius: 5,
   },
   inputError: {
     width: "100%",
     padding: 10,
     borderWidth: 1,
+    borderRadius: 5,
     borderColor: colors.red,
     backgroundColor: colors.white,
-    borderRadius: 5,
   },
   description: {
     height: 80,
-    borderColor: colors.lightGray,
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 8,
-    backgroundColor: colors.white,
     textAlignVertical: "top",
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
   },
   buttonValid: {
     paddingVertical: 12,
@@ -211,12 +212,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray,
   },
   buttonText: {
-    color: colors.white,
-    fontSize: 16,
+    fontSize: rem(1),
     fontWeight: "500",
+    color: colors.white,
   },
   header: {
-    fontSize: 16,
+    fontSize: rem(1),
     fontWeight: "500",
     marginBottom: 10,
     color: colors.black,

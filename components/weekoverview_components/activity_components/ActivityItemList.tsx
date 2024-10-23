@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  FlatList,
   ActivityIndicator,
   Text,
   Modal,
@@ -16,8 +15,8 @@ import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
-import { colors } from "../../../utils/colors";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -119,7 +118,8 @@ const ActivityItemList = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
+        onRequestClose={() => setModalVisible(false)}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Image
@@ -129,7 +129,8 @@ const ActivityItemList = () => {
             />
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
+              onPress={() => setModalVisible(false)}
+            >
               <Text style={styles.closeButtonText}>Luk</Text>
             </TouchableOpacity>
           </View>
@@ -141,26 +142,24 @@ const ActivityItemList = () => {
 
 const styles = StyleSheet.create({
   modalContainer: {
+    ...SharedStyles.trueCenter,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: colors.backgroundBlack,
   },
   modalContent: {
-    backgroundColor: colors.white,
-    justifyContent: "center",
-    alignItems: "center",
+    ...SharedStyles.trueCenter,
     borderRadius: 10,
+    backgroundColor: colors.white,
   },
   closeButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: colors.blue,
     borderRadius: 5,
+    backgroundColor: colors.blue,
   },
   closeButtonText: {
+    fontSize: rem(1),
     color: colors.white,
-    fontSize: 16,
   },
 });
 

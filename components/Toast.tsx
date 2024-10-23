@@ -5,7 +5,7 @@ import Animated, {
   FadeOutRight,
   LinearTransition,
 } from "react-native-reanimated";
-import { colors } from "../utils/colors";
+import { rem, colors, SharedStyles } from "../utils/SharedStyles";
 
 type ToastNotification = "success" | "error" | "warning";
 type ToastStyle = {
@@ -44,11 +44,12 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
       layout={LinearTransition}
       entering={FadeInUp}
       exiting={FadeOutRight}
-      style={[styles.toastContainer, { backgroundColor: color }]}>
-      <Ionicons size={35} name={icon} style={styles.icon} />
-      <Text style={styles.toastMessage}>{message}</Text>
+      style={[styles.toastContainer, { backgroundColor: color }]}
+    >
+      <Ionicons size={rem(2)} name={icon} style={styles.icon} />
+      <Text style={styles.toastMessage && SharedStyles.flexRow}>{message}</Text>
       <Ionicons
-        size={35}
+        size={rem(2)}
         name={"close-outline"}
         style={styles.icon}
         onPress={() => onClose(id)}
@@ -60,26 +61,25 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
 
 const styles = StyleSheet.create({
   toastContainer: {
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     padding: 15,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 5,
-    shadowColor: "black",
+    shadowColor: colors.black,
     shadowOpacity: 0.3,
   },
   toastMessage: {
-    color: "white",
-    fontSize: 18,
+    color: colors.white,
+    fontSize: rem(1),
     flex: 1,
     textAlign: "center",
-    textShadowColor: "black",
+    textShadowColor: colors.black,
 
     marginHorizontal: 20,
   },
   icon: {
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
   },
 });

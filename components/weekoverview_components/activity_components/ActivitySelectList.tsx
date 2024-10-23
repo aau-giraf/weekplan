@@ -1,6 +1,7 @@
 import { FlatList } from "react-native-gesture-handler";
 import { ActivityDTO } from "../../../DTO/activityDTO";
 import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
+import { colors, rem, SharedStyles } from '../../../utils/SharedStyles';
 
 type ActivitySelectListProps = {
   activities: ActivityDTO[];
@@ -30,8 +31,9 @@ const ActivitySelectList = ({
         style={[
           styles.activityEntry,
           { borderLeftWidth: selectedIds.includes(item.activityId) ? 1 : 0 },
-        ]}>
-        <Text style={{ fontSize: 18 }}>{item.name}</Text>
+        ]}
+      >
+        <Text style={{ fontSize: rem(1) }}>{item.name}</Text>
       </TouchableOpacity>
     );
   };
@@ -54,13 +56,12 @@ const styles = StyleSheet.create({
     maxHeight: "50%",
   },
   activityEntry: {
-    display: "flex",
-    flexDirection: "row",
+    ...SharedStyles.flexRow,
     marginBottom: 2,
     alignItems: "center",
     borderStyle: "solid",
     borderWidth: 0,
-    borderColor: "blue",
+    borderColor: colors.blue,
     padding: 5,
     paddingLeft: 10,
   },
