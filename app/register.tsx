@@ -13,15 +13,28 @@ import {
 } from "react-native";
 import { createUserRequest } from "../apis/registerAPI";
 import { colors } from "../utils/colors";
+import { z } from "zod";
+import useValidation from "../hooks/useValidation";
+
+const schema = z.object({
+  email: z.string().email("Indtast en gyldig e-mailadresse"),
+  firstName: z.string().min(2, "Fornavn skal være mindst 2 tegn"),
+  lastName: z.string().min(2, "Efternavn skal være mindst 2 tegn"),
+  password: z.string().min(8, "Adgangskode skal være mindst 8 tegn"),
+});
+
+type FormData = z.infer<typeof schema>;
 
 const Register: React.FC = () => {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: "",
     firstName: "",
     lastName: "",
     password: "",
   });
+
+  const { errors, valid } = useValidation({ schema, formData });
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData) => ({
@@ -56,7 +69,9 @@ const Register: React.FC = () => {
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.headerText}>Opret en konto</Text>
           <TextInput
-            style={styles.input}
+            style={
+              errors?.email?._errors ? styles.inputError : styles.inputValid
+            }
             placeholder="E-mail"
             value={formData.email}
             onChangeText={(value) => handleInputChange("email", value)}
@@ -64,34 +79,54 @@ const Register: React.FC = () => {
             autoCapitalize="none"
             returnKeyType="done"
           />
+          <Text>{!errors?.email?._errors ? " " : errors?.email?._errors}</Text>
           <TextInput
-            style={styles.input}
+            style={
+              errors?.firstName?._errors ? styles.inputError : styles.inputValid
+            }
             placeholder="Fornavn"
             value={formData.firstName}
             onChangeText={(value) => handleInputChange("firstName", value)}
             returnKeyType="done"
           />
+          <Text>
+            {!errors?.firstName?._errors ? " " : errors?.firstName?._errors}
+          </Text>
           <TextInput
-            style={styles.input}
+            style={
+              errors?.lastName?._errors ? styles.inputError : styles.inputValid
+            }
             placeholder="Efternavn"
             value={formData.lastName}
             onChangeText={(value) => handleInputChange("lastName", value)}
             returnKeyType="done"
           />
+          <Text>
+            {!errors?.lastName?._errors ? " " : errors?.lastName?._errors}
+          </Text>
           <TextInput
-            style={styles.input}
+            style={
+              errors?.password?._errors ? styles.inputError : styles.inputValid
+            }
             placeholder="Adgangskode"
             value={formData.password}
             onChangeText={(value) => handleInputChange("password", value)}
             secureTextEntry
             returnKeyType="done"
           />
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text>
+            {!errors?.password?._errors ? " " : errors?.password?._errors}
+          </Text>
+          <TouchableOpacity
+            style={valid ? styles.button : styles.buttonDisabled}
+            onPress={handleSubmit}
+          >
             <Text style={styles.buttonText}>Registrer</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.loginButton]}
             onPress={() => router.replace("/login")}
+            disabled={!valid}
           >
             <Text style={styles.buttonText}>Gå til login</Text>
           </TouchableOpacity>
@@ -119,15 +154,21 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.black,
   },
-  input: {
-    height: 48,
-    borderColor: colors.gray,
+  inputValid: {
+    width: "100%",
+    padding: 10,
     borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    borderRadius: 8,
+    borderColor: colors.lightGray,
     backgroundColor: colors.white,
-    width: "85%",
+    borderRadius: 5,
+  },
+  inputError: {
+    width: "100%",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: colors.red,
+    backgroundColor: colors.white,
+    borderRadius: 5,
   },
   button: {
     paddingVertical: 12,
@@ -145,6 +186,15 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: colors.blue,
+  },
+  buttonDisabled: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 10,
+    marginTop: "auto",
+    alignItems: "center",
+    backgroundColor: colors.gray,
   },
 });
 
