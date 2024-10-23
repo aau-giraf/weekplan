@@ -85,8 +85,8 @@ const Register: React.FC = () => {
                         <Text style={styles.buttonText}>Registrer</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={[styles.button, styles.loginButton]}
-                        onPress={() => router.back()}
+                        style={[styles.button, styles.loginButton, { backgroundColor: "#0096C8" }]}
+                        onPress={() => router.replace("/login")}
                     >
                         <Text style={styles.buttonText}>Gå til login</Text>
                     </TouchableOpacity>

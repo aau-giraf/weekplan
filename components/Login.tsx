@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import GirafIcon from "./SVG/GirafIcon";
+import { Href, useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type LoginForm = {
   email: string;
@@ -15,6 +17,7 @@ type LoginForm = {
 };
 
 const LoginScreen = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState<LoginForm>({
     email: "",
     password: "",
@@ -66,7 +69,9 @@ const LoginScreen = () => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#0096C8" }]}>
+          style={[styles.button, { backgroundColor: "#0096C8" }]}
+          onPress={() => router.replace("/register")}
+        >
           <Text style={styles.buttonText}>Tilføj ny konto</Text>
         </TouchableOpacity>
       </View>

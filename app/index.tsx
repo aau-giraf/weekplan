@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SplashScreen from "../components/SplashScreen";
-import LoginScreen from "../components/Login";
+import { router } from "expo-router";
 
 const HomePage: React.FC = () => {
   const [isSplashVisible, setSplashVisible] = useState(true);
@@ -13,11 +13,18 @@ const HomePage: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!isSplashVisible) {
+      router.replace("/login");
+    }
+  }, [isSplashVisible]);
+
   if (isSplashVisible) {
     return <SplashScreen />;
   }
 
-  return <LoginScreen />;
+  return null;
+
 };
 
 export default HomePage;
