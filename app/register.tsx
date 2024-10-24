@@ -63,89 +63,97 @@ const RegisterScreen: React.FC = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.headerText}>Opret en konto</Text>
-          <TextInput
-            style={
-              errors?.email?._errors && haveWrittenInEmail
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="E-mail"
-            value={formData.email}
-            onChangeText={(value) => {
-              handleInputChange("email", value);
-              setHaveWrittenInEmail(true);
-            }}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            returnKeyType="done"
-          />
-          <Text>
-            {(errors?.email?._errors && !haveWrittenInEmail) ||
-            !errors?.email?._errors
-              ? " "
-              : errors?.email?._errors}
-          </Text>
-          <TextInput
-            style={
-              errors?.firstName?._errors && haveWrittenInFirstName
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="Fornavn"
-            value={formData.firstName}
-            onChangeText={(value) => {
-              handleInputChange("firstName", value);
-              setHaveWrittenInFirstName(true);
-            }}
-            returnKeyType="done"
-          />
-          <Text>
-            {(errors?.firstName?._errors && !haveWrittenInFirstName) ||
-            !errors?.firstName?._errors
-              ? " "
-              : errors?.firstName?._errors}
-          </Text>
-          <TextInput
-            style={
-              errors?.lastName?._errors && haveWrittenInLastName
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="Efternavn"
-            value={formData.lastName}
-            onChangeText={(value) => {
-              setHaveWrittenInLastName(true);
-              handleInputChange("lastName", value);
-            }}
-            returnKeyType="done"
-          />
-          <Text>
-            {(errors?.lastName?._errors && !haveWrittenInLastName) ||
-            !errors?.lastName?._errors
-              ? " "
-              : errors?.lastName?._errors}
-          </Text>
-          <TextInput
-            style={
-              errors?.password?._errors && haveWrittenInPassword
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="Adgangskode"
-            value={formData.password}
-            onChangeText={(value) => {
-              handleInputChange("password", value);
-              setHaveWrittenInPassword(true);
-            }}
-            secureTextEntry
-            returnKeyType="done"
-          />
-          <Text>
-            {(errors?.password?._errors && !haveWrittenInPassword) ||
-            !errors?.password?._errors
-              ? " "
-              : errors?.password?._errors}
-          </Text>
+          <View>
+            <TextInput
+              style={
+                errors?.email?._errors && haveWrittenInEmail
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="E-mail"
+              value={formData.email}
+              onChangeText={(value) => {
+                handleInputChange("email", value);
+                setHaveWrittenInEmail(true);
+              }}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              returnKeyType="done"
+            />
+            <Text>
+              {(errors?.email?._errors && !haveWrittenInEmail) ||
+              !errors?.email?._errors
+                ? " "
+                : errors?.email?._errors}
+            </Text>
+          </View>
+          <View>
+            <TextInput
+              style={
+                errors?.firstName?._errors && haveWrittenInFirstName
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Fornavn"
+              value={formData.firstName}
+              onChangeText={(value) => {
+                handleInputChange("firstName", value);
+                setHaveWrittenInFirstName(true);
+              }}
+              returnKeyType="done"
+            />
+            <Text>
+              {(errors?.firstName?._errors && !haveWrittenInFirstName) ||
+              !errors?.firstName?._errors
+                ? " "
+                : errors?.firstName?._errors}
+            </Text>
+          </View>
+          <View>
+            <TextInput
+              style={
+                errors?.lastName?._errors && haveWrittenInLastName
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Efternavn"
+              value={formData.lastName}
+              onChangeText={(value) => {
+                setHaveWrittenInLastName(true);
+                handleInputChange("lastName", value);
+              }}
+              returnKeyType="done"
+            />
+            <Text>
+              {(errors?.lastName?._errors && !haveWrittenInLastName) ||
+              !errors?.lastName?._errors
+                ? " "
+                : errors?.lastName?._errors}
+            </Text>
+          </View>
+          <View>
+            <TextInput
+              style={
+                errors?.password?._errors && haveWrittenInPassword
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Adgangskode"
+              value={formData.password}
+              onChangeText={(value) => {
+                handleInputChange("password", value);
+                setHaveWrittenInPassword(true);
+              }}
+              secureTextEntry
+              returnKeyType="done"
+            />
+            <Text>
+              {(errors?.password?._errors && !haveWrittenInPassword) ||
+              !errors?.password?._errors
+                ? " "
+                : errors?.password?._errors}
+            </Text>
+          </View>
           <TouchableOpacity
             style={valid ? styles.button : styles.buttonDisabled}
             disabled={!valid}
@@ -215,6 +223,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green,
     width: "85%",
   },
+  buttonDisabled: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 10,
+    alignItems: "center",
+    backgroundColor: colors.gray,
+    width: "85%",
+  },
   buttonText: {
     color: colors.white,
     fontSize: 16,
@@ -222,15 +239,6 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: colors.blue,
-  },
-  buttonDisabled: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginVertical: 10,
-    marginTop: "auto",
-    alignItems: "center",
-    backgroundColor: colors.gray,
   },
 });
 
