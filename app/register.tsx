@@ -22,8 +22,7 @@ const schema = z.object({
   password: z
     .string()
     .trim()
-    .min(8, "")
-    .regex(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$"), {
+    .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).+$"), {
       message:
         "Adgangskode skal være mindst 8 tegn og indeholde et stort bogstav, et lille bogstav og et tal",
     }),
@@ -42,7 +41,8 @@ const RegisterScreen: React.FC = () => {
   });
 
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [haveWrittenInConfirmPassword, setHaveWrittenInConfirmPassword] = useState<boolean>(false);
+  const [haveWrittenInConfirmPassword, setHaveWrittenInConfirmPassword] =
+    useState<boolean>(false);
 
   const { errors, valid } = useValidation({ schema, formData });
 
@@ -167,10 +167,14 @@ const RegisterScreen: React.FC = () => {
             returnKeyType="done"
           />
           <Text>
-            {haveWrittenInConfirmPassword && !isPasswordMatch ? "Adgangskoderne stemmer ikke overens" : " "}
+            {haveWrittenInConfirmPassword && !isPasswordMatch
+              ? "Adgangskoderne stemmer ikke overens"
+              : " "}
           </Text>
           <TouchableOpacity
-            style={valid && isPasswordMatch ? styles.button : styles.buttonDisabled}
+            style={
+              valid && isPasswordMatch ? styles.button : styles.buttonDisabled
+            }
             disabled={!valid || !isPasswordMatch}
             onPress={async () => {
               register(
