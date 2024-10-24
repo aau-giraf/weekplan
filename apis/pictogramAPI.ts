@@ -7,10 +7,11 @@ export const fetchPictograms = async (id: number) => {
     `https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`,
   );
 
-  if (!res.ok)
+  if (!res.ok){
+    console.log("OK:",res.ok);
     throw new Error(
       `Fejl kunne ikke hente piktogramarne, status kode: ${res.status}`,
-    );
+    );}
 
   const contentType = res.headers.get("Content-Type");
   if (

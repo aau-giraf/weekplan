@@ -24,6 +24,9 @@ const HomePage: React.FC = () => {
       <Link href="/weekplanscreen">
         <Text>Gå til ugeplan</Text>
       </Link>
+      <Link href="/vieworganisation">
+        <Text>Gå til din organisation</Text>
+      </Link>
     </View>
   );
 };

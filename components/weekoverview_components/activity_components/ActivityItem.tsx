@@ -157,6 +157,8 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     setModalVisible(true);
   };
 
+console.log(error)
+
   if (!isLoading && error) {
     throw new Error("Fejl kunne ikke hente piktogramerne");
   }
