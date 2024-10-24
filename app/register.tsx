@@ -15,6 +15,14 @@ import { useAuthentication } from "../providers/AuthenticationProvider";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
 
+/**
+ * Regex
+ * @type {RegExp}
+ * @constant (?=.*[A-Z]) - At least one uppercase letter
+ * @constant (?=.*[a-z]) - At least one lowercase letter
+ * @constant (?=.*\\d) - At least one digit
+ */
+
 const schema = z.object({
   email: z.string().email("Indtast en gyldig e-mailadresse"),
   firstName: z.string().trim().min(2, "Fornavn skal være mindst 2 tegn"),
@@ -22,13 +30,19 @@ const schema = z.object({
   password: z
     .string()
     .trim()
-    .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).+$"), {
+    .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).$"), {
       message:
         "Adgangskode skal være mindst 8 tegn og indeholde et stort bogstav, et lille bogstav og et tal",
     }),
 });
 
 type FormData = z.infer<typeof schema>;
+
+/**
+ * @constructor
+ * RegisterScreen
+ * @description Screen for registering a new user
+ */
 
 const RegisterScreen: React.FC = () => {
   const { register } = useAuthentication();
@@ -181,16 +195,14 @@ const RegisterScreen: React.FC = () => {
                 formData.email,
                 formData.password,
                 formData.firstName,
-                formData.lastName,
+                formData.lastName
               );
-            }}
-          >
+            }}>
             <Text style={styles.buttonText}>Registrer</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.loginButton]}
-            onPress={() => router.replace("/login")}
-          >
+            onPress={() => router.replace("/login")}>
             <Text style={styles.buttonText}>Gå til login</Text>
           </TouchableOpacity>
         </ScrollView>
