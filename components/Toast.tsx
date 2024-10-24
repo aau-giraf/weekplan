@@ -47,7 +47,7 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
       style={[styles.toastContainer, { backgroundColor: color }]}
     >
       <Ionicons size={rem(2)} name={icon} style={styles.icon} />
-      <Text style={styles.toastMessage && SharedStyles.flexRow}>{message}</Text>
+      <Text style={styles.toastMessage}>{message}</Text>
       <Ionicons
         size={rem(2)}
         name={"close-outline"}
@@ -64,23 +64,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 15,
-    backgroundColor: colors.white,
     borderRadius: 5,
-    shadowColor: colors.black,
     shadowOpacity: 0.3,
+    backgroundColor: colors.white,
+    shadowColor: colors.black,
   },
   toastMessage: {
-    color: colors.white,
+    ...SharedStyles.flexRow,
     fontSize: rem(1),
     flex: 1,
     textAlign: "center",
+    color: colors.white,
     textShadowColor: colors.black,
 
     marginHorizontal: 20,
   },
   icon: {
-    color: colors.white,
     fontWeight: "bold",
+    color: colors.white,
   },
 });
 export default Toast;
