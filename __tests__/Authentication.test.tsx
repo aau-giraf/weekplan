@@ -34,7 +34,7 @@ describe('AuthenticationProvider and useAuthentication', () => {
           });
 
         act(() => {
-            result.current.login('cap@email.dk', '29328eWee2');
+            result.current.login('test@test.dk', 'testTest1');
         })
         
         await waitFor(()=> {
@@ -53,7 +53,7 @@ describe('AuthenticationProvider and useAuthentication', () => {
           });
 
         act(() => {
-            result.current.login('cap@3232.dk', '23943We343')
+            result.current.login('test@test.dk', 'testTest1');
         });
 
         await waitFor(() => {
