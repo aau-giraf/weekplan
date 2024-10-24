@@ -1,29 +1,45 @@
 import { UserDTO } from "../../DTO/organisationDTO";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { ProfilePicture } from "../ProfilePicture";
+import { SharedStyles } from "../../utils/SharedStyles";
 
 type MemberViewProps = {
   members: UserDTO[];
 };
 
+type MemberViewEntryProps = {
+  user: UserDTO;
+};
+
 export const MemberView = ({ members }: MemberViewProps) => {
   const MAX_DISPLAYED_MEMBERS = 8;
 
+  // Display at most MAX_DISPLAYED_MEMBERS members
   const displayedMembers: UserDTO[] =
-    members.length < MAX_DISPLAYED_MEMBERS
+    members.length <= MAX_DISPLAYED_MEMBERS
       ? members
       : members.slice(0, MAX_DISPLAYED_MEMBERS);
 
-  const remainingMembers = MAX_DISPLAYED_MEMBERS - displayedMembers.length;
+  // Calculate how many members are not displayed
+  const remainingMembers = members.length - displayedMembers.length;
 
   return (
     <TouchableOpacity onPress={() => {}}>
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        {displayedMembers.map((member) => (
-          <MemberDisplayEntry image={member.image} />
+      <View
+        style={[
+          SharedStyles.trueCenter,
+          { display: "flex", flexDirection: "row", alignItems: "center" },
+        ]}
+      >
+        {displayedMembers.map((member, index) => (
+          <MemberViewEntry user={member} key={index} />
         ))}
+
         {remainingMembers > 0 && (
-          <View>
-            <Text>{`+${remainingMembers}`}</Text>
+          <View style={styles.remainingMembersContainer}>
+            <Text
+              style={styles.remainingMembersText}
+            >{`+${remainingMembers}`}</Text>
           </View>
         )}
       </View>
@@ -31,10 +47,18 @@ export const MemberView = ({ members }: MemberViewProps) => {
   );
 };
 
-const MemberDisplayEntry = (props: { image: string | undefined }) => {
+const MemberViewEntry = ({ user }: MemberViewEntryProps) => {
   return (
     <View style={styles.memberImgContainer}>
-      {props.image? <Text>{props.image}</Text> : <ProfilePic
+      {user.image ? (
+        <Image source={{ uri: user.image }} style={styles.memberImg} />
+      ) : (
+        <ProfilePicture
+          firstName={user.firstName ?? "N/"}
+          lastName={user.lastName ?? "A"}
+          style={styles.memberImg}
+        />
+      )}
     </View>
   );
 };
@@ -42,13 +66,24 @@ const MemberDisplayEntry = (props: { image: string | undefined }) => {
 const styles = StyleSheet.create({
   memberImgContainer: {
     marginRight: -8,
-    height: 20,
-    width: 20,
-    borderRadius: 40,
+    height: 40,
+    width: 40,
+    borderRadius: 20,
   },
   memberImg: {
-    height: 20,
-    width: 20,
-    borderRadius: 40,
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+  },
+  remainingMembersContainer: {
+    ...SharedStyles.trueCenter,
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: "#ccc",
+  },
+  remainingMembersText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });

@@ -1,5 +1,11 @@
-import { TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { ClassDTO } from "../../DTO/organisationDTO";
+import {
+  getContrastingTextColor,
+  hashNameToColour,
+} from "../../utils/colourFunctions";
+import { SharedStyles } from "../../utils/SharedStyles";
+import { truncateText } from "../../utils/truncateText";
 
 type ClassViewProps = {
   classes: ClassDTO[];
@@ -11,20 +17,39 @@ type ClassViewEntryProps = {
 
 export const ClassView = ({ classes }: ClassViewProps) => {
   return (
-    <View style={{ display:"flex", flexDirection:"row" }}>
-      {classes.map((member) => (
-        <ClassViewEntry classData={member} />
+    <View style={styles.classView}>
+      {classes.map((member, index) => (
+        <ClassViewEntry classData={member} key={index} />
       ))}
     </View>
   );
 };
 
 const ClassViewEntry = ({ classData }: ClassViewEntryProps) => {
+  const nameColour = hashNameToColour(classData.name);
+  const textColour = getContrastingTextColor(nameColour);
+
   return (
-    <TouchableOpacity>
-      <View>
-        <Text>{classData.name}</Text>
-      </View>
-    </TouchableOpacity>
+    <View style={[styles.classContainer, { backgroundColor: nameColour }]}>
+      <Text style={{ color: textColour }}>
+        {truncateText(classData.name, 18)}
+      </Text>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  classView: {
+    ...SharedStyles.flexRow,
+    justifyContent: "center",
+    width: "100%",
+    rowGap: 5,
+    columnGap: 5,
+    flexWrap: "wrap",
+  },
+  classContainer: {
+    ...SharedStyles.trueCenter,
+    width: 100,
+    height: 50,
+  },
+});

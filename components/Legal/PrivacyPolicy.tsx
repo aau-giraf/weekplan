@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { colors } from "../../utils/SharedStyles";
 import {
   Text,
   ScrollView,
@@ -9,7 +10,6 @@ import {
   Modal,
   View,
 } from "react-native";
-import { colors } from "../../utils/colors";
 
 const PrivacyPolicy = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
