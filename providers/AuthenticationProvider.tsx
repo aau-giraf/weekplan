@@ -72,7 +72,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
 export const useAuthentication = () => {
     const context = useContext(AuthenticationContext);
     if (context === undefined) {
-      throw new Error("useAuthentication must be used within an AuthenticationProvider");
+      throw new Error("useAuthentication skal bruges i en AuthenticationProvider");
     }
     return context;
   };

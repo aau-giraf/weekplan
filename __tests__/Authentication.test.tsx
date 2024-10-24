@@ -63,6 +63,25 @@ describe('AuthenticationProvider and useAuthentication', () => {
         expect(router.replace).not.toHaveBeenCalled();
     })
 
+    it('should add a toast if no token is returned on login', async () => {
+        (tryLogin as jest.Mock).mockResolvedValueOnce({ token: null }); // No token
+    
+        const { result } = renderHook(() => useAuthentication(), {
+            wrapper: AuthenticationProvider,
+        });
+    
+        act(() => {
+            result.current.login('test@test.dk', 'testTest1');
+        });
+    
+        await waitFor(() => {
+            expect(addToast).toHaveBeenCalledWith({ message: "Toast not recieved", type: "error" });
+        });
+    
+        expect(router.replace).not.toHaveBeenCalled();
+    });
+    
+
     it('should register a user', async () => {
         const {result} = renderHook(() => useAuthentication(), {
             wrapper: AuthenticationProvider,
@@ -124,5 +143,27 @@ describe('AuthenticationProvider and useAuthentication', () => {
         });
     
         expect(result.current.isAuthenticated()).toBe(false);
+    });
+
+    it('should have initial jwt as null and isAuthenticated should return false', async () => {
+        const { result } = renderHook(() => useAuthentication(), {
+            wrapper: AuthenticationProvider,
+        });
+    
+        expect(result.current.jwt).toBeNull();
+        expect(result.current.isAuthenticated()).toBe(false);
+    });
+
+
+    it('should throw error if used outside of provider', async () => {
+        const consoleErrorMock = jest
+            .spyOn(console, 'error')
+            .mockImplementation(() => {});
+        try{
+            renderHook(() => useAuthentication());
+        }catch(error){
+            expect(error).toEqual(new Error('useAuthentication skal bruges i en AuthenticationProvider'));
+        }
+        consoleErrorMock.mockRestore();
     });
 });
