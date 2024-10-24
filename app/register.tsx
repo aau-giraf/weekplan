@@ -17,10 +17,11 @@ import useValidation from "../hooks/useValidation";
 
 const schema = z.object({
   email: z.string().email("Indtast en gyldig e-mailadresse"),
-  firstName: z.string().min(2, "Fornavn skal være mindst 2 tegn"),
-  lastName: z.string().min(2, "Efternavn skal være mindst 2 tegn"),
+  firstName: z.string().trim().min(2, "Fornavn skal være mindst 2 tegn"),
+  lastName: z.string().trim().min(2, "Efternavn skal være mindst 2 tegn"),
   password: z
     .string()
+    .trim()
     .min(8, "")
     .regex(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$"), {
       message:
