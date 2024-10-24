@@ -42,10 +42,6 @@ const AddActivity = () => {
     endTime: new Date(),
   });
 
-  const [haveWrittenInTitle, setHaveWrittenInTitle] = useState<boolean>(false);
-  const [haveWrittenInDescription, setHaveWrittenInDescription] =
-    useState<boolean>(false);
-
   const { errors, valid } = useValidation({ schema, formData });
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
@@ -79,84 +75,81 @@ const AddActivity = () => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
-            <Text style={styles.headerText}>
-              Opret en aktivitet til {prettyDate(selectedDate)}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
+          <Text style={styles.headerText}>
+            Opret en aktivitet til {prettyDate(selectedDate)}
+          </Text>
+          <View>
+            <TextInput
+              style={
+                errors?.title?._errors && formData.title !== ""
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Titel"
+              value={formData.title}
+              onChangeText={(text) => {
+                handleInputChange("title", text);
+              }}
+              returnKeyType="done"
+            />
+            <Text>
+              {(errors?.title?._errors && formData.title === "") ||
+              !errors?.title?._errors
+                ? " "
+                : errors?.title?._errors}
             </Text>
-            <View>
-              <TextInput
-                style={
-                  errors?.title?._errors && haveWrittenInTitle
-                    ? styles.inputError
-                    : styles.inputValid
-                }
-                placeholder="Titel"
-                value={formData.title}
-                onChangeText={(text) => {
-                  handleInputChange("title", text);
-                  setHaveWrittenInTitle(true);
-                }}
-                returnKeyType="done"
-              />
-              <Text>
-                {(errors?.title?._errors && !haveWrittenInTitle) ||
-                !errors?.title?._errors
-                  ? " "
-                  : errors?.title?._errors}
-              </Text>
-            </View>
-            <View>
-              <TextInput
-                style={
-                  errors?.description?._errors && haveWrittenInDescription
-                    ? styles.inputError
-                    : styles.inputValid
-                }
-                placeholder="Beskrivelse"
-                value={formData.description}
-                onChangeText={(text) => {
-                  handleInputChange("description", text);
-                  setHaveWrittenInDescription(true);
-                }}
-                multiline
-                returnKeyType="done"
-              />
-              <Text>
-                {(errors?.description?._errors && !haveWrittenInDescription) ||
-                !errors?.description?._errors
-                  ? " "
-                  : errors?.description?._errors}
-              </Text>
-            </View>
-            <TimePicker
-              title="Vælg start tid"
-              value={formData.startTime}
-              minuteInterval={5}
-              maxDate={formData.endTime}
-              androidDisplay={"spinner"}
-              iosDisplay={"default"}
-              onChange={(time) => handleInputChange("startTime", time)}
+          </View>
+          <View>
+            <TextInput
+              style={
+                errors?.description?._errors && formData.description !== ""
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Beskrivelse"
+              value={formData.description}
+              onChangeText={(text) => {
+                handleInputChange("description", text);
+              }}
+              multiline
+              returnKeyType="done"
             />
-            <Text>{errors?.startTime?._errors}</Text>
+            <Text>
+              {(errors?.description?._errors && formData.description === "") ||
+              !errors?.description?._errors
+                ? " "
+                : errors?.description?._errors}
+            </Text>
+          </View>
+          <TimePicker
+            title="Vælg start tid"
+            value={formData.startTime}
+            minuteInterval={5}
+            maxDate={formData.endTime}
+            androidDisplay={"spinner"}
+            iosDisplay={"default"}
+            onChange={(time) => handleInputChange("startTime", time)}
+          />
+          <Text>{errors?.startTime?._errors}</Text>
 
-            <TimePicker
-              title="Vælg slut tid"
-              value={formData.endTime}
-              minDate={formData.startTime}
-              minuteInterval={5}
-              androidDisplay={"spinner"}
-              iosDisplay={"default"}
-              onChange={(time) => handleInputChange("endTime", time)}
-            />
-            <Text>{errors?.endTime?._errors}</Text>
+          <TimePicker
+            title="Vælg slut tid"
+            value={formData.endTime}
+            minDate={formData.startTime}
+            minuteInterval={5}
+            androidDisplay={"spinner"}
+            iosDisplay={"default"}
+            onChange={(time) => handleInputChange("endTime", time)}
+          />
+          <Text>{errors?.endTime?._errors}</Text>
 
-            <TouchableOpacity
-              style={valid ? styles.buttonValid : styles.buttonDisabled}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.buttonText}>Tilføj</Text>
-            </TouchableOpacity>
-          </ScrollView>
+          <TouchableOpacity
+            style={valid ? styles.buttonValid : styles.buttonDisabled}
+            onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Tilføj</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </View>
   );
