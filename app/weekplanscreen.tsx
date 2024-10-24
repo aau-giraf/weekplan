@@ -4,6 +4,7 @@ import ActivityItemHeader from "../components/weekoverview_components/activity_c
 import WeekSelection from "../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../components/weekoverview_components/activity_components/ActivityItemList";
+import ActivityAiButton from "../components/weekoverview_components/activity_components/ActivityAiButton";
 import { colors } from "../utils/colors";
 
 const WeekPlanScreen = () => {
@@ -16,6 +17,7 @@ const WeekPlanScreen = () => {
       <ActivityItemHeader />
       <ActivityItemList />
       <ActivityAddButton />
+      <ActivityAiButton />
     </SafeAreaView>
   );
 };
