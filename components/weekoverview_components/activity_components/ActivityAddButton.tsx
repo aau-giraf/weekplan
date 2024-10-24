@@ -10,7 +10,7 @@ import { colors } from "../../../utils/colors";
  */
 const ActivityAddButton = () => {
   const handlePress = () => {
-    router.push("./addactivity");
+    router.push("/addactivity");
   };
 
   return (

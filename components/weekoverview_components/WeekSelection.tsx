@@ -90,7 +90,6 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
 const styles = StyleSheet.create({
   weekSelection: {
     alignItems: "center",
-    padding: 10,
   },
   weekText: {
     fontSize: 20,
