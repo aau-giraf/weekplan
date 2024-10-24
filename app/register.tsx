@@ -82,7 +82,6 @@ const RegisterScreen: React.FC = () => {
             value={formData.email}
             onChangeText={(value) => {
               handleInputChange("email", value);
-              setHaveWrittenInEmail(true);
             }}
             keyboardType="email-address"
             autoCapitalize="none"
