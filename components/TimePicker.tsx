@@ -110,8 +110,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   centeredPicker: {
-    alignItems: "center",
-    justifyContent: "center",
+    ...SharedStyles.trueCenter,
     width: "100%",
   },
   timePicker: {

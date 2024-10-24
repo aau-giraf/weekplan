@@ -10,7 +10,6 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  Alert,
   SafeAreaView,
   View,
 } from "react-native";
@@ -20,10 +19,9 @@ import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
-import { colors } from "../utils/colors";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
-import { rem, SharedStyles } from '../utils/SharedStyles';
+import { rem, colors } from "../utils/SharedStyles";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),

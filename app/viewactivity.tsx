@@ -8,8 +8,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSingleActivity } from "../hooks/useActivity";
-import { colors } from "../utils/colors";
-import { rem, SharedStyles } from '../utils/SharedStyles';
+import { rem, colors, SharedStyles } from '../utils/SharedStyles';
 
 const ViewActivity = () => {
   const id = parseInt(
