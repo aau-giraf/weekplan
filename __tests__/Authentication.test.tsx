@@ -3,8 +3,6 @@ import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "../providers/ToastProvider";
 import AuthenticationProvider, { useAuthentication } from "../providers/AuthenticationProvider";
 import { router } from "expo-router";
-import * as jwtDecode from '../utils/jwtDecode';
-import * as loginAPI from '../apis/loginAPI';
 
 
 jest.mock('../apis/registerAPI');

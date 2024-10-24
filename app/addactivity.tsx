@@ -77,13 +77,8 @@ const AddActivity = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={80}
-        >
           <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
             <Text style={styles.headerText}>
               Opret en aktivitet til {prettyDate(selectedDate)}
@@ -162,7 +157,6 @@ const AddActivity = () => {
               <Text style={styles.buttonText}>Tilføj</Text>
             </TouchableOpacity>
           </ScrollView>
-        </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </View>
   );

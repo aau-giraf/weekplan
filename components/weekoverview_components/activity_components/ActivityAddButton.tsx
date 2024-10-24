@@ -11,7 +11,7 @@ import {color} from "ansi-fragments";
  */
 const ActivityAddButton = () => {
   const handlePress = () => {
-    router.push("./addactivity");
+    router.push("/addactivity");
   };
 
   return (
