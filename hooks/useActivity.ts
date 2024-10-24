@@ -54,7 +54,7 @@ export default function useActivity({ date }: { date: Date }) {
         queryKey,
         (oldData) =>
           oldData?.filter((activity) => activity.activityId !== activityId) ||
-          [],
+          []
       );
 
       return { previousActivities };
@@ -64,7 +64,7 @@ export default function useActivity({ date }: { date: Date }) {
       if (context?.previousActivities) {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
-          context.previousActivities,
+          context.previousActivities
         );
       }
     },
@@ -86,16 +86,16 @@ export default function useActivity({ date }: { date: Date }) {
             oldData?.map((activity) =>
               activity.activityId === activityData.activityId
                 ? activityData
-                : activity,
-            ) || [],
+                : activity
+            ) || []
         );
       } else {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
           (oldData) =>
             oldData?.filter(
-              (activity) => activity.activityId !== activityData.activityId,
-            ) || [],
+              (activity) => activity.activityId !== activityData.activityId
+            ) || []
         );
       }
 
@@ -107,7 +107,7 @@ export default function useActivity({ date }: { date: Date }) {
       if (context?.previousActivities) {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
-          context.previousActivities,
+          context.previousActivities
         );
       }
     },
@@ -140,7 +140,7 @@ export default function useActivity({ date }: { date: Date }) {
     onSuccess: (data, variables) => {
       queryClient.setQueryData<ActivityDTO[]>(queryKey, (oldData) => {
         return oldData?.map((activity) =>
-          activity.activityId === variables.data.activityId ? data : activity,
+          activity.activityId === variables.data.activityId ? data : activity
         );
       });
       queryClient.invalidateQueries({ queryKey });
@@ -157,7 +157,7 @@ export default function useActivity({ date }: { date: Date }) {
         citizenId,
         variables.activityIds,
         variables.sourceDate,
-        variables.destinationDate,
+        variables.destinationDate
       ),
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
@@ -177,8 +177,8 @@ export default function useActivity({ date }: { date: Date }) {
           oldData?.map((activity) =>
             activity.activityId === id
               ? { ...activity, isCompleted: !activity.isCompleted }
-              : activity,
-          ) || [],
+              : activity
+          ) || []
       );
 
       return { previousActivities };
@@ -188,7 +188,7 @@ export default function useActivity({ date }: { date: Date }) {
       if (context?.previousActivities) {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
-          context.previousActivities,
+          context.previousActivities
         );
       }
     },

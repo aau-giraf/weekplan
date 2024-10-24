@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  FlatList,
   ActivityIndicator,
   Text,
   Modal,
@@ -18,6 +17,7 @@ import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import { colors } from "../../../utils/colors";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { useToast } from "../../../providers/ToastProvider";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -39,6 +39,7 @@ const ActivityItemList = () => {
       date: selectedDate,
     });
   const { data, error, isLoading, refetch } = useFetchActivities;
+  const { addToast } = useToast();
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState<string>();
 
@@ -96,11 +97,15 @@ const ActivityItemList = () => {
     await useDeleteActivity.mutateAsync(id);
   };
 
-  const handleCheckActivity = async (id: number, isCompleted: boolean) => {
-    await useToggleActivityStatus.mutateAsync({
-      id,
-      isCompleted: !isCompleted,
-    });
+  const handleCheckActivity = (id: number, isCompleted: boolean) => {
+    useToggleActivityStatus
+      .mutateAsync({
+        id,
+        isCompleted: !isCompleted,
+      })
+      .catch((error) =>
+        addToast({ message: (error as any).message, type: "error" })
+      );
   };
 
   return (

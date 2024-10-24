@@ -4,12 +4,11 @@ import Toast, { ToastProps } from "../components/Toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type ToastProviderValues = {
-  toasts: Omit<ToastProps, "onClose">[];
   addToast: (
     toast: Omit<ToastProps, "id" | "onClose">,
     duration?: number
   ) => void;
-
+  toasts: Omit<ToastProps, "onClose">[];
   removeToast: (id: number) => void;
 };
 
@@ -35,7 +34,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+    <ToastContext.Provider value={{ addToast, toasts, removeToast }}>
       {children}
       <SafeAreaView style={styles.container}>
         {toasts.map((toast) => (
