@@ -42,6 +42,10 @@ const AddActivity = () => {
     endTime: new Date(),
   });
 
+  const [haveWrittenInTitle, setHaveWrittenInTitle] = useState<boolean>(false);
+  const [haveWrittenInDescription, setHaveWrittenInDescription] =
+    useState<boolean>(false);
+
   const { errors, valid } = useValidation({ schema, formData });
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
@@ -87,32 +91,46 @@ const AddActivity = () => {
             <View>
               <TextInput
                 style={
-                  errors?.title?._errors ? styles.inputError : styles.inputValid
+                  errors?.title?._errors && haveWrittenInTitle
+                    ? styles.inputError
+                    : styles.inputValid
                 }
                 placeholder="Titel"
                 value={formData.title}
-                onChangeText={(text) => handleInputChange("title", text)}
+                onChangeText={(text) => {
+                  handleInputChange("title", text);
+                  setHaveWrittenInTitle(true);
+                }}
                 returnKeyType="done"
               />
               <Text>
-                {!errors?.title?._errors ? " " : errors?.title?._errors}
+                {(errors?.title?._errors && !haveWrittenInTitle) ||
+                !errors?.title?._errors
+                  ? " "
+                  : errors?.title?._errors}
               </Text>
             </View>
             <View>
               <TextInput
                 style={
-                  errors?.description?._errors
+                  errors?.description?._errors && haveWrittenInDescription
                     ? styles.inputError
                     : styles.inputValid
                 }
                 placeholder="Beskrivelse"
                 value={formData.description}
-                onChangeText={(text) => handleInputChange("description", text)}
+                onChangeText={(text) => {
+                  handleInputChange("description", text);
+                  setHaveWrittenInDescription(true);
+                }}
                 multiline
                 returnKeyType="done"
               />
               <Text>
-                {!errors?.title?._errors ? " " : errors?.title?._errors}
+                {(errors?.description?._errors && !haveWrittenInDescription) ||
+                !errors?.description?._errors
+                  ? " "
+                  : errors?.description?._errors}
               </Text>
             </View>
             <TimePicker

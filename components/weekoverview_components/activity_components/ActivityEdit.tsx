@@ -80,6 +80,10 @@ const ActivityEdit = ({
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
 
+  const [haveWrittenInTitle, setHaveWrittenInTitle] = useState<boolean>(false);
+  const [haveWrittenInDescription, setHaveWrittenInDescription] =
+    useState<boolean>(false);
+
   const { errors, valid } = useValidation({ formData: form, schema });
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
@@ -114,10 +118,22 @@ const ActivityEdit = ({
         <TextInput
           value={form.title}
           placeholder="Title"
-          style={errors?.title?._errors ? styles.inputError : styles.inputValid}
-          onChangeText={(text) => setForm((prev) => ({ ...prev, title: text }))}
+          style={
+            errors?.title?._errors && haveWrittenInTitle
+              ? styles.inputError
+              : styles.inputValid
+          }
+          onChangeText={(text) => {
+            setForm((prev) => ({ ...prev, title: text }));
+            setHaveWrittenInTitle(true);
+          }}
         />
-        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
+        <Text>
+          {(errors?.title?._errors && !haveWrittenInTitle) ||
+          !errors?.title?._errors
+            ? " "
+            : errors?.title?._errors}
+        </Text>
       </View>
       <View>
         <TextInput
@@ -125,17 +141,23 @@ const ActivityEdit = ({
           multiline
           placeholder="Beskrivelse"
           style={[
-            errors?.description?._errors
+            errors?.description?._errors && haveWrittenInDescription
               ? styles.inputError
               : styles.inputValid,
             { height: 80 },
           ]}
-          onChangeText={(text) =>
-            setForm((prev) => ({ ...prev, description: text }))
-          }
+          onChangeText={(text) => {
+            setForm((prev) => ({ ...prev, description: text }));
+            setHaveWrittenInDescription(true);
+          }}
         />
 
-        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
+        <Text>
+          {(errors?.description?._errors && !haveWrittenInDescription) ||
+          !errors?.description?._errors
+            ? " "
+            : errors?.description?._errors}
+        </Text>
       </View>
       <View style={styles.pickerContainer}>
         <TimePicker
