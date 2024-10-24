@@ -30,8 +30,7 @@ const schema = z.object({
   password: z
     .string()
     .trim()
-    .min(8, "")
-    .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).$"), {
+    .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
       message:
         "Adgangskode skal indholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
     }),
@@ -56,18 +55,8 @@ const RegisterScreen: React.FC = () => {
   });
 
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [haveWrittenInConfirmPassword, setHaveWrittenInConfirmPassword] =
-    useState<boolean>(false);
 
   const { errors, valid } = useValidation({ schema, formData });
-
-  const [haveWrittenInEmail, setHaveWrittenInEmail] = useState<boolean>(false);
-  const [haveWrittenInFirstName, setHaveWrittenInFirstName] =
-    useState<boolean>(false);
-  const [haveWrittenInLastName, setHaveWrittenInLastName] =
-    useState<boolean>(false);
-  const [haveWrittenInPassword, setHaveWrittenInPassword] =
-    useState<boolean>(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData) => ({
@@ -85,7 +74,7 @@ const RegisterScreen: React.FC = () => {
           <Text style={styles.headerText}>Opret en konto</Text>
           <TextInput
             style={
-              errors?.email?._errors && haveWrittenInEmail
+              errors?.email?._errors && formData.email !== ""
                 ? styles.inputError
                 : styles.inputValid
             }
@@ -93,21 +82,15 @@ const RegisterScreen: React.FC = () => {
             value={formData.email}
             onChangeText={(value) => {
               handleInputChange("email", value);
-              setHaveWrittenInEmail(true);
             }}
             keyboardType="email-address"
             autoCapitalize="none"
             returnKeyType="done"
           />
-          <Text>
-            {(errors?.email?._errors && !haveWrittenInEmail) ||
-            !errors?.email?._errors
-              ? " "
-              : errors?.email?._errors}
-          </Text>
+          <Text>{errors?.email?._errors}</Text>
           <TextInput
             style={
-              errors?.firstName?._errors && haveWrittenInFirstName
+              errors?.firstName?._errors && formData.firstName !== ""
                 ? styles.inputError
                 : styles.inputValid
             }
@@ -115,39 +98,37 @@ const RegisterScreen: React.FC = () => {
             value={formData.firstName}
             onChangeText={(value) => {
               handleInputChange("firstName", value);
-              setHaveWrittenInFirstName(true);
             }}
             returnKeyType="done"
           />
           <Text>
-            {(errors?.firstName?._errors && !haveWrittenInFirstName) ||
+            {(errors?.firstName?._errors && formData.firstName === "") ||
             !errors?.firstName?._errors
               ? " "
               : errors?.firstName?._errors}
           </Text>
           <TextInput
             style={
-              errors?.lastName?._errors && haveWrittenInLastName
+              errors?.lastName?._errors && formData.lastName !== ""
                 ? styles.inputError
                 : styles.inputValid
             }
             placeholder="Efternavn"
             value={formData.lastName}
             onChangeText={(value) => {
-              setHaveWrittenInLastName(true);
               handleInputChange("lastName", value);
             }}
             returnKeyType="done"
           />
           <Text>
-            {(errors?.lastName?._errors && !haveWrittenInLastName) ||
+            {(errors?.lastName?._errors && formData.lastName === "") ||
             !errors?.lastName?._errors
               ? " "
               : errors?.lastName?._errors}
           </Text>
           <TextInput
             style={
-              errors?.password?._errors && haveWrittenInPassword
+              errors?.password?._errors && formData.password !== ""
                 ? styles.inputError
                 : styles.inputValid
             }
@@ -155,20 +136,19 @@ const RegisterScreen: React.FC = () => {
             value={formData.password}
             onChangeText={(value) => {
               handleInputChange("password", value);
-              setHaveWrittenInPassword(true);
             }}
             secureTextEntry
             returnKeyType="done"
           />
           <Text>
-            {(errors?.password?._errors && !haveWrittenInPassword) ||
+            {(errors?.password?._errors && formData.password === "") ||
             !errors?.password?._errors
               ? " "
               : errors?.password?._errors}
           </Text>
           <TextInput
             style={
-              haveWrittenInConfirmPassword && !isPasswordMatch
+              confirmPassword === "" && !isPasswordMatch
                 ? styles.inputError
                 : styles.inputValid
             }
@@ -176,13 +156,12 @@ const RegisterScreen: React.FC = () => {
             value={confirmPassword}
             onChangeText={(value) => {
               setConfirmPassword(value);
-              setHaveWrittenInConfirmPassword(true);
             }}
             secureTextEntry
             returnKeyType="done"
           />
           <Text>
-            {haveWrittenInConfirmPassword && !isPasswordMatch
+            {confirmPassword !== "" && !isPasswordMatch
               ? "Adgangskoderne stemmer ikke overens"
               : " "}
           </Text>
