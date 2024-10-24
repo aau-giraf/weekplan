@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Pressable } from "expo-router/build/views/Pressable";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
 
 /**
  * ActivityAddButton component renders a button that navigates to the add activity screen.
@@ -24,30 +25,28 @@ const ActivityAddButton = () => {
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: "center",
-    justifyContent: "center",
+    ...SharedStyles.trueCenter,
     width: 60,
     height: 60,
-    backgroundColor: "#B0BEC5",
     borderRadius: 30,
     bottom: 20,
     right: 24,
     position: "absolute",
+    backgroundColor: colors.gray,
   },
   text: {
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 30,
+    ...SharedStyles.trueCenter,
+    fontSize: rem(2),
     padding: 10,
-    color: "#263238",
+    color: colors.black,
   },
   addIcon: {
     bottom: -9.8,
     right: -9.8,
     position: "absolute",
-    backgroundColor: "#B0BEC5",
     borderRadius: 20,
     overflow: "hidden",
+    backgroundColor: colors.gray,
   },
 });
 

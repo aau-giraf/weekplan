@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSingleActivity } from "../hooks/useActivity";
+import { rem, colors, SharedStyles } from '../utils/SharedStyles';
 
 const ViewActivity = () => {
   const id = parseInt(
@@ -33,7 +34,7 @@ const ViewActivity = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={SharedStyles.container}>
       {data && (
         <View style={styles.activityContainer}>
           <Text style={styles.activityName}>{data.name}</Text>
@@ -49,38 +50,32 @@ const ViewActivity = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: "#F2F5FA",
-  },
   activityContainer: {
-    backgroundColor: "#E3F2FD",
     padding: 12,
     borderRadius: 8,
     marginBottom: 20,
+    backgroundColor: colors.white,
   },
   activityName: {
-    color: "#37474F",
-    fontSize: 18,
+    fontSize: rem(1),
     fontWeight: "bold",
     marginBottom: 8,
+    color: colors.black,
   },
   activityDescription: {
-    color: "#37474F",
-    fontSize: 16,
+    fontSize: rem(1),
     marginBottom: 8,
+    color: colors.black,
   },
   activityTime: {
-    color: "#37474F",
-    fontSize: 14,
+    fontSize: rem(1),
+    color: colors.black,
   },
   errorText: {
-    color: "red",
-    fontSize: 16,
+    fontSize: rem(1),
     textAlign: "center",
     marginVertical: 20,
+    color: colors.red,
   },
 });
 

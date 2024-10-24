@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { rem, colors, SharedStyles } from '../../../utils/SharedStyles';
 
 /**
  * ActivityItemHeader component renders the header for an activity item.
@@ -19,20 +20,20 @@ const ActivityItemHeader: React.FC = () => {
 
 const styles = StyleSheet.create({
   headerContainer: {
+    ...SharedStyles.flexRow,
     width: "100%",
     height: 40,
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     padding: 12,
-    backgroundColor: "#B0BEC5",
+    backgroundColor: colors.gray,
   },
   headerText: {
-    color: "#000",
-    fontSize: 14,
-    fontWeight: "bold",
+    fontSize: rem(1),
     flex: 1,
+    fontWeight: "bold",
     textAlign: "center",
+    color: colors.black,
   },
 });
 

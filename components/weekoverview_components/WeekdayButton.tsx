@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
+import { rem, colors, SharedStyles } from "../../utils/SharedStyles";
 
 type WeekdayButtonProps = {
   date: Date;
@@ -36,7 +37,8 @@ const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
       onLongPress={() => {
         setModalVisible(true);
         setSelectedDate(date);
-      }}>
+      }}
+    >
       <View style={[styles.circle, isSelected && styles.selectedCircle]}>
         <Text style={[styles.dayText]}>{day.name}</Text>
       </View>
@@ -50,30 +52,28 @@ const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
 
 const styles = StyleSheet.create({
   dayButton: {
-    alignItems: "center",
-    justifyContent: "center",
+    ...SharedStyles.trueCenter,
     width: 60,
     height: 80,
   },
   dayText: {
-    fontSize: 18,
-    color: "#263238",
+    fontSize: rem(1),
+    color: colors.black,
   },
   circle: {
+    ...SharedStyles.trueCenter,
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#B0BEC5",
-    justifyContent: "center",
-    alignItems: "center",
     marginBottom: 5,
+    backgroundColor: colors.gray,
   },
   selectedCircle: {
-    backgroundColor: "#FFCC80",
+    backgroundColor: colors.orange,
   },
   dateText: {
-    fontSize: 16,
-    color: "#263238",
+    fontSize: rem(1),
+    color: colors.black,
   },
 });
 

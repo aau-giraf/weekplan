@@ -16,6 +16,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
+import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 12;
@@ -32,7 +33,7 @@ const ACTION_WIDTH = 100;
 function LeftAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
-  deleteTask: () => void
+  deleteTask: () => void,
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -45,8 +46,9 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: "crimson" }]}>
-        <Ionicons name="trash-outline" size={32} color="white" />
+        style={[styles.action, { backgroundColor: colors.crimson }]}
+      >
+        <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -65,7 +67,7 @@ function RightAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
   editActivity: () => void,
-  checkActivity: () => void
+  checkActivity: () => void,
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -78,15 +80,17 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: "#0077b6" }]}>
-        <Ionicons name={"pencil-outline"} size={32} color="white" />
+        style={[styles.action, { backgroundColor: colors.blue }]}
+      >
+        <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: "green" }]}>
-        <Ionicons name={"checkmark"} size={32} color="white" />
+        style={[styles.action, { backgroundColor: colors.green }]}
+      >
+        <Ionicons name={"checkmark"} size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -178,21 +182,28 @@ console.log(error)
             prog,
             drag,
             handleCloseOnEditTaskPress,
-            handleCloseOnCheckTaskPress
+            handleCloseOnCheckTaskPress,
           )
         }
-        friction={2}>
+        friction={2}
+      >
         <Pressable onPress={showDetails}>
           <View
             style={[
               styles.taskContainer,
-              { backgroundColor: isCompleted ? "#A5D6A7" : "#E3F2FD" },
-            ]}>
+              {
+                backgroundColor: isCompleted
+                  ? colors.lightGreen
+                  : colors.lightBlue,
+              },
+            ]}
+          >
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <Text
               style={styles.labelText}
               numberOfLines={2}
-              ellipsizeMode="tail">
+              ellipsizeMode="tail"
+            >
               {label}
             </Text>
             <View style={styles.iconContainer}>
@@ -217,43 +228,40 @@ console.log(error)
 
 const styles = StyleSheet.create({
   taskContainer: {
+    ...SharedStyles.flexRow,
     width: "100%",
     display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
     padding: CONTAINER_PADDING,
     justifyContent: "space-between",
     height: CONTAINER_HEIGHT,
-    backgroundColor: "#E3F2FD",
+    backgroundColor: colors.lightBlue,
   },
   timeText: {
-    color: "#37474F",
-    fontSize: 16,
+    fontSize: rem(1),
+    color: colors.black,
   },
   labelText: {
-    color: "#37474F",
-    fontSize: 16,
-    textAlign: "center",
+    fontSize: rem(1),
     flex: 0.6,
+    textAlign: "center",
+    color: colors.black,
   },
   iconContainer: {
+    ...SharedStyles.trueCenter,
     width: 120,
     height: 120,
     borderRadius: 100,
-    backgroundColor: "#FFCC80",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    color: "#000",
-    fontSize: 12,
+    fontSize: rem(1),
+    color: colors.backgroundBlack,
   },
   action: {
+    ...SharedStyles.trueCenter,
     width: ACTION_WIDTH,
     height: 140,
-    backgroundColor: "crimson",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: colors.crimson,
   },
 });
 

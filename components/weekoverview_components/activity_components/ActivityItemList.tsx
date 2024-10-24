@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  FlatList,
   ActivityIndicator,
   Text,
   Modal,
@@ -16,6 +15,8 @@ import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
+import Animated, { LinearTransition } from "react-native-reanimated";
+import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -103,9 +104,10 @@ const ActivityItemList = () => {
 
   return (
     <>
-      <FlatList
+      <Animated.FlatList
         data={data}
         onRefresh={async () => await refetch()}
+        itemLayoutAnimation={LinearTransition}
         refreshing={isLoading}
         ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
         keyExtractor={(item) => item.activityId.toString()}
@@ -116,7 +118,8 @@ const ActivityItemList = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
+        onRequestClose={() => setModalVisible(false)}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Image
@@ -126,7 +129,8 @@ const ActivityItemList = () => {
             />
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
+              onPress={() => setModalVisible(false)}
+            >
               <Text style={styles.closeButtonText}>Luk</Text>
             </TouchableOpacity>
           </View>
@@ -138,26 +142,24 @@ const ActivityItemList = () => {
 
 const styles = StyleSheet.create({
   modalContainer: {
+    ...SharedStyles.trueCenter,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.backgroundBlack,
   },
   modalContent: {
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
+    ...SharedStyles.trueCenter,
     borderRadius: 10,
+    backgroundColor: colors.white,
   },
   closeButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: "#0077b6",
     borderRadius: 5,
+    backgroundColor: colors.blue,
   },
   closeButtonText: {
-    color: "white",
-    fontSize: 16,
+    fontSize: rem(1),
+    color: colors.white,
   },
 });
 
