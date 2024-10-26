@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Text,
-  Modal,
-  Button,
-} from "react-native";
+import { View, StyleSheet, Modal, Button } from "react-native";
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
-import {colors} from "../../utils/colors";
+import { colors } from "../../utils/colors";
 
 type WeekSelectionProps = {};
 
@@ -42,7 +35,7 @@ const getYears = () => {
  */
 const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const currentDate = new Date();
-  const { setWeekAndYear, weekNumber } = useDate();
+  const { setWeekAndYear, weekNumber, calculateMonthLabelForWeek } = useDate();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedWeek, setSelectedWeek] = useState(getWeekNumber(currentDate));
   const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
@@ -50,14 +43,30 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const weeks = getWeeks(selectedYear);
   const years = getYears();
 
+  const initialMonthLabel = calculateMonthLabelForWeek(
+    selectedWeek,
+    selectedYear,
+  );
+
+  const [monthLabel, setMonthLabel] = useState(initialMonthLabel);
+
   const handleWeekSelection = () => {
     setWeekAndYear(selectedWeek, selectedYear);
+
+    const newMonthLabel = calculateMonthLabelForWeek(
+      selectedWeek,
+      selectedYear,
+    );
+    setMonthLabel(newMonthLabel);
     setModalVisible(false);
   };
 
   return (
     <View style={styles.weekSelection}>
-      <Button title={`Uge ${weekNumber}`} onPress={() => setModalVisible(true)} />
+      <Button
+        title={`Uge ${weekNumber} - ${monthLabel}`}
+        onPress={() => setModalVisible(true)}
+      />
 
       {/* Modal for Week/Year Picker */}
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
