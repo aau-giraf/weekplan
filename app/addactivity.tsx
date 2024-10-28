@@ -21,6 +21,7 @@ import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { colors } from "../utils/colors";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
+import { useToast } from "../providers/ToastProvider";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -34,6 +35,7 @@ type FormData = z.infer<typeof schema>;
 const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
+  const { addToast } = useToast();
   const { useCreateActivity } = useActivity({ date: selectedDate });
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -57,19 +59,23 @@ const AddActivity = () => {
     const formattedStartTime = formatTimeHHMM(startTime);
     const formattedEndTime = formatTimeHHMM(endTime);
 
-    await useCreateActivity.mutateAsync({
-      citizenId: 1,
-      data: {
-        activityId: -1,
-        name: title,
-        description,
-        startTime: formattedStartTime,
-        endTime: formattedEndTime,
-        date: selectedDate.toISOString().split("T")[0],
-        isCompleted: false,
-      },
-    });
-    router.back();
+    await useCreateActivity
+      .mutateAsync({
+        citizenId: 1,
+        data: {
+          activityId: -1,
+          name: title,
+          description,
+          startTime: formattedStartTime,
+          endTime: formattedEndTime,
+          date: selectedDate.toISOString().split("T")[0],
+          isCompleted: false,
+        },
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      })
+      .finally(() => router.back());
   };
 
   return (
@@ -143,7 +149,6 @@ const AddActivity = () => {
             onChange={(time) => handleInputChange("endTime", time)}
           />
           <Text>{errors?.endTime?._errors}</Text>
-
           <TouchableOpacity
             style={valid ? styles.buttonValid : styles.buttonDisabled}
             onPress={handleSubmit}>
