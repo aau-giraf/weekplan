@@ -10,7 +10,6 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   View,
 } from "react-native";
 
@@ -85,12 +84,8 @@ const AddActivity = () => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
-          keyboardVerticalOffset={80}>
           <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
             <Text style={styles.headerText}>
               Opret en aktivitet til {prettyDate(selectedDate)}
@@ -196,9 +191,8 @@ const AddActivity = () => {
               )}
             />
           </ScrollView>
-        </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </View>
   );
 };
 
