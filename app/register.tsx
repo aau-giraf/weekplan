@@ -14,6 +14,7 @@ import { colors } from "../utils/colors";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
+import ValidationInputField from "../components/InputValidation/ValidationInputField";
 
 /**
  * Regex
@@ -21,10 +22,11 @@ import useValidation from "../hooks/useValidation";
  * @constant (?=.*[A-Z]) - At least one uppercase letter
  * @constant (?=.*[a-z]) - At least one lowercase letter
  * @constant (?=.*[0-9]) - At least one digit
+ * @constant .{8,} - At least 8 characters
  */
 
 const schema = z.object({
-  email: z.string().email("Indtast en gyldig e-mailadresse"),
+  email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
   firstName: z.string().trim().min(2, "Fornavn skal være mindst 2 tegn"),
   lastName: z.string().trim().min(2, "Efternavn skal være mindst 2 tegn"),
   password: z
@@ -72,85 +74,36 @@ const RegisterScreen: React.FC = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.headerText}>Opret en konto</Text>
-          <TextInput
-            style={
-              errors?.email?._errors && formData.email !== ""
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="E-mail"
+          <ValidationInputField
+            _errors={errors?.email?._errors}
             value={formData.email}
-            onChangeText={(value) => {
-              handleInputChange("email", value);
-            }}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            returnKeyType="done"
+            placeholderText={"E-mail"}
+            keyboard={"email-address"}
+            handleInputChange={handleInputChange}
+            field={"email"}
           />
-          <Text>
-            {(errors?.email?._errors && formData.email === "") ||
-            !errors?.email?._errors
-              ? " "
-              : errors?.email?._errors}
-          </Text>
-          <TextInput
-            style={
-              errors?.firstName?._errors && formData.firstName !== ""
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="Fornavn"
+          <ValidationInputField
+            _errors={errors?.firstName?._errors}
             value={formData.firstName}
-            onChangeText={(value) => {
-              handleInputChange("firstName", value);
-            }}
-            returnKeyType="done"
+            placeholderText={"Fornavn"}
+            handleInputChange={handleInputChange}
+            field={"firstName"}
           />
-          <Text>
-            {(errors?.firstName?._errors && formData.firstName === "") ||
-            !errors?.firstName?._errors
-              ? " "
-              : errors?.firstName?._errors}
-          </Text>
-          <TextInput
-            style={
-              errors?.lastName?._errors && formData.lastName !== ""
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="Efternavn"
+          <ValidationInputField
+            _errors={errors?.lastName?._errors}
             value={formData.lastName}
-            onChangeText={(value) => {
-              handleInputChange("lastName", value);
-            }}
-            returnKeyType="done"
+            placeholderText={"Efternavn"}
+            handleInputChange={handleInputChange}
+            field={"lastName"}
           />
-          <Text>
-            {(errors?.lastName?._errors && formData.lastName === "") ||
-            !errors?.lastName?._errors
-              ? " "
-              : errors?.lastName?._errors}
-          </Text>
-          <TextInput
-            style={
-              errors?.password?._errors && formData.password !== ""
-                ? styles.inputError
-                : styles.inputValid
-            }
-            placeholder="Adgangskode"
+          <ValidationInputField
+            secureTextEntry={true}
+            _errors={errors?.lastName?._errors}
             value={formData.password}
-            onChangeText={(value) => {
-              handleInputChange("password", value);
-            }}
-            secureTextEntry
-            returnKeyType="done"
+            placeholderText={"Adgangskode"}
+            handleInputChange={handleInputChange}
+            field={"password"}
           />
-          <Text>
-            {(errors?.password?._errors && formData.password === "") ||
-            !errors?.password?._errors
-              ? " "
-              : errors?.password?._errors}
-          </Text>
           <TextInput
             style={
               confirmPassword === "" && !isPasswordMatch
