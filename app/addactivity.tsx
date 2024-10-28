@@ -82,7 +82,8 @@ const AddActivity = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
           <Text style={styles.headerText}>
