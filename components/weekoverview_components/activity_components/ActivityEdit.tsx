@@ -120,10 +120,21 @@ const ActivityEdit = ({
         <TextInput
           value={form.title}
           placeholder="Title"
-          style={errors?.title?._errors ? styles.inputError : styles.inputValid}
-          onChangeText={(text) => setForm((prev) => ({ ...prev, title: text }))}
+          style={
+            errors?.title?._errors && form.title !== ""
+              ? styles.inputError
+              : styles.inputValid
+          }
+          onChangeText={(text) => {
+            setForm((prev) => ({ ...prev, title: text }));
+          }}
         />
-        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
+        <Text>
+          {(errors?.title?._errors && form.title === "") ||
+          !errors?.title?._errors
+            ? " "
+            : errors?.title?._errors}
+        </Text>
       </View>
       <View>
         <TextInput
@@ -131,17 +142,22 @@ const ActivityEdit = ({
           multiline
           placeholder="Beskrivelse"
           style={[
-            errors?.description?._errors
+            errors?.description?._errors && form.description !== ""
               ? styles.inputError
               : styles.inputValid,
             { height: 80 },
           ]}
-          onChangeText={(text) =>
-            setForm((prev) => ({ ...prev, description: text }))
-          }
+          onChangeText={(text) => {
+            setForm((prev) => ({ ...prev, description: text }));
+          }}
         />
 
-        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
+        <Text>
+          {(errors?.description?._errors && form.description === "") ||
+          !errors?.description?._errors
+            ? " "
+            : errors?.description?._errors}
+        </Text>
       </View>
       <View style={styles.pickerContainer}>
         <TimePicker
