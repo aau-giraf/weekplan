@@ -10,7 +10,6 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   View,
 } from "react-native";
 
@@ -80,78 +79,85 @@ const AddActivity = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <
+    style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
-          keyboardVerticalOffset={80}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
-            <Text style={styles.headerText}>
-              Opret en aktivitet til {prettyDate(selectedDate)}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
+          <Text style={styles.headerText}>
+            Opret en aktivitet til {prettyDate(selectedDate)}
+          </Text>
+          <View>
+            <TextInput
+              style={
+                errors?.title?._errors && formData.title !== ""
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Titel"
+              value={formData.title}
+              onChangeText={(text) => {
+                handleInputChange("title", text);
+              }}
+              returnKeyType="done"
+            />
+            <Text>
+              {(errors?.title?._errors && formData.title === "") ||
+              !errors?.title?._errors
+                ? " "
+                : errors?.title?._errors}
             </Text>
-            <View>
-              <TextInput
-                style={
-                  errors?.title?._errors ? styles.inputError : styles.inputValid
-                }
-                placeholder="Titel"
-                value={formData.title}
-                onChangeText={(text) => handleInputChange("title", text)}
-                returnKeyType="done"
-              />
-              <Text>
-                {!errors?.title?._errors ? " " : errors?.title?._errors}
-              </Text>
-            </View>
-            <View>
-              <TextInput
-                style={
-                  errors?.description?._errors
-                    ? styles.inputError
-                    : styles.inputValid
-                }
-                placeholder="Beskrivelse"
-                value={formData.description}
-                onChangeText={(text) => handleInputChange("description", text)}
-                multiline
-                returnKeyType="done"
-              />
-              <Text>
-                {!errors?.title?._errors ? " " : errors?.title?._errors}
-              </Text>
-            </View>
-            <TimePicker
-              title="Vælg start tid"
-              value={formData.startTime}
-              minuteInterval={5}
-              maxDate={formData.endTime}
-              androidDisplay={"spinner"}
-              iosDisplay={"default"}
-              onChange={(time) => handleInputChange("startTime", time)}
+          </View>
+          <View>
+            <TextInput
+              style={
+                errors?.description?._errors && formData.description !== ""
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Beskrivelse"
+              value={formData.description}
+              onChangeText={(text) => {
+                handleInputChange("description", text);
+              }}
+              multiline
+              returnKeyType="done"
             />
-            <Text>{errors?.startTime?._errors}</Text>
+            <Text>
+              {(errors?.description?._errors && formData.description === "") ||
+              !errors?.description?._errors
+                ? " "
+                : errors?.description?._errors}
+            </Text>
+          </View>
+          <TimePicker
+            title="Vælg start tid"
+            value={formData.startTime}
+            minuteInterval={5}
+            maxDate={formData.endTime}
+            androidDisplay={"spinner"}
+            iosDisplay={"default"}
+            onChange={(time) => handleInputChange("startTime", time)}
+          />
+          <Text>{errors?.startTime?._errors}</Text>
 
-            <TimePicker
-              title="Vælg slut tid"
-              value={formData.endTime}
-              minDate={formData.startTime}
-              minuteInterval={5}
-              androidDisplay={"spinner"}
-              iosDisplay={"default"}
-              onChange={(time) => handleInputChange("endTime", time)}
-            />
-            <Text>{errors?.endTime?._errors}</Text>
-
-            <TouchableOpacity
-              style={valid ? styles.buttonValid : styles.buttonDisabled}
-              onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Tilføj</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          <TimePicker
+            title="Vælg slut tid"
+            value={formData.endTime}
+            minDate={formData.startTime}
+            minuteInterval={5}
+            androidDisplay={"spinner"}
+            iosDisplay={"default"}
+            onChange={(time) => handleInputChange("endTime", time)}
+          />
+          <Text>{errors?.endTime?._errors}</Text>
+          <TouchableOpacity
+            style={valid ? styles.buttonValid : styles.buttonDisabled}
+            onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Tilføj</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </View>
   );
 };
 
