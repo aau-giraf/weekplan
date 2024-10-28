@@ -20,7 +20,7 @@ const toastMap: Record<ToastNotification, ToastStyle> = {
   },
   error: {
     icon: "alert-circle",
-    color: colors.crimson,
+    color: colors.red,
   },
   warning: {
     icon: "alert-circle",
@@ -44,7 +44,8 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
       layout={LinearTransition}
       entering={FadeInUp}
       exiting={FadeOutRight}
-      style={[styles.toastContainer, { backgroundColor: color }]}>
+      style={[styles.toastContainer, { backgroundColor: color }]}
+    >
       <Ionicons size={35} name={icon} style={styles.icon} />
       <Text style={styles.toastMessage}>{message}</Text>
       <Ionicons

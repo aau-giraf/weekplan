@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import {colors} from "../../../utils/colors";
+import { colors } from "../../../utils/colors";
 
 /**
  * ActivityItemHeader component renders the header for an activity item.
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 12,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.white,
   },
   headerText: {
     color: colors.black,
