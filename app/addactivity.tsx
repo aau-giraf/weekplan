@@ -6,8 +6,6 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TouchableOpacity,
   View,
@@ -86,111 +84,111 @@ const AddActivity = () => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
-            <Text style={styles.headerText}>
-              Opret en aktivitet til {prettyDate(selectedDate)}
-            </Text>
-            <View>
-              <form.Field
-                name="title"
-                children={(field) => {
-                  return (
-                    <View>
-                      <TextInput
-                        style={
-                          field.state.meta.isTouched &&
-                          field.state.meta.errors.length > 0
-                            ? styles.inputError
-                            : styles.inputValid
-                        }
-                        placeholder="Titel"
-                        value={field.state.value}
-                        onChangeText={(text) => field.handleChange(text)}
-                        returnKeyType="done"
-                      />
-                      <FieldInfo field={field} />
-                    </View>
-                  );
-                }}
-              />
-            </View>
-            <View>
-              <form.Field
-                name="description"
-                children={(field) => {
-                  return (
-                    <View>
-                      <TextInput
-                        style={
-                          field.state.meta.isTouched &&
-                          field.state.meta.errors.length > 0
-                            ? styles.inputError
-                            : styles.inputValid
-                        }
-                        placeholder="Beskrivelse"
-                        value={field.state.value}
-                        onChangeText={(text) => field.handleChange(text)}
-                        multiline
-                        returnKeyType="done"
-                      />
-                      <FieldInfo field={field} />
-                    </View>
-                  );
-                }}
-              />
-            </View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
+          <Text style={styles.headerText}>
+            Opret en aktivitet til {prettyDate(selectedDate)}
+          </Text>
+          <View>
             <form.Field
-              name="startTime"
+              name="title"
               children={(field) => {
                 return (
                   <View>
-                    <TimePicker
-                      title="Vælg start tid"
+                    <TextInput
+                      style={
+                        field.state.meta.isTouched &&
+                        field.state.meta.errors.length > 0
+                          ? styles.inputError
+                          : styles.inputValid
+                      }
+                      placeholder="Titel"
                       value={field.state.value}
-                      minuteInterval={5}
-                      maxDate={form.getFieldValue("endTime")}
-                      androidDisplay={"spinner"}
-                      iosDisplay={"default"}
-                      onChange={(time) => field.handleChange(time)}
+                      onChangeText={(text) => field.handleChange(text)}
+                      returnKeyType="done"
                     />
                     <FieldInfo field={field} />
                   </View>
                 );
               }}
             />
+          </View>
+          <View>
             <form.Field
-              name="endTime"
+              name="description"
               children={(field) => {
                 return (
                   <View>
-                    <TimePicker
-                      title="Vælg start tid"
+                    <TextInput
+                      style={
+                        field.state.meta.isTouched &&
+                        field.state.meta.errors.length > 0
+                          ? styles.inputError
+                          : styles.inputValid
+                      }
+                      placeholder="Beskrivelse"
                       value={field.state.value}
-                      minuteInterval={5}
-                      minDate={form.getFieldValue("startTime")}
-                      androidDisplay={"spinner"}
-                      iosDisplay={"default"}
-                      onChange={(time) => field.handleChange(time)}
+                      onChangeText={(text) => field.handleChange(text)}
+                      multiline
+                      returnKeyType="done"
                     />
                     <FieldInfo field={field} />
                   </View>
                 );
               }}
             />
-            <form.Subscribe
-              selector={(state) => [state.canSubmit, state.isSubmitting]}
-              children={([canSubmit, isSubmitting]) => (
-                <TouchableOpacity
-                  style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
-                  disabled={!canSubmit}
-                  onPress={form.handleSubmit}>
-                  <Text style={styles.buttonText}>
-                    {isSubmitting ? "..." : "Tilføj"}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
-          </ScrollView>
+          </View>
+          <form.Field
+            name="startTime"
+            children={(field) => {
+              return (
+                <View>
+                  <TimePicker
+                    title="Vælg start tid"
+                    value={field.state.value}
+                    minuteInterval={5}
+                    maxDate={form.getFieldValue("endTime")}
+                    androidDisplay={"spinner"}
+                    iosDisplay={"default"}
+                    onChange={(time) => field.handleChange(time)}
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+          <form.Field
+            name="endTime"
+            children={(field) => {
+              return (
+                <View>
+                  <TimePicker
+                    title="Vælg start tid"
+                    value={field.state.value}
+                    minuteInterval={5}
+                    minDate={form.getFieldValue("startTime")}
+                    androidDisplay={"spinner"}
+                    iosDisplay={"default"}
+                    onChange={(time) => field.handleChange(time)}
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <TouchableOpacity
+                style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
+                disabled={!canSubmit}
+                onPress={form.handleSubmit}>
+                <Text style={styles.buttonText}>
+                  {isSubmitting ? "..." : "Tilføj"}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </ScrollView>
       </TouchableWithoutFeedback>
     </View>
   );
