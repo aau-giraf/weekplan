@@ -17,15 +17,6 @@ import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
 
-/**
- * Regex
- * @type {RegExp}
- * @constant (?=.*[A-Z]) - At least one uppercase letter
- * @constant (?=.*[a-z]) - At least one lowercase letter
- * @constant (?=.*[0-9]) - At least one digit
- * @constant .{8,} - At least 8 characters
- */
-
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
   firstName: z.string().trim().min(2, "Fornavn skal være mindst 2 tegn"),
@@ -41,12 +32,6 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-/**
- * @constructor
- * RegisterScreen
- * @description Screen for registering a new user
- */
-
 const RegisterScreen: React.FC = () => {
   const { register } = useAuthentication();
   const router = useRouter();
@@ -60,7 +45,7 @@ const RegisterScreen: React.FC = () => {
     } as FormData,
     onSubmit: async ({ value }) => {
       const { email, password, firstName, lastName } = value;
-      await register(email, password, firstName, lastName);
+      register(email, password, firstName, lastName);
     },
     validatorAdapter: zodValidator(),
     validators: {
@@ -77,117 +62,109 @@ const RegisterScreen: React.FC = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.headerText}>Opret en konto</Text>
-          <View>
-            <form.Field
-              name={"email"}
-              children={(field) => {
-                return (
-                  <View>
-                    <TextInput
-                      style={
-                        field.state.meta.isTouched &&
-                        field.state.meta.errors.length > 0
-                          ? styles.inputError
-                          : styles.inputValid
-                      }
-                      placeholder="E-mail"
-                      value={field.state.value}
-                      onChangeText={(value) => {
-                        field.setValue(value);
-                      }}
-                      keyboardType="email-address"
-                      returnKeyType="next"
-                    />
-                    <FieldInfo field={field} />
-                  </View>
-                );
-              }}
-            />
-          </View>
-          <View>
-            <form.Field
-              name={"firstName"}
-              children={(field) => {
-                return (
-                  <View>
-                    <TextInput
-                      style={
-                        field.state.meta.isTouched &&
-                        field.state.meta.errors.length > 0
-                          ? styles.inputError
-                          : styles.inputValid
-                      }
-                      placeholder="Fornavn"
-                      value={field.state.value}
-                      onChangeText={(value) => {
-                        field.setValue(value);
-                      }}
-                      returnKeyType="next"
-                    />
-                    <FieldInfo field={field} />
-                  </View>
-                );
-              }}
-            />
-          </View>
-          <View>
-            <form.Field
-              name={"lastName"}
-              children={(field) => {
-                return (
-                  <View>
-                    <TextInput
-                      style={
-                        field.state.meta.isTouched &&
-                        field.state.meta.errors.length > 0
-                          ? styles.inputError
-                          : styles.inputValid
-                      }
-                      placeholder="Efternavn"
-                      value={field.state.value}
-                      onChangeText={(value) => {
-                        field.setValue(value);
-                      }}
-                      returnKeyType="next"
-                    />
-                    <FieldInfo field={field} />
-                  </View>
-                );
-              }}
-            />
-          </View>
-          <View>
-            <form.Field
-              name={"password"}
-              children={(field) => {
-                return (
-                  <View>
-                    <TextInput
-                      style={
-                        field.state.meta.isTouched &&
-                        field.state.meta.errors.length > 0
-                          ? styles.inputError
-                          : styles.inputValid
-                      }
-                      placeholder="Adgangskode"
-                      value={field.state.value}
-                      onChangeText={(value) => {
-                        field.setValue(value);
-                      }}
-                      secureTextEntry
-                      returnKeyType="done"
-                    />
-                    <FieldInfo field={field} />
-                  </View>
-                );
-              }}
-            />
-          </View>
+          <form.Field
+            name={"email"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="E-mail"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    keyboardType="email-address"
+                    returnKeyType="next"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+          <form.Field
+            name={"firstName"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="Fornavn"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    returnKeyType="next"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+          <form.Field
+            name={"lastName"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="Efternavn"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    returnKeyType="next"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+          <form.Field
+            name={"password"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="Adgangskode"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    secureTextEntry
+                    returnKeyType="done"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
           <TextInput
             style={
               confirmPassword === "" && !isPasswordMatch
                 ? styles.inputError
-                : styles.inputValid
+                : styles.input
             }
             placeholder="Bekræft adgangskode"
             value={confirmPassword}
@@ -210,12 +187,11 @@ const RegisterScreen: React.FC = () => {
                 disabled={!canSubmit}
                 onPress={form.handleSubmit}>
                 <Text style={styles.buttonText}>
-                  {isSubmitting ? "..." : "Tilføj"}
+                  {isSubmitting ? "..." : "Register"}
                 </Text>
               </TouchableOpacity>
             )}
           />
-          <Text style={styles.buttonText}>Registrer</Text>
           <TouchableOpacity
             style={[styles.button, styles.loginButton]}
             onPress={() => router.replace("/login")}>
@@ -245,21 +221,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.black,
   },
-  inputValid: {
+  formView: {
     width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    width: "85%",
     padding: 10,
     borderWidth: 1,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
+    marginBottom: 10,
   },
   inputError: {
-    width: "100%",
+    width: "85%",
     padding: 10,
     borderWidth: 1,
     borderColor: colors.red,
     backgroundColor: colors.white,
     borderRadius: 5,
+    marginBottom: 10,
   },
   button: {
     paddingVertical: 12,
