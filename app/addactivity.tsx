@@ -6,8 +6,6 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TouchableOpacity,
   View,
@@ -79,8 +77,8 @@ const AddActivity = () => {
   };
 
   return (
-    <
-    style={styles.container}>
+    <View
+      style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
           <Text style={styles.headerText}>
