@@ -13,8 +13,8 @@ import { useCitizen } from "../../../providers/CitizenProvider";
 import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
-import { colors } from "../../../utils/colors";
 import { z } from "zod";
+import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../../FieldInfo";
@@ -241,13 +241,13 @@ const ActivityEdit = ({
 const styles = StyleSheet.create({
   container: {
     padding: 25,
-    backgroundColor: colors.white,
     height: "100%",
     flexGrow: 1,
     gap: 15,
+    backgroundColor: colors.white,
   },
   title: {
-    fontSize: 25,
+    fontSize: rem(1.5),
     textAlign: "center",
     fontWeight: "600",
   },
@@ -255,29 +255,26 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
     borderRadius: 5,
     marginBottom: 15,
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
   },
   inputError: {
     width: "100%",
     padding: 10,
     borderWidth: 1,
-    borderColor: colors.red,
-    backgroundColor: colors.white,
     borderRadius: 5,
     marginBottom: 15,
+    borderColor: colors.red,
+    backgroundColor: colors.white,
   },
   pickerContainer: {
     marginBottom: 20,
     alignItems: "center",
   },
   header: {
-    fontSize: 18,
-    fontWeight: "500",
-    marginBottom: 10,
-    color: colors.black,
+    ...SharedStyles.header,
   },
   buttonValid: {
     paddingVertical: 12,
@@ -299,7 +296,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontSize: 18,
+    fontSize: rem(1),
     fontWeight: "500",
   },
 });

@@ -10,7 +10,7 @@ import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
-import { colors } from "../utils/colors";
+import { colors } from "../utils/SharedStyles";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;
