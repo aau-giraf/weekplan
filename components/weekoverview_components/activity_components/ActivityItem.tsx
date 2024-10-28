@@ -16,7 +16,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { colors } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 12;
@@ -33,7 +33,7 @@ const ACTION_WIDTH = 100;
 function LeftAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
-  deleteTask: () => void,
+  deleteTask: () => void
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -46,8 +46,7 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: colors.crimson }]}
-      >
+        style={[styles.action, { backgroundColor: colors.crimson }]}>
         <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -67,7 +66,7 @@ function RightAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
   editActivity: () => void,
-  checkActivity: () => void,
+  checkActivity: () => void
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -80,16 +79,14 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: colors.blue }]}
-      >
+        style={[styles.action, { backgroundColor: colors.blue }]}>
         <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: colors.green }]}
-      >
+        style={[styles.action, { backgroundColor: colors.green }]}>
         <Ionicons name={"checkmark"} size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -180,11 +177,10 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             prog,
             drag,
             handleCloseOnEditTaskPress,
-            handleCloseOnCheckTaskPress,
+            handleCloseOnCheckTaskPress
           )
         }
-        friction={2}
-      >
+        friction={2}>
         <Pressable onPress={showDetails}>
           <View
             style={[
@@ -194,14 +190,12 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
                   ? colors.lightGreen
                   : colors.lightBlue,
               },
-            ]}
-          >
+            ]}>
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <Text
               style={styles.labelText}
               numberOfLines={2}
-              ellipsizeMode="tail"
-            >
+              ellipsizeMode="tail">
               {label}
             </Text>
             <View style={styles.iconContainer}>
@@ -226,40 +220,43 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
 
 const styles = StyleSheet.create({
   taskContainer: {
-    ...SharedStyles.flexRow,
     width: "100%",
     display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     padding: CONTAINER_PADDING,
     justifyContent: "space-between",
     height: CONTAINER_HEIGHT,
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: rem(1),
     color: colors.black,
+    fontSize: 16,
   },
   labelText: {
-    fontSize: rem(1),
-    flex: 0.6,
-    textAlign: "center",
     color: colors.black,
+    fontSize: 16,
+    textAlign: "center",
+    flex: 0.6,
   },
   iconContainer: {
-    ...SharedStyles.trueCenter,
     width: 120,
     height: 120,
     borderRadius: 100,
     backgroundColor: colors.orange,
+    justifyContent: "center",
+    alignItems: "center",
   },
   iconPlaceholderText: {
-    fontSize: rem(1),
     color: colors.backgroundBlack,
+    fontSize: 12,
   },
   action: {
-    ...SharedStyles.trueCenter,
     width: ACTION_WIDTH,
     height: 140,
     backgroundColor: colors.crimson,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

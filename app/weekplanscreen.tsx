@@ -4,7 +4,7 @@ import ActivityItemHeader from "../components/weekoverview_components/activity_c
 import WeekSelection from "../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../components/weekoverview_components/activity_components/ActivityItemList";
-import {colors } from '../utils/SharedStyles';
+import {colors} from "../utils/colors";
 
 const WeekPlanScreen = () => {
   return (
