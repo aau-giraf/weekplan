@@ -18,6 +18,7 @@ import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../../FieldInfo";
+import { useToast } from "../../../providers/ToastProvider";
 
 type EditActivityButtonProps = {
   title: string;
@@ -91,8 +92,12 @@ const ActivityEdit = ({
         endTime: endTimeHHMM,
         isCompleted: isCompleted,
       };
-      await updateActivity.mutateAsync(data);
-      router.back();
+      updateActivity
+        .mutateAsync(data)
+        .catch((error) =>
+          addToast({ message: (error as any).message, type: "error" })
+        )
+        .finally(() => router.back());
     },
     validatorAdapter: zodValidator(),
     validators: {
@@ -103,7 +108,7 @@ const ActivityEdit = ({
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
-
+  const { addToast } = useToast();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ændre Aktivitet</Text>

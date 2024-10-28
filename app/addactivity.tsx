@@ -10,6 +10,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  Alert,
   SafeAreaView,
   View,
 } from "react-native";
@@ -24,6 +25,7 @@ import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
+import { useToast } from "../providers/ToastProvider";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -37,6 +39,7 @@ type FormData = z.infer<typeof schema>;
 const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
+  const { addToast } = useToast();
   const { useCreateActivity } = useActivity({ date: selectedDate });
 
   const form = useForm({
@@ -52,7 +55,8 @@ const AddActivity = () => {
       const formattedStartTime = formatTimeHHMM(startTime);
       const formattedEndTime = formatTimeHHMM(endTime);
 
-      await useCreateActivity.mutateAsync({
+    await useCreateActivity
+      .mutateAsync({
         citizenId: 1,
         data: {
           activityId: -1,
@@ -63,8 +67,11 @@ const AddActivity = () => {
           date: selectedDate.toISOString().split("T")[0],
           isCompleted: false,
         },
-      });
-      router.back();
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      })
+      .finally(() => router.back());
     },
     validatorAdapter: zodValidator(),
     validators: {
