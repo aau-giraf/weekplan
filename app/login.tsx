@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import GirafIcon from "../components/SVG/GirafIcon";
 import { useRouter } from "expo-router";
-import { colors } from "../utils/colors";
 import { useAuthentication } from "../providers/AuthenticationProvider";
+import { colors } from "../utils/SharedStyles";
 
 type LoginForm = {
   email: string;

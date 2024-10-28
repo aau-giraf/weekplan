@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 import { createUserRequest } from "../apis/registerAPI";
 import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "./ToastProvider";

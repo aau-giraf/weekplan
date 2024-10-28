@@ -10,10 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { colors } from "../utils/colors";
+import { colors } from "../utils/SharedStyles";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
-import ValidationInputField from "../components/InputValidation/ValidationInputField";
+import InputValidationField from "../components/InputValidation/InputValidationField";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 
 /**
@@ -74,7 +74,7 @@ const RegisterScreen: React.FC = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.headerText}>Opret en konto</Text>
-          <ValidationInputField
+          <InputValidationField
             _errors={errors?.email?._errors}
             value={formData.email}
             placeholderText={"E-mail"}
@@ -82,21 +82,21 @@ const RegisterScreen: React.FC = () => {
             handleInputChange={handleInputChange}
             field={"email"}
           />
-          <ValidationInputField
+          <InputValidationField
             _errors={errors?.firstName?._errors}
             value={formData.firstName}
             placeholderText={"Fornavn"}
             handleInputChange={handleInputChange}
             field={"firstName"}
           />
-          <ValidationInputField
+          <InputValidationField
             _errors={errors?.lastName?._errors}
             value={formData.lastName}
             placeholderText={"Efternavn"}
             handleInputChange={handleInputChange}
             field={"lastName"}
           />
-          <ValidationInputField
+          <InputValidationField
             secureTextEntry={true}
             _errors={errors?.lastName?._errors}
             value={formData.password}
