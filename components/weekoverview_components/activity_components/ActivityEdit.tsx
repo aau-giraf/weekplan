@@ -43,15 +43,13 @@ type FormData = z.infer<typeof schema>;
  * Component for editing an activity.
  *
  * @component
- * @param {EditActivityButtonProps} props - The properties for the component.
- * @param {string} props.title - The title of the activity.
- * @param {string} props.description - The description of the activity.
- * @param {Date} props.startTime - The start time of the activity.
- * @param {Date} props.endTime - The end time of the activity.
- * @param {string} props.activityId - The ID of the activity.
- * @param {boolean} props.isCompleted - The completion status of the activity.
- *
- * @returns {JSX.Element} The rendered component.
+ * @param {string} title - The title of the activity.
+ * @param {string} description - The description of the activity.
+ * @param {Date} startTime - The start time of the activity.
+ * @param {Date} endTime - The end time of the activity.
+ * @param {number} activityId - The id of the activity.
+ * @param {boolean} isCompleted - Whether the activity is completed.
+ * @returns {JSX.Element}
  *
  * @example
  * <ActivityEdit

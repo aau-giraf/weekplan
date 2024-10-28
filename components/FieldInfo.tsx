@@ -2,6 +2,11 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { FieldApi } from "@tanstack/react-form";
 
+/**
+ * FieldInfo component displays error messages and validation status for a field.
+ * @param field
+ * @constructor
+ */
 const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
   return (
     <View style={styles.container}>

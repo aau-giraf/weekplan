@@ -35,6 +35,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+/**
+ * AddActivity component renders a form for adding an activity.
+ * @constructor
+ *
+ */
+
 const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
