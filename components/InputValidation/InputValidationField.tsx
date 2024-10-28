@@ -6,9 +6,9 @@ import {
     KeyboardTypeOptions,
   } from "react-native";
   import React from "react";
-  import { colors } from "../../utils/colors";
+import { colors } from "../../utils/SharedStyles";
   
-  type ValidationInputFieldProps = {
+  type InputValidationFieldProps = {
     _errors: string[] | undefined;
     value: string;
     placeholderText: string;
@@ -18,7 +18,7 @@ import {
     secureTextEntry?: boolean;
   };
   
-  const ValidationInputField = ({
+  const InputValidationField = ({
     _errors,
     value,
     placeholderText,
@@ -26,7 +26,7 @@ import {
     handleInputChange,
     field,
     secureTextEntry,
-  }: ValidationInputFieldProps) => {
+  }: InputValidationFieldProps) => {
     return (
       <View>
         <TextInput
@@ -46,7 +46,7 @@ import {
     );
   };
   
-  export default ValidationInputField;
+  export default InputValidationField;
   
   const styles = StyleSheet.create({
     view: {
