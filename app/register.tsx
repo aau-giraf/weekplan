@@ -17,6 +17,15 @@ import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
 
+/**
+ * Regex
+ * @type {RegExp}
+ * @constant (?=.*[A-Z]) - At least one uppercase letter
+ * @constant (?=.*[a-z]) - At least one lowercase letter
+ * @constant (?=.*[0-9]) - At least one digit
+ * @constant .{8,} - At least 8 characters
+ */
+
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
   firstName: z.string().trim().min(2, "Fornavn skal være mindst 2 tegn"),
@@ -31,6 +40,12 @@ const schema = z.object({
 });
 
 type FormData = z.infer<typeof schema>;
+
+/**
+ * @constructor
+ * RegisterScreen
+ * @description Screen for registering a new user
+ */
 
 const RegisterScreen: React.FC = () => {
   const { register } = useAuthentication();

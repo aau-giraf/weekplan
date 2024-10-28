@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     marginVertical: 10,
+    marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
