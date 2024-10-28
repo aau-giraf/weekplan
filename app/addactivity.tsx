@@ -24,7 +24,7 @@ import { colors } from "../utils/colors";
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../components/fieldInfo";
+import FieldInfo from "../components/FieldInfo";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),

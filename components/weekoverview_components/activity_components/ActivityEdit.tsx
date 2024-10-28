@@ -18,7 +18,7 @@ import { colors } from "../../../utils/colors";
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../../fieldInfo";
+import FieldInfo from "../../FieldInfo";
 
 type EditActivityButtonProps = {
   title: string;

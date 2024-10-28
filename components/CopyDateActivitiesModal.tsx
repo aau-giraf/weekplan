@@ -45,16 +45,13 @@ export default function CopyDateActivitiesModal({
       visible={modalVisible}
       transparent
       animationType="slide"
-      onRequestClose={() => setModalVisible(false)}
-    >
+      onRequestClose={() => setModalVisible(false)}>
       <TouchableOpacity
         style={styles.modalBackground}
-        onPress={() => setModalVisible(false)}
-      >
+        onPress={() => setModalVisible(false)}>
         <View
           style={styles.modalContainer}
-          onStartShouldSetResponder={() => true}
-        >
+          onStartShouldSetResponder={() => true}>
           <TimePicker
             value={dates.sourceDate}
             title={"Kopier Fra"}
