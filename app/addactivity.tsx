@@ -23,6 +23,7 @@ import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { colors } from "../utils/colors";
 import { z } from "zod";
 import useValidation from "../hooks/useValidation";
+import { useToast } from "../providers/ToastProvider";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -36,6 +37,7 @@ type FormData = z.infer<typeof schema>;
 const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
+  const { addToast } = useToast();
   const { useCreateActivity } = useActivity({ date: selectedDate });
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -59,19 +61,23 @@ const AddActivity = () => {
     const formattedStartTime = formatTimeHHMM(startTime);
     const formattedEndTime = formatTimeHHMM(endTime);
 
-    await useCreateActivity.mutateAsync({
-      citizenId: 1,
-      data: {
-        activityId: -1,
-        name: title,
-        description,
-        startTime: formattedStartTime,
-        endTime: formattedEndTime,
-        date: selectedDate.toISOString().split("T")[0],
-        isCompleted: false,
-      },
-    });
-    router.back();
+    await useCreateActivity
+      .mutateAsync({
+        citizenId: 1,
+        data: {
+          activityId: -1,
+          name: title,
+          description,
+          startTime: formattedStartTime,
+          endTime: formattedEndTime,
+          date: selectedDate.toISOString().split("T")[0],
+          isCompleted: false,
+        },
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      })
+      .finally(() => router.back());
   };
 
   return (
@@ -80,8 +86,7 @@ const AddActivity = () => {
         <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
-          keyboardVerticalOffset={80}
-        >
+          keyboardVerticalOffset={80}>
           <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
             <Text style={styles.headerText}>
               Opret en aktivitet til {prettyDate(selectedDate)}
@@ -141,8 +146,7 @@ const AddActivity = () => {
 
             <TouchableOpacity
               style={valid ? styles.buttonValid : styles.buttonDisabled}
-              onPress={handleSubmit}
-            >
+              onPress={handleSubmit}>
               <Text style={styles.buttonText}>Tilføj</Text>
             </TouchableOpacity>
           </ScrollView>
