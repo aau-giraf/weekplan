@@ -2,8 +2,23 @@ import { StyleSheet } from "react-native";
 
 const rem = (sizeInRem: number): number => {
   return Math.ceil(sizeInRem * 16);
-}
+};
 
+/**
+ * Colors to be used throughout GIRAF
+ * @example
+ * white is the default background
+ * red for errors
+ * orange for warnings and background accents
+ * green for successes and big buttons to add things
+ * lightGreen for small buttons to add things
+ * black for text
+ * backgroundBlack for modal backgrounds (gray scale out the areas not in focus)
+ * gray for disabled things (such as buttons)
+ * lightGray for input fields / boxes borders
+ * blue for editing features such as buttons
+ * lightBlue for background for containers
+ */
 const colors = {
   orange: "#FEC478FF",
   gray: "#B0BEC5",
