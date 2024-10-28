@@ -13,6 +13,8 @@ const RootLayout = () => {
         <Stack.Screen name="viewactivity" />
         <Stack.Screen name="addactivity" />
         <Stack.Screen name="editactivity" />
+        <Stack.Screen name="login" />
+        <Stack.Screen name="register" />
       </Stack>
     </ProviderWrapper>
   );
