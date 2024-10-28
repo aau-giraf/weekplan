@@ -5,6 +5,7 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDate } from "../../../providers/DateProvider";
@@ -15,7 +16,9 @@ import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
 import { colors } from "../../../utils/colors";
 import { z } from "zod";
-import useValidation from "../../../hooks/useValidation";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import FieldInfo from "../../fieldInfo";
 
 type EditActivityButtonProps = {
   title: string;
@@ -68,119 +71,165 @@ const ActivityEdit = ({
   activityId,
   isCompleted,
 }: EditActivityButtonProps) => {
-  const [form, setForm] = useState<FormData>({
-    title: title,
-    description: description,
-    startTime: startTime,
-    endTime: endTime,
-    date: new Date(endTime),
+  const form = useForm({
+    defaultValues: {
+      title: title,
+      description: description,
+      startTime: startTime,
+      endTime: endTime,
+      date: new Date(endTime),
+    } as FormData,
+    onSubmit: async ({ value }) => {
+      const startTimeHHMM = formatTimeHHMM(value.startTime);
+      const endTimeHHMM = formatTimeHHMM(value.endTime);
+      const data = {
+        activityId: activityId,
+        citizenId: citizenId,
+        date: value.date.toDateString(),
+        name: value.title,
+        description: value.description,
+        startTime: startTimeHHMM,
+        endTime: endTimeHHMM,
+        isCompleted: isCompleted,
+      };
+      await updateActivity.mutateAsync(data);
+      router.back();
+    },
+    validatorAdapter: zodValidator(),
+    validators: {
+      onChange: schema,
+    },
   });
 
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
 
-  const { errors, valid } = useValidation({ formData: form, schema });
-
-  const handleInputChange = (field: keyof FormData, value: string | Date) => {
-    setForm((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    if (!valid) throw new Error("Formularen er ikke udfyldt korrekt");
-    const startTimeHHMM = formatTimeHHMM(form.startTime);
-    const endTimeHHMM = formatTimeHHMM(form.endTime);
-    const data = {
-      activityId: activityId,
-      citizenId: citizenId,
-      date: form.date.toDateString(),
-      name: form.title,
-      description: form.description,
-      startTime: startTimeHHMM,
-      endTime: endTimeHHMM,
-      isCompleted: isCompleted,
-    };
-    await updateActivity.mutateAsync(data);
-    router.back();
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ændre Aktivitet</Text>
       <View>
-        <TextInput
-          value={form.title}
-          placeholder="Title"
-          style={errors?.title?._errors ? styles.inputError : styles.inputValid}
-          onChangeText={(text) => setForm((prev) => ({ ...prev, title: text }))}
+        <form.Field
+          name="title"
+          children={(field) => {
+            return (
+              <View>
+                <TextInput
+                  value={field.state.value}
+                  placeholder="Title"
+                  style={
+                    field.state.meta.errors.length
+                      ? styles.inputError
+                      : styles.inputValid
+                  }
+                  onChangeText={(text) => field.handleChange(text)}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
+          }}
         />
-        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
       </View>
       <View>
-        <TextInput
-          value={form.description}
-          multiline
-          placeholder="Beskrivelse"
-          style={[
-            errors?.description?._errors
-              ? styles.inputError
-              : styles.inputValid,
-            { height: 80 },
-          ]}
-          onChangeText={(text) =>
-            setForm((prev) => ({ ...prev, description: text }))
-          }
-        />
-
-        <Text>{!errors?.title?._errors ? " " : errors?.title?._errors}</Text>
-      </View>
-      <View style={styles.pickerContainer}>
-        <TimePicker
-          title="Vælg start tid"
-          mode="time"
-          value={form.startTime}
-          maxDate={form.endTime}
-          onChange={(selectedDate) => {
-            handleInputChange("startTime", selectedDate);
+        <form.Field
+          name="description"
+          children={(field) => {
+            return (
+              <View>
+                <TextInput
+                  value={field.state.value}
+                  placeholder="Description"
+                  style={
+                    field.state.meta.errors.length
+                      ? styles.inputError
+                      : styles.inputValid
+                  }
+                  onChangeText={(text) => field.handleChange(text)}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
           }}
         />
-        <Text>{errors?.startTime?._errors}</Text>
       </View>
-
       <View style={styles.pickerContainer}>
-        <TimePicker
-          title="Vælg slut tid"
-          mode="time"
-          value={form.endTime}
-          minDate={form.startTime}
-          onChange={(selectedDate) => {
-            handleInputChange("endTime", selectedDate);
+        <form.Field
+          name="startTime"
+          children={(field) => {
+            return (
+              <View>
+                <TimePicker
+                  title="Vælg start tid"
+                  mode="time"
+                  value={field.state.value}
+                  maxDate={form.getFieldValue("endTime")}
+                  onChange={(selectedDate) => {
+                    field.handleChange(selectedDate);
+                  }}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
           }}
         />
-        <Text>{errors?.endTime?._errors}</Text>
+      </View>
+      <View style={styles.pickerContainer}>
+        <form.Field
+          name="endTime"
+          children={(field) => {
+            return (
+              <View>
+                <TimePicker
+                  title="Vælg start tid"
+                  mode="time"
+                  value={field.state.value}
+                  minDate={form.getFieldValue("startTime")}
+                  onChange={(selectedDate) => {
+                    field.handleChange(selectedDate);
+                  }}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
+          }}
+        />
       </View>
       <View style={styles.pickerContainer}>
         <Text style={styles.header}>Dato for aktivitet</Text>
-        <DateTimePicker
-          value={form.date}
-          mode={"date"}
-          onChange={(_event, selectedDate) => {
-            if (!selectedDate) return;
-            handleInputChange("date", selectedDate);
-          }}
-        />
-        <Text>{errors?.date?._errors}</Text>
+        <View>
+          <form.Field
+            name={"date"}
+            children={(field) => {
+              return (
+                <View>
+                  <DateTimePicker
+                    value={field.state.value}
+                    mode={"date"}
+                    onChange={(_event, selectedDate) => {
+                      if (!selectedDate) return;
+                      field.handleChange(selectedDate);
+                    }}
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+        </View>
       </View>
-      <TouchableOpacity
-        style={valid ? styles.buttonValid : styles.buttonDisabled}
-        onPress={handleSubmit}
-        disabled={!valid}
-      >
-        <Text style={styles.buttonText}>Tilføj</Text>
-      </TouchableOpacity>
+      <form.Subscribe
+        selector={(state) => [state.canSubmit, state.isSubmitting]}
+        children={([canSubmit, isSubmitting]) => (
+          <TouchableOpacity
+            style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
+            disabled={!canSubmit}
+            onPress={form.handleSubmit}>
+            <Text style={styles.buttonText}>
+              {isSubmitting ? "..." : "Tilføj"}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };
