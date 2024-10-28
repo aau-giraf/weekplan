@@ -16,6 +16,7 @@ import TimePicker from "../../TimePicker";
 import { z } from "zod";
 import useValidation from "../../../hooks/useValidation";
 import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { useToast } from "../../../providers/ToastProvider";
 
 type EditActivityButtonProps = {
   title: string;
@@ -79,8 +80,8 @@ const ActivityEdit = ({
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
-
   const { errors, valid } = useValidation({ formData: form, schema });
+  const { addToast } = useToast();
 
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
     setForm((prevData) => ({
@@ -103,8 +104,13 @@ const ActivityEdit = ({
       endTime: endTimeHHMM,
       isCompleted: isCompleted,
     };
-    await updateActivity.mutateAsync(data);
-    router.back();
+
+    updateActivity
+      .mutateAsync(data)
+      .catch((error) =>
+        addToast({ message: (error as any).message, type: "error" })
+      )
+      .finally(() => router.back());
   };
 
   return (
@@ -177,8 +183,7 @@ const ActivityEdit = ({
       <TouchableOpacity
         style={valid ? styles.buttonValid : styles.buttonDisabled}
         onPress={handleSubmit}
-        disabled={!valid}
-      >
+        disabled={!valid}>
         <Text style={styles.buttonText}>Tilføj</Text>
       </TouchableOpacity>
     </View>
