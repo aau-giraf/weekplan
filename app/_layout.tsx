@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import ProviderWrapper from "../providers/ProviderWrapper";
 import { SafeAreaView } from "react-native";
-import { colors } from "../utils/colors";
+import { colors } from "../utils/SharedStyles";
 
 const RootLayout = () => {
   return (
