@@ -10,7 +10,6 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  Alert,
   SafeAreaView,
   View,
 } from "react-native";
@@ -55,23 +54,23 @@ const AddActivity = () => {
       const formattedStartTime = formatTimeHHMM(startTime);
       const formattedEndTime = formatTimeHHMM(endTime);
 
-    await useCreateActivity
-      .mutateAsync({
-        citizenId: 1,
-        data: {
-          activityId: -1,
-          name: title,
-          description,
-          startTime: formattedStartTime,
-          endTime: formattedEndTime,
-          date: selectedDate.toISOString().split("T")[0],
-          isCompleted: false,
-        },
-      })
-      .catch((error) => {
-        addToast({ message: error.message, type: "error" });
-      })
-      .finally(() => router.back());
+      await useCreateActivity
+        .mutateAsync({
+          citizenId: 1,
+          data: {
+            activityId: -1,
+            name: title,
+            description,
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
+            date: selectedDate.toISOString().split("T")[0],
+            isCompleted: false,
+          },
+        })
+        .catch((error) => {
+          addToast({ message: error.message, type: "error" });
+        })
+        .finally(() => router.back());
     },
     validatorAdapter: zodValidator(),
     validators: {
