@@ -16,7 +16,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import { colors } from "../../../utils/SharedStyles";
+import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 12;
@@ -220,43 +220,40 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
 
 const styles = StyleSheet.create({
   taskContainer: {
+    ...SharedStyles.flexRow,
     width: "100%",
-    display: "flex",
-    flexDirection: "row",
     alignItems: "center",
+    height: CONTAINER_HEIGHT,
     padding: CONTAINER_PADDING,
     justifyContent: "space-between",
-    height: CONTAINER_HEIGHT,
     backgroundColor: colors.lightBlue,
   },
   timeText: {
+    fontSize: rem(1),
     color: colors.black,
-    fontSize: 16,
   },
   labelText: {
-    color: colors.black,
-    fontSize: 16,
-    textAlign: "center",
     flex: 0.6,
+    fontSize: rem(1),
+    textAlign: "center",
+    color: colors.black,
   },
   iconContainer: {
+    ...SharedStyles.trueCenter,
     width: 120,
     height: 120,
     borderRadius: 100,
     backgroundColor: colors.orange,
-    justifyContent: "center",
-    alignItems: "center",
   },
   iconPlaceholderText: {
+    fontSize: rem(0.75),
     color: colors.backgroundBlack,
-    fontSize: 12,
   },
   action: {
-    width: ACTION_WIDTH,
+    ...SharedStyles.trueCenter,
     height: 140,
+    width: ACTION_WIDTH,
     backgroundColor: colors.crimson,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 
