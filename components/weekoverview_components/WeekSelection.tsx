@@ -5,6 +5,7 @@ import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
 import { colors } from "../../utils/colors";
+import getMonthsFromDates from "../../utils/getMonthsFromDate";
 
 type WeekSelectionProps = {};
 
@@ -35,7 +36,7 @@ const getYears = () => {
  */
 const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const currentDate = new Date();
-  const { setWeekAndYear, weekNumber, calculateMonthLabelForWeek } = useDate();
+  const { setWeekAndYear, weekNumber, weekDates } = useDate();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedWeek, setSelectedWeek] = useState(getWeekNumber(currentDate));
   const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
@@ -43,28 +44,17 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const weeks = getWeeks(selectedYear);
   const years = getYears();
 
-  const initialMonthLabel = calculateMonthLabelForWeek(
-    selectedWeek,
-    selectedYear,
-  );
-
-  const [monthLabel, setMonthLabel] = useState(initialMonthLabel);
+  const monthString = getMonthsFromDates(weekDates[0], weekDates[6]);
 
   const handleWeekSelection = () => {
     setWeekAndYear(selectedWeek, selectedYear);
-
-    const newMonthLabel = calculateMonthLabelForWeek(
-      selectedWeek,
-      selectedYear,
-    );
-    setMonthLabel(newMonthLabel);
     setModalVisible(false);
   };
 
   return (
     <View style={styles.weekSelection}>
       <Button
-        title={`Uge ${weekNumber} - ${monthLabel}`}
+        title={`Uge ${weekNumber} - ${monthString}`}
         onPress={() => setModalVisible(true)}
       />
 

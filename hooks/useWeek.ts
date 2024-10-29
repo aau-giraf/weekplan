@@ -59,24 +59,6 @@ const useWeek = (initialDate = new Date()) => {
     setCurrentDate(adjustedDate);
   }, []);
 
-  const calculateMonthLabelForWeek = (week: number, year: number) => {
-    const jan4th = new Date(Date.UTC(year, JANUARY, 4));
-    const dayOfWeek = jan4th.getUTCDay() === 0 ? 7 : jan4th.getUTCDay();
-    const mondayOfFirstWeek = new Date(
-      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS,
-    );
-    const weekStartDate = new Date(
-      mondayOfFirstWeek.getTime() + (week - 1) * 7 * DAY_IN_MILLISECONDS,
-    );
-    const weekEndDate = new Date(weekStartDate);
-    weekEndDate.setDate(weekStartDate.getDate() + 6);
-
-    const startMonth = getMonths(weekStartDate.getMonth());
-    const endMonth = getMonths(weekEndDate.getMonth());
-
-    return startMonth !== endMonth ? `${startMonth}/${endMonth}` : startMonth;
-  };
-
   const weekNumber = useMemo(() => getWeekNumber(currentDate), [currentDate]);
   const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);
 
@@ -88,7 +70,6 @@ const useWeek = (initialDate = new Date()) => {
     goToNextWeek,
     weekNumber,
     setWeekAndYear,
-    calculateMonthLabelForWeek,
   };
 };
 
