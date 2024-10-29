@@ -6,7 +6,7 @@ import usePictogram from "../hooks/usePictogram";
 jest.mock("../hooks/usePictogram");
 jest.useRealTimers();
 
-describe("swinging left or right triggers the correct actions", () => {
+describe("swiping left or right triggers the correct actions", () => {
   const deleteActivity = jest.fn();
   const editActivity = jest.fn();
   const checkActivity = jest.fn();
@@ -35,7 +35,7 @@ describe("swinging left or right triggers the correct actions", () => {
         showDetails={showDetails}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
-      />,
+      />
     );
     // Simulate the button press
     fireEvent.press(screen.getByTestId("deleteActivityItemButton"));
@@ -64,7 +64,7 @@ describe("swinging left or right triggers the correct actions", () => {
         showDetails={showDetails}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
-      />,
+      />
     );
 
     fireEvent.press(screen.getByTestId("editActivityItemButton"));

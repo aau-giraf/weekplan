@@ -163,14 +163,14 @@ const ActivityEdit = ({
         <Text>{errors?.endTime?._errors}</Text>
       </View>
       <View style={styles.pickerContainer}>
-        <Text style={styles.header}>Dato for aktivitet</Text>
-        <DateTimePicker
+        <TimePicker
+          title={"Dato for aktivitet"}
           value={form.date}
-          mode={"date"}
-          onChange={(_event, selectedDate) => {
+          onChange={(selectedDate) => {
             if (!selectedDate) return;
             handleInputChange("date", selectedDate);
           }}
+          mode={"date"}
         />
         <Text>{errors?.date?._errors}</Text>
       </View>
