@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -14,8 +14,10 @@ import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
 import { z } from "zod";
-import useValidation from "../../../hooks/useValidation";
 import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import FieldInfo from "../../FieldInfo";
 import { useToast } from "../../../providers/ToastProvider";
 
 type EditActivityButtonProps = {
@@ -41,15 +43,13 @@ type FormData = z.infer<typeof schema>;
  * Component for editing an activity.
  *
  * @component
- * @param {EditActivityButtonProps} props - The properties for the component.
- * @param {string} props.title - The title of the activity.
- * @param {string} props.description - The description of the activity.
- * @param {Date} props.startTime - The start time of the activity.
- * @param {Date} props.endTime - The end time of the activity.
- * @param {string} props.activityId - The ID of the activity.
- * @param {boolean} props.isCompleted - The completion status of the activity.
- *
- * @returns {JSX.Element} The rendered component.
+ * @param {string} title - The title of the activity.
+ * @param {string} description - The description of the activity.
+ * @param {Date} startTime - The start time of the activity.
+ * @param {Date} endTime - The end time of the activity.
+ * @param {number} activityId - The id of the activity.
+ * @param {boolean} isCompleted - Whether the activity is completed.
+ * @returns {JSX.Element}
  *
  * @example
  * <ActivityEdit
@@ -69,20 +69,44 @@ const ActivityEdit = ({
   activityId,
   isCompleted,
 }: EditActivityButtonProps) => {
-  const [form, setForm] = useState<FormData>({
-    title: title,
-    description: description,
-    startTime: startTime,
-    endTime: endTime,
-    date: new Date(endTime),
+  const form = useForm({
+    defaultValues: {
+      title: title,
+      description: description,
+      startTime: startTime,
+      endTime: endTime,
+      date: new Date(endTime),
+    } as FormData,
+    onSubmit: async ({ value }) => {
+      const startTimeHHMM = formatTimeHHMM(value.startTime);
+      const endTimeHHMM = formatTimeHHMM(value.endTime);
+      const data = {
+        activityId: activityId,
+        citizenId: citizenId,
+        date: value.date.toDateString(),
+        name: value.title,
+        description: value.description,
+        startTime: startTimeHHMM,
+        endTime: endTimeHHMM,
+        isCompleted: isCompleted,
+      };
+      updateActivity
+        .mutateAsync(data)
+        .catch((error) =>
+          addToast({ message: (error as any).message, type: "error" })
+        )
+        .finally(() => router.back());
+    },
+    validatorAdapter: zodValidator(),
+    validators: {
+      onChange: schema,
+    },
   });
 
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
-  const { errors, valid } = useValidation({ formData: form, schema });
   const { addToast } = useToast();
-
   const handleInputChange = (field: keyof FormData, value: string | Date) => {
     setForm((prevData) => ({
       ...prevData,
@@ -117,92 +141,128 @@ const ActivityEdit = ({
     <View style={styles.container}>
       <Text style={styles.title}>Ændre Aktivitet</Text>
       <View>
-        <TextInput
-          value={form.title}
-          placeholder="Title"
-          style={
-            errors?.title?._errors && form.title !== ""
-              ? styles.inputError
-              : styles.inputValid
-          }
-          onChangeText={(text) => {
-            setForm((prev) => ({ ...prev, title: text }));
+        <form.Field
+          name="title"
+          children={(field) => {
+            return (
+              <View>
+                <TextInput
+                  value={field.state.value}
+                  placeholder="Title"
+                  style={
+                    field.state.meta.errors.length
+                      ? styles.inputError
+                      : styles.inputValid
+                  }
+                  onChangeText={(text) => field.handleChange(text)}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
           }}
         />
-        <Text>
-          {(errors?.title?._errors && form.title === "") ||
-          !errors?.title?._errors
-            ? " "
-            : errors?.title?._errors}
-        </Text>
       </View>
       <View>
-        <TextInput
-          value={form.description}
-          multiline
-          placeholder="Beskrivelse"
-          style={[
-            errors?.description?._errors && form.description !== ""
-              ? styles.inputError
-              : styles.inputValid,
-            { height: 80 },
-          ]}
-          onChangeText={(text) => {
-            setForm((prev) => ({ ...prev, description: text }));
+        <form.Field
+          name="description"
+          children={(field) => {
+            return (
+              <View>
+                <TextInput
+                  value={field.state.value}
+                  placeholder="Description"
+                  style={
+                    field.state.meta.errors.length
+                      ? styles.inputError
+                      : styles.inputValid
+                  }
+                  onChangeText={(text) => field.handleChange(text)}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
           }}
         />
-
-        <Text>
-          {(errors?.description?._errors && form.description === "") ||
-          !errors?.description?._errors
-            ? " "
-            : errors?.description?._errors}
-        </Text>
       </View>
       <View style={styles.pickerContainer}>
-        <TimePicker
-          title="Vælg start tid"
-          mode="time"
-          value={form.startTime}
-          maxDate={form.endTime}
-          onChange={(selectedDate) => {
-            handleInputChange("startTime", selectedDate);
+        <form.Field
+          name="startTime"
+          children={(field) => {
+            return (
+              <View>
+                <TimePicker
+                  title="Vælg start tid"
+                  mode="time"
+                  value={field.state.value}
+                  maxDate={form.getFieldValue("endTime")}
+                  onChange={(selectedDate) => {
+                    field.handleChange(selectedDate);
+                  }}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
           }}
         />
-        <Text>{errors?.startTime?._errors}</Text>
-      </View>
-
-      <View style={styles.pickerContainer}>
-        <TimePicker
-          title="Vælg slut tid"
-          mode="time"
-          value={form.endTime}
-          minDate={form.startTime}
-          onChange={(selectedDate) => {
-            handleInputChange("endTime", selectedDate);
-          }}
-        />
-        <Text>{errors?.endTime?._errors}</Text>
       </View>
       <View style={styles.pickerContainer}>
-        <TimePicker
-          title={"Data for aktivitet"}
-          value={form.date}
-          onChange={(selectedDate) => {
-            if (!selectedDate) return;
-            handleInputChange("date", selectedDate);
+        <form.Field
+          name="endTime"
+          children={(field) => {
+            return (
+              <View>
+                <TimePicker
+                  title="Vælg start tid"
+                  mode="time"
+                  value={field.state.value}
+                  minDate={form.getFieldValue("startTime")}
+                  onChange={(selectedDate) => {
+                    field.handleChange(selectedDate);
+                  }}
+                />
+                <FieldInfo field={field} />
+              </View>
+            );
           }}
-          mode={"date"}
         />
-        <Text>{errors?.date?._errors}</Text>
       </View>
-      <TouchableOpacity
-        style={valid ? styles.buttonValid : styles.buttonDisabled}
-        onPress={handleSubmit}
-        disabled={!valid}
-      >
-        <Text style={styles.buttonText}>Tilføj</Text>
-      </TouchableOpacity>
+      <View style={styles.pickerContainer}>
+        <Text style={styles.header}>Dato for aktivitet</Text>
+        <View>
+          <form.Field
+            name={"date"}
+            children={(field) => {
+              return (
+                <View>
+                  <TimePicker
+                     title={"Data for aktivitet"}
+                     value={form.date}
+                     onChange={(selectedDate) => {
+                       if (!selectedDate) return;
+                       handleInputChange("date", selectedDate);
+                     }}
+                     mode={"date"}
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+        </View>
+      </View>
+      <form.Subscribe
+        selector={(state) => [state.canSubmit, state.isSubmitting]}
+        children={([canSubmit, isSubmitting]) => (
+          <TouchableOpacity
+            style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
+            disabled={!canSubmit}
+            onPress={form.handleSubmit}>
+            <Text style={styles.buttonText}>
+              {isSubmitting ? "..." : "Ændre"}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };

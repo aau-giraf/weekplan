@@ -12,9 +12,10 @@ import {
 } from "react-native";
 import { colors } from "../utils/SharedStyles";
 import { z } from "zod";
-import useValidation from "../hooks/useValidation";
-import InputValidationField from "../components/InputValidation/InputValidationField";
 import { useAuthentication } from "../providers/AuthenticationProvider";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import FieldInfo from "../components/FieldInfo";
 
 /**
  * Regex
@@ -49,66 +50,136 @@ type FormData = z.infer<typeof schema>;
 const RegisterScreen: React.FC = () => {
   const { register } = useAuthentication();
   const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
+
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+    } as FormData,
+    onSubmit: async ({ value }) => {
+      const { email, password, firstName, lastName } = value;
+      register(email, password, firstName, lastName);
+    },
+    validatorAdapter: zodValidator(),
+    validators: {
+      onChange: schema,
+    },
   });
 
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  const { errors, valid } = useValidation({ schema, formData });
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-
-  const isPasswordMatch = formData.password === confirmPassword;
+  const isPasswordMatch = form.getFieldValue("password") === confirmPassword;
 
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.headerText}>Opret en konto</Text>
-          <InputValidationField
-            _errors={errors?.email?._errors}
-            value={formData.email}
-            placeholderText={"E-mail"}
-            keyboard={"email-address"}
-            handleInputChange={handleInputChange}
-            field={"email"}
+          <form.Field
+            name={"email"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="E-mail"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    keyboardType="email-address"
+                    returnKeyType="next"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
           />
-          <InputValidationField
-            _errors={errors?.firstName?._errors}
-            value={formData.firstName}
-            placeholderText={"Fornavn"}
-            handleInputChange={handleInputChange}
-            field={"firstName"}
+          <form.Field
+            name={"firstName"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="Fornavn"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    returnKeyType="next"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
           />
-          <InputValidationField
-            _errors={errors?.lastName?._errors}
-            value={formData.lastName}
-            placeholderText={"Efternavn"}
-            handleInputChange={handleInputChange}
-            field={"lastName"}
+          <form.Field
+            name={"lastName"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="Efternavn"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    returnKeyType="next"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
           />
-          <InputValidationField
-            secureTextEntry={true}
-            _errors={errors?.lastName?._errors}
-            value={formData.password}
-            placeholderText={"Adgangskode"}
-            handleInputChange={handleInputChange}
-            field={"password"}
+          <form.Field
+            name={"password"}
+            children={(field) => {
+              return (
+                <View style={styles.formView}>
+                  <TextInput
+                    style={
+                      field.state.meta.isTouched &&
+                      field.state.meta.errors.length > 0
+                        ? styles.inputError
+                        : styles.input
+                    }
+                    placeholder="Adgangskode"
+                    value={field.state.value}
+                    onChangeText={(value) => {
+                      field.setValue(value);
+                    }}
+                    secureTextEntry
+                    returnKeyType="done"
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
           />
           <TextInput
             style={
               confirmPassword === "" && !isPasswordMatch
                 ? styles.inputError
-                : styles.inputValid
+                : styles.input
             }
             placeholder="Bekræft adgangskode"
             value={confirmPassword}
@@ -123,21 +194,19 @@ const RegisterScreen: React.FC = () => {
               ? "Adgangskoderne stemmer ikke overens"
               : " "}
           </Text>
-          <TouchableOpacity
-            style={
-              valid && isPasswordMatch ? styles.button : styles.buttonDisabled
-            }
-            disabled={!valid || !isPasswordMatch}
-            onPress={async () => {
-              register(
-                formData.email,
-                formData.password,
-                formData.firstName,
-                formData.lastName
-              );
-            }}>
-            <Text style={styles.buttonText}>Registrer</Text>
-          </TouchableOpacity>
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <TouchableOpacity
+                style={canSubmit ? styles.button : styles.buttonDisabled}
+                disabled={!canSubmit}
+                onPress={form.handleSubmit}>
+                <Text style={styles.buttonText}>
+                  {isSubmitting ? "..." : "Register"}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
           <TouchableOpacity
             style={[styles.button, styles.loginButton]}
             onPress={() => router.replace("/login")}>
@@ -167,21 +236,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.black,
   },
-  inputValid: {
+  formView: {
     width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    width: "85%",
     padding: 10,
     borderWidth: 1,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
+    marginBottom: 10,
   },
   inputError: {
-    width: "100%",
+    width: "85%",
     padding: 10,
     borderWidth: 1,
     borderColor: colors.red,
     backgroundColor: colors.white,
     borderRadius: 5,
+    marginBottom: 10,
   },
   button: {
     paddingVertical: 12,
