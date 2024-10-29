@@ -108,7 +108,7 @@ const ActivityEdit = ({
     updateActivity
       .mutateAsync(data)
       .catch((error) =>
-        addToast({ message: (error as any).message, type: "error" })
+        addToast({ message: (error as any).message, type: "error" }),
       )
       .finally(() => router.back());
   };
@@ -185,21 +185,22 @@ const ActivityEdit = ({
         <Text>{errors?.endTime?._errors}</Text>
       </View>
       <View style={styles.pickerContainer}>
-        <Text style={styles.header}>Dato for aktivitet</Text>
-        <DateTimePicker
+        <TimePicker
+          title={"Data for aktivitet"}
           value={form.date}
-          mode={"date"}
-          onChange={(_event, selectedDate) => {
+          onChange={(selectedDate) => {
             if (!selectedDate) return;
             handleInputChange("date", selectedDate);
           }}
+          mode={"date"}
         />
         <Text>{errors?.date?._errors}</Text>
       </View>
       <TouchableOpacity
         style={valid ? styles.buttonValid : styles.buttonDisabled}
         onPress={handleSubmit}
-        disabled={!valid}>
+        disabled={!valid}
+      >
         <Text style={styles.buttonText}>Tilføj</Text>
       </TouchableOpacity>
     </View>
