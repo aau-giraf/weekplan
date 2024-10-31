@@ -21,3 +21,4 @@ export const openCamera = async () => {
   // Return the URI of the captured image or null if canceled
   return result && !result.canceled ? result.assets[0].uri : null; // Check if result is defined
 };
+
