@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
 import { rem, colors, SharedStyles } from "../../utils/SharedStyles";
@@ -37,8 +38,7 @@ const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
       onLongPress={() => {
         setModalVisible(true);
         setSelectedDate(date);
-      }}
-    >
+      }}>
       <View style={[styles.circle, isSelected && styles.selectedCircle]}>
         <Text style={[styles.dayText]}>{day.name}</Text>
       </View>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     height: 80,
   },
   dayText: {
-    fontSize: rem(1),
+    fontSize: 16,
     color: colors.black,
   },
   circle: {
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.orange,
   },
   dateText: {
-    fontSize: rem(1),
+    fontSize: 14,
     color: colors.black,
   },
 });

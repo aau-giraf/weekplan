@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 
 const rem = (sizeInRem: number): number => {
   return Math.ceil(sizeInRem * 16);
@@ -36,7 +36,7 @@ const colors = {
 
 const SharedStyles = StyleSheet.create({
   header: {
-    fontSize: rem(1),
+    fontSize: 18,
     fontWeight: 500,
     paddingBottom: 15,
     color: colors.black,

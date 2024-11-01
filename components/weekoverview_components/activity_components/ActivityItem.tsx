@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, Pressable, Image } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import { Ionicons } from "@expo/vector-icons";
 import ReanimatedSwipeable, {
   SwipeableMethods,
@@ -19,7 +13,7 @@ import usePictogram from "../../../hooks/usePictogram";
 import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
-const CONTAINER_PADDING = 12;
+const CONTAINER_PADDING = 30;
 const ACTION_WIDTH = 100;
 
 /**
@@ -46,7 +40,11 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: colors.crimson }]}>
+        style={[
+          styles.action,
+          { backgroundColor: colors.crimson },
+          { right: 10 },
+        ]}>
         <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -79,14 +77,18 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: colors.blue }]}>
+        style={[styles.action, { backgroundColor: colors.blue }, { left: 20 }]}>
         <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: colors.green }]}>
+        style={[
+          styles.action,
+          { backgroundColor: colors.green },
+          { left: 20 },
+        ]}>
         <Ionicons name={"checkmark"} size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -229,12 +231,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: rem(1),
+    fontSize: 18,
     color: colors.black,
   },
   labelText: {
     flex: 0.6,
-    fontSize: rem(1),
+    fontSize: 18,
     textAlign: "center",
     color: colors.black,
   },
@@ -246,7 +248,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    fontSize: rem(0.75),
+    fontSize: 14,
     color: colors.backgroundBlack,
   },
   action: {

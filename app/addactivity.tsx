@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-  StyleSheet,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -10,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
+import { StyleSheet } from "react-native-size-scaling";
 import { useDate } from "../providers/DateProvider";
 import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
@@ -82,8 +81,7 @@ const AddActivity = () => {
   });
 
   return (
-    <View
-      style={styles.container}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
           <Text style={styles.headerText}>
@@ -202,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   headerText: {
-    fontSize: rem(1.5),
+    fontSize: 24,
     fontWeight: "600",
     marginBottom: 20,
     textAlign: "center",
@@ -212,6 +210,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
+    fontSize: 16,
     borderRadius: 5,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
@@ -221,6 +220,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 5,
+    fontSize: 16,
     borderColor: colors.red,
     backgroundColor: colors.white,
   },
@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 8,
+    fontSize: 16,
     textAlignVertical: "top",
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
@@ -254,12 +255,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray,
   },
   buttonText: {
-    fontSize: rem(1),
+    fontSize: 16,
     fontWeight: "500",
     color: colors.white,
   },
   header: {
-    fontSize: rem(1),
+    fontSize: 16,
     fontWeight: "500",
     marginBottom: 10,
     color: colors.black,

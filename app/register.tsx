@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  StyleSheet,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -10,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import { colors } from "../utils/SharedStyles";
 import { z } from "zod";
 import { useAuthentication } from "../providers/AuthenticationProvider";
@@ -244,6 +244,7 @@ const styles = StyleSheet.create({
   input: {
     width: "85%",
     padding: 10,
+    fontSize: 16,
     borderWidth: 1,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
@@ -253,6 +254,7 @@ const styles = StyleSheet.create({
   inputError: {
     width: "85%",
     padding: 10,
+    fontSize: 16,
     borderWidth: 1,
     borderColor: colors.red,
     backgroundColor: colors.white,

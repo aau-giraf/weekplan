@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import GirafIcon from "../components/SVG/GirafIcon";
 import { useRouter } from "expo-router";
 import { useAuthentication } from "../providers/AuthenticationProvider";
@@ -153,6 +148,7 @@ const styles = StyleSheet.create({
     width: "85%",
     padding: 10,
     borderWidth: 1,
+    fontSize: 16,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
@@ -160,6 +156,7 @@ const styles = StyleSheet.create({
   inputError: {
     width: "85%",
     padding: 10,
+    fontSize: 16,
     borderWidth: 1,
     borderColor: colors.red,
     backgroundColor: colors.white,
@@ -186,7 +183,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "500",
   },
 });

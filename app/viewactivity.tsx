@@ -1,18 +1,13 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { View, Text, ActivityIndicator, Button } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSingleActivity } from "../hooks/useActivity";
-import { rem, colors, SharedStyles } from '../utils/SharedStyles';
+import { rem, colors, SharedStyles } from "../utils/SharedStyles";
 
 const ViewActivity = () => {
   const id = parseInt(
-    useLocalSearchParams<{ activityId: string }>().activityId,
+    useLocalSearchParams<{ activityId: string }>().activityId
   );
   const { useFetchActivity } = useSingleActivity({ activityId: id });
   const { data, error, isLoading } = useFetchActivity;
@@ -57,22 +52,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   activityName: {
-    fontSize: rem(1),
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 8,
     color: colors.black,
   },
   activityDescription: {
-    fontSize: rem(1),
+    fontSize: 18,
     marginBottom: 8,
     color: colors.black,
   },
   activityTime: {
-    fontSize: rem(1),
+    fontSize: 18,
     color: colors.black,
   },
   errorText: {
-    fontSize: rem(1),
+    fontSize: 18,
     textAlign: "center",
     marginVertical: 20,
     color: colors.red,

@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import { FieldApi } from "@tanstack/react-form";
 
 /**
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
+    fontSize: 12,
     fontStyle: "italic",
   },
   validatingText: {

@@ -1,11 +1,5 @@
-import {
-  Modal,
-  TouchableOpacity,
-  StyleSheet,
-  Button,
-  View,
-  Text,
-} from "react-native";
+import { Modal, TouchableOpacity, Button, View, Text } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";

@@ -1,4 +1,5 @@
-import { StyleSheet, Text } from "react-native";
+import { Text } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
   FadeInUp,
@@ -44,8 +45,7 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
       layout={LinearTransition}
       entering={FadeInUp}
       exiting={FadeOutRight}
-      style={[styles.toastContainer, { backgroundColor: color }]}
-    >
+      style={[styles.toastContainer, { backgroundColor: color }]}>
       <Ionicons size={rem(2)} name={icon} style={styles.icon} />
       <Text style={styles.toastMessage}>{message}</Text>
       <Ionicons
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   toastMessage: {
     ...SharedStyles.flexRow,
-    fontSize: rem(1),
+    fontSize: 18,
     flex: 1,
     textAlign: "center",
     color: colors.white,

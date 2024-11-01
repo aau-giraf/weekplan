@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, TextInput, Text, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import { useDate } from "../../../providers/DateProvider";
 import useActivity from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
@@ -197,7 +192,6 @@ const ActivityEdit = ({
         />
       </View>
       <View style={styles.pickerContainer}>
-        <Text style={styles.header}>Dato for aktivitet</Text>
         <View>
           <form.Field
             name={"date"}
@@ -246,7 +240,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   title: {
-    fontSize: rem(1.5),
+    fontSize: 24,
     textAlign: "center",
     fontWeight: "600",
   },
@@ -254,6 +248,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
+    fontSize: 16,
     borderRadius: 5,
     marginBottom: 15,
     borderColor: colors.lightGray,
@@ -263,6 +258,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderWidth: 1,
+    fontSize: 16,
     borderRadius: 5,
     marginBottom: 15,
     borderColor: colors.red,
@@ -295,7 +291,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontSize: rem(1),
+    fontSize: 18,
     fontWeight: "500",
   },
 });

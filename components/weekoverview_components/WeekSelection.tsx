@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Text,
-  Modal,
-  Button,
-} from "react-native";
+import { TouchableOpacity, View, Text, Modal, Button } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";

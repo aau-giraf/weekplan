@@ -5,9 +5,9 @@ import {
   Text,
   Modal,
   Image,
-  StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { StyleSheet } from "react-native-size-scaling";
 import ActivityItem from "./ActivityItem";
 import useActivity from "../../../hooks/useActivity";
 import { useDate } from "../../../providers/DateProvider";
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue,
   },
   closeButtonText: {
-    fontSize: rem(1),
+    fontSize: 18,
     color: colors.white,
   },
 });
