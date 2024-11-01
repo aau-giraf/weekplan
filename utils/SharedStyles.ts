@@ -38,8 +38,8 @@ const colors = {
 const SharedStyles = StyleSheet.create({
   header: {
     fontSize: rem(1),
-    fontWeight: 500,
-    paddingBottom: 15,
+    fontWeight: "600",
+    paddingBottom: 10,
     color: colors.black,
   },
   container: {

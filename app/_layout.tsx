@@ -9,6 +9,7 @@ const RootLayout = () => {
       <SafeAreaView style={{ backgroundColor: colors.white }} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="profile" />
         <Stack.Screen name="weekplanscreen" />
         <Stack.Screen name="viewactivity" />
         <Stack.Screen name="addactivity" />
