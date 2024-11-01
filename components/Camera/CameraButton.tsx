@@ -1,33 +1,29 @@
-// ActivityAiButton.js
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Pressable } from "expo-router/build/views/Pressable";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { colors } from "../../../utils/colors";
-import { openCamera } from "../components/Camera/Camera";
-
+import { colors } from "../../utils/colors";
+import { openCamera } from "../Camera/Camera";
 
 /**
- * ActivityAiButton component renders a button that opens the camera.
+ * CameraButton component renders a button that opens the camera.
  * @component
  */
-const ActivityAiButton = () => {
+const CameraButton = () => {
   const handlePress = async () => {
-    const imageUri = await openCamera();
-
-    // Optionally handle the image URI here
+    const imageUri = await openCamera(); // Call the openCamera function
+    // Handle the imageUri if needed, e.g., display it or process it further
     if (imageUri) {
-      console.log(imageUri);
+      console.log("Captured image URI:", imageUri); // Optional: Log the captured image URI
     }
   };
 
   return (
-    <Pressable style={styles.button} onPress={handlePress}>
-      <View>
-        <Ionicons name={"camera-outline"} size={30} />
+    <TouchableOpacity style={styles.button} onPress={handlePress}>
+      <View style={styles.iconContainer}>
+        <Ionicons name={"camera"} size={30} color={colors.white} />
         <Ionicons name={"add-outline"} size={25} style={styles.addIcon} />
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
@@ -42,7 +38,10 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 24,
     position: "absolute",
-    zIndex: 999,
+  },
+  iconContainer: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   addIcon: {
     bottom: -9.8,
@@ -54,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityAiButton;
+export default CameraButton;
