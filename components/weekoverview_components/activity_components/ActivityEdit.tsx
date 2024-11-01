@@ -8,7 +8,7 @@ import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
 import { z } from "zod";
-import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { colors, SharedStyles } from "../../../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../../FieldInfo";

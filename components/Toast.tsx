@@ -6,7 +6,7 @@ import Animated, {
   FadeOutRight,
   LinearTransition,
 } from "react-native-reanimated";
-import { rem, colors, SharedStyles } from "../utils/SharedStyles";
+import { colors, SharedStyles } from "../utils/SharedStyles";
 
 type ToastNotification = "success" | "error" | "warning";
 type ToastStyle = {
@@ -46,10 +46,10 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
       entering={FadeInUp}
       exiting={FadeOutRight}
       style={[styles.toastContainer, { backgroundColor: color }]}>
-      <Ionicons size={rem(2)} name={icon} style={styles.icon} />
+      <Ionicons size={36} name={icon} style={styles.icon} />
       <Text style={styles.toastMessage}>{message}</Text>
       <Ionicons
-        size={rem(2)}
+        size={36}
         name={"close-outline"}
         style={styles.icon}
         onPress={() => onClose(id)}

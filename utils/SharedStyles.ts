@@ -1,14 +1,4 @@
 import { StyleSheet } from "react-native-size-scaling";
-import { Dimensions } from "react-native";
-
-const rem = (sizeInRem: number): number => {
-  return Math.ceil(sizeInRem * 16);
-};
-
-const responsiveSize = (number: number): number => {
-  const currentScreen = Dimensions.get("window");
-  return (currentScreen.height / currentScreen.width) * number;
-};
 
 /**
  * Colors to be used throughout GIRAF
@@ -61,4 +51,4 @@ const SharedStyles = StyleSheet.create({
   },
 });
 
-export { rem, responsiveSize, colors, SharedStyles };
+export { colors, SharedStyles };

@@ -16,7 +16,7 @@ import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { colors, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 
 /**

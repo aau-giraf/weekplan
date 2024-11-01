@@ -5,7 +5,7 @@ import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
-import { rem, colors, SharedStyles } from "../../utils/SharedStyles";
+import { colors, SharedStyles } from "../../utils/SharedStyles";
 
 type WeekSelectionProps = {};
 
@@ -84,10 +84,10 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
 const styles = StyleSheet.create({
   weekSelection: {
     alignItems: "center",
-    padding: rem(1),
+    padding: 18,
   },
   weekText: {
-    fontSize: rem(1.25),
+    fontSize: 22,
     fontWeight: "bold",
   },
   modalContainer: {

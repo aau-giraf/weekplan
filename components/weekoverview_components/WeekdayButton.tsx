@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native-size-scaling";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
-import { rem, colors, SharedStyles } from "../../utils/SharedStyles";
+import { colors, SharedStyles } from "../../utils/SharedStyles";
 
 type WeekdayButtonProps = {
   date: Date;

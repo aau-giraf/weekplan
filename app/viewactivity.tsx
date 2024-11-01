@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator, Button } from "react-native";
 import { StyleSheet } from "react-native-size-scaling";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSingleActivity } from "../hooks/useActivity";
-import { rem, colors, SharedStyles } from "../utils/SharedStyles";
+import { colors, SharedStyles } from "../utils/SharedStyles";
 
 const ViewActivity = () => {
   const id = parseInt(

@@ -16,7 +16,7 @@ import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { z } from "zod";
-import { rem, colors } from "../utils/SharedStyles";
+import { colors } from "../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";

@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text } from "react-native";
 import { StyleSheet } from "react-native-size-scaling";
 import { Picker } from "@react-native-picker/picker";
-import { rem } from "../utils/SharedStyles";
 
 interface PickerColumnProps {
   title: string;

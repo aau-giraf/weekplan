@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { StyleSheet } from "react-native-size-scaling";
-import { colors, rem } from "../../utils/SharedStyles";
+import { colors } from "../../utils/SharedStyles";
 
 const PrivacyPolicy = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);

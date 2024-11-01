@@ -10,12 +10,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import {
-  colors,
-  rem,
-  responsiveSize,
-  SharedStyles,
-} from "../../../utils/SharedStyles";
+import { colors, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 20;
@@ -36,12 +31,14 @@ function LeftAction(
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: drag.value - ACTION_WIDTH }],
+      transform: [
+        { translateX: drag.value - ACTION_WIDTH - CONTAINER_PADDING },
+      ],
     };
   });
 
   return (
-    <Reanimated.View style={[styleAnimation, styles.leftAction]}>
+    <Reanimated.View style={[styleAnimation]}>
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
@@ -69,13 +66,14 @@ function RightAction(
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: drag.value + ACTION_WIDTH * 2 }],
+      transform: [
+        { translateX: drag.value + ACTION_WIDTH * 2 + CONTAINER_PADDING },
+      ],
     };
   });
 
   return (
-    <Reanimated.View
-      style={[styleAnimation, { flexDirection: "row" }, styles.rightAction]}>
+    <Reanimated.View style={[styleAnimation, { flexDirection: "row" }]}>
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
@@ -254,12 +252,6 @@ const styles = StyleSheet.create({
     height: 140,
     width: ACTION_WIDTH,
     backgroundColor: colors.crimson,
-  },
-  rightAction: {
-    right: responsiveSize(35),
-  },
-  leftAction: {
-    right: responsiveSize(20),
   },
 });
 
