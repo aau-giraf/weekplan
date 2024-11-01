@@ -36,7 +36,7 @@ function LeftAction(
   });
 
   return (
-    <Reanimated.View style={styleAnimation}>
+    <Reanimated.View style={[styleAnimation, styles.leftAction]}>
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
@@ -69,7 +69,8 @@ function RightAction(
   });
 
   return (
-    <Reanimated.View style={[styleAnimation, { flexDirection: "row" }]}>
+    <Reanimated.View
+      style={[styleAnimation, { flexDirection: "row" }, styles.rightAction]}>
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
@@ -157,7 +158,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   }
 
   return (
-    <>
+    <View>
       <ReanimatedSwipeable
         ref={swipeableRef}
         overshootFriction={10}
@@ -208,7 +209,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
           </View>
         </Pressable>
       </ReanimatedSwipeable>
-    </>
+    </View>
   );
 };
 
@@ -248,6 +249,12 @@ const styles = StyleSheet.create({
     height: 140,
     width: ACTION_WIDTH,
     backgroundColor: colors.crimson,
+  },
+  rightAction: {
+    right: 20,
+  },
+  leftAction: {
+    right: 10,
   },
 });
 
