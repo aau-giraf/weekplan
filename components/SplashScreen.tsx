@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Animated, StyleSheet } from "react-native";
 import GirafIcon from "./SVG/GirafIcon";
-import { colors, SharedStyles } from '../utils/SharedStyles';
+import { colors, SharedStyles } from "../utils/SharedStyles";
 
 /**
  * SplashScreenComponent is a React functional component that displays an animated splash screen.
@@ -39,8 +39,7 @@ const SplashScreenComponent: React.FC = () => {
         style={[
           styles.image,
           { transform: [{ scale: logoSpin }, { rotate: rotation }] },
-        ]}
-      >
+        ]}>
         <GirafIcon />
       </Animated.View>
     </View>
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     ...SharedStyles.trueCenter,
     flex: 1,
     display: "flex",
-    backgroundColor: colors.backgroundBlack,
+    backgroundColor: colors.white,
   },
   image: {
     width: 250,
