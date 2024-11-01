@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDate } from "../../../providers/DateProvider";
 import useActivity from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
@@ -107,35 +106,6 @@ const ActivityEdit = ({
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
   const { addToast } = useToast();
-  const handleInputChange = (field: keyof FormData, value: string | Date) => {
-    setForm((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    if (!valid) throw new Error("Formularen er ikke udfyldt korrekt");
-    const startTimeHHMM = formatTimeHHMM(form.startTime);
-    const endTimeHHMM = formatTimeHHMM(form.endTime);
-    const data = {
-      activityId: activityId,
-      citizenId: citizenId,
-      date: form.date.toDateString(),
-      name: form.title,
-      description: form.description,
-      startTime: startTimeHHMM,
-      endTime: endTimeHHMM,
-      isCompleted: isCompleted,
-    };
-
-    updateActivity
-      .mutateAsync(data)
-      .catch((error) =>
-        addToast({ message: (error as any).message, type: "error" }),
-      )
-      .finally(() => router.back());
-  };
 
   return (
     <View style={styles.container}>
@@ -235,13 +205,13 @@ const ActivityEdit = ({
               return (
                 <View>
                   <TimePicker
-                     title={"Data for aktivitet"}
-                     value={form.date}
-                     onChange={(selectedDate) => {
-                       if (!selectedDate) return;
-                       handleInputChange("date", selectedDate);
-                     }}
-                     mode={"date"}
+                    title={"Data for aktivitet"}
+                    value={field.state.value}
+                    onChange={(selectedDate) => {
+                      if (!selectedDate) return;
+                      field.handleChange(selectedDate);
+                    }}
+                    mode={"date"}
                   />
                   <FieldInfo field={field} />
                 </View>
