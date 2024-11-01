@@ -8,6 +8,7 @@ import {
   Pressable,
   StyleSheet,
   ScrollView,
+  FlatList,
 } from "react-native";
 import useProfile from "../hooks/useProfile";
 import { ProfilePicture } from "../components/ProfilePage";
@@ -34,18 +35,22 @@ const ProfilePage: React.FC = () => {
     );
   }
 
+  const mockOrgs = [
+    { name: "Penis" },
+    { name: "Aalborg university dnqwiodqwidowqdwqdqw" },
+    { name: "Egebakken skole" },
+  ];
+
   return (
     <ScrollView
       contentContainerStyle={{
         padding: 20,
         alignItems: "center",
-        height: "100%",
       }}
       style={{ width: "100%" }}>
       <ProfilePicture
         style={{ width: "70%", aspectRatio: 1 / 1, borderRadius: 10000 }}
-        firstName={data.firstName || "John"}
-        lastName={data.lastName || "DICK"}
+        label="Andreas Mertz Penis"
       />
       <View
         style={{
@@ -54,17 +59,40 @@ const ProfilePage: React.FC = () => {
           justifyContent: "center",
           alignItems: "center",
         }}>
-        <Text style={SharedStyles.header}>
-          {data.email || "No email provided"}
-        </Text>
+        <Text style={SharedStyles.header}>{data.email}</Text>
         <Text
           style={
             SharedStyles.header
           }>{`${data.firstName || "John"} ${data.lastName || "DICK"}`}</Text>
       </View>
-      <Link href={"/weekplanscreen"}>Week Overview</Link>
+      <OrganisationContainer org={mockOrgs} />
       <InvitationsButton />
     </ScrollView>
+  );
+};
+
+type OrganisationContainerProps = {
+  org: {
+    name: string;
+  }[];
+};
+
+const OrganisationContainer = ({ org }: OrganisationContainerProps) => {
+  const renderItem = ({ item }: { item: (typeof org)[0] }) => (
+    <View style={styles.itemContainer}>
+      <ProfilePicture label={item.name} style={{ width: "100%" }} />
+      <Text>{item.name}</Text>
+    </View>
+  );
+
+  return (
+    <FlatList
+      data={org}
+      renderItem={renderItem}
+      keyExtractor={(item, index) => index.toString() + item.name} // Use a unique key if available
+      numColumns={2} // Set the number of columns for the grid
+      columnWrapperStyle={styles.columnWrapper} // Optional: for spacing between columns
+    />
   );
 };
 
@@ -108,6 +136,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightGreen,
     borderRadius: 20,
     overflow: "hidden",
+  },
+  itemContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 8, // Optional: add margin for spacing between items
+  },
+  columnWrapper: {
+    justifyContent: "space-between", // Optional: distribute items evenly
   },
 });
 

@@ -6,19 +6,18 @@ import {
 } from "../utils/profileColors";
 
 type ProfilePictureProps = {
-  firstName: string;
-  lastName: string;
+  label: string;
   style?: StyleProp<ViewStyle>;
 };
-
-export const ProfilePicture = ({
-  firstName,
-  lastName,
-  style,
-}: ProfilePictureProps) => {
-  const colourFromName = hashNameToColour(firstName + " " + lastName);
+export const ProfilePicture = ({ label, style }: ProfilePictureProps) => {
+  const colourFromName = hashNameToColour(label);
   const colourTextContrast = getContrastingTextColor(colourFromName);
 
+  const displayName = label
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
   return (
     <View
       style={[
@@ -27,7 +26,7 @@ export const ProfilePicture = ({
         { backgroundColor: colourFromName },
       ]}>
       <Text style={[styles.ProfilePictureText, { color: colourTextContrast }]}>
-        {firstName[0].toUpperCase() + lastName[0].toUpperCase()}
+        {displayName}
       </Text>
     </View>
   );
