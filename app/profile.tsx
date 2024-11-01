@@ -1,5 +1,4 @@
-import { Link, router } from "expo-router";
-
+import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
   View,
@@ -7,7 +6,6 @@ import {
   ActivityIndicator,
   Pressable,
   StyleSheet,
-  ScrollView,
   FlatList,
 } from "react-native";
 import useProfile from "../hooks/useProfile";
@@ -18,7 +16,6 @@ import React from "react";
 const ProfilePage: React.FC = () => {
   const { data, isLoading, isError } = useProfile();
 
-  // Guard clauses for loading and error states, including no data
   if (isLoading) {
     return (
       <View>
@@ -39,46 +36,16 @@ const ProfilePage: React.FC = () => {
     { name: "Penis" },
     { name: "Aalborg university dnqwiodqwidowqdwqdqw" },
     { name: "Egebakken skole" },
+    { name: "Penis" },
+    { name: "Aalborg university dnqwiodqwidowqdwqdqw" },
+    { name: "Egebakken skole" },
+
+    { name: "Penis" },
+    { name: "Aalborg university dnqwiodqwidowqdwqdqw" },
+    { name: "Egebakken skole" },
   ];
 
-  return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: 20,
-        alignItems: "center",
-      }}
-      style={{ width: "100%" }}>
-      <ProfilePicture
-        style={{ width: "70%", aspectRatio: 1 / 1, borderRadius: 10000 }}
-        label="Andreas Mertz Penis"
-      />
-      <View
-        style={{
-          display: "flex",
-          padding: 20,
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
-        <Text style={SharedStyles.header}>{data.email}</Text>
-        <Text
-          style={
-            SharedStyles.header
-          }>{`${data.firstName || "John"} ${data.lastName || "DICK"}`}</Text>
-      </View>
-      <OrganisationContainer org={mockOrgs} />
-      <InvitationsButton />
-    </ScrollView>
-  );
-};
-
-type OrganisationContainerProps = {
-  org: {
-    name: string;
-  }[];
-};
-
-const OrganisationContainer = ({ org }: OrganisationContainerProps) => {
-  const renderItem = ({ item }: { item: (typeof org)[0] }) => (
+  const renderItem = ({ item }: { item: { name: string } }) => (
     <View style={styles.itemContainer}>
       <ProfilePicture label={item.name} style={{ width: "100%" }} />
       <Text>{item.name}</Text>
@@ -87,11 +54,32 @@ const OrganisationContainer = ({ org }: OrganisationContainerProps) => {
 
   return (
     <FlatList
-      data={org}
+      data={mockOrgs}
       renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString() + item.name} // Use a unique key if available
-      numColumns={2} // Set the number of columns for the grid
-      columnWrapperStyle={styles.columnWrapper} // Optional: for spacing between columns
+      keyExtractor={(item, index) => index.toString() + item.name}
+      numColumns={2}
+      columnWrapperStyle={styles.columnWrapper}
+      ListHeaderComponent={
+        <View style={{ padding: 20, alignItems: "center" }}>
+          <ProfilePicture
+            style={{ width: "70%", aspectRatio: 1 / 1, borderRadius: 10000 }}
+            label="Andreas Mertz Penis"
+          />
+          <View
+            style={{
+              display: "flex",
+              padding: 20,
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+            <Text style={SharedStyles.header}>{data.email}</Text>
+            <Text style={SharedStyles.header}>
+              {`${data.firstName || "John"} ${data.lastName || "DICK"}`}
+            </Text>
+          </View>
+        </View>
+      }
+      ListFooterComponent={<InvitationsButton />}
     />
   );
 };
@@ -121,21 +109,6 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 24,
     position: "absolute",
-  },
-  text: {
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 30,
-    padding: 10,
-    color: colors.black,
-  },
-  addIcon: {
-    bottom: -9.8,
-    right: -9.8,
-    position: "absolute",
-    backgroundColor: colors.lightGreen,
-    borderRadius: 20,
-    overflow: "hidden",
   },
   itemContainer: {
     flex: 1,
