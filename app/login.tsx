@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    height: 300,
+    width: 250,
+    height: 250,
     marginBottom: 30,
   },
   title: {

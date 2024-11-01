@@ -40,11 +40,7 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[
-          styles.action,
-          { backgroundColor: colors.crimson },
-          styles.rightPosition,
-        ]}>
+        style={[styles.action, { backgroundColor: colors.crimson }]}>
         <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -73,8 +69,7 @@ function RightAction(
   });
 
   return (
-    <Reanimated.View
-      style={[styleAnimation, { flexDirection: "row" }, styles.leftPosition]}>
+    <Reanimated.View style={[styleAnimation, { flexDirection: "row" }]}>
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
@@ -253,12 +248,6 @@ const styles = StyleSheet.create({
     height: 140,
     width: ACTION_WIDTH,
     backgroundColor: colors.crimson,
-  },
-  leftPosition: {
-    right: 20,
-  },
-  rightPosition: {
-    right: 10,
   },
 });
 
