@@ -10,7 +10,12 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
+import {
+  colors,
+  rem,
+  responsiveSize,
+  SharedStyles,
+} from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 20;
@@ -251,10 +256,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.crimson,
   },
   rightAction: {
-    right: 20,
+    right: responsiveSize(35),
   },
   leftAction: {
-    right: 10,
+    right: responsiveSize(20),
   },
 });
 
