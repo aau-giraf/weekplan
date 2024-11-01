@@ -1,16 +1,13 @@
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   View,
 } from "react-native";
 
@@ -20,8 +17,11 @@ import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { z } from "zod";
-import useValidation from "../hooks/useValidation";
 import { rem, colors } from "../utils/SharedStyles";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import FieldInfo from "../components/FieldInfo";
+import { useToast } from "../providers/ToastProvider";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -32,122 +32,165 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+/**
+ * AddActivity component renders a form for adding an activity.
+ * @constructor
+ *
+ */
+
 const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
+  const { addToast } = useToast();
   const { useCreateActivity } = useActivity({ date: selectedDate });
-  const [formData, setFormData] = useState<FormData>({
-    title: "",
-    description: "",
-    startTime: new Date(),
-    endTime: new Date(),
+
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      startTime: new Date(),
+      endTime: new Date(),
+    } as FormData,
+    onSubmit: async ({ value }) => {
+      const { title, description, startTime, endTime } = value;
+
+      const formattedStartTime = formatTimeHHMM(startTime);
+      const formattedEndTime = formatTimeHHMM(endTime);
+
+      await useCreateActivity
+        .mutateAsync({
+          citizenId: 1,
+          data: {
+            activityId: -1,
+            name: title,
+            description,
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
+            date: selectedDate.toISOString().split("T")[0],
+            isCompleted: false,
+          },
+        })
+        .catch((error) => {
+          addToast({ message: error.message, type: "error" });
+        })
+        .finally(() => router.back());
+    },
+    validatorAdapter: zodValidator(),
+    validators: {
+      onChange: schema,
+    },
   });
 
-  const { errors, valid } = useValidation({ schema, formData });
-
-  const handleInputChange = (field: keyof FormData, value: string | Date) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    const { title, description, startTime, endTime } = formData;
-
-    const formattedStartTime = formatTimeHHMM(startTime);
-    const formattedEndTime = formatTimeHHMM(endTime);
-
-    await useCreateActivity.mutateAsync({
-      citizenId: 1,
-      data: {
-        activityId: -1,
-        name: title,
-        description,
-        startTime: formattedStartTime,
-        endTime: formattedEndTime,
-        date: selectedDate.toISOString().split("T")[0],
-        isCompleted: false,
-      },
-    });
-    router.back();
-  };
-
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : undefined} //Android's built-in handling should suffice
-          keyboardVerticalOffset={80}
-        >
-          <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
-            <Text style={styles.headerText}>
-              Opret en aktivitet til {prettyDate(selectedDate)}
-            </Text>
-            <View>
-              <TextInput
-                style={
-                  errors?.title?._errors ? styles.inputError : styles.inputValid
-                }
-                placeholder="Titel"
-                value={formData.title}
-                onChangeText={(text) => handleInputChange("title", text)}
-                returnKeyType="done"
-              />
-              <Text>
-                {!errors?.title?._errors ? " " : errors?.title?._errors}
-              </Text>
-            </View>
-            <View>
-              <TextInput
-                style={
-                  errors?.description?._errors
-                    ? styles.inputError
-                    : styles.inputValid
-                }
-                placeholder="Beskrivelse"
-                value={formData.description}
-                onChangeText={(text) => handleInputChange("description", text)}
-                multiline
-                returnKeyType="done"
-              />
-              <Text>
-                {!errors?.title?._errors ? " " : errors?.title?._errors}
-              </Text>
-            </View>
-            <TimePicker
-              title="Vælg start tid"
-              value={formData.startTime}
-              minuteInterval={5}
-              maxDate={formData.endTime}
-              androidDisplay={"spinner"}
-              iosDisplay={"default"}
-              onChange={(time) => handleInputChange("startTime", time)}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
+          <Text style={styles.headerText}>
+            Opret en aktivitet til {prettyDate(selectedDate)}
+          </Text>
+          <View>
+            <form.Field
+              name="title"
+              children={(field) => {
+                return (
+                  <View>
+                    <TextInput
+                      style={
+                        field.state.meta.isTouched &&
+                        field.state.meta.errors.length > 0
+                          ? styles.inputError
+                          : styles.inputValid
+                      }
+                      placeholder="Titel"
+                      value={field.state.value}
+                      onChangeText={(text) => field.handleChange(text)}
+                      returnKeyType="done"
+                    />
+                    <FieldInfo field={field} />
+                  </View>
+                );
+              }}
             />
-            <Text>{errors?.startTime?._errors}</Text>
-
-            <TimePicker
-              title="Vælg slut tid"
-              value={formData.endTime}
-              minDate={formData.startTime}
-              minuteInterval={5}
-              androidDisplay={"spinner"}
-              iosDisplay={"default"}
-              onChange={(time) => handleInputChange("endTime", time)}
+          </View>
+          <View>
+            <form.Field
+              name="description"
+              children={(field) => {
+                return (
+                  <View>
+                    <TextInput
+                      style={
+                        field.state.meta.isTouched &&
+                        field.state.meta.errors.length > 0
+                          ? styles.inputError
+                          : styles.inputValid
+                      }
+                      placeholder="Beskrivelse"
+                      value={field.state.value}
+                      onChangeText={(text) => field.handleChange(text)}
+                      multiline
+                      returnKeyType="done"
+                    />
+                    <FieldInfo field={field} />
+                  </View>
+                );
+              }}
             />
-            <Text>{errors?.endTime?._errors}</Text>
-
-            <TouchableOpacity
-              style={valid ? styles.buttonValid : styles.buttonDisabled}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.buttonText}>Tilføj</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </KeyboardAvoidingView>
+          </View>
+          <form.Field
+            name="startTime"
+            children={(field) => {
+              return (
+                <View>
+                  <TimePicker
+                    title="Vælg start tid"
+                    value={field.state.value}
+                    minuteInterval={5}
+                    maxDate={form.getFieldValue("endTime")}
+                    androidDisplay={"spinner"}
+                    iosDisplay={"default"}
+                    onChange={(time) => field.handleChange(time)}
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+          <form.Field
+            name="endTime"
+            children={(field) => {
+              return (
+                <View>
+                  <TimePicker
+                    title="Vælg start tid"
+                    value={field.state.value}
+                    minuteInterval={5}
+                    minDate={form.getFieldValue("startTime")}
+                    androidDisplay={"spinner"}
+                    iosDisplay={"default"}
+                    onChange={(time) => field.handleChange(time)}
+                  />
+                  <FieldInfo field={field} />
+                </View>
+              );
+            }}
+          />
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <TouchableOpacity
+                style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
+                disabled={!canSubmit}
+                onPress={form.handleSubmit}>
+                <Text style={styles.buttonText}>
+                  {isSubmitting ? "..." : "Tilføj"}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </ScrollView>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </View>
   );
 };
 

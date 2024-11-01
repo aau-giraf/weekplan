@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { colors } from "../../utils/SharedStyles";
 import {
   Text,
   ScrollView,
@@ -10,6 +9,7 @@ import {
   Modal,
   View,
 } from "react-native";
+import { colors, rem } from "../../utils/SharedStyles";
 
 const PrivacyPolicy = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -114,8 +114,7 @@ const PrivacyPolicy = () => {
           <Text style={styles.text}>- Ret til indsigelse</Text>
           <Text style={styles.text}>- Ret til dataportabilitet</Text>
           <TouchableOpacity
-            onPress={() => handleLinkPress("https://www.datatilsynet.dk")}
-          >
+            onPress={() => handleLinkPress("https://www.datatilsynet.dk")}>
             <Text style={styles.link}>
               Læs mere om dine rettigheder på Datatilsynet
             </Text>
@@ -127,8 +126,7 @@ const PrivacyPolicy = () => {
             utilfreds med vores behandling af dine personoplysninger.
           </Text>
           <TouchableOpacity
-            onPress={() => handleLinkPress("https://www.datatilsynet.dk")}
-          >
+            onPress={() => handleLinkPress("https://www.datatilsynet.dk")}>
             <Text style={styles.link}>Kontakt Datatilsynet</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -143,29 +141,29 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   header: {
-    fontSize: 24,
+    fontSize: rem(1.5),
     fontWeight: "bold",
     marginBottom: 10,
     color: colors.black,
   },
   subheader: {
-    fontSize: 20,
+    fontSize: rem(1),
     fontWeight: "bold",
     marginBottom: 10,
     color: colors.black,
   },
   text: {
     marginBottom: 10,
-    fontSize: 16,
+    fontSize: rem(1),
     color: colors.black,
   },
   link: {
-    color: colors.blue,
     marginBottom: 20,
+    color: colors.blue,
   },
   linkText: {
-    color: colors.blue,
     textDecorationLine: "underline",
+    color: colors.blue,
   },
 });
 

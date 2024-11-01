@@ -17,6 +17,7 @@ import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { useToast } from "../../../providers/ToastProvider";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -38,6 +39,7 @@ const ActivityItemList = () => {
       date: selectedDate,
     });
   const { data, error, isLoading, refetch } = useFetchActivities;
+  const { addToast } = useToast();
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState<string>();
 
@@ -95,11 +97,15 @@ const ActivityItemList = () => {
     await useDeleteActivity.mutateAsync(id);
   };
 
-  const handleCheckActivity = async (id: number, isCompleted: boolean) => {
-    await useToggleActivityStatus.mutateAsync({
-      id,
-      isCompleted: !isCompleted,
-    });
+  const handleCheckActivity = (id: number, isCompleted: boolean) => {
+    useToggleActivityStatus
+      .mutateAsync({
+        id,
+        isCompleted: !isCompleted,
+      })
+      .catch((error) =>
+        addToast({ message: (error as any).message, type: "error" })
+      );
   };
 
   return (
@@ -118,8 +124,7 @@ const ActivityItemList = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
+        onRequestClose={() => setModalVisible(false)}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Image
@@ -129,8 +134,7 @@ const ActivityItemList = () => {
             />
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
+              onPress={() => setModalVisible(false)}>
               <Text style={styles.closeButtonText}>Luk</Text>
             </TouchableOpacity>
           </View>

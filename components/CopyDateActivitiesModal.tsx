@@ -10,7 +10,7 @@ import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
-import { SharedStyles, colors } from "../utils/SharedStyles";
+import { colors, SharedStyles } from "../utils/SharedStyles";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;
@@ -45,16 +45,13 @@ export default function CopyDateActivitiesModal({
       visible={modalVisible}
       transparent
       animationType="slide"
-      onRequestClose={() => setModalVisible(false)}
-    >
+      onRequestClose={() => setModalVisible(false)}>
       <TouchableOpacity
         style={styles.modalBackground}
-        onPress={() => setModalVisible(false)}
-      >
+        onPress={() => setModalVisible(false)}>
         <View
           style={styles.modalContainer}
-          onStartShouldSetResponder={() => true}
-        >
+          onStartShouldSetResponder={() => true}>
           <TimePicker
             value={dates.sourceDate}
             title={"Kopier Fra"}

@@ -16,7 +16,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
 const CONTAINER_PADDING = 12;
@@ -33,7 +33,7 @@ const ACTION_WIDTH = 100;
 function LeftAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
-  deleteTask: () => void,
+  deleteTask: () => void
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -46,8 +46,7 @@ function LeftAction(
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
-        style={[styles.action, { backgroundColor: colors.crimson }]}
-      >
+        style={[styles.action, { backgroundColor: colors.crimson }]}>
         <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -67,7 +66,7 @@ function RightAction(
   prog: SharedValue<number>,
   drag: SharedValue<number>,
   editActivity: () => void,
-  checkActivity: () => void,
+  checkActivity: () => void
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
@@ -80,16 +79,14 @@ function RightAction(
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: colors.blue }]}
-      >
+        style={[styles.action, { backgroundColor: colors.blue }]}>
         <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[styles.action, { backgroundColor: colors.green }]}
-      >
+        style={[styles.action, { backgroundColor: colors.green }]}>
         <Ionicons name={"checkmark"} size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -161,8 +158,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     setModalVisible(true);
   };
 
-console.log(error)
-
   if (!isLoading && error) {
     throw new Error("Fejl kunne ikke hente piktogramerne");
   }
@@ -182,11 +177,10 @@ console.log(error)
             prog,
             drag,
             handleCloseOnEditTaskPress,
-            handleCloseOnCheckTaskPress,
+            handleCloseOnCheckTaskPress
           )
         }
-        friction={2}
-      >
+        friction={2}>
         <Pressable onPress={showDetails}>
           <View
             style={[
@@ -196,14 +190,12 @@ console.log(error)
                   ? colors.lightGreen
                   : colors.lightBlue,
               },
-            ]}
-          >
+            ]}>
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <Text
               style={styles.labelText}
               numberOfLines={2}
-              ellipsizeMode="tail"
-            >
+              ellipsizeMode="tail">
               {label}
             </Text>
             <View style={styles.iconContainer}>
@@ -230,10 +222,10 @@ const styles = StyleSheet.create({
   taskContainer: {
     ...SharedStyles.flexRow,
     width: "100%",
-    display: "flex",
+    alignItems: "center",
+    height: CONTAINER_HEIGHT,
     padding: CONTAINER_PADDING,
     justifyContent: "space-between",
-    height: CONTAINER_HEIGHT,
     backgroundColor: colors.lightBlue,
   },
   timeText: {
@@ -241,8 +233,8 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   labelText: {
-    fontSize: rem(1),
     flex: 0.6,
+    fontSize: rem(1),
     textAlign: "center",
     color: colors.black,
   },
@@ -254,13 +246,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    fontSize: rem(1),
+    fontSize: rem(0.75),
     color: colors.backgroundBlack,
   },
   action: {
     ...SharedStyles.trueCenter,
-    width: ACTION_WIDTH,
     height: 140,
+    width: ACTION_WIDTH,
     backgroundColor: colors.crimson,
   },
 });
