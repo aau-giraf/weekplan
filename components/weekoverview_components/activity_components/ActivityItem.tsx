@@ -13,7 +13,7 @@ import usePictogram from "../../../hooks/usePictogram";
 import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 140;
-const CONTAINER_PADDING = 30;
+const CONTAINER_PADDING = 20;
 const ACTION_WIDTH = 100;
 
 /**
@@ -43,7 +43,7 @@ function LeftAction(
         style={[
           styles.action,
           { backgroundColor: colors.crimson },
-          { right: 10 },
+          styles.rightPosition,
         ]}>
         <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
@@ -73,22 +73,19 @@ function RightAction(
   });
 
   return (
-    <Reanimated.View style={[styleAnimation, { flexDirection: "row" }]}>
+    <Reanimated.View
+      style={[styleAnimation, { flexDirection: "row" }, styles.leftPosition]}>
       <TouchableOpacity
         testID="editActivityItemButton"
         onPress={editActivity}
-        style={[styles.action, { backgroundColor: colors.blue }, { left: 20 }]}>
+        style={[styles.action, { backgroundColor: colors.blue }]}>
         <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
-        style={[
-          styles.action,
-          { backgroundColor: colors.green },
-          { left: 20 },
-        ]}>
+        style={[styles.action, { backgroundColor: colors.green }]}>
         <Ionicons name={"checkmark"} size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
@@ -256,6 +253,12 @@ const styles = StyleSheet.create({
     height: 140,
     width: ACTION_WIDTH,
     backgroundColor: colors.crimson,
+  },
+  leftPosition: {
+    right: 20,
+  },
+  rightPosition: {
+    right: 10,
   },
 });
 

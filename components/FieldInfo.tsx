@@ -15,7 +15,9 @@ const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
         <Text style={styles.errorText}>
           {field.state.meta.errors.join(",")}
         </Text>
-      ) : null}
+      ) : (
+        <Text style={styles.validatingText}> </Text>
+      )}
       {field.state.meta.isValidating ? (
         <Text style={styles.validatingText}>Validating...</Text>
       ) : null}
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
   },
   validatingText: {
     color: "grey",
+    fontSize: 12,
   },
 });
 
