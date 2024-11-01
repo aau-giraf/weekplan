@@ -12,10 +12,6 @@ import Reanimated, {
 import usePictogram from "../../../hooks/usePictogram";
 import { colors, SharedStyles } from "../../../utils/SharedStyles";
 
-const CONTAINER_HEIGHT = 140;
-const CONTAINER_PADDING = 20;
-const ACTION_WIDTH = 100;
-
 /**
  * LeftAction component for handling swipe-to-delete functionality.
  *
@@ -32,7 +28,10 @@ function LeftAction(
   const styleAnimation = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: drag.value - ACTION_WIDTH - CONTAINER_PADDING },
+        {
+          translateX:
+            drag.value - styles.action.width - styles.taskContainer.padding,
+        },
       ],
     };
   });
@@ -67,7 +66,10 @@ function RightAction(
   const styleAnimation = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: drag.value + ACTION_WIDTH * 2 + CONTAINER_PADDING },
+        {
+          translateX:
+            drag.value + styles.action.width * 2 + styles.taskContainer.padding,
+        },
       ],
     };
   });
@@ -221,8 +223,8 @@ const styles = StyleSheet.create({
     ...SharedStyles.flexRow,
     width: "100%",
     alignItems: "center",
-    height: CONTAINER_HEIGHT,
-    padding: CONTAINER_PADDING,
+    height: 140,
+    padding: 20,
     justifyContent: "space-between",
     backgroundColor: colors.lightBlue,
   },
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
   action: {
     ...SharedStyles.trueCenter,
     height: 140,
-    width: ACTION_WIDTH,
+    width: 100,
     backgroundColor: colors.crimson,
   },
 });
