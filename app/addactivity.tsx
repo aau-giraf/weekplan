@@ -82,8 +82,7 @@ const AddActivity = () => {
   });
 
   return (
-    <View
-      style={styles.container}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
           <Text style={styles.headerText}>
@@ -163,7 +162,7 @@ const AddActivity = () => {
               return (
                 <View>
                   <TimePicker
-                    title="Vælg start tid"
+                    title="Vælg slut tid"
                     value={field.state.value}
                     minuteInterval={5}
                     minDate={form.getFieldValue("startTime")}
