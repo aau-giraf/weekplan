@@ -37,7 +37,7 @@ const colors = {
 const SharedStyles = StyleSheet.create({
   header: {
     fontSize: rem(1),
-    fontWeight: 500,
+    fontWeight: "600",
     paddingBottom: 15,
     color: colors.black,
   },
