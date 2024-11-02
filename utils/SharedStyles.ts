@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native-size-scaling";
+import { Dimensions } from "react-native";
 
 /**
  * Colors to be used throughout GIRAF
@@ -15,6 +16,22 @@ import { StyleSheet } from "react-native-size-scaling";
  * blue for editing features such as buttons
  * lightBlue for background for containers
  */
+
+const ScaleSizeW = (originalSize: number) => {
+  const deviceWidth = Dimensions.get("window").width;
+  return (originalSize / 820) * deviceWidth;
+};
+
+const ScaleSizeH = (originalSize: number) => {
+  const deviceHeight = Dimensions.get("window").height;
+  return (originalSize / 1180) * deviceHeight;
+};
+
+const ScaleSize = (originalSize: number) => {
+  const deviceWidth = Dimensions.get("window").width;
+  return (originalSize / 820) * deviceWidth;
+};
+
 const colors = {
   orange: "#FEC478FF",
   gray: "#B0BEC5",
@@ -51,4 +68,4 @@ const SharedStyles = StyleSheet.create({
   },
 });
 
-export { colors, SharedStyles };
+export { colors, SharedStyles, ScaleSizeH, ScaleSizeW, ScaleSize };
