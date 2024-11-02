@@ -11,6 +11,7 @@ const RootLayout = () => {
       />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="profile" />
         <Stack.Screen name="weekplanscreen" />
         <Stack.Screen name="addactivity" />
         <Stack.Screen name="editactivity" />

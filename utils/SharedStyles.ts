@@ -31,7 +31,6 @@ const ScaleSize = (originalSize: number) => {
  * blue for editing features such as buttons
  * lightBlue for background for containers
  */
-
 const colors = {
   orange: "#FEC478FF",
   gray: "#B0BEC5",

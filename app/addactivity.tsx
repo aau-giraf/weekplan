@@ -166,7 +166,7 @@ const AddActivity = () => {
               return (
                 <View>
                   <TimePicker
-                    title="Vælg start tid"
+                    title="Vælg slut tid"
                     value={field.state.value}
                     minuteInterval={5}
                     minDate={form.getFieldValue("startTime")}
