@@ -12,8 +12,8 @@ const ScaleSizeH = (originalSize: number) => {
 };
 
 const ScaleSize = (originalSize: number) => {
-  const deviceWidth = Dimensions.get("window").width;
-  return (originalSize / 820) * deviceWidth;
+  const deviceHeight = Dimensions.get("window").height;
+  return (originalSize / 820) * deviceHeight;
 };
 
 /**

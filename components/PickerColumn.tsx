@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
+import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { ScaleSize, ScaleSizeW } from "../utils/SharedStyles";
 
 interface PickerColumnProps {
   title: string;
@@ -46,15 +46,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   pickerTitle: {
-    fontSize: 18,
+    fontSize: ScaleSize(28),
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: ScaleSize(10),
   },
   picker: {
-    width: 150,
+    width: ScaleSizeW(250),
   },
   pickerItem: {
-    fontSize: 18,
+    fontSize: ScaleSize(28),
   },
 });
 

@@ -11,9 +11,7 @@ import { colors, ScaleSize, ScaleSizeH } from "../../../utils/SharedStyles";
 const ActivityItemHeader: React.FC = () => {
   return (
     <View style={styles.headerContainer}>
-      <Text style={styles.headerText}>Tid</Text>
-      <Text style={styles.headerText}>Navn</Text>
-      <Text style={styles.headerText}>Foto</Text>
+      <Text style={styles.headerText}>Aktiviteter</Text>
     </View>
   );
 };
@@ -30,7 +28,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: colors.black,
-    fontSize: ScaleSize(20),
+    fontSize: ScaleSize(16),
     fontWeight: "bold",
     flex: 1,
     textAlign: "center",

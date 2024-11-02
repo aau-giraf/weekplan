@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   button: {
-    padding: ScaleSize(10),
     width: ScaleSizeW(500),
     alignSelf: "center",
     position: "absolute",

@@ -26,8 +26,7 @@ const schema = z.object({
     .string()
     .trim()
     .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
-      message:
-        "Adgangskode skal indholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
+      message: "Du skal indtaste en adgangskode",
     }),
 });
 

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Animated } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
+import { View, Animated, StyleSheet } from "react-native";
 import GirafIcon from "./SVG/GirafIcon";
-import { colors, SharedStyles } from "../utils/SharedStyles";
+import {
+  colors,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../utils/SharedStyles";
 
 /**
  * SplashScreenComponent is a React functional component that displays an animated splash screen.
@@ -52,11 +56,11 @@ const styles = StyleSheet.create({
     ...SharedStyles.trueCenter,
     flex: 1,
     display: "flex",
-    backgroundColor: colors.backgroundBlack,
+    backgroundColor: colors.white,
   },
   image: {
-    width: 250,
-    height: 250,
+    width: ScaleSizeW(500),
+    height: ScaleSizeH(500),
   },
 });
 

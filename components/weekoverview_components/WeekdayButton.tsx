@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
   },
   circle: {
     ...SharedStyles.trueCenter,
-    width: ScaleSizeW(80),
-    height: ScaleSizeH(80),
+    width: ScaleSize(60),
+    height: ScaleSize(60),
     borderRadius: ScaleSize(100),
     marginBottom: ScaleSize(5),
     backgroundColor: colors.gray,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.orange,
   },
   dateText: {
-    fontSize: ScaleSize(24),
+    fontSize: ScaleSize(16),
     color: colors.black,
   },
 });

@@ -7,9 +7,9 @@ import {
   Button,
   Modal,
   View,
+  StyleSheet,
 } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
-import { colors } from "../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../utils/SharedStyles";
 
 const PrivacyPolicy = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -137,33 +137,33 @@ const PrivacyPolicy = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: ScaleSize(20),
     backgroundColor: colors.white,
   },
   header: {
-    fontSize: 24,
+    fontSize: ScaleSize(28),
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: ScaleSize(10),
     color: colors.black,
   },
   subheader: {
-    fontSize: 18,
+    fontSize: ScaleSize(24),
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: ScaleSize(10),
     color: colors.black,
   },
   text: {
-    marginBottom: 10,
-    fontSize: 18,
+    marginBottom: ScaleSize(10),
+    fontSize: ScaleSize(24),
     color: colors.black,
   },
   link: {
-    marginBottom: 20,
+    marginBottom: ScaleSize(20),
     color: colors.blue,
   },
   linkText: {
     textDecorationLine: "underline",
-    fontSize: 18,
+    fontSize: ScaleSize(18),
     color: colors.blue,
   },
 });

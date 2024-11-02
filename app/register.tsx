@@ -16,6 +16,7 @@ import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
+import PrivacyPolicy from "../components/Legal/PrivacyPolicy";
 
 /**
  * Regex
@@ -214,6 +215,7 @@ const RegisterScreen: React.FC = () => {
           </TouchableOpacity>
         </ScrollView>
       </TouchableWithoutFeedback>
+      <PrivacyPolicy />
     </View>
   );
 };
@@ -230,7 +232,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontSize: ScaleSize(20),
+    fontSize: ScaleSize(28),
     fontWeight: "600",
     marginBottom: ScaleSize(20),
     textAlign: "center",
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
   input: {
     width: "85%",
     padding: ScaleSize(10),
-    fontSize: ScaleSize(16),
+    fontSize: ScaleSize(24),
     borderWidth: ScaleSize(1),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
@@ -254,7 +256,7 @@ const styles = StyleSheet.create({
   inputError: {
     width: "85%",
     padding: ScaleSize(10),
-    fontSize: ScaleSize(16),
+    fontSize: ScaleSize(24),
     borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
@@ -281,7 +283,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontSize: ScaleSize(16),
+    fontSize: ScaleSize(24),
     fontWeight: "500",
   },
   loginButton: {

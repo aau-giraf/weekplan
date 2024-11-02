@@ -25,7 +25,7 @@ import {
 } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = ScaleSizeH(200);
-const CONTAINER_PADDING = ScaleSize(10);
+const CONTAINER_PADDING = ScaleSize(40);
 const ACTION_WIDTH = ScaleSizeW(130);
 
 /**
@@ -133,7 +133,6 @@ type ActivityItemProps = {
  * @param {Function} props.deleteActivity - Function to delete the activity.
  * @param {Function} props.editActivity - Function to edit the activity.
  * @param {Function} props.checkActivity - Function to mark the activity as checked.
- * @param {Function} props.showDetails - Function to show details of the activity.
  * @param {Function} props.setImageUri - Function to set the image URI.
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
  * @returns {JSX.Element} The rendered activity item component.
@@ -215,7 +214,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
               <Pressable onPress={() => handleImagePress(data)}>
                 <Image
                   source={{ uri: data }}
-                  style={{ width: ScaleSizeW(90), height: ScaleSizeH(90) }}
+                  style={{ width: ScaleSizeW(110), height: ScaleSizeH(110) }}
                   resizeMode="contain"
                 />
               </Pressable>
@@ -240,24 +239,24 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(22),
     color: colors.black,
   },
   labelText: {
     flex: 0.6,
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(22),
     textAlign: "center",
     color: colors.black,
   },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: ScaleSizeW(160),
-    height: ScaleSizeH(160),
+    width: ScaleSize(120),
+    height: ScaleSize(120),
     borderRadius: ScaleSize(150),
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(0),
     color: colors.backgroundBlack,
   },
   action: {

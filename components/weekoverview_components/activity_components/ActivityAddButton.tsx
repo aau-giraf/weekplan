@@ -21,10 +21,10 @@ const ActivityAddButton = () => {
   return (
     <Pressable style={styles.button} onPress={handlePress}>
       <View>
-        <Ionicons name={"calendar-outline"} size={ScaleSize(50)} />
+        <Ionicons name={"calendar-outline"} size={ScaleSize(40)} />
         <Ionicons
           name={"add-outline"}
-          size={ScaleSize(35)}
+          size={ScaleSize(25)}
           style={styles.addIcon}
         />
       </View>
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: ScaleSizeW(100),
-    height: ScaleSizeH(100),
+    width: ScaleSize(80),
+    height: ScaleSize(80),
     backgroundColor: colors.lightGreen,
     borderRadius: ScaleSize(100),
     bottom: ScaleSize(20),
