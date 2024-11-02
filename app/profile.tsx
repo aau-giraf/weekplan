@@ -6,6 +6,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import useProfile from "../hooks/useProfile";
 import { ProfilePicture } from "../components/ProfilePage";
 import { SharedStyles, rem } from "../utils/SharedStyles";
@@ -87,7 +88,9 @@ const ProfilePage: React.FC = () => {
                   {`${data.firstName} ${data.lastName}`}
                 </Text>
               </View>
-              <IconButton iconName="mail-outline" style={styles.iconMail} />
+              <IconButton style={styles.iconMail}>
+                <Ionicons name="mail-outline" size={40} />
+              </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
               <Text style={styles.organizationsText}>Dine orginisationer</Text>
@@ -95,7 +98,9 @@ const ProfilePage: React.FC = () => {
           </View>
         }
       />
-      <IconButton iconName="add" style={styles.iconAdd} />
+      <IconButton style={styles.iconAdd}>
+        <Ionicons name="add" size={40} />
+      </IconButton>
     </View>
   );
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
 import {
   StyleProp,
   StyleSheet,
@@ -9,26 +8,15 @@ import {
 } from "react-native";
 import { colors } from "../utils/SharedStyles";
 
-type IonIconProps = React.ComponentProps<typeof Ionicons>;
 type IconButtonsProps = {
   onPress?: () => void;
-  iconName: keyof typeof Ionicons.glyphMap;
-  iconSize?: number;
-  ionIconProps?: Omit<IonIconProps, "name" | "size">;
   style?: StyleProp<ViewStyle>;
+  children: React.ReactNode;
 };
-const IconButton = ({
-  onPress,
-  iconName,
-  iconSize = 41,
-  ionIconProps,
-  style,
-}: IconButtonsProps) => {
+const IconButton = ({ onPress, style, children }: IconButtonsProps) => {
   return (
     <Pressable style={[styles.button, style]} onPress={onPress}>
-      <View>
-        <Ionicons name={iconName} size={iconSize} {...ionIconProps} />
-      </View>
+      <View>{children}</View>
     </Pressable>
   );
 };
