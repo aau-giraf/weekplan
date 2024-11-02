@@ -8,15 +8,20 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  StyleSheet,
 } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
 import { useDate } from "../providers/DateProvider";
 import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { z } from "zod";
-import { colors } from "../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+} from "../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
@@ -83,7 +88,7 @@ const AddActivity = () => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: ScaleSize(20) }}>
           <Text style={styles.headerText}>
             Opret en aktivitet til {prettyDate(selectedDate)}
           </Text>
@@ -196,74 +201,56 @@ const AddActivity = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: ScaleSize(20),
     backgroundColor: colors.white,
   },
   headerText: {
-    fontSize: 24,
+    fontSize: ScaleSize(28),
     fontWeight: "600",
-    marginBottom: 20,
+    marginBottom: ScaleSize(20),
     textAlign: "center",
     color: colors.black,
   },
   inputValid: {
     width: "100%",
-    padding: 10,
-    borderWidth: 1,
-    fontSize: 16,
-    borderRadius: 5,
+    padding: ScaleSize(10),
+    borderWidth: ScaleSize(1),
+    fontSize: ScaleSize(24),
+    borderRadius: ScaleSize(5),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
   },
   inputError: {
     width: "100%",
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 5,
-    fontSize: 16,
+    padding: ScaleSize(10),
+    borderWidth: ScaleSize(1),
+    borderRadius: ScaleSize(5),
+    fontSize: ScaleSize(24),
     borderColor: colors.red,
     backgroundColor: colors.white,
   },
-  description: {
-    height: 80,
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 8,
-    fontSize: 16,
-    textAlignVertical: "top",
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-  },
   buttonValid: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginVertical: 10,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
+    borderRadius: ScaleSize(8),
+    marginVertical: ScaleSize(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
   },
   buttonDisabled: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginVertical: 10,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
+    borderRadius: ScaleSize(8),
+    marginVertical: ScaleSize(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.gray,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: ScaleSize(28),
     fontWeight: "500",
     color: colors.white,
-  },
-  header: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 10,
-    color: colors.black,
   },
 });
 

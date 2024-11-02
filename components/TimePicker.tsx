@@ -1,9 +1,15 @@
 import React, { useState } from "react";
-import { Text, Platform, View, TouchableOpacity } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
+import {
+  Text,
+  Platform,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
-import { SharedStyles } from "../utils/SharedStyles";
+import { ScaleSize, ScaleSizeH, SharedStyles } from "../utils/SharedStyles";
+import formatDateDDMM from "../utils/formatDateDDMM";
 
 type TimeSelectorProps = {
   title: string;
@@ -43,8 +49,8 @@ const TimePicker = ({
   androidDisplay = "spinner",
   iosDisplay = "default",
   mode = "time",
-  minDate,
-  maxDate,
+  minDate = undefined,
+  maxDate = undefined,
 }: TimeSelectorProps) => {
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
@@ -52,10 +58,16 @@ const TimePicker = ({
       <Text style={SharedStyles.header}>{title}</Text>
 
       {/* Android - Touchable and DateTimePicker visibility */}
-      {Platform.OS === "android" && (
+      {Platform.OS === "android" && mode === "time" ? (
         <TouchableOpacity onPress={() => setTimeSelectorVisible(true)}>
           <Text>{formatTimeHHMM(value)}</Text>
         </TouchableOpacity>
+      ) : (
+        Platform.OS === "android" && (
+          <TouchableOpacity onPress={() => setTimeSelectorVisible(true)}>
+            <Text>{formatDateDDMM(value)}</Text>
+          </TouchableOpacity>
+        )
       )}
 
       {/* iOS - Inline DateTimePicker */}

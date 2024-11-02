@@ -6,8 +6,8 @@ import {
   Modal,
   Image,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
 import ActivityItem from "./ActivityItem";
 import useActivity from "../../../hooks/useActivity";
 import { useDate } from "../../../providers/DateProvider";
@@ -16,7 +16,13 @@ import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import { colors, SharedStyles } from "../../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 
 /**
@@ -54,9 +60,6 @@ const ActivityItemList = () => {
   if (error) {
     return <Text>Fejl med at hente aktiviteter: {error.message}</Text>;
   }
-  const handleDetails = (activityId: number) => {
-    router.push({ pathname: "../../viewactivity", params: { activityId } });
-  };
 
   const renderActivityItem = ({ item }: { item: ActivityDTO }) => {
     const handleEditTask = () => {
@@ -86,7 +89,6 @@ const ActivityItemList = () => {
         checkActivity={() =>
           handleCheckActivity(item.activityId, item.isCompleted)
         }
-        showDetails={() => handleDetails(item.activityId)}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
       />
@@ -115,7 +117,9 @@ const ActivityItemList = () => {
         onRefresh={async () => await refetch()}
         itemLayoutAnimation={LinearTransition}
         refreshing={isLoading}
-        ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
+        ItemSeparatorComponent={() => (
+          <View style={{ height: ScaleSizeH(10) }} />
+        )}
         keyExtractor={(item) => item.activityId.toString()}
         renderItem={renderActivityItem}
         ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
@@ -129,7 +133,7 @@ const ActivityItemList = () => {
           <View style={styles.modalContent}>
             <Image
               source={{ uri: imageUri }}
-              style={{ width: 300, height: 300 }}
+              style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
               resizeMode="contain"
             />
             <TouchableOpacity
@@ -152,17 +156,21 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     ...SharedStyles.trueCenter,
-    borderRadius: 10,
+    borderRadius: ScaleSize(10),
     backgroundColor: colors.white,
   },
   closeButton: {
-    marginTop: 20,
-    padding: 10,
-    borderRadius: 5,
+    marginTop: ScaleSize(20),
+    width: ScaleSizeW(150),
+    height: ScaleSizeH(50),
+    borderRadius: ScaleSize(5),
+    marginBottom: ScaleSize(10),
     backgroundColor: colors.blue,
+    justifyContent: "center",
+    alignItems: "center",
   },
   closeButtonText: {
-    fontSize: 18,
+    fontSize: ScaleSize(24),
     color: colors.white,
   },
 });

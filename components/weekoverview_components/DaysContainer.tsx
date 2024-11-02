@@ -1,5 +1,4 @@
-import { View } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
+import { View, StyleSheet } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { DAYS_OF_WEEK } from "../../constants/daysOfWeek";
@@ -8,6 +7,7 @@ import useSwipeGesture from "../../hooks/useSwipeGesture";
 import { useDate } from "../../providers/DateProvider";
 import { useState } from "react";
 import CopyDateActivitiesModal from "../CopyDateActivitiesModal";
+import { ScaleSize } from "../../utils/SharedStyles";
 
 /**
  * DaysContainer component renders a container for displaying the days of the week.
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   daysContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical: 10,
+    paddingVertical: ScaleSize(10),
   },
 });
 

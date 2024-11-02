@@ -30,10 +30,10 @@ import {
   I18nManager,
   LayoutChangeEvent,
   StyleProp,
+  StyleSheet,
   View,
   ViewStyle,
 } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
 
 const DRAG_TOSS = 0.05;
 
@@ -641,19 +641,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   leftActions: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    ...StyleSheet.absoluteFillObject,
     flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
   },
   rightActions: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    ...StyleSheet.absoluteFillObject,
     flexDirection: I18nManager.isRTL ? "row" : "row-reverse",
   },
 });

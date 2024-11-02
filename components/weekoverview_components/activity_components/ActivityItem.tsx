@@ -1,6 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Pressable, Image } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+  Image,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ReanimatedSwipeable, {
   SwipeableMethods,
@@ -10,7 +16,17 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import { colors, SharedStyles } from "../../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../utils/SharedStyles";
+
+const CONTAINER_HEIGHT = ScaleSizeH(200);
+const CONTAINER_PADDING = ScaleSize(10);
+const ACTION_WIDTH = ScaleSizeW(130);
 
 /**
  * LeftAction component for handling swipe-to-delete functionality.
@@ -27,22 +43,21 @@ function LeftAction(
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
-      transform: [
-        {
-          translateX:
-            drag.value - styles.action.width - styles.taskContainer.padding,
-        },
-      ],
+      transform: [{ translateX: drag.value - ACTION_WIDTH }],
     };
   });
 
   return (
-    <Reanimated.View style={[styleAnimation]}>
+    <Reanimated.View style={styleAnimation}>
       <TouchableOpacity
         testID="deleteActivityItemButton"
         onPress={deleteTask}
         style={[styles.action, { backgroundColor: colors.crimson }]}>
-        <Ionicons name="trash-outline" size={32} color={colors.white} />
+        <Ionicons
+          name="trash-outline"
+          size={ScaleSize(48)}
+          color={colors.white}
+        />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -65,12 +80,7 @@ function RightAction(
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
-      transform: [
-        {
-          translateX:
-            drag.value + styles.action.width * 2 + styles.taskContainer.padding,
-        },
-      ],
+      transform: [{ translateX: drag.value + ACTION_WIDTH * 2 }],
     };
   });
 
@@ -80,14 +90,22 @@ function RightAction(
         testID="editActivityItemButton"
         onPress={editActivity}
         style={[styles.action, { backgroundColor: colors.blue }]}>
-        <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
+        <Ionicons
+          name={"pencil-outline"}
+          size={ScaleSize(48)}
+          color={colors.white}
+        />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
         style={[styles.action, { backgroundColor: colors.green }]}>
-        <Ionicons name={"checkmark"} size={32} color={colors.white} />
+        <Ionicons
+          name={"checkmark"}
+          size={ScaleSize(48)}
+          color={colors.white}
+        />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -100,7 +118,6 @@ type ActivityItemProps = {
   deleteActivity: () => void;
   editActivity: () => void;
   checkActivity: () => void;
-  showDetails: () => void;
   setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -128,7 +145,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   deleteActivity,
   editActivity,
   checkActivity,
-  showDetails,
   setImageUri,
   setModalVisible,
 }) => {
@@ -163,7 +179,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   }
 
   return (
-    <View>
+    <>
       <ReanimatedSwipeable
         ref={swipeableRef}
         overshootFriction={10}
@@ -181,40 +197,35 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
           )
         }
         friction={2}>
-        <Pressable onPress={showDetails}>
-          <View
-            style={[
-              styles.taskContainer,
-              {
-                backgroundColor: isCompleted
-                  ? colors.lightGreen
-                  : colors.lightBlue,
-              },
-            ]}>
-            <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
-            <Text
-              style={styles.labelText}
-              numberOfLines={2}
-              ellipsizeMode="tail">
-              {label}
-            </Text>
-            <View style={styles.iconContainer}>
-              {data ? (
-                <Pressable onPress={() => handleImagePress(data)}>
-                  <Image
-                    source={{ uri: data }}
-                    style={{ width: 90, height: 90 }}
-                    resizeMode="contain"
-                  />
-                </Pressable>
-              ) : (
-                <Text style={styles.iconPlaceholderText}>No Icon</Text>
-              )}
-            </View>
+        <View
+          style={[
+            styles.taskContainer,
+            {
+              backgroundColor: isCompleted
+                ? colors.lightGreen
+                : colors.lightBlue,
+            },
+          ]}>
+          <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
+          <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
+            {label}
+          </Text>
+          <View style={styles.iconContainer}>
+            {data ? (
+              <Pressable onPress={() => handleImagePress(data)}>
+                <Image
+                  source={{ uri: data }}
+                  style={{ width: ScaleSizeW(90), height: ScaleSizeH(90) }}
+                  resizeMode="contain"
+                />
+              </Pressable>
+            ) : (
+              <Text style={styles.iconPlaceholderText}>No Icon</Text>
+            )}
           </View>
-        </Pressable>
+        </View>
       </ReanimatedSwipeable>
-    </View>
+    </>
   );
 };
 
@@ -223,36 +234,36 @@ const styles = StyleSheet.create({
     ...SharedStyles.flexRow,
     width: "100%",
     alignItems: "center",
-    height: 140,
-    padding: 20,
+    height: CONTAINER_HEIGHT,
+    padding: CONTAINER_PADDING,
     justifyContent: "space-between",
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: 18,
+    fontSize: ScaleSize(28),
     color: colors.black,
   },
   labelText: {
     flex: 0.6,
-    fontSize: 18,
+    fontSize: ScaleSize(28),
     textAlign: "center",
     color: colors.black,
   },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: 120,
-    height: 120,
-    borderRadius: 100,
+    width: ScaleSizeW(160),
+    height: ScaleSizeH(160),
+    borderRadius: ScaleSize(150),
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    fontSize: 14,
+    fontSize: ScaleSize(28),
     color: colors.backgroundBlack,
   },
   action: {
     ...SharedStyles.trueCenter,
-    height: 140,
-    width: 100,
+    height: CONTAINER_HEIGHT,
+    width: ACTION_WIDTH,
     backgroundColor: colors.crimson,
   },
 });

@@ -1,9 +1,14 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
-import { colors, SharedStyles } from "../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../utils/SharedStyles";
 
 type WeekdayButtonProps = {
   date: Date;
@@ -53,26 +58,26 @@ const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
 const styles = StyleSheet.create({
   dayButton: {
     ...SharedStyles.trueCenter,
-    width: 60,
-    height: 80,
+    width: ScaleSizeW(80),
+    height: ScaleSizeH(100),
   },
   dayText: {
-    fontSize: 16,
+    fontSize: ScaleSize(26),
     color: colors.black,
   },
   circle: {
     ...SharedStyles.trueCenter,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginBottom: 5,
+    width: ScaleSizeW(80),
+    height: ScaleSizeH(80),
+    borderRadius: ScaleSize(100),
+    marginBottom: ScaleSize(5),
     backgroundColor: colors.gray,
   },
   selectedCircle: {
     backgroundColor: colors.orange,
   },
   dateText: {
-    fontSize: 14,
+    fontSize: ScaleSize(24),
     color: colors.black,
   },
 });

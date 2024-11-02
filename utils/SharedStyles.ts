@@ -1,6 +1,21 @@
 import { StyleSheet } from "react-native-size-scaling";
 import { Dimensions } from "react-native";
 
+const ScaleSizeW = (originalSize: number) => {
+  const deviceWidth = Dimensions.get("window").width;
+  return (originalSize / 820) * deviceWidth;
+};
+
+const ScaleSizeH = (originalSize: number) => {
+  const deviceHeight = Dimensions.get("window").height;
+  return (originalSize / 1180) * deviceHeight;
+};
+
+const ScaleSize = (originalSize: number) => {
+  const deviceWidth = Dimensions.get("window").width;
+  return (originalSize / 820) * deviceWidth;
+};
+
 /**
  * Colors to be used throughout GIRAF
  * @example
@@ -16,21 +31,6 @@ import { Dimensions } from "react-native";
  * blue for editing features such as buttons
  * lightBlue for background for containers
  */
-
-const ScaleSizeW = (originalSize: number) => {
-  const deviceWidth = Dimensions.get("window").width;
-  return (originalSize / 820) * deviceWidth;
-};
-
-const ScaleSizeH = (originalSize: number) => {
-  const deviceHeight = Dimensions.get("window").height;
-  return (originalSize / 1180) * deviceHeight;
-};
-
-const ScaleSize = (originalSize: number) => {
-  const deviceWidth = Dimensions.get("window").width;
-  return (originalSize / 820) * deviceWidth;
-};
 
 const colors = {
   orange: "#FEC478FF",
@@ -49,13 +49,13 @@ const colors = {
 
 const SharedStyles = StyleSheet.create({
   header: {
-    fontSize: 18,
-    fontWeight: 500,
-    paddingBottom: 15,
+    fontSize: ScaleSize(18),
+    fontWeight: "500",
+    paddingBottom: ScaleSize(15),
     color: colors.black,
   },
   container: {
-    padding: 25,
+    padding: ScaleSize(25),
     backgroundColor: colors.white,
   },
   flexRow: {

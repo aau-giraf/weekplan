@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { StyleSheet } from "react-native-size-scaling";
-import { colors } from "../../../utils/SharedStyles";
+import { View, Text, StyleSheet } from "react-native";
+import { colors, ScaleSize, ScaleSizeH } from "../../../utils/SharedStyles";
 
 /**
  * ActivityItemHeader component renders the header for an activity item.
@@ -22,16 +21,16 @@ const ActivityItemHeader: React.FC = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
-    height: 40,
+    height: ScaleSizeH(60),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 12,
+    padding: ScaleSize(12),
     backgroundColor: colors.gray,
   },
   headerText: {
     color: colors.black,
-    fontSize: 14,
+    fontSize: ScaleSize(20),
     fontWeight: "bold",
     flex: 1,
     textAlign: "center",
