@@ -2,9 +2,13 @@ import { StyleSheet } from "react-native-size-scaling";
 import { Dimensions } from "react-native";
 
 /**
- * ScaleSizeW/ScaleSizeH/ScaleSize takes the screen size of the used device and scales attributes based upon ipad specs
+ * ScaleSizeW and ScaleSizeH are used to scale the size of components based on the device's width and height.
+ * SHOULD NOT BE USED ON CIRCLES
  * @param originalSize
  * @constructor
+ * @returns {number} The scaled size of the component.
+ * @example
+ * ScaleSizeW(100) // Returns 100 scaled to the device's width
  */
 
 const ScaleSizeW = (originalSize: number) => {
@@ -17,6 +21,15 @@ const ScaleSizeH = (originalSize: number) => {
   return (originalSize / 1180) * deviceHeight;
 };
 
+/**
+ * ScaleSize is used to scale the size of components based on the device's height, used for attributes that is not height or width.
+ * CAN BE USED ON CIRCLES
+ * @param originalSize
+ * @constructor
+ * @returns {number} The scaled size of the component.
+ * @example
+ * ScaleSize(100) // Returns 100 scaled to the device's width
+ */
 const ScaleSize = (originalSize: number) => {
   const deviceHeight = Dimensions.get("window").height;
   return (originalSize / 820) * deviceHeight;
