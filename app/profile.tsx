@@ -107,6 +107,8 @@ const ProfilePage: React.FC = () => {
       <IconButton style={styles.iconAdd}>
         <Ionicons name="add" size={ScaleSize(40)} />
       </IconButton>
+
+      {/* This is temporary for navigation purposes*/}
       <IconButton
         style={[styles.iconAdd, { left: 40 }]}
         onPress={() => {
