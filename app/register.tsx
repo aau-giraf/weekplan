@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     borderWidth: ScaleSize(1),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
-    borderRadius: ScaleSize(5),
+    borderRadius: 5,
     marginBottom: ScaleSize(10),
   },
   inputError: {
@@ -260,13 +260,13 @@ const styles = StyleSheet.create({
     borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
-    borderRadius: ScaleSize(5),
+    borderRadius: 5,
     marginBottom: ScaleSize(10),
   },
   button: {
     paddingVertical: ScaleSize(12),
     paddingHorizontal: ScaleSize(20),
-    borderRadius: ScaleSize(8),
+    borderRadius: 8,
     marginVertical: ScaleSize(10),
     alignItems: "center",
     backgroundColor: colors.green,
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     paddingVertical: ScaleSize(12),
     paddingHorizontal: ScaleSize(20),
-    borderRadius: ScaleSize(8),
+    borderRadius: 8,
     marginVertical: ScaleSize(10),
     alignItems: "center",
     backgroundColor: colors.gray,

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: ScaleSize(10),
-    borderRadius: ScaleSize(5),
+    borderRadius: 5,
     shadowOpacity: 0.3,
     backgroundColor: colors.white,
     shadowColor: colors.black,

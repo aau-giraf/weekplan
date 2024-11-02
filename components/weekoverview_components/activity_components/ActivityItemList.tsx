@@ -156,14 +156,14 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     ...SharedStyles.trueCenter,
-    borderRadius: ScaleSize(10),
+    borderRadius: 10,
     backgroundColor: colors.white,
   },
   closeButton: {
     marginTop: ScaleSize(20),
     width: ScaleSizeW(150),
     height: ScaleSizeH(50),
-    borderRadius: ScaleSize(5),
+    borderRadius: 5,
     marginBottom: ScaleSize(10),
     backgroundColor: colors.blue,
     justifyContent: "center",

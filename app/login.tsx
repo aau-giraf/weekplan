@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
-    borderRadius: ScaleSize(5),
+    borderRadius: 5,
   },
   inputError: {
     width: "85%",
@@ -164,12 +164,12 @@ const styles = StyleSheet.create({
     borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
-    borderRadius: ScaleSize(5),
+    borderRadius: 5,
   },
   button: {
     paddingVertical: ScaleSize(12),
     paddingHorizontal: ScaleSize(20),
-    borderRadius: ScaleSize(8),
+    borderRadius: 8,
     marginVertical: ScaleSize(10),
     marginTop: "auto",
     alignItems: "center",
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     paddingVertical: ScaleSize(12),
     paddingHorizontal: ScaleSize(20),
-    borderRadius: ScaleSize(8),
+    borderRadius: 8,
     marginVertical: ScaleSize(10),
     alignItems: "center",
     backgroundColor: colors.gray,

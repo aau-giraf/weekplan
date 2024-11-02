@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginLeft: ScaleSize(10),
     marginRight: ScaleSize(10),
     padding: ScaleSize(50),
-    borderRadius: ScaleSize(25),
+    borderRadius: 25,
     justifyContent: "center",
     backgroundColor: colors.white,
   },

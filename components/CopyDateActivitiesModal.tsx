@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     height: "80%",
     padding: ScaleSize(20),
     backgroundColor: colors.white,
-    borderRadius: ScaleSize(10),
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     gap: ScaleSize(10),

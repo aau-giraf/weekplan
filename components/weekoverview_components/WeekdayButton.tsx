@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     ...SharedStyles.trueCenter,
     width: ScaleSize(60),
     height: ScaleSize(60),
-    borderRadius: ScaleSize(100),
+    borderRadius: 100,
     marginBottom: ScaleSize(5),
     backgroundColor: colors.gray,
   },

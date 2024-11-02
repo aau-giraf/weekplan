@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   profilePicture: {
     height: ScaleSizeH(130),
-    borderRadius: ScaleSize(1000),
+    borderRadius: 1000,
     aspectRatio: 1,
   },
   itemText: {
@@ -148,18 +148,19 @@ const styles = StyleSheet.create({
   profileHeader: {
     backgroundColor: "white",
     width: "100%",
-    borderTopRightRadius: ScaleSize(30),
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
     padding: ScaleSize(10),
     paddingTop: ScaleSize(30),
     alignItems: "center",
-    shadowRadius: ScaleSize(20),
+    shadowRadius: 20,
     shadowOpacity: 0.15,
   },
   mainProfilePicture: {
     width: "50%",
     maxHeight: ScaleSizeH(300),
     aspectRatio: 1,
-    borderRadius: ScaleSize(10000),
+    borderRadius: 10000,
   },
   profileTextContainer: {
     display: "flex",

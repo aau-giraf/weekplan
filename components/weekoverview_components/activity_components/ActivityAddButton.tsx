@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     right: ScaleSize(-9.8),
     position: "absolute",
     backgroundColor: colors.lightGreen,
-    borderRadius: ScaleSize(20),
+    borderRadius: 20,
     overflow: "hidden",
   },
 });
