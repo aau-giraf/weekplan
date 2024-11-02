@@ -12,6 +12,7 @@ import { ProfilePicture } from "../components/ProfilePage";
 import { SharedStyles, rem } from "../utils/SharedStyles";
 import React from "react";
 import IconButton from "../components/IconButton";
+import useOrganisation from "../hooks/useOrganisation";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -23,6 +24,11 @@ const calculateNumberOfColumns = () => {
 
 const ProfilePage: React.FC = () => {
   const { data, isLoading, isError } = useProfile();
+  const {
+    data: orgData,
+    isLoading: orgIsLoading,
+    isError: orgIsError,
+  } = useOrganisation();
 
   if (isLoading) {
     return (
@@ -40,19 +46,7 @@ const ProfilePage: React.FC = () => {
     );
   }
 
-  const mockOrgs = [
-    { name: "GreenTech Innovations" },
-    { name: "Aalborg University Research Center" },
-    { name: "Egebakken School" },
-    { name: "Nordic Health Solutions" },
-    { name: "Blue Ocean Enterprises" },
-    { name: "TechHub Denmark" },
-    { name: "Scandinavian Science Institute" },
-    { name: "Global Impact Foundation" },
-    { name: "Copenhagen Business School" },
-    { name: "Digital Pioneers" },
-    { name: "Northern Lights High School" },
-  ];
+  console.log("DATA", orgData);
 
   const renderOrgContainer = ({ item }: { item: { name: string } }) => (
     <View style={styles.itemContainer}>
@@ -70,7 +64,7 @@ const ProfilePage: React.FC = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={mockOrgs}
+        data={orgData}
         renderItem={renderOrgContainer}
         keyExtractor={(item, index) => index.toString() + item.name}
         numColumns={calculateNumberOfColumns()}
