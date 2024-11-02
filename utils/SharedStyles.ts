@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native-size-scaling";
 import { Dimensions } from "react-native";
 
+/**
+ * ScaleSizeW/ScaleSizeH/ScaleSize takes the screen size of the used device and scales attributes based upon ipad specs
+ * @param originalSize
+ * @constructor
+ */
+
 const ScaleSizeW = (originalSize: number) => {
   const deviceWidth = Dimensions.get("window").width;
   return (originalSize / 820) * deviceWidth;
