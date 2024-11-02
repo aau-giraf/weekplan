@@ -8,6 +8,7 @@ import {
   ScaleSizeH,
   ScaleSizeW,
 } from "../../../utils/SharedStyles";
+import IconButton from "../../IconButton";
 
 /**
  * ActivityAddButton component renders a button that navigates to the add activity screen.
@@ -19,16 +20,14 @@ const ActivityAddButton = () => {
   };
 
   return (
-    <Pressable style={styles.button} onPress={handlePress}>
-      <View>
-        <Ionicons name={"calendar-outline"} size={ScaleSize(40)} />
-        <Ionicons
-          name={"add-outline"}
-          size={ScaleSize(25)}
-          style={styles.addIcon}
-        />
-      </View>
-    </Pressable>
+    <IconButton onPress={handlePress} style={styles.button}>
+      <Ionicons name={"calendar-outline"} size={ScaleSize(40)} />
+      <Ionicons
+        name={"add-outline"}
+        size={ScaleSize(25)}
+        style={styles.addIcon}
+      />
+    </IconButton>
   );
 };
 
@@ -36,20 +35,10 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: ScaleSize(80),
-    height: ScaleSize(80),
     backgroundColor: colors.lightGreen,
-    borderRadius: ScaleSize(100),
     bottom: ScaleSize(20),
     right: ScaleSize(24),
     position: "absolute",
-  },
-  text: {
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: ScaleSize(30),
-    padding: ScaleSize(10),
-    color: colors.black,
   },
   addIcon: {
     bottom: ScaleSize(-9.8),

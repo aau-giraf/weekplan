@@ -233,7 +233,7 @@ const ActivityEdit = ({
             disabled={!canSubmit}
             onPress={form.handleSubmit}>
             <Text style={styles.buttonText}>
-              {isSubmitting ? "..." : "Ændre"}
+              {isSubmitting ? "..." : "Ændre aktivitet"}
             </Text>
           </TouchableOpacity>
         )}
