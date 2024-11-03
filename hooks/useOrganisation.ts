@@ -14,9 +14,8 @@ export type OrgDTO = {
 const useOrganisation = () => {
   const { userId } = useAuthentication();
   const queryClient = useQueryClient();
-  const queryKey = [userId!];
+  const queryKey = [userId!, "Organisation"];
 
-  console.log(userId);
   const fetchOrgOverview = useQuery<OrgDTO[]>({
     queryFn: async () => fetchAllOrganisationsRequest(userId!),
     queryKey,
@@ -73,6 +72,7 @@ const useOrganisation = () => {
     data: fetchOrgOverview.data,
     isLoading: fetchOrgOverview.isLoading,
     isError: fetchOrgOverview.isError,
+    refetch: fetchOrgOverview.refetch,
     createOrganisation,
     deleteOrganisation,
   };

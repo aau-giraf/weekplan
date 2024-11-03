@@ -1,11 +1,11 @@
 import React from "react";
-import {
-  StyleProp,
-  StyleSheet,
-  ViewStyle,
-  Pressable,
-  View,
-} from "react-native";
+import { StyleProp, StyleSheet, ViewStyle, Pressable } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 import { colors } from "../utils/SharedStyles";
 
 type IconButtonsProps = {
@@ -13,13 +13,45 @@ type IconButtonsProps = {
   style?: StyleProp<ViewStyle>;
   children: React.ReactNode;
 };
+
 const IconButton = ({ onPress, style, children }: IconButtonsProps) => {
+  const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+
+  const animatedIcon = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
+
+  const opacityAnimation = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+    };
+  });
+
+  const handlePressIn = () => {
+    scale.value = withSpring(0.85, { damping: 10, stiffness: 300 });
+    opacity.value = withTiming(0.7, { duration: 100 });
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1, { damping: 10, stiffness: 300 });
+    opacity.value = withTiming(1, { duration: 100 });
+  };
+
   return (
-    <Pressable style={[styles.button, style]} onPress={onPress}>
-      <View>{children}</View>
-    </Pressable>
+    <Animated.View style={[styles.button, style, opacityAnimation]}>
+      <Pressable
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={onPress}>
+        <Animated.View style={[animatedIcon]}>{children}</Animated.View>
+      </Pressable>
+    </Animated.View>
   );
 };
+
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",

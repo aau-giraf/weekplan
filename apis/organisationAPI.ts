@@ -2,14 +2,13 @@ import { OrgDTO } from "../hooks/useOrganisation";
 import { BASE_URL } from "../utils/globals";
 
 export const fetchAllOrganisationsRequest = async (userId: string) => {
-  console.log("USERID");
   if (userId === null) {
     throw new Error(
       "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
     );
   }
 
-  const url = `${BASE_URL}/organizations/users/${userId}`;
+  const url = `${BASE_URL}/organizations/user/${userId}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error("Kunne ikke hente dine organisationer");
   return res.json();
