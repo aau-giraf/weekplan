@@ -10,8 +10,6 @@ test("swiping left triggers deleteActivity", async () => {
   const deleteActivity = jest.fn();
   const editActivity = jest.fn();
   const checkActivity = jest.fn();
-  const showDetails = jest.fn();
-
   // Mocking useFetchPictograms return values
   (usePictogram as jest.Mock).mockReturnValue({
     useFetchPictograms: {

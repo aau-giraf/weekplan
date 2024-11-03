@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native-size-scaling";
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 /**
  * ScaleSizeW and ScaleSizeH are used to scale the size of components based on the device's width and height.
