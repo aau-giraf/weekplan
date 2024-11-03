@@ -28,8 +28,6 @@ export const ProfilePicture = ({ label, style }: ProfilePictureProps) => {
       <Text
         style={[styles.ProfilePictureText, { color: colourTextContrast }]}
         adjustsFontSizeToFit={true}
-        maxFontSizeMultiplier={2}
-        minimumFontScale={0.3}
         numberOfLines={1}>
         {displayName}
       </Text>
@@ -47,6 +45,6 @@ const styles = StyleSheet.create({
   ProfilePictureText: {
     textShadowColor: "black",
     textShadowRadius: 0.5,
-    fontSize: ScaleSize(50),
+    fontSize: ScaleSize(48),
   },
 });

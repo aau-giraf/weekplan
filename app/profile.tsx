@@ -22,7 +22,7 @@ import { router } from "expo-router";
 const screenWidth = Dimensions.get("window").width;
 
 const calculateNumberOfColumns = () => {
-  const columnWidth = ScaleSizeW(150);
+  const columnWidth = 150;
   const numColumns = Math.floor(screenWidth / columnWidth);
   return numColumns > 0 ? numColumns : 1;
 };
@@ -65,9 +65,9 @@ const ProfilePage: React.FC = () => {
       <ProfilePicture label={item.name} style={styles.profilePicture} />
       <Text
         adjustsFontSizeToFit={true}
+        style={styles.itemText}
         maxFontSizeMultiplier={2}
-        minimumFontScale={0.3}
-        style={styles.itemText}>
+        minimumFontScale={0.3}>
         {item.name}
       </Text>
     </View>
@@ -129,10 +129,10 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: ScaleSize(8),
     alignItems: "center",
-    width: screenWidth / calculateNumberOfColumns() - ScaleSizeW(16),
+    width: screenWidth / calculateNumberOfColumns() - ScaleSizeW(8),
   },
   profilePicture: {
-    height: ScaleSizeH(130),
+    height: ScaleSizeH(200),
     borderRadius: 1000,
     aspectRatio: 1,
   },

@@ -24,8 +24,8 @@ import {
   SharedStyles,
 } from "../../../utils/SharedStyles";
 
-const CONTAINER_HEIGHT = ScaleSizeH(200);
-const CONTAINER_PADDING = ScaleSize(40);
+const CONTAINER_HEIGHT = ScaleSizeH(220);
+const CONTAINER_PADDING = ScaleSize(20);
 const ACTION_WIDTH = ScaleSizeW(130);
 
 /**
@@ -239,19 +239,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: ScaleSize(22),
+    fontSize: ScaleSize(18),
     color: colors.black,
   },
   labelText: {
     flex: 0.6,
-    fontSize: ScaleSize(22),
+    fontSize: ScaleSize(20),
     textAlign: "center",
     color: colors.black,
   },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(120),
-    height: ScaleSize(120),
+    width: ScaleSize(100),
+    height: ScaleSize(100),
     borderRadius: 150,
     backgroundColor: colors.orange,
   },
