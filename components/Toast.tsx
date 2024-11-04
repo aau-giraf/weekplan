@@ -1,11 +1,11 @@
-import { StyleSheet, Text } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
   FadeInUp,
   FadeOutRight,
   LinearTransition,
 } from "react-native-reanimated";
-import { rem, colors, SharedStyles } from "../utils/SharedStyles";
+import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
 
 type ToastNotification = "success" | "error" | "warning";
 type ToastStyle = {
@@ -44,12 +44,11 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
       layout={LinearTransition}
       entering={FadeInUp}
       exiting={FadeOutRight}
-      style={[styles.toastContainer, { backgroundColor: color }]}
-    >
-      <Ionicons size={rem(2)} name={icon} style={styles.icon} />
+      style={[styles.toastContainer, { backgroundColor: color }]}>
+      <Ionicons size={ScaleSize(48)} name={icon} style={styles.icon} />
       <Text style={styles.toastMessage}>{message}</Text>
       <Ionicons
-        size={rem(2)}
+        size={ScaleSize(48)}
         name={"close-outline"}
         style={styles.icon}
         onPress={() => onClose(id)}
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
   toastContainer: {
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 15,
+    padding: ScaleSize(10),
     borderRadius: 5,
     shadowOpacity: 0.3,
     backgroundColor: colors.white,
@@ -71,13 +70,12 @@ const styles = StyleSheet.create({
   },
   toastMessage: {
     ...SharedStyles.flexRow,
-    fontSize: rem(1),
+    fontSize: ScaleSize(24),
     flex: 1,
     textAlign: "center",
     color: colors.white,
     textShadowColor: colors.black,
-
-    marginHorizontal: 20,
+    marginHorizontal: ScaleSize(25),
   },
   icon: {
     fontWeight: "bold",

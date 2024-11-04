@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  StyleSheet,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -9,13 +8,15 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  StyleSheet,
 } from "react-native";
-import { colors } from "../utils/SharedStyles";
+import { colors, ScaleSize } from "../utils/SharedStyles";
 import { z } from "zod";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
+import PrivacyPolicy from "../components/Legal/PrivacyPolicy";
 
 /**
  * Regex
@@ -214,6 +215,7 @@ const RegisterScreen: React.FC = () => {
           </TouchableOpacity>
         </ScrollView>
       </TouchableWithoutFeedback>
+      <PrivacyPolicy />
     </View>
   );
 };
@@ -221,7 +223,7 @@ const RegisterScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: ScaleSize(20),
     backgroundColor: colors.white,
   },
   scrollContainer: {
@@ -230,9 +232,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontSize: 20,
+    fontSize: ScaleSize(28),
     fontWeight: "600",
-    marginBottom: 20,
+    marginBottom: ScaleSize(20),
     textAlign: "center",
     color: colors.black,
   },
@@ -243,43 +245,45 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "85%",
-    padding: 10,
-    borderWidth: 1,
+    padding: ScaleSize(10),
+    fontSize: ScaleSize(24),
+    borderWidth: ScaleSize(1),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: ScaleSize(10),
   },
   inputError: {
     width: "85%",
-    padding: 10,
-    borderWidth: 1,
+    padding: ScaleSize(10),
+    fontSize: ScaleSize(24),
+    borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: ScaleSize(10),
   },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
     borderRadius: 8,
-    marginVertical: 10,
+    marginVertical: ScaleSize(10),
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
   },
   buttonDisabled: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
     borderRadius: 8,
-    marginVertical: 10,
+    marginVertical: ScaleSize(10),
     alignItems: "center",
     backgroundColor: colors.gray,
     width: "85%",
   },
   buttonText: {
     color: colors.white,
-    fontSize: 16,
+    fontSize: ScaleSize(24),
     fontWeight: "500",
   },
   loginButton: {

@@ -8,11 +8,19 @@ type Params = {
   endTime: string;
   activityId: string;
   isCompleted: string;
+  date: string;
 };
 
 const EditActivity = () => {
-  const { name, description, startTime, endTime, activityId, isCompleted } =
-    useLocalSearchParams<Params>();
+  const {
+    name,
+    description,
+    startTime,
+    endTime,
+    activityId,
+    isCompleted,
+    date,
+  } = useLocalSearchParams<Params>();
 
   if (
     !name ||
@@ -20,7 +28,8 @@ const EditActivity = () => {
     !startTime ||
     !endTime ||
     !activityId ||
-    !isCompleted
+    !isCompleted ||
+    !date
   ) {
     throw new Error("Mangler påkrævet parameter");
   }
@@ -41,6 +50,7 @@ const EditActivity = () => {
       endTime={new Date(endTime)}
       activityId={parseInt(activityId)}
       isCompleted={isCompleted === "true"}
+      date={new Date(date)}
     />
   );
 };
