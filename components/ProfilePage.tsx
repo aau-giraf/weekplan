@@ -25,7 +25,12 @@ export const ProfilePicture = ({ label, style }: ProfilePictureProps) => {
         style,
         { backgroundColor: colourFromName },
       ]}>
-      <Text style={[styles.ProfilePictureText, { color: colourTextContrast }]}>
+      <Text
+        style={[styles.ProfilePictureText, { color: colourTextContrast }]}
+        adjustsFontSizeToFit={true}
+        maxFontSizeMultiplier={2}
+        minimumFontScale={0.3}
+        numberOfLines={1}>
         {displayName}
       </Text>
     </View>
@@ -35,9 +40,13 @@ export const ProfilePicture = ({ label, style }: ProfilePictureProps) => {
 const styles = StyleSheet.create({
   ProfilePictureContainer: {
     ...SharedStyles.trueCenter,
-    borderRadius: 20,
+    shadowRadius: 15,
+    shadowOpacity: 0.2,
+    padding: 15,
   },
   ProfilePictureText: {
-    fontSize: rem(5),
+    textShadowColor: "black",
+    textShadowRadius: 0.5,
+    fontSize: rem(4),
   },
 });

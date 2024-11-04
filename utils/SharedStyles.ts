@@ -19,7 +19,6 @@ const rem = (sizeInRem: number): number => {
  * blue for editing features such as buttons
  * lightBlue for background for containers
  */
-
 const colors = {
   orange: "#FEC478FF",
   gray: "#B0BEC5",
@@ -39,7 +38,7 @@ const SharedStyles = StyleSheet.create({
   header: {
     fontSize: rem(1),
     fontWeight: "600",
-    paddingBottom: 10,
+    paddingBottom: 15,
     color: colors.black,
   },
   container: {
