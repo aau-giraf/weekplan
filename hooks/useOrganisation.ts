@@ -24,8 +24,8 @@ const useOrganisation = () => {
 
   const deleteOrganisation = useMutation({
     mutationFn: (orgId: number) => deleteOrganisationRequest(orgId),
-    onMutate: (orgId) => {
-      queryClient.cancelQueries({ queryKey });
+    onMutate: async (orgId) => {
+      await queryClient.cancelQueries({ queryKey });
       const previousOrgs = queryClient.getQueryData<OrgDTO[]>(queryKey);
       queryClient.setQueryData<OrgDTO[]>(queryKey, (oldData) => {
         return oldData?.filter((org) => org.id !== orgId);
@@ -43,8 +43,8 @@ const useOrganisation = () => {
   const createOrganisation = useMutation({
     mutationFn: (orgName: string) =>
       createOrganisationsRequest(userId!, orgName),
-    onMutate: (newOrgName) => {
-      queryClient.cancelQueries({ queryKey });
+    onMutate: async (newOrgName) => {
+      await queryClient.cancelQueries({ queryKey });
 
       const previousOrgs = queryClient.getQueryData<OrgDTO[]>(queryKey);
       queryClient.setQueryData<OrgDTO[]>(queryKey, (oldData) => [

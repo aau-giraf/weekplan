@@ -1,10 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import AuthenticationProvider from "../providers/AuthenticationProvider";
-import ToastProvider from "../providers/ToastProvider";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import useOrganisation from "../hooks/useOrganisation";
-import { JSX } from "react";
-
+import AuthenticationProvider from "../providers/AuthenticationProvider";
+import ToastProvider from "../providers/ToastProvider";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -24,18 +22,13 @@ const mockOrganisation = {
   id: 1,
 };
 
-let wrapper: ({ children }: { children: React.ReactNode }) => JSX.Element;
-beforeAll(() => {
-  wrapper = ({ children }) => (
-    <ToastProvider>
-      <AuthenticationProvider>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </AuthenticationProvider>
-    </ToastProvider>
-  );
-});
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <ToastProvider>
+    <AuthenticationProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </AuthenticationProvider>
+  </ToastProvider>
+);
 jest
   .spyOn(queryClient, "invalidateQueries")
   .mockImplementation(() => Promise.resolve());
@@ -48,10 +41,7 @@ jest.mock("../apis/organisationAPI", () => ({
     .fn()
     .mockImplementation((orgName: string) => {
       return new Promise((resolve) =>
-        setTimeout(
-          () => resolve({ ...mockOrganisation, id: 3, name: orgName }),
-          50
-        )
+        setTimeout(() => resolve({ id: 3, name: orgName }), 50)
       );
     }),
   deleteOrganisationRequest: jest.fn().mockImplementation(() => {
@@ -125,7 +115,9 @@ test("new organisation id is initially -1 and then sets the id from the promise"
     wrapper,
   });
 
-  result.current.createOrganisation.mutate("New Organisation");
+  await act(async () => {
+    result.current.createOrganisation.mutateAsync("New Organisation");
+  });
 
   await waitFor(() => {
     expect(queryClient.getQueryData(["mockUserId", "Organisation"])).toEqual([
