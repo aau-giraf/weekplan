@@ -1,18 +1,23 @@
+import { ActivityDTO, FullActivityDTO } from './activityDTO';
+
 export type OrganisationDTO = {
   id: number;
   name: string;
-  classes: ClassDTO[];
+  users: MemberDTO[];
+  citizens: CitizenDTO[];
 };
 
-export type UserDTO = {
+export type MemberDTO = {
   id: number;
-  firstName: string | undefined;
-  lastName: string | undefined;
-  image: string | undefined;
+  firstName: string | null;
+  lastName: string | null;
+  image: string | null;
 };
 
-export type ClassDTO = {
+export type CitizenDTO = {
   id: number;
-  name: string;
-  members: UserDTO[];
+  firstName: string | null;
+  lastName: string | null;
+  organizations: any | null;
+  activities: FullActivityDTO | null;
 };

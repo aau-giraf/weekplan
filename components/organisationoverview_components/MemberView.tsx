@@ -1,21 +1,22 @@
-import { UserDTO } from "../../DTO/organisationDTO";
+import { MemberDTO } from "../../DTO/organisationDTO";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { ProfilePicture } from "../ProfilePicture";
 import { SharedStyles } from "../../utils/SharedStyles";
 
 type MemberViewProps = {
-  members: UserDTO[];
+  members: MemberDTO[] | undefined;
 };
 
 type MemberViewEntryProps = {
-  user: UserDTO;
+  user: MemberDTO;
 };
 
 export const MemberView = ({ members }: MemberViewProps) => {
   const MAX_DISPLAYED_MEMBERS = 8;
+  members = members as MemberDTO[];
 
   // Display at most MAX_DISPLAYED_MEMBERS members
-  const displayedMembers: UserDTO[] =
+  const displayedMembers: MemberDTO[] =
     members.length <= MAX_DISPLAYED_MEMBERS
       ? members
       : members.slice(0, MAX_DISPLAYED_MEMBERS);
@@ -29,8 +30,7 @@ export const MemberView = ({ members }: MemberViewProps) => {
         style={[
           SharedStyles.trueCenter,
           { display: "flex", flexDirection: "row", alignItems: "center" },
-        ]}
-      >
+        ]}>
         {displayedMembers.map((member, index) => (
           <MemberViewEntry user={member} key={index} />
         ))}
@@ -38,8 +38,9 @@ export const MemberView = ({ members }: MemberViewProps) => {
         {remainingMembers > 0 && (
           <View style={styles.remainingMembersContainer}>
             <Text
-              style={styles.remainingMembersText}
-            >{`+${remainingMembers}`}</Text>
+              style={
+                styles.remainingMembersText
+              }>{`+${remainingMembers}`}</Text>
           </View>
         )}
       </View>

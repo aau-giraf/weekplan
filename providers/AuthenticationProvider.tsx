@@ -72,6 +72,7 @@ const AuthenticationProvider = ({
         }
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });
+        console.log(e);
       }
     },
     [addToast]

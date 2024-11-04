@@ -11,11 +11,13 @@ export function isTokenExpired(token: string): boolean {
 
 export function getUserIdFromToken(token: string): string {
   const arrayToken = token.split(".");
-  const payload = JSON.parse(atob(arrayToken[1]));
+  console.log(arrayToken);
+  const parsed = atob(arrayToken[1]);
+  const payload = JSON.parse(parsed);
+
   const userId =
     payload[
       "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
     ];
   return userId;
 }
-
