@@ -15,8 +15,8 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import {colors} from "../../../utils/colors";
 import { Image } from 'expo-image';
+import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 280;
 const CONTAINER_PADDING = 12;
@@ -47,7 +47,7 @@ function LeftAction(
         testID="deleteActivityItemButton"
         onPress={deleteTask}
         style={[styles.action, { backgroundColor: colors.crimson }]}>
-        <Ionicons name="trash-outline" size={32} color= {colors.white} />
+        <Ionicons name="trash-outline" size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -80,14 +80,14 @@ function RightAction(
         testID="editActivityItemButton"
         onPress={editActivity}
         style={[styles.action, { backgroundColor: colors.blue }]}>
-        <Ionicons name={"pencil-outline"} size={32} color= {colors.white} />
+        <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
         style={[styles.action, { backgroundColor: colors.green }]}>
-        <Ionicons name={"checkmark"} size={32} color= {colors.white} />
+        <Ionicons name={"checkmark"} size={32} color={colors.white} />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -154,12 +154,9 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   };
 
   const handleImagePress = (uri: string) => {
-    console.log('Image URI:', uri);
     setImageUri(uri);
     setModalVisible(true);
   };
-
-
   if (!isLoading && error) {
     throw new Error("Fejl kunne ikke hente piktogramerne");
   }
@@ -187,7 +184,11 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
           <View
             style={[
               styles.taskContainer,
-              { backgroundColor: isCompleted ? colors.lightGreen : colors.lightBlue },
+              {
+                backgroundColor: isCompleted
+                  ? colors.lightGreen
+                  : colors.lightBlue,
+              },
             ]}>
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <View style={styles.iconContainer}>
@@ -215,36 +216,40 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
 
 const styles = StyleSheet.create({
   taskContainer: {
+    ...SharedStyles.flexRow,
     width: "100%",
-    display: "flex",
-    flexDirection: "row",
     alignItems: "center",
+    height: CONTAINER_HEIGHT,
     padding: CONTAINER_PADDING,
     justifyContent: "space-between",
-    height: CONTAINER_HEIGHT,
     backgroundColor: colors.lightBlue,
   },
   timeText: {
+    fontSize: rem(1),
     color: colors.black,
-    fontSize: 24,
+  },
+  labelText: {
+    flex: 0.6,
+    fontSize: rem(1),
+    textAlign: "center",
+    color: colors.black,
   },
   iconContainer: {
     width: 400,
     height: 300,
+    ...SharedStyles.trueCenter,
     borderRadius: 100,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
+    fontSize: rem(0.75),
     color: colors.backgroundBlack,
-    fontSize: 12,
   },
   action: {
+    ...SharedStyles.trueCenter,
     width: ACTION_WIDTH,
     height: 280,
     backgroundColor: colors.crimson,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 

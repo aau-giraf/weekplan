@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Image, View, StyleSheet } from "react-native";
 import pickImage from "../utils/pickImage";
+import { SharedStyles } from "../utils/SharedStyles";
 
 /**
  * ImagePickerSelector component allows users to pick an image from their library.
@@ -32,9 +33,8 @@ const ImagePickerSelector = () => {
 
 const styles = StyleSheet.create({
   container: {
+    ...SharedStyles.trueCenter,
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   image: {
     width: 200,

@@ -2,8 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Pressable } from "expo-router/build/views/Pressable";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import {colors} from "../../../utils/colors";
-import {color} from "ansi-fragments";
+import { colors } from "../../../utils/SharedStyles";
 
 /**
  * ActivityAddButton component renders a button that navigates to the add activity screen.
@@ -11,7 +10,7 @@ import {color} from "ansi-fragments";
  */
 const ActivityAddButton = () => {
   const handlePress = () => {
-    router.push("./addactivity");
+    router.push("/addactivity");
   };
 
   return (
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 60,
     height: 60,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.lightGreen,
     borderRadius: 30,
     bottom: 20,
     right: 24,
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
     bottom: -9.8,
     right: -9.8,
     position: "absolute",
-    backgroundColor: colors.gray,
+    backgroundColor: colors.lightGreen,
     borderRadius: 20,
     overflow: "hidden",
   },

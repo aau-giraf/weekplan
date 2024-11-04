@@ -1,30 +1,29 @@
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet} from "react-native";
 import ActivityAddButton from "../components/weekoverview_components/activity_components/ActivityAddButton";
 import WeekSelection from "../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../components/weekoverview_components/activity_components/ActivityItemList";
-import {colors} from "../utils/colors";
+import { colors } from "../utils/SharedStyles";
 
 const WeekPlanScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <WeekSelection />
         <DaysContainer />
       </View>
       <ActivityItemList />
       <ActivityAddButton />
-    </SafeAreaView>
+    </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
+  container:{
+    height: "100%",
   },
   header: {
-    paddingVertical: 10,
     backgroundColor: colors.white,
   },
 });
