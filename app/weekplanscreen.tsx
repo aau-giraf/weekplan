@@ -1,4 +1,4 @@
-import { View, StyleSheet} from "react-native";
+import { View, StyleSheet } from "react-native";
 import ActivityAddButton from "../components/weekoverview_components/activity_components/ActivityAddButton";
 import ActivityItemHeader from "../components/weekoverview_components/activity_components/ActivityItemHeader";
 import WeekSelection from "../components/weekoverview_components/WeekSelection";
@@ -25,7 +25,7 @@ const WeekPlanScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     height: "100%",
   },
   header: {

@@ -1,7 +1,37 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
-const rem = (sizeInRem: number): number => {
-  return Math.ceil(sizeInRem * 16);
+/**
+ * ScaleSizeW and ScaleSizeH are used to scale the size of components based on the device's width and height.
+ * SHOULD NOT BE USED ON CIRCLES
+ * @param originalSize
+ * @constructor
+ * @returns {number} The scaled size of the component.
+ * @example
+ * ScaleSizeW(100) // Returns 100 scaled to the device's width
+ */
+
+const ScaleSizeW = (originalSize: number) => {
+  const deviceWidth = Dimensions.get("window").width;
+  return (originalSize / 820) * deviceWidth;
+};
+
+const ScaleSizeH = (originalSize: number) => {
+  const deviceHeight = Dimensions.get("window").height;
+  return (originalSize / 1180) * deviceHeight;
+};
+
+/**
+ * ScaleSize is used to scale the size of components based on the device's height, used for attributes that is not height or width.
+ * CAN BE USED ON CIRCLES
+ * @param originalSize
+ * @constructor
+ * @returns {number} The scaled size of the component.
+ * @example
+ * ScaleSize(100) // Returns 100 scaled to the device's width
+ */
+const ScaleSize = (originalSize: number) => {
+  const deviceHeight = Dimensions.get("window").height;
+  return (originalSize / 820) * deviceHeight;
 };
 
 /**
@@ -36,13 +66,13 @@ const colors = {
 
 const SharedStyles = StyleSheet.create({
   header: {
-    fontSize: rem(1),
-    fontWeight: "600",
-    paddingBottom: 15,
+    fontSize: ScaleSize(18),
+    fontWeight: "500",
+    paddingBottom: ScaleSize(15),
     color: colors.black,
   },
   container: {
-    padding: 25,
+    padding: ScaleSize(25),
     backgroundColor: colors.white,
   },
   flexRow: {
@@ -55,4 +85,4 @@ const SharedStyles = StyleSheet.create({
   },
 });
 
-export { rem, colors, SharedStyles };
+export { colors, SharedStyles, ScaleSizeH, ScaleSizeW, ScaleSize };

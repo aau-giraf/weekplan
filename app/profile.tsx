@@ -9,9 +9,15 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import useProfile from "../hooks/useProfile";
 import { ProfilePicture } from "../components/ProfilePage";
-import { SharedStyles, rem } from "../utils/SharedStyles";
+import {
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../utils/SharedStyles";
 import React from "react";
 import IconButton from "../components/IconButton";
+import { router } from "expo-router";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -59,9 +65,9 @@ const ProfilePage: React.FC = () => {
       <ProfilePicture label={item.name} style={styles.profilePicture} />
       <Text
         adjustsFontSizeToFit={true}
+        style={styles.itemText}
         maxFontSizeMultiplier={2}
-        minimumFontScale={0.3}
-        style={styles.itemText}>
+        minimumFontScale={0.3}>
         {item.name}
       </Text>
     </View>
@@ -89,7 +95,7 @@ const ProfilePage: React.FC = () => {
                 </Text>
               </View>
               <IconButton style={styles.iconMail}>
-                <Ionicons name="mail-outline" size={40} />
+                <Ionicons name="mail-outline" size={ScaleSize(40)} />
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
@@ -99,7 +105,16 @@ const ProfilePage: React.FC = () => {
         }
       />
       <IconButton style={styles.iconAdd}>
-        <Ionicons name="add" size={40} />
+        <Ionicons name="add" size={ScaleSize(40)} />
+      </IconButton>
+
+      {/* This is temporary for navigation purposes*/}
+      <IconButton
+        style={[styles.iconAdd, { left: 40 }]}
+        onPress={() => {
+          router.replace("/weekplanscreen");
+        }}>
+        <Ionicons name="search" size={ScaleSize(40)} />
       </IconButton>
     </View>
   );
@@ -112,14 +127,14 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    margin: 8,
+    margin: ScaleSize(8),
     alignItems: "center",
-    width: screenWidth / calculateNumberOfColumns() - 16,
+    width: screenWidth / calculateNumberOfColumns() - ScaleSizeW(8),
   },
   profilePicture: {
-    height: 130,
+    height: ScaleSizeH(200),
     borderRadius: 1000,
-    aspectRatio: 1 / 1,
+    aspectRatio: 1,
   },
   itemText: {
     textAlign: "center",
@@ -133,42 +148,43 @@ const styles = StyleSheet.create({
   profileHeader: {
     backgroundColor: "white",
     width: "100%",
-    borderTopRightRadius: 30,
-    padding: 10,
-    paddingTop: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    padding: ScaleSize(10),
+    paddingTop: ScaleSize(30),
     alignItems: "center",
     shadowRadius: 20,
     shadowOpacity: 0.15,
   },
   mainProfilePicture: {
     width: "50%",
-    maxHeight: 300,
-    aspectRatio: 1 / 1,
+    maxHeight: ScaleSizeH(300),
+    aspectRatio: 1,
     borderRadius: 10000,
   },
   profileTextContainer: {
     display: "flex",
-    padding: 20,
+    padding: ScaleSize(20),
     justifyContent: "center",
     alignItems: "center",
   },
   iconMail: {
-    top: 10,
-    right: 30,
+    top: ScaleSize(10),
+    right: ScaleSize(30),
   },
   organizationsContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    padding: 15,
+    padding: ScaleSize(14),
   },
   organizationsText: {
-    fontSize: rem(1.5),
+    fontSize: ScaleSize(24),
     marginRight: 10,
   },
   iconAdd: {
-    bottom: 30,
-    right: 30,
+    bottom: ScaleSize(30),
+    right: ScaleSize(30),
   },
 });
 
