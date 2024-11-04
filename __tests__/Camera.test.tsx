@@ -1,4 +1,4 @@
-import { takePhoto } from "../components/Camera/Camera";
+import { snapPhoto } from "../components/Camera/Camera";
 import * as ImagePicker from 'expo-image-picker';
 
 // Mock the expo-image-picker library to control its behavior in tests
@@ -8,7 +8,7 @@ jest.mock('expo-image-picker', () => ({
   MediaTypeOptions: { Images: 'Images' }
 }));
 
-describe("takePhoto", () => {
+describe("snapPhoto", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -16,7 +16,7 @@ describe("takePhoto", () => {
   it("should request camera permissions", async () => {
     ImagePicker.requestCameraPermissionsAsync.mockResolvedValue({ granted: true });
 
-    await takePhoto();
+    await snapPhoto();
 
     expect(ImagePicker.requestCameraPermissionsAsync).toHaveBeenCalled();
   });
@@ -24,7 +24,7 @@ describe("takePhoto", () => {
   it("should alert if permission is denied", async () => {
     ImagePicker.requestCameraPermissionsAsync.mockResolvedValue({ granted: false });
     global.alert = jest.fn();
-    await takePhoto();
+    await snapPhoto();
 
     expect(global.alert).toHaveBeenCalledWith("Camera access is required to take a photo!");
   });
@@ -38,7 +38,7 @@ describe("takePhoto", () => {
     };
     ImagePicker.launchCameraAsync.mockResolvedValue(mockCameraResult);
 
-    const uri = await takePhoto();
+    const uri = await snapPhoto();
 
     expect(ImagePicker.launchCameraAsync).toHaveBeenCalled();
     expect(uri).toBe('mockImageUri');
