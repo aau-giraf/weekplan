@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../../utils/colors";
-import { openCamera } from "../Camera/Camera";
+import { takePhoto } from "../Camera/Camera";
 
 /**
  * CameraButton component renders a button that opens the camera.
@@ -10,10 +10,10 @@ import { openCamera } from "../Camera/Camera";
  */
 const CameraButton = () => {
   const handlePress = async () => {
-    const imageUri = await openCamera(); // Call the openCamera function
+    const imageUri = await takePhoto();
     // Handle the imageUri if needed, e.g., display it or process it further
     if (imageUri) {
-      console.log("Captured image URI:", imageUri); // Optional: Log the captured image URI
+      console.log("Captured image URI:", imageUri);
     }
   };
 
