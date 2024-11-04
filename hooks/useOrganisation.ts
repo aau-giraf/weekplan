@@ -72,6 +72,7 @@ const useOrganisation = () => {
     data: fetchOrgOverview.data,
     isLoading: fetchOrgOverview.isLoading,
     isError: fetchOrgOverview.isError,
+    isSuccess: fetchOrgOverview.isSuccess,
     refetch: fetchOrgOverview.refetch,
     createOrganisation,
     deleteOrganisation,

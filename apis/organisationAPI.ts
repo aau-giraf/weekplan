@@ -41,6 +41,6 @@ export const createOrganisationsRequest = async (
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: orgName }),
   });
-  if (!res.ok) throw new Error("Kunne ikke slette organisation");
+  if (!res.ok) throw new Error("Kunne ikke oprette organisation");
   return res.json();
 };
