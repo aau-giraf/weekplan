@@ -16,11 +16,17 @@ import Reanimated, {
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
 import { Image } from "expo-image";
-import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../utils/SharedStyles";
 
-const CONTAINER_HEIGHT = 280;
-const CONTAINER_PADDING = 12;
-const ACTION_WIDTH = 100;
+const CONTAINER_HEIGHT = ScaleSizeH(220);
+const CONTAINER_PADDING = ScaleSize(20);
+const ACTION_WIDTH = ScaleSizeW(130);
 
 /**
  * LeftAction component for handling swipe-to-delete functionality.
@@ -47,7 +53,11 @@ function LeftAction(
         testID="deleteActivityItemButton"
         onPress={deleteTask}
         style={[styles.action, { backgroundColor: colors.crimson }]}>
-        <Ionicons name="trash-outline" size={32} color={colors.white} />
+        <Ionicons
+          name="trash-outline"
+          size={ScaleSize(48)}
+          color={colors.white}
+        />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -80,14 +90,22 @@ function RightAction(
         testID="editActivityItemButton"
         onPress={editActivity}
         style={[styles.action, { backgroundColor: colors.blue }]}>
-        <Ionicons name={"pencil-outline"} size={32} color={colors.white} />
+        <Ionicons
+          name={"pencil-outline"}
+          size={ScaleSize(48)}
+          color={colors.white}
+        />
       </TouchableOpacity>
 
       <TouchableOpacity
         testID="checkActivityItemButton"
         onPress={checkActivity}
         style={[styles.action, { backgroundColor: colors.green }]}>
-        <Ionicons name={"checkmark"} size={32} color={colors.white} />
+        <Ionicons
+          name={"checkmark"}
+          size={ScaleSize(48)}
+          color={colors.white}
+        />
       </TouchableOpacity>
     </Reanimated.View>
   );
@@ -100,7 +118,6 @@ type ActivityItemProps = {
   deleteActivity: () => void;
   editActivity: () => void;
   checkActivity: () => void;
-  showDetails: () => void;
   setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -115,7 +132,6 @@ type ActivityItemProps = {
  * @param {Function} props.deleteActivity - Function to delete the activity.
  * @param {Function} props.editActivity - Function to edit the activity.
  * @param {Function} props.checkActivity - Function to mark the activity as checked.
- * @param {Function} props.showDetails - Function to show details of the activity.
  * @param {Function} props.setImageUri - Function to set the image URI.
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
  * @returns {JSX.Element} The rendered activity item component.
@@ -126,7 +142,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
   deleteActivity,
   editActivity,
   checkActivity,
-  showDetails,
   setImageUri,
   setModalVisible,
 }) => {
@@ -178,34 +193,32 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
           )
         }
         friction={2}>
-        <Pressable onPress={showDetails}>
-          <View
-            style={[
-              styles.taskContainer,
-              {
-                backgroundColor: isCompleted
-                  ? colors.lightGreen
-                  : colors.lightBlue,
-              },
-            ]}>
-            <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
-            <View style={styles.iconContainer}>
-              {data ? (
-                <Pressable onPress={() => handleImagePress(data)}>
-                  <Image
-                    style={{ width: 280, height: 280, flex: 1 }}
-                    source={{ uri: data, headers: { Accept: "image/png" } }}
-                    contentFit={"contain"}
-                    cachePolicy={"memory"}
-                    onError={(error) => console.log("Error:", error)}
-                  />
-                </Pressable>
-              ) : (
-                <Text style={styles.iconPlaceholderText}>No Icon</Text>
-              )}
-            </View>
+        <View
+          style={[
+            styles.taskContainer,
+            {
+              backgroundColor: isCompleted
+                ? colors.lightGreen
+                : colors.lightBlue,
+            },
+          ]}>
+          <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
+          <View style={styles.iconContainer}>
+            {data ? (
+              <Pressable onPress={() => handleImagePress(data)}>
+                <Image
+                  style={{ width: ScaleSizeW(280), height: ScaleSizeH(280), flex: 1 }}
+                  source={{ uri: data, headers: { Accept: "image/png" } }}
+                  contentFit={"contain"}
+                  cachePolicy={"memory"}
+                  onError={(error) => console.log("Error:", error)}
+                />
+              </Pressable>
+            ) : (
+              <Text style={styles.iconPlaceholderText}>No Icon</Text>
+            )}
           </View>
-        </Pressable>
+        </View>
       </ReanimatedSwipeable>
     </>
   );
@@ -222,30 +235,30 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: rem(1),
+    fontSize: ScaleSize(18),
     color: colors.black,
   },
   labelText: {
     flex: 0.6,
-    fontSize: rem(1),
+    fontSize: ScaleSize(20),
     textAlign: "center",
     color: colors.black,
   },
   iconContainer: {
-    width: 400,
-    height: 300,
     ...SharedStyles.trueCenter,
-    borderRadius: 100,
+    width: ScaleSize(100),
+    height: ScaleSize(100),
+    borderRadius: 150,
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    fontSize: rem(0.75),
+    fontSize: ScaleSize(0),
     color: colors.backgroundBlack,
   },
   action: {
     ...SharedStyles.trueCenter,
+    height: CONTAINER_HEIGHT,
     width: ACTION_WIDTH,
-    height: 280,
     backgroundColor: colors.crimson,
   },
 });

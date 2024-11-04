@@ -10,7 +10,6 @@ describe("swiping left or right triggers the correct actions", () => {
   const deleteActivity = jest.fn();
   const editActivity = jest.fn();
   const checkActivity = jest.fn();
-  const showDetails = jest.fn();
   const setModalVisible = jest.fn();
   const setImageUri = jest.fn();
 
@@ -32,7 +31,6 @@ describe("swiping left or right triggers the correct actions", () => {
         editActivity={editActivity}
         checkActivity={checkActivity}
         isCompleted={false}
-        showDetails={showDetails}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
       />
@@ -61,7 +59,6 @@ describe("swiping left or right triggers the correct actions", () => {
         editActivity={editActivity}
         checkActivity={checkActivity}
         isCompleted={false}
-        showDetails={showDetails}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
       />

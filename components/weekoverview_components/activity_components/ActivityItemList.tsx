@@ -15,7 +15,13 @@ import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 import { Image } from 'expo-image';
 
@@ -55,9 +61,6 @@ const ActivityItemList = () => {
   if (error) {
     return <Text>Fejl med at hente aktiviteter: {error.message}</Text>;
   }
-  const handleDetails = (activityId: number) => {
-    router.push({ pathname: "../../viewactivity", params: { activityId } });
-  };
 
   const renderActivityItem = ({ item }: { item: ActivityDTO }) => {
     const handleEditTask = () => {
@@ -87,7 +90,6 @@ const ActivityItemList = () => {
         checkActivity={() =>
           handleCheckActivity(item.activityId, item.isCompleted)
         }
-        showDetails={() => handleDetails(item.activityId)}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
       />
@@ -124,7 +126,9 @@ const ActivityItemList = () => {
         onRefresh={async () => await refetch()}
         itemLayoutAnimation={LinearTransition}
         refreshing={isLoading}
-        ItemSeparatorComponent={() => <View style={{ height: 3 }} />}
+        ItemSeparatorComponent={() => (
+          <View style={{ height: ScaleSizeH(10) }} />
+        )}
         keyExtractor={(item) => item.activityId.toString()}
         renderItem={renderActivityItem}
         ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
@@ -138,7 +142,7 @@ const ActivityItemList = () => {
               <View style={styles.modalContent}>
                 <Image
                     source={{ uri: imageUri}}
-                    style={{ width: 500, height: 500 }}
+                    style={{ width: ScaleSizeW(500), height: ScaleSizeH(500) }}
                     contentFit={"contain"}
                 />
                 <TouchableOpacity
@@ -167,13 +171,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   closeButton: {
-    marginTop: 20,
-    padding: 10,
+    marginTop: ScaleSize(30),
+    width: ScaleSizeW(150),
+    height: ScaleSizeH(75),
     borderRadius: 5,
+    marginBottom: ScaleSize(20),
     backgroundColor: colors.blue,
+    justifyContent: "center",
+    alignItems: "center",
   },
   closeButtonText: {
-    fontSize: rem(1),
+    fontSize: ScaleSize(24),
     color: colors.white,
   },
 });

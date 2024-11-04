@@ -4,12 +4,12 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
-  StyleSheet,
   Button,
   Modal,
   View,
+  StyleSheet,
 } from "react-native";
-import { colors, rem } from "../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../utils/SharedStyles";
 
 const PrivacyPolicy = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -137,32 +137,33 @@ const PrivacyPolicy = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: ScaleSize(20),
     backgroundColor: colors.white,
   },
   header: {
-    fontSize: rem(1.5),
+    fontSize: ScaleSize(28),
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: ScaleSize(10),
     color: colors.black,
   },
   subheader: {
-    fontSize: rem(1),
+    fontSize: ScaleSize(24),
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: ScaleSize(10),
     color: colors.black,
   },
   text: {
-    marginBottom: 10,
-    fontSize: rem(1),
+    marginBottom: ScaleSize(10),
+    fontSize: ScaleSize(24),
     color: colors.black,
   },
   link: {
-    marginBottom: 20,
+    marginBottom: ScaleSize(20),
     color: colors.blue,
   },
   linkText: {
     textDecorationLine: "underline",
+    fontSize: ScaleSize(18),
     color: colors.blue,
   },
 });

@@ -1,8 +1,14 @@
-import { StyleSheet, View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Pressable } from "expo-router/build/views/Pressable";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { colors } from "../../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+} from "../../../utils/SharedStyles";
+import IconButton from "../../IconButton";
 
 /**
  * ActivityAddButton component renders a button that navigates to the add activity screen.
@@ -14,12 +20,14 @@ const ActivityAddButton = () => {
   };
 
   return (
-    <Pressable style={styles.button} onPress={handlePress}>
-      <View>
-        <Ionicons name={"calendar-outline"} size={30} />
-        <Ionicons name={"add-outline"} size={25} style={styles.addIcon} />
-      </View>
-    </Pressable>
+    <IconButton onPress={handlePress} style={styles.button}>
+      <Ionicons name={"calendar-outline"} size={ScaleSize(40)} />
+      <Ionicons
+        name={"add-outline"}
+        size={ScaleSize(25)}
+        style={styles.addIcon}
+      />
+    </IconButton>
   );
 };
 
@@ -27,24 +35,14 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 60,
-    height: 60,
     backgroundColor: colors.lightGreen,
-    borderRadius: 30,
-    bottom: 20,
-    right: 24,
+    bottom: ScaleSize(20),
+    right: ScaleSize(24),
     position: "absolute",
   },
-  text: {
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 30,
-    padding: 10,
-    color: colors.black,
-  },
   addIcon: {
-    bottom: -9.8,
-    right: -9.8,
+    bottom: ScaleSize(-9.8),
+    right: ScaleSize(-9.8),
     position: "absolute",
     backgroundColor: colors.lightGreen,
     borderRadius: 20,
