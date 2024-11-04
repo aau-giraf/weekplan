@@ -7,6 +7,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { colors } from "../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+} from "../utils/SharedStyles";
+
 
 type IconButtonsProps = {
   onPress?: () => void;
@@ -56,8 +63,8 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 65,
-    height: 65,
+    width: ScaleSize(80),
+    height: ScaleSize(80),
     backgroundColor: colors.lightGreen,
     borderRadius: 100,
     position: "absolute",

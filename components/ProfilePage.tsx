@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { rem, SharedStyles } from "../utils/SharedStyles";
+import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import {
   hashNameToColour,
   getContrastingTextColor,
@@ -28,8 +28,6 @@ export const ProfilePicture = ({ label, style }: ProfilePictureProps) => {
       <Text
         style={[styles.ProfilePictureText, { color: colourTextContrast }]}
         adjustsFontSizeToFit={true}
-        maxFontSizeMultiplier={2}
-        minimumFontScale={0.3}
         numberOfLines={1}>
         {displayName}
       </Text>
@@ -42,11 +40,11 @@ const styles = StyleSheet.create({
     ...SharedStyles.trueCenter,
     shadowRadius: 15,
     shadowOpacity: 0.2,
-    padding: 15,
+    padding: ScaleSize(15),
   },
   ProfilePictureText: {
     textShadowColor: "black",
     textShadowRadius: 0.5,
-    fontSize: rem(4),
+    fontSize: ScaleSize(48),
   },
 });

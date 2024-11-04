@@ -1,10 +1,10 @@
 import React from "react";
 import {
   View,
-  StyleSheet,
   TextInput,
   Text,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import { useDate } from "../../../providers/DateProvider";
 import useActivity from "../../../hooks/useActivity";
@@ -13,7 +13,12 @@ import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
 import TimePicker from "../../TimePicker";
 import { z } from "zod";
-import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../../FieldInfo";
@@ -26,6 +31,7 @@ type EditActivityButtonProps = {
   endTime: Date;
   activityId: number;
   isCompleted: boolean;
+  date: Date;
 };
 
 const schema = z.object({
@@ -67,6 +73,7 @@ const ActivityEdit = ({
   endTime,
   activityId,
   isCompleted,
+  date,
 }: EditActivityButtonProps) => {
   const form = useForm({
     defaultValues: {
@@ -74,7 +81,7 @@ const ActivityEdit = ({
       description: description,
       startTime: startTime,
       endTime: endTime,
-      date: new Date(endTime),
+      date: date,
     } as FormData,
     onSubmit: async ({ value }) => {
       const startTimeHHMM = formatTimeHHMM(value.startTime);
@@ -118,7 +125,7 @@ const ActivityEdit = ({
               <View>
                 <TextInput
                   value={field.state.value}
-                  placeholder="Title"
+                  placeholder="Titel"
                   style={
                     field.state.meta.errors.length
                       ? styles.inputError
@@ -140,7 +147,7 @@ const ActivityEdit = ({
               <View>
                 <TextInput
                   value={field.state.value}
-                  placeholder="Description"
+                  placeholder="Beskrivelse"
                   style={
                     field.state.meta.errors.length
                       ? styles.inputError
@@ -197,7 +204,6 @@ const ActivityEdit = ({
         />
       </View>
       <View style={styles.pickerContainer}>
-        <Text style={styles.header}>Dato for aktivitet</Text>
         <View>
           <form.Field
             name={"date"}
@@ -205,10 +211,9 @@ const ActivityEdit = ({
               return (
                 <View>
                   <TimePicker
-                    title={"Data for aktivitet"}
+                    title={"Dato for aktivitet"}
                     value={field.state.value}
                     onChange={(selectedDate) => {
-                      if (!selectedDate) return;
                       field.handleChange(selectedDate);
                     }}
                     mode={"date"}
@@ -228,7 +233,7 @@ const ActivityEdit = ({
             disabled={!canSubmit}
             onPress={form.handleSubmit}>
             <Text style={styles.buttonText}>
-              {isSubmitting ? "..." : "Ændre"}
+              {isSubmitting ? "..." : "Ændre aktivitet"}
             </Text>
           </TouchableOpacity>
         )}
@@ -239,63 +244,65 @@ const ActivityEdit = ({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 25,
+    padding: ScaleSize(20),
     height: "100%",
     flexGrow: 1,
-    gap: 15,
+    gap: ScaleSize(10),
     backgroundColor: colors.white,
   },
   title: {
-    fontSize: rem(1.5),
+    fontSize: ScaleSize(28),
     textAlign: "center",
     fontWeight: "600",
   },
   inputValid: {
     width: "100%",
-    padding: 10,
-    borderWidth: 1,
+    padding: ScaleSize(10),
+    borderWidth: ScaleSizeW(1),
+    fontSize: ScaleSize(24),
     borderRadius: 5,
-    marginBottom: 15,
+    marginBottom: ScaleSize(10),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
   },
   inputError: {
     width: "100%",
-    padding: 10,
-    borderWidth: 1,
+    padding: ScaleSize(10),
+    borderWidth: ScaleSizeW(1),
+    fontSize: ScaleSize(24),
     borderRadius: 5,
-    marginBottom: 15,
+    marginBottom: ScaleSize(10),
     borderColor: colors.red,
     backgroundColor: colors.white,
   },
   pickerContainer: {
-    marginBottom: 20,
+    marginBottom: ScaleSize(20),
     alignItems: "center",
   },
   header: {
     ...SharedStyles.header,
   },
   buttonValid: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
     borderRadius: 8,
-    marginVertical: 10,
+    marginVertical: ScaleSize(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
   },
   buttonDisabled: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
     borderRadius: 8,
-    marginVertical: 10,
+    marginVertical: ScaleSize(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.gray,
   },
   buttonText: {
     color: colors.white,
-    fontSize: rem(1),
+    fontSize: ScaleSize(28),
     fontWeight: "500",
   },
 });

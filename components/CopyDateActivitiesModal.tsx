@@ -1,16 +1,16 @@
 import {
   Modal,
   TouchableOpacity,
-  StyleSheet,
   Button,
   View,
   Text,
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
-import { colors } from "../utils/SharedStyles";
+import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;
@@ -65,10 +65,17 @@ export default function CopyDateActivitiesModal({
             onChange={(date) => setDates({ ...dates, destinationDate: date })}
             mode="date"
           />
-          {error && <Text style={{ fontSize: 16 }}>{error}</Text>}
+          {error && <Text style={{ fontSize: ScaleSize(28) }}>{error}</Text>}
           {!error && data && (
-            <View style={{ display: "flex", gap: 10 }}>
-              <Text style={{ fontSize: 16 }}>Aktiviteter som vil kopieres</Text>
+            <View
+              style={{
+                display: "flex",
+                gap: ScaleSize(10),
+                marginBottom: ScaleSize(10),
+              }}>
+              <Text style={{ fontSize: ScaleSize(28) }}>
+                Aktiviteter som vil kopieres
+              </Text>
               <ActivitySelectList
                 activities={data}
                 toggleCheck={toggleActivitySelection}
@@ -94,12 +101,12 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: "80%",
     height: "80%",
-    padding: 20,
+    padding: ScaleSize(20),
     backgroundColor: colors.white,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    gap: 5,
+    gap: ScaleSize(10),
   },
   modalBackground: {
     flex: 1,
