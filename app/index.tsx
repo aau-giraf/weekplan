@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
 import SplashScreen from "../components/SplashScreen";
+import { router } from "expo-router";
 
 const HomePage: React.FC = () => {
   const [isSplashVisible, setSplashVisible] = useState(true);
@@ -14,18 +13,18 @@ const HomePage: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!isSplashVisible) {
+      router.replace("/login");
+    }
+  }, [isSplashVisible]);
+
   if (isSplashVisible) {
     return <SplashScreen />;
   }
 
-  return (
-    <View>
-      <Text>Home Page</Text>
-      <Link href="/weekplanscreen">
-        <Text>Gå til ugeplan</Text>
-      </Link>
-    </View>
-  );
+  return null;
 };
 
 export default HomePage;
+

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  FlatList,
   ActivityIndicator,
   Text,
   Modal,
@@ -16,8 +15,9 @@ import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
-import { colors } from "../../../utils/colors";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { rem, colors, SharedStyles } from "../../../utils/SharedStyles";
+import { useToast } from "../../../providers/ToastProvider";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -39,6 +39,7 @@ const ActivityItemList = () => {
       date: selectedDate,
     });
   const { data, error, isLoading, refetch } = useFetchActivities;
+  const { addToast } = useToast();
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState<string>();
 
@@ -96,11 +97,15 @@ const ActivityItemList = () => {
     await useDeleteActivity.mutateAsync(id);
   };
 
-  const handleCheckActivity = async (id: number, isCompleted: boolean) => {
-    await useToggleActivityStatus.mutateAsync({
-      id,
-      isCompleted: !isCompleted,
-    });
+  const handleCheckActivity = (id: number, isCompleted: boolean) => {
+    useToggleActivityStatus
+      .mutateAsync({
+        id,
+        isCompleted: !isCompleted,
+      })
+      .catch((error) =>
+        addToast({ message: (error as any).message, type: "error" })
+      );
   };
 
   return (
@@ -141,26 +146,24 @@ const ActivityItemList = () => {
 
 const styles = StyleSheet.create({
   modalContainer: {
+    ...SharedStyles.trueCenter,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: colors.backgroundBlack,
   },
   modalContent: {
-    backgroundColor: colors.white,
-    justifyContent: "center",
-    alignItems: "center",
+    ...SharedStyles.trueCenter,
     borderRadius: 10,
+    backgroundColor: colors.white,
   },
   closeButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: colors.blue,
     borderRadius: 5,
+    backgroundColor: colors.blue,
   },
   closeButtonText: {
+    fontSize: rem(1),
     color: colors.white,
-    fontSize: 16,
   },
 });
 
