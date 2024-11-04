@@ -4,7 +4,9 @@ import ActivityItemHeader from "../components/weekoverview_components/activity_c
 import WeekSelection from "../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../components/weekoverview_components/activity_components/ActivityItemList";
+import CameraButton from "../components/Camera/CameraButton";
 import { colors } from "../utils/SharedStyles";
+
 
 const WeekPlanScreen = () => {
   return (
@@ -16,8 +18,9 @@ const WeekPlanScreen = () => {
       <ActivityItemHeader />
       <ActivityItemList />
       <ActivityAddButton />
+      <CameraButton />
+    </SafeAreaView>
     </View>
-    
   );
 };
 
