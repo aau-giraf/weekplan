@@ -1,7 +1,6 @@
 import { useMemo, useState, useCallback } from "react";
 import getWeekDates from "../utils/getWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
-import getMonths from "../utils/getMonths";
 
 /**
  * UseHook for
@@ -39,11 +38,11 @@ const useWeek = (initialDate = new Date()) => {
 
     // Subtract (dayOfWeek - 1) days to move back to the Monday of that week
     const mondayWeekOne = new Date(
-      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS,
+      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS
     );
 
     const selectedDate = new Date(
-      mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS,
+      mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS
     );
     setCurrentDate(selectedDate);
 

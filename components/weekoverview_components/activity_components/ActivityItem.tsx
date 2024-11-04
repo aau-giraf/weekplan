@@ -15,7 +15,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import { colors, rem, SharedStyles } from "../../../utils/SharedStyles";
 
 const CONTAINER_HEIGHT = 280;
@@ -111,7 +111,6 @@ type ActivityItemProps = {
  * @component
  * @param {Object} props - The properties object.
  * @param {string} props.time - The time associated with the activity.
- * @param {string} props.label - The label or name of the activity.
  * @param {boolean} props.isCompleted - Flag indicating if the activity is completed.
  * @param {Function} props.deleteActivity - Function to delete the activity.
  * @param {Function} props.editActivity - Function to edit the activity.
@@ -123,7 +122,6 @@ type ActivityItemProps = {
  */
 const ActivityItem: React.FC<ActivityItemProps> = ({
   time,
-  label,
   isCompleted,
   deleteActivity,
   editActivity,
@@ -193,14 +191,13 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
             <View style={styles.iconContainer}>
               {data ? (
-                <Pressable
-                    onPress={() => handleImagePress(data)}>
+                <Pressable onPress={() => handleImagePress(data)}>
                   <Image
                     style={{ width: 280, height: 280, flex: 1 }}
-                    source={{ uri: data, headers: { 'Accept': 'image/png' } }}
+                    source={{ uri: data, headers: { Accept: "image/png" } }}
                     contentFit={"contain"}
                     cachePolicy={"memory"}
-                    onError={(error) => console.log('Error:', error)}
+                    onError={(error) => console.log("Error:", error)}
                   />
                 </Pressable>
               ) : (

@@ -9,7 +9,6 @@ type DataProviderValues = {
   goToNextWeek: () => void;
   weekNumber: number;
   setWeekAndYear: (week: number, year: number) => void;
-  calculateMonthLabelForWeek: (week: number, year: number) => string;
 };
 const DateContext = createContext<DataProviderValues | undefined>(undefined);
 
@@ -28,7 +27,6 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
     goToNextWeek,
     weekNumber,
     setWeekAndYear,
-    calculateMonthLabelForWeek,
   } = useWeek();
 
   return (
@@ -41,9 +39,7 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
         goToNextWeek,
         weekNumber,
         setWeekAndYear,
-        calculateMonthLabelForWeek,
-      }}
-    >
+      }}>
       {children}
     </DateContext.Provider>
   );
