@@ -9,7 +9,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import useProfile from "../hooks/useProfile";
 import { ProfilePicture } from "../components/ProfilePage";
-import { SharedStyles, colors, rem } from "../utils/SharedStyles";
 import { useRef, useState } from "react";
 import IconButton from "../components/IconButton";
 import useOrganisation, { OrgDTO } from "../hooks/useOrganisation";
@@ -21,6 +20,7 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { useToast } from "../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import {
+  colors,
   ScaleSize,
   ScaleSizeH,
   ScaleSizeW,

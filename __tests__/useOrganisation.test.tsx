@@ -1,8 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import useOrganisation from "../hooks/useOrganisation";
-import AuthenticationProvider from "../providers/AuthenticationProvider";
-import ToastProvider from "../providers/ToastProvider";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -17,21 +16,25 @@ const queryClient = new QueryClient({
   },
 });
 
-const mockOrganisation = {
-  name: "Test Organisation",
-  id: 1,
-};
-
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <ToastProvider>
-    <AuthenticationProvider>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </AuthenticationProvider>
-  </ToastProvider>
-);
 jest
   .spyOn(queryClient, "invalidateQueries")
   .mockImplementation(() => Promise.resolve());
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
+
+jest.mock("../providers/ToastProvider", () => ({
+  useToast: () => ({
+    addToast: jest.fn(),
+  }),
+}));
+
+jest.mock("../providers/AuthenticationProvider", () => ({
+  useAuthentication: () => ({
+    userId: "mockUserId",
+  }),
+}));
 
 jest.mock("../apis/organisationAPI", () => ({
   fetchAllOrganisationsRequest: jest.fn().mockImplementation(() => {
@@ -49,20 +52,10 @@ jest.mock("../apis/organisationAPI", () => ({
   }),
 }));
 
-jest.mock("../providers/AuthenticationProvider", () => {
-  const actual = jest.requireActual("../providers/AuthenticationProvider");
-  return {
-    __esModule: true,
-    ...actual,
-    useAuthentication: () => ({
-      jwt: "mockToken",
-      userId: "mockUserId",
-      isAuthenticated: jest.fn(() => true),
-      login: jest.fn(),
-      register: jest.fn(),
-    }),
-  };
-});
+const mockOrganisation = {
+  name: "Test Organisation",
+  id: 1,
+};
 
 afterEach(async () => {
   await act(async () => {

@@ -6,14 +6,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { colors } from "../utils/SharedStyles";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../utils/SharedStyles";
-
+import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type IconButtonsProps = {
   onPress?: () => void;
