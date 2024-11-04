@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 
-export const snapPhoto = async () => {
+export const takePhoto = async () => {
   const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
   // Check if permission is granted
