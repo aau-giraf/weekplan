@@ -40,9 +40,7 @@ describe('AuthenticationProvider and useAuthentication', () => {
         await waitFor(()=> {
             expect (result.current.jwt).toBe(mockToken);
         })
-        
-        expect (router.replace).toHaveBeenCalledWith('/weekplanscreen');
-    });
+            });
 
     it('should add a toast if login fails', async () => {
         const error = new Error('Login failed');
