@@ -2,7 +2,12 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { takePhoto } from "../Camera/Camera";
-import { colors } from "../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+} from "../../utils/SharedStyles";
 
 /**
  * CameraButton component renders a button that opens the camera.
@@ -21,8 +26,12 @@ const CameraButton = () => {
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>
       <View style={styles.iconContainer}>
-        <Ionicons name={"camera"} size={30} color={colors.white} />
-        <Ionicons name={"add-outline"} size={25} style={styles.addIcon} />
+        <Ionicons name={"camera"} size={ScaleSize(30)} color={colors.white} />
+        <Ionicons
+          name={"add-outline"}
+          size={ScaleSize(25)}
+          style={styles.addIcon}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -32,10 +41,10 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 60,
-    height: 60,
+    width: ScaleSizeW(80),
+    height: ScaleSizeH(80),
     backgroundColor: colors.gray,
-    borderRadius: 30,
+    borderRadius: 100,
     bottom: 20,
     left: 24,
     position: "absolute",
@@ -49,7 +58,7 @@ const styles = StyleSheet.create({
     right: -9.8,
     position: "absolute",
     backgroundColor: colors.gray,
-    borderRadius: 20,
+    borderRadius: 100,
     overflow: "hidden",
   },
 });
