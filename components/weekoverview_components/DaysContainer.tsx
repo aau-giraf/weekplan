@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   daysContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical: ScaleSize(25),
+    paddingVertical: ScaleSize(35),
   },
 });
 

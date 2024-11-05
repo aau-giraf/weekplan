@@ -6,7 +6,6 @@ import ActivityItemList from "../components/weekoverview_components/activity_com
 import CameraButton from "../components/Camera/CameraButton";
 import { colors } from "../utils/SharedStyles";
 
-
 const WeekPlanScreen = () => {
   return (
     <View style={styles.container}>
@@ -17,7 +16,6 @@ const WeekPlanScreen = () => {
       <ActivityItemList />
       <ActivityAddButton />
       <CameraButton />
-    </SafeAreaView>
     </View>
   );
 };

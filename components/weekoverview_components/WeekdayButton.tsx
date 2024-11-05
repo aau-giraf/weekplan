@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
     height: ScaleSizeH(100),
   },
   dayText: {
-    fontSize: ScaleSize(26),
+    fontSize: ScaleSize(24),
     color: colors.black,
   },
   circle: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(60),
-    height: ScaleSize(60),
+    width: ScaleSize(50),
+    height: ScaleSize(50),
     borderRadius: 100,
     marginBottom: ScaleSize(5),
     backgroundColor: colors.gray,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.orange,
   },
   dateText: {
-    fontSize: ScaleSize(16),
+    fontSize: ScaleSize(14),
     color: colors.black,
   },
 });
