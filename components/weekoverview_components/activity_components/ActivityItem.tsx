@@ -250,8 +250,8 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(100),
-    height: ScaleSize(100),
+    width: ScaleSize(140),
+    height: ScaleSize(140),
     borderRadius: 150,
     backgroundColor: colors.orange,
   },
