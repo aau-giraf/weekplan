@@ -63,8 +63,17 @@ const ProfilePage: React.FC = () => {
     );
   }
 
-  const renderOrgContainer = ({ item }: { item: { name: string } }) => (
-    <View style={styles.itemContainer}>
+  const renderOrgContainer = ({
+    item,
+  }: {
+    item: { name: string; id: number };
+  }) => (
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => {
+        // @ts-ignore
+        router.replace(`/vieworganisation/${item.id}`);
+      }}>
       <ProfilePicture label={item.name} style={styles.profilePicture} />
       <Text
         adjustsFontSizeToFit={true}
@@ -73,7 +82,7 @@ const ProfilePage: React.FC = () => {
         minimumFontScale={0.3}>
         {item.name}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
