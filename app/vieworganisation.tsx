@@ -9,7 +9,7 @@ import {
 import { ClassView } from "../components/organisationoverview_components/ClassView";
 import { Ionicons } from "@expo/vector-icons";
 import { EditableText } from "../components/EditableText";
-import { rem, SharedStyles } from "../utils/SharedStyles";
+import { rem, ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import { useOrganisation } from "../hooks/useOrganisation";
 import { useContext } from "react";
 import { useAuthentication } from "../providers/AuthenticationProvider";
@@ -34,7 +34,7 @@ const vieworganisation = (orgID: number) => {
         callback={updateOrgName}
         style={styles.textBox}
         textStyle={styles.text}
-        iconProps={{ size: rem(2.5), style: styles.icon }}
+        iconProps={{ size: ScaleSize(30), style: styles.icon }}
       />
       <MemberView members={data?.users} />
       <Text style={styles.heading}>Klasser</Text>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   text: {
-    fontSize: rem(2.5),
+    fontSize: ScaleSize(40),
     fontWeight: "bold",
   },
   icon: {},

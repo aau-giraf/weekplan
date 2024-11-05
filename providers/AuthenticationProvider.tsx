@@ -68,7 +68,7 @@ const AuthenticationProvider = ({
           setUserId(getUserIdFromToken(res.token));
           router.replace("/profile");
         } else {
-          addToast({ message: "Toast not recieved", type: "error" });
+          addToast({ message: "Toast not received", type: "error" });
         }
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { rem, SharedStyles } from "../utils/SharedStyles";
+import { SharedStyles, ScaleSize } from "../utils/SharedStyles";
 import {
   getContrastingTextColor,
   hashNameToColour,
@@ -25,8 +25,7 @@ export const ProfilePicture = ({
         styles.ProfilePictureContainer,
         style,
         { backgroundColor: colourFromName },
-      ]}
-    >
+      ]}>
       <Text style={[styles.ProfilePictureText, { color: colourTextContrast }]}>
         {firstName[0].toUpperCase() + lastName[0].toUpperCase()}
       </Text>
@@ -40,6 +39,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   ProfilePictureText: {
-    fontSize: rem(1),
+    fontSize: ScaleSize(16),
   },
 });
