@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FlingGesture,
   GestureDetector,
@@ -31,6 +30,8 @@ function SwipeGestureTestComponent({
   );
 }
 
+jest.useFakeTimers();
+
 describe("useSwipeGesture", () => {
   let goToPreviousWeek: jest.Mock, goToNextWeek: jest.Mock;
 
@@ -44,7 +45,7 @@ describe("useSwipeGesture", () => {
       <SwipeGestureTestComponent
         goToPreviousWeek={goToPreviousWeek}
         goToNextWeek={goToNextWeek}
-      />,
+      />
     );
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
@@ -55,7 +56,6 @@ describe("useSwipeGesture", () => {
 
     await waitFor(() => {
       expect(goToNextWeek).toHaveBeenCalled();
-
     });
     expect(goToPreviousWeek).not.toHaveBeenCalled();
   });
@@ -65,7 +65,7 @@ describe("useSwipeGesture", () => {
       <SwipeGestureTestComponent
         goToPreviousWeek={goToPreviousWeek}
         goToNextWeek={goToNextWeek}
-      />,
+      />
     );
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
@@ -85,7 +85,7 @@ describe("useSwipeGesture", () => {
       <SwipeGestureTestComponent
         goToPreviousWeek={goToPreviousWeek}
         goToNextWeek={goToNextWeek}
-      />,
+      />
     );
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
