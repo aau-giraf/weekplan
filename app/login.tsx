@@ -3,13 +3,18 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import GirafIcon from "../components/SVG/GirafIcon";
 import { useRouter } from "expo-router";
 import { useAuthentication } from "../providers/AuthenticationProvider";
-import { colors } from "../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+} from "../utils/SharedStyles";
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
@@ -21,8 +26,7 @@ const schema = z.object({
     .string()
     .trim()
     .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
-      message:
-        "Adgangskode skal indholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
+      message: "Du skal indtaste en adgangskode",
     }),
 });
 
@@ -50,7 +54,7 @@ const LoginScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <GirafIcon width={250} height={300} />
+        <GirafIcon width={ScaleSizeW(350)} height={ScaleSizeH(400)} />
       </View>
       <form.Field
         name={"email"}
@@ -129,20 +133,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     flex: 1,
     alignItems: "center",
-    padding: 20,
-    gap: 10,
+    padding: ScaleSize(20),
+    gap: ScaleSize(10),
   },
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    height: 300,
-    marginBottom: 30,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
+    width: ScaleSizeW(150),
+    height: ScaleSizeH(500),
+    marginBottom: ScaleSize(30),
   },
   formView: {
     width: "100%",
@@ -151,42 +150,44 @@ const styles = StyleSheet.create({
   },
   inputValid: {
     width: "85%",
-    padding: 10,
-    borderWidth: 1,
+    padding: ScaleSize(10),
+    borderWidth: ScaleSize(1),
+    fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
   },
   inputError: {
     width: "85%",
-    padding: 10,
-    borderWidth: 1,
+    padding: ScaleSize(10),
+    fontSize: ScaleSize(24),
+    borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
     borderRadius: 5,
   },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
     borderRadius: 8,
-    marginVertical: 10,
+    marginVertical: ScaleSize(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
   },
   buttonDisabled: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSize(12),
+    paddingHorizontal: ScaleSize(20),
     borderRadius: 8,
-    marginVertical: 10,
+    marginVertical: ScaleSize(10),
     alignItems: "center",
     backgroundColor: colors.gray,
     width: "85%",
   },
   buttonText: {
     color: colors.white,
-    fontSize: 18,
+    fontSize: ScaleSize(24),
     fontWeight: "500",
   },
 });

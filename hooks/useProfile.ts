@@ -12,7 +12,7 @@ const useProfile = () => {
   const { userId } = useAuthentication();
   const fetchProfile = useQuery<ProfileDTO>({
     queryFn: async () => fetchProfileRequest(userId),
-    queryKey: [userId],
+    queryKey: [userId, "Profile"],
     enabled: !!userId,
   });
   return {

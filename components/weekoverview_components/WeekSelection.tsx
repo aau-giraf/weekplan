@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import {
   TouchableOpacity,
   View,
-  StyleSheet,
   Text,
   Modal,
   Button,
+  StyleSheet,
 } from "react-native";
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
-import { rem, colors, SharedStyles } from "../../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../utils/SharedStyles";
 
 type WeekSelectionProps = {};
 
@@ -90,10 +95,11 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
 const styles = StyleSheet.create({
   weekSelection: {
     alignItems: "center",
-    padding: rem(1),
+    padding: ScaleSize(10),
   },
   weekText: {
-    fontSize: rem(1.25),
+    padding: ScaleSize(5),
+    fontSize: ScaleSize(28),
     fontWeight: "bold",
   },
   modalContainer: {
@@ -103,19 +109,18 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     ...SharedStyles.flexRow,
-    marginLeft: 10,
-    marginRight: 10,
-    padding: 50,
+    marginLeft: ScaleSize(10),
+    marginRight: ScaleSize(10),
+    padding: ScaleSize(50),
     borderRadius: 25,
     justifyContent: "center",
     backgroundColor: colors.white,
   },
   button: {
-    padding: 10,
-    width: 100,
+    width: ScaleSizeW(500),
     alignSelf: "center",
     position: "absolute",
-    bottom: 5,
+    bottom: ScaleSize(5),
   },
 });
 

@@ -1,9 +1,10 @@
-import { View, StyleSheet} from "react-native";
+import { View, StyleSheet } from "react-native";
 import ActivityAddButton from "../components/weekoverview_components/activity_components/ActivityAddButton";
 import ActivityItemHeader from "../components/weekoverview_components/activity_components/ActivityItemHeader";
 import WeekSelection from "../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../components/weekoverview_components/activity_components/ActivityItemList";
+import CameraButton from "../components/Camera/CameraButton";
 import { colors } from "../utils/SharedStyles";
 
 const WeekPlanScreen = () => {
@@ -16,13 +17,13 @@ const WeekPlanScreen = () => {
       <ActivityItemHeader />
       <ActivityItemList />
       <ActivityAddButton />
+      <CameraButton />
     </View>
-    
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     height: "100%",
   },
   header: {
