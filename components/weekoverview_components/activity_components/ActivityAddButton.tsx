@@ -1,13 +1,7 @@
-import { View, StyleSheet } from "react-native";
-import { Pressable } from "expo-router/build/views/Pressable";
+import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../../utils/SharedStyles";
 import IconButton from "../../IconButton";
 
 /**

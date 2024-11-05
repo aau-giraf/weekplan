@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Animated, StyleSheet } from "react-native";
-import GirafIcon from "./SVG/GirafIcon";
+import GirafIcon from "../assets/SVG/GirafIcon";
 import {
   colors,
   ScaleSizeH,

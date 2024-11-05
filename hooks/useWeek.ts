@@ -41,6 +41,7 @@ const useWeek = (initialDate = new Date()) => {
       jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS
     );
 
+    // Calculate the selected date based on the week number
     const selectedDate = new Date(
       mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS
     );
@@ -50,8 +51,10 @@ const useWeek = (initialDate = new Date()) => {
     const today = new Date();
     const currentDayOfWeek = today.getUTCDay() || 7;
 
+    // Calculate the offset in days between the current day of the week and Monday
     const daysOffset = currentDayOfWeek - 1;
 
+    // Adjust the selected date by the offset
     const adjustedDate = new Date(selectedDate);
     adjustedDate.setUTCDate(selectedDate.getUTCDate() + daysOffset);
 

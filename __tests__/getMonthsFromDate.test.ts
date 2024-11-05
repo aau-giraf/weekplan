@@ -24,7 +24,7 @@ describe("getMonthsFromDates", () => {
     const endDate = new Date("2023-08-05");
 
     expect(() => getMonthsFromDates(startDate, endDate)).toThrow(
-      "Invalid date(s) provided",
+      "Invalid date(s) provided"
     );
   });
 
@@ -33,7 +33,7 @@ describe("getMonthsFromDates", () => {
     const endDate = new Date("invalid-date");
 
     expect(() => getMonthsFromDates(startDate, endDate)).toThrow(
-      "Invalid date(s) provided",
+      "Invalid date(s) provided"
     );
   });
 
@@ -42,7 +42,7 @@ describe("getMonthsFromDates", () => {
     const endDate = new Date("invalid-date");
 
     expect(() => getMonthsFromDates(startDate, endDate)).toThrow(
-      "Invalid date(s) provided",
+      "Invalid date(s) provided"
     );
   });
 });

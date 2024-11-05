@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  Modal,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { View, Modal, Button, StyleSheet } from "react-native";
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
@@ -113,8 +106,8 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     ...SharedStyles.flexRow,
-    marginLeft: ScaleSize(10),
-    marginRight: ScaleSize(10),
+    marginLeft: ScaleSizeW(10),
+    marginRight: ScaleSizeW(10),
     padding: ScaleSize(50),
     borderRadius: 25,
     justifyContent: "center",

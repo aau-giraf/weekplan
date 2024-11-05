@@ -2,12 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { takePhoto } from "../Camera/Camera";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../utils/SharedStyles";
 
 /**
  * CameraButton component renders a button that opens the camera.

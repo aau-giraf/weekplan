@@ -10,7 +10,12 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { colors, ScaleSize } from "../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+} from "../utils/SharedStyles";
 import { z } from "zod";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useForm } from "@tanstack/react-form";
@@ -234,7 +239,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: ScaleSize(28),
     fontWeight: "600",
-    marginBottom: ScaleSize(20),
+    marginBottom: ScaleSizeH(20),
     textAlign: "center",
     color: colors.black,
   },
@@ -251,7 +256,7 @@ const styles = StyleSheet.create({
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: ScaleSize(10),
+    marginBottom: ScaleSizeH(10),
   },
   inputError: {
     width: "85%",
@@ -261,22 +266,22 @@ const styles = StyleSheet.create({
     borderColor: colors.red,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: ScaleSize(10),
+    marginBottom: ScaleSizeH(10),
   },
   button: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(12),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
   },
   buttonDisabled: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(12),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     alignItems: "center",
     backgroundColor: colors.gray,
     width: "85%",

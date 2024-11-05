@@ -5,7 +5,12 @@ import Animated, {
   FadeOutRight,
   LinearTransition,
 } from "react-native-reanimated";
-import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeW,
+  SharedStyles,
+} from "../utils/SharedStyles";
 
 type ToastNotification = "success" | "error" | "warning";
 type ToastStyle = {
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.white,
     textShadowColor: colors.black,
-    marginHorizontal: ScaleSize(25),
+    marginHorizontal: ScaleSizeW(25),
   },
   icon: {
     fontWeight: "bold",

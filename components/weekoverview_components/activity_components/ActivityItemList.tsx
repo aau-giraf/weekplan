@@ -23,8 +23,7 @@ import {
   SharedStyles,
 } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
-import { Image } from 'expo-image';
-
+import { Image } from "expo-image";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -111,14 +110,6 @@ const ActivityItemList = () => {
       );
   };
 
-  const closeModal = () => {
-    if (imageUri) {
-      URL.revokeObjectURL(imageUri);
-    }
-    setModalVisible(false);
-    setImageUri("");
-  }
-
   return (
     <>
       <Animated.FlatList
@@ -134,27 +125,26 @@ const ActivityItemList = () => {
         ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
       />
       {modalVisible && (
-          <Modal
-              animationType="slide"
-              transparent={true}
-              onRequestClose={closeModal}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Image
-                    source={{ uri: imageUri}}
-                    style={{ width: ScaleSizeW(500), height: ScaleSizeH(500) }}
-                    contentFit={"contain"}
-                />
-                <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={closeModal}>
-                  <Text style={styles.closeButtonText}>Luk</Text>
-                </TouchableOpacity>
-              </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Image
+                source={{ uri: imageUri }}
+                style={{ width: ScaleSizeW(500), height: ScaleSizeH(500) }}
+                contentFit={"contain"}
+              />
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setModalVisible(false)}>
+                <Text style={styles.closeButtonText}>Luk</Text>
+              </TouchableOpacity>
             </View>
-          </Modal>
+          </View>
+        </Modal>
       )}
-
     </>
   );
 };
@@ -171,11 +161,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   closeButton: {
-    marginTop: ScaleSize(30),
+    marginTop: ScaleSizeH(30),
     width: ScaleSizeW(150),
     height: ScaleSizeH(75),
     borderRadius: 5,
-    marginBottom: ScaleSize(20),
+    marginBottom: ScaleSizeH(20),
     backgroundColor: colors.blue,
     justifyContent: "center",
     alignItems: "center",

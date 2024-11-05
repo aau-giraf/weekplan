@@ -6,12 +6,12 @@ import { Platform } from "react-native";
  */
 export const fetchPictograms = async (id: number): Promise<string> => {
   const res = await fetch(
-    `https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`,
+    `https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`
   );
 
   if (!res.ok)
     throw new Error(
-      `Fejl kunne ikke hente piktogramarne, status kode: ${res.status}`,
+      `Fejl kunne ikke hente piktogramarne, status kode: ${res.status}`
     );
 
   const contentType = res.headers.get("Content-Type");

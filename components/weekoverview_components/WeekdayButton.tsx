@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     width: ScaleSize(60),
     height: ScaleSize(60),
     borderRadius: 100,
-    marginBottom: ScaleSize(5),
+    marginBottom: ScaleSizeH(5),
     backgroundColor: colors.gray,
   },
   selectedCircle: {

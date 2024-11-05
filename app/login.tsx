@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import GirafIcon from "../components/SVG/GirafIcon";
+import GirafIcon from "../assets/SVG/GirafIcon";
 import { useRouter } from "expo-router";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: ScaleSizeW(150),
     height: ScaleSizeH(500),
-    marginBottom: ScaleSize(30),
+    marginBottom: ScaleSizeH(30),
   },
   formView: {
     width: "100%",
@@ -167,20 +167,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(12),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
   },
   buttonDisabled: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(12),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     alignItems: "center",
     backgroundColor: colors.gray,
     width: "85%",
