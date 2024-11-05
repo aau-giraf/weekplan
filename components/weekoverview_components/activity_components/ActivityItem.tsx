@@ -207,7 +207,11 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             {data ? (
               <Pressable onPress={() => handleImagePress(data)}>
                 <Image
-                  style={{ width: ScaleSizeW(280), height: ScaleSizeH(280), flex: 1 }}
+                  style={{
+                    width: ScaleSizeW(350),
+                    height: ScaleSizeH(350),
+                    flex: 1,
+                  }}
                   source={{ uri: data, headers: { Accept: "image/png" } }}
                   contentFit={"contain"}
                   cachePolicy={"memory"}
