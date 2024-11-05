@@ -80,6 +80,7 @@ const ProfilePage: React.FC = () => {
     <View style={styles.container}>
       <Animated.FlatList
         refreshing={orgIsLoading}
+        onTouchStart={() => bottomSheetRef.current?.close()}
         itemLayoutAnimation={LinearTransition}
         onRefresh={async () => await refetch()}
         data={orgData}
@@ -160,7 +161,8 @@ const AddBottomSheet = ({
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
-      onClose={() => setName("")}>
+      onClose={() => setName("")}
+      style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
       <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
