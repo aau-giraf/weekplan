@@ -1,13 +1,14 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { colors } from "../../utils/colors";
 import { takePhoto } from "../Camera/Camera";
+import { colors } from "../../utils/SharedStyles";
 
 /**
  * CameraButton component renders a button that opens the camera.
  * @component
  */
+
 const CameraButton = () => {
   const handlePress = async () => {
     const imageUri = await takePhoto();
