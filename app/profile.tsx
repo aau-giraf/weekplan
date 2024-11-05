@@ -249,16 +249,16 @@ const styles = StyleSheet.create({
   },
   inputValid: {
     width: "85%",
-    padding: 10,
+    padding: ScaleSize(10),
     borderWidth: 1,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginVertical: 10,
+    marginVertical: ScaleSizeW(10),
   },
   buttonValid: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSizeW(12),
+    paddingHorizontal: ScaleSizeH(20),
     borderRadius: 8,
     marginBottom: 10,
     alignItems: "center",
@@ -269,8 +269,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   sheetContent: {
-    gap: 10,
-    padding: 30,
+    gap: ScaleSize(10),
+    padding: ScaleSize(30),
     alignItems: "center",
   },
 });
