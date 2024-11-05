@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import * as SecureStore from "expo-secure-store";
 import GirafIcon from "../components/SVG/GirafIcon";
-import { useRouter } from "expo-router";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
   colors,
@@ -19,6 +19,8 @@ import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
+import CheckBox from "../components/Checkbox";
+import { router } from "expo-router";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
@@ -34,8 +36,8 @@ type LoginForm = z.infer<typeof schema>;
 
 const LoginScreen: React.FC = () => {
   const { login } = useAuthentication();
-  const router = useRouter();
 
+  const [rememberMe, setRememberMe] = useState(false); // Checkbox state
   const form = useForm({
     defaultValues: {
       email: "",
@@ -44,12 +46,29 @@ const LoginScreen: React.FC = () => {
     onSubmit: async ({ value }) => {
       const { email, password } = value;
       await login(email, password);
+      if (rememberMe) {
+        await SecureStore.setItemAsync("email", email);
+        await SecureStore.setItemAsync("password", password);
+      }
     },
     validatorAdapter: zodValidator(),
     validators: {
       onChange: schema,
     },
   });
+
+  useEffect(() => {
+    const autoLogin = async () => {
+      const savedEmail = await SecureStore.getItemAsync("email");
+      const savedPassword = await SecureStore.getItemAsync("password");
+
+      if (savedEmail && savedPassword) {
+        await login(savedEmail, savedPassword);
+      }
+    };
+
+    autoLogin();
+  }, [login]);
 
   return (
     <View style={styles.container}>
@@ -58,53 +77,52 @@ const LoginScreen: React.FC = () => {
       </View>
       <form.Field
         name={"email"}
-        children={(field) => {
-          return (
-            <View style={styles.formView}>
-              <TextInput
-                style={
-                  field.state.meta.isTouched &&
-                  field.state.meta.errors.length > 0
-                    ? styles.inputError
-                    : styles.inputValid
-                }
-                placeholder="Email"
-                value={field.state.value}
-                onChangeText={(value) => {
-                  field.setValue(value);
-                }}
-                keyboardType="email-address"
-              />
-              <FieldInfo field={field} />
-            </View>
-          );
-        }}
+        children={(field) => (
+          <View style={styles.formView}>
+            <TextInput
+              style={
+                field.state.meta.isTouched && field.state.meta.errors.length > 0
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Email"
+              value={field.state.value}
+              onChangeText={(value) => field.setValue(value)}
+              keyboardType="email-address"
+            />
+            <FieldInfo field={field} />
+          </View>
+        )}
       />
       <form.Field
         name={"password"}
-        children={(field) => {
-          return (
-            <View style={styles.formView}>
-              <TextInput
-                style={
-                  field.state.meta.isTouched &&
-                  field.state.meta.errors.length > 0
-                    ? styles.inputError
-                    : styles.inputValid
-                }
-                placeholder="Kodeord"
-                value={field.state.value}
-                onChangeText={(value) => {
-                  field.setValue(value);
-                }}
-                secureTextEntry
-              />
-              <FieldInfo field={field} />
-            </View>
-          );
-        }}
+        children={(field) => (
+          <View style={styles.formView}>
+            <TextInput
+              style={
+                field.state.meta.isTouched && field.state.meta.errors.length > 0
+                  ? styles.inputError
+                  : styles.inputValid
+              }
+              placeholder="Kodeord"
+              value={field.state.value}
+              onChangeText={(value) => field.setValue(value)}
+              secureTextEntry
+            />
+            <FieldInfo field={field} />
+          </View>
+        )}
       />
       <View style={styles.formView}>
+        {/* Remember Me Checkbox */}
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            onChange={() => setRememberMe((prev) => !prev)}
+            checked={rememberMe}
+          />
+          <Text style={styles.checkboxLabel}>Remember Me</Text>
+        </View>
+
         <form.Subscribe
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
@@ -171,7 +189,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: ScaleSize(20),
     borderRadius: 8,
     marginVertical: ScaleSize(10),
-    marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
@@ -189,6 +206,16 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: ScaleSize(24),
     fontWeight: "500",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: ScaleSize(10),
+  },
+  checkboxLabel: {
+    marginLeft: ScaleSize(8),
+    fontSize: ScaleSize(16),
+    color: colors.black,
   },
 });
 
