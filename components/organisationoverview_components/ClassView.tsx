@@ -1,11 +1,16 @@
 import { StyleSheet, View, Text } from "react-native";
-import { ClassDTO } from "../../DTO/organisationDTO";
 import {
   getContrastingTextColor,
   hashNameToColour,
 } from "../../utils/colourFunctions";
 import { SharedStyles } from "../../utils/SharedStyles";
 import { truncateText } from "../../utils/truncateText";
+
+// TODO: Implement when supplied with relevant Endpoints
+
+type ClassDTO = {
+  name: string;
+};
 
 type ClassViewProps = {
   classes: ClassDTO[];
