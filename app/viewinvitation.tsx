@@ -6,6 +6,8 @@ import {
   FlatList,
   ListRenderItem,
   ActivityIndicator,
+  Button,
+  Alert,
 } from "react-native";
 import { colors, SharedStyles } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
@@ -19,8 +21,25 @@ type Invitation = {
 
 
 const ViewInvitation = () => {
-  const fetchByUser = useInvitation();
-  const { data, error, isLoading } = fetchByUser;
+  const {fetchByUser, isError,isLoading, data, useRespondToInvitation, useDeleteInvitation} = useInvitation();
+
+  const handleResponse = (id: number, accepted: boolean) => {
+    const action = accepted ? 'acceptere' : 'afvise';
+    Alert.alert(
+      `Er du sikker på, at du vil ${action} denne invitation?`,
+      '',
+      [
+        { text: 'Annuller', style: 'cancel' },
+        {
+          text: 'OK',
+          onPress: () => {
+              useRespondToInvitation.mutate({ id, response: accepted }, {onSuccess: () => useDeleteInvitation.mutate(id)});
+          },
+        },
+      ]
+    );
+  };
+  
 
   if (isLoading) {
     return (
@@ -30,25 +49,33 @@ const ViewInvitation = () => {
     );
   }
 
-  if (error) {
-    return <Text>Fejl med at hente invitationer: {error.message}</Text>;
+  if (isError) {
+    return <Text>Fejl ved hentning af invitationer</Text>;
   }
 
   const renderInvitationContainer: ListRenderItem<Invitation> = ({ item }) => {
     return (
       <View key={item.id} style={styles.invitationContainer}>
-        <Text>Organization ID: {item.organizationId}</Text>
-        <Text>Sender ID: {item.senderId}</Text>
-        <Text>Receiver ID: {item.receiverId}</Text>
+        <Text>Organisation ID: {item.organizationId}</Text>
+        <Text>Afsender ID: {item.senderId}</Text>
+        <Text>Modtager ID: {item.receiverId}</Text>
+        <Button
+          title="Accepter"
+          onPress={() => handleResponse(item.id, true)}
+          color="#28a745"
+        />
+        <Button
+          title="Afvis"
+          onPress={() => handleResponse(item.id, false)}
+          color="#dc3545"
+        />
       </View>
     );
   };
 
-  console.log(data);
-
   return (
     <View style={styles.container}>
-      <Text style={SharedStyles.header}>Invitations</Text>
+      <Text style={SharedStyles.header}>Invitationer</Text>
       <FlatList
         data={data}
         renderItem={renderInvitationContainer}
@@ -56,7 +83,7 @@ const ViewInvitation = () => {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -102,7 +102,7 @@ const ProfilePage: React.FC = () => {
                 </Text>
               </View>
               <IconButton style={styles.iconMail}>
-                <Ionicons name="mail-outline" size={ScaleSize(40)} />
+                <Ionicons name="mail-outline" size={ScaleSize(40)} onPress={() => router.push('/viewinvitation')} />
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>

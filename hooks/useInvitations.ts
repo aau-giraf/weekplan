@@ -1,25 +1,24 @@
-import { useAuthentication } from "../providers/AuthenticationProvider";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createInvitation, deleteInvitation, fetchInvitationByUserRequest, respondToInvitation } from "../apis/invitationAPI";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createInvitation, deleteInvitation, fetchInvitationByUserRequest, respondToInvitation } from '../apis/invitationAPI';
 
 type Invitation = {
-  id: number;
-  orgId: number;
-  receiverId: string;
-  senderId: string;
-};
+    id: number;
+    orgId: number;
+    receiverId: string;
+    senderId: string;
+}
 
-export default function useInvitation() {
-  const { userId } = useAuthentication();
+
+
+export const useInvitation = ({ userId }: { userId: string }) => {
   const queryClient = useQueryClient();
-  const queryKey = [userId!, "Invitation"];
+  const queryKey = ["invitations", userId];
 
-  const fetchByUser = useQuery({
-    queryFn: async () => fetchInvitationByUserRequest(userId!),
+  const useFetchInvitations = useQuery<Invitation>({
+    queryFn: () => fetchInvitationByUserRequest(userId),
     queryKey,
-    enabled: !!userId,
   });
-  
+
   const useCreateInvitation = useMutation({
     mutationFn: (variables: { orgId: number; receiverId: string; senderId: string }) =>
         createInvitation(variables.orgId, variables.receiverId, variables.senderId),
@@ -43,6 +42,7 @@ export default function useInvitation() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
+
   const useDeleteInvitation = useMutation({
     mutationFn: (id: number) => deleteInvitation(id),
     onMutate: async (id: number) => {
@@ -64,40 +64,39 @@ export default function useInvitation() {
 
   const useRespondToInvitation = useMutation({
     mutationFn: (variables: { id: number; response: boolean }) =>
-      respondToInvitation(variables.id, variables.response),
-  
-    onMutate: async (variables) => {
-      await queryClient.cancelQueries({ queryKey });
-      const previousInvitations = queryClient.getQueryData(queryKey);
-      queryClient.setQueryData<Invitation[]>(queryKey, (oldData) =>
-        (oldData || []).map((invitation) =>
-          invitation.id === variables.id
-            ? { ...invitation, id: -1 }
-            : invitation
-        ) || []
-      );
-      return { previousInvitations };
-    },
-  
-    onError: (_error, _variables, context) => {
-      if (context?.previousInvitations) {
-        queryClient.setQueryData(queryKey, context.previousInvitations);
-      }
-    },
-  
-    onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey });
-    },
-  });
-  
+        respondToInvitation(variables.id, variables.response),
 
-  return{
-    fetchByUser,
+    onMutate: async (variables) => {
+        await queryClient.cancelQueries({ queryKey });
+        const previousInvitations = queryClient.getQueryData(queryKey);
+        queryClient.setQueryData<Invitation[]>(queryKey, (oldData) =>
+            (oldData || []).map((invitation) =>
+                invitation.id === variables.id
+                    ? { ...invitation, id: -1 }
+                    : invitation
+            ) || []
+        );
+        return { previousInvitations };
+    },
+
+    onError: (_error, _variables, context) => {
+        if (context?.previousInvitations) {
+            queryClient.setQueryData(queryKey, context.previousInvitations);
+        }
+    },
+
+    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+
+  });
+
+  return {
+    invalidateQueries: () => queryClient.invalidateQueries({ queryKey }),
+    data: useFetchInvitations.data,
+    useFetchInvitations,
     useCreateInvitation,
-    useDeleteInvitation,
     useRespondToInvitation,
-    data: fetchByUser.data,
-    isLoading: fetchByUser.isLoading,
-    isError: fetchByUser.isError,
-  }
+    useDeleteInvitation,
+    isLoading: useFetchInvitations.isLoading,
+    isError: useFetchInvitations.isError,
+  };
 }
