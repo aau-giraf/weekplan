@@ -4,6 +4,8 @@ import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "./ToastProvider";
 import { router } from "expo-router";
 import { getUserIdFromToken, isTokenExpired } from "../utils/jwtDecode";
+import * as SecureStore from "expo-secure-store";
+import { setSettingsValue } from "../utils/settingsUtils";
 
 type AuthenticationProviderValues = {
   jwt: string | null;
@@ -14,8 +16,9 @@ type AuthenticationProviderValues = {
     password: string,
     firstName: string,
     lastName: string
-  ) => void;
-  login: (email: string, password: string) => void;
+  ) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 const AuthenticationContext = createContext<
@@ -78,6 +81,16 @@ const AuthenticationProvider = ({
     [addToast]
   );
 
+  const logout = useCallback(async () => {
+    //TODO Implement backend logout
+    await SecureStore.deleteItemAsync("email");
+    await SecureStore.deleteItemAsync("password");
+    await setSettingsValue("Remember me", false);
+    setJwt(null);
+    setUserId(null);
+    router.replace("/login");
+  }, []);
+
   return (
     <AuthenticationContext.Provider
       value={{
@@ -86,6 +99,7 @@ const AuthenticationProvider = ({
         isAuthenticated,
         register,
         login,
+        logout,
       }}>
       {children}
     </AuthenticationContext.Provider>

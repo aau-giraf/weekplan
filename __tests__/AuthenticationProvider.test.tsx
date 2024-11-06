@@ -18,6 +18,10 @@ jest.mock("../providers/ToastProvider", () => ({
   useToast: jest.fn(),
 }));
 
+jest.mock("@react-native-async-storage/async-storage", () =>
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
+
 describe("AuthenticationProvider and useAuthentication", () => {
   const addToast = jest.fn();
 
