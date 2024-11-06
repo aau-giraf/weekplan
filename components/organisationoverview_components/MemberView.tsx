@@ -28,7 +28,6 @@ export const MemberView = ({ members }: MemberViewProps) => {
         {displayedMembers.map((member, index) => (
           <MemberViewEntry user={member} key={index} />
         ))}
-
         {remainingMembers > 0 && (
           <View style={styles.remainingMembersContainer}>
             <Text
@@ -44,7 +43,7 @@ export const MemberView = ({ members }: MemberViewProps) => {
 
 const MemberViewEntry = ({ user }: MemberViewEntryProps) => {
   return (
-    <View style={styles.memberImgContainer}>
+    <View style={styles.memberImgContainer} testID={"member"}>
       {user.image ? (
         <Image source={{ uri: user.image }} style={styles.memberImg} />
       ) : (
