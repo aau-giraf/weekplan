@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Pressable,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ReanimatedSwipeable, {
@@ -15,7 +16,6 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import usePictogram from "../../../hooks/usePictogram";
-import { Image } from "expo-image";
 import {
   colors,
   ScaleSize,
@@ -55,7 +55,7 @@ function LeftAction(
         style={[styles.action, { backgroundColor: colors.crimson }]}>
         <Ionicons
           name="trash-outline"
-          size={ScaleSize(72)}
+          size={ScaleSize(48)}
           color={colors.white}
         />
       </TouchableOpacity>
@@ -92,7 +92,7 @@ function RightAction(
         style={[styles.action, { backgroundColor: colors.blue }]}>
         <Ionicons
           name={"pencil-outline"}
-          size={ScaleSize(72)}
+          size={ScaleSize(48)}
           color={colors.white}
         />
       </TouchableOpacity>
@@ -103,7 +103,7 @@ function RightAction(
         style={[styles.action, { backgroundColor: colors.green }]}>
         <Ionicons
           name={"checkmark"}
-          size={ScaleSize(72)}
+          size={ScaleSize(48)}
           color={colors.white}
         />
       </TouchableOpacity>
@@ -113,7 +113,6 @@ function RightAction(
 
 type ActivityItemProps = {
   time: string;
-  label: string;
   isCompleted: boolean;
   deleteActivity: () => void;
   editActivity: () => void;
@@ -170,6 +169,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     setImageUri(uri);
     setModalVisible(true);
   };
+
   if (!isLoading && error) {
     throw new Error("Fejl kunne ikke hente piktogramerne");
   }
@@ -207,15 +207,9 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             {data ? (
               <Pressable onPress={() => handleImagePress(data)}>
                 <Image
-                  style={{
-                    width: ScaleSizeW(350),
-                    height: ScaleSizeH(350),
-                    flex: 1,
-                  }}
-                  source={{ uri: data, headers: { Accept: "image/png" } }}
-                  contentFit={"contain"}
-                  cachePolicy={"memory"}
-                  onError={(error) => console.log("Error:", error)}
+                  source={{ uri: data }}
+                  style={{ width: ScaleSizeW(150), height: ScaleSizeH(150) }}
+                  resizeMode="contain"
                 />
               </Pressable>
             ) : (
@@ -227,7 +221,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     </>
   );
 };
-
 const styles = StyleSheet.create({
   taskContainer: {
     ...SharedStyles.flexRow,
@@ -242,16 +235,10 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(48),
     color: colors.black,
   },
-  labelText: {
-    flex: 0.6,
-    fontSize: ScaleSize(38),
-    textAlign: "center",
-    color: colors.black,
-  },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(180),
-    height: ScaleSize(180),
+    width: ScaleSize(275),
+    height: ScaleSize(275),
     borderRadius: 150,
     backgroundColor: colors.orange,
   },

@@ -132,7 +132,6 @@ const AddActivity = () => {
                       placeholder="Beskrivelse"
                       value={field.state.value}
                       onChangeText={(text) => field.handleChange(text)}
-                      multiline
                       returnKeyType="done"
                     />
                     <FieldInfo field={field} />
@@ -205,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   headerText: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(64),
     fontWeight: "600",
     marginBottom: ScaleSizeH(20),
     textAlign: "center",
@@ -213,24 +212,24 @@ const styles = StyleSheet.create({
   },
   inputValid: {
     width: "100%",
-    padding: ScaleSize(10),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
-    fontSize: ScaleSize(24),
+    fontSize: ScaleSize(48),
     borderRadius: 5,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
   },
   inputError: {
     width: "100%",
-    padding: ScaleSize(10),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
     borderRadius: 5,
-    fontSize: ScaleSize(24),
+    fontSize: ScaleSize(48),
     borderColor: colors.red,
     backgroundColor: colors.white,
   },
   buttonValid: {
-    paddingVertical: ScaleSizeH(12),
+    paddingVertical: ScaleSizeH(20),
     paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
     marginVertical: ScaleSizeH(10),
@@ -239,7 +238,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green,
   },
   buttonDisabled: {
-    paddingVertical: ScaleSizeH(12),
+    paddingVertical: ScaleSizeH(20),
     paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
     marginVertical: ScaleSizeH(10),
@@ -248,7 +247,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray,
   },
   buttonText: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(48),
     fontWeight: "500",
     color: colors.white,
   },

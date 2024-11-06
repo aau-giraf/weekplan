@@ -38,8 +38,8 @@ const LoginScreen: React.FC = () => {
 
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "Daniel@rantzau-bech.dk",
+      password: "JaHaHy01",
     } as LoginForm,
     onSubmit: async ({ value }) => {
       const { email, password } = value;
