@@ -102,8 +102,10 @@ const ProfilePage: React.FC = () => {
                   {`${data.firstName} ${data.lastName}`}
                 </Text>
               </View>
-              <IconButton style={styles.iconMail}>
-                <Ionicons name="mail-outline" size={ScaleSize(40)} />
+              <IconButton
+                style={styles.settings}
+                onPress={() => router.push("/settings")}>
+                <Ionicons name="settings-outline" size={ScaleSize(40)} />
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
@@ -237,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(24),
     marginRight: 10,
   },
-  iconMail: {
+  settings: {
     top: ScaleSize(10),
     right: ScaleSize(30),
   },

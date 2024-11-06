@@ -19,8 +19,9 @@ import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
-import CheckBox from "../components/Checkbox";
 import { router } from "expo-router";
+import { Switch } from "react-native-gesture-handler";
+import { getSettingsValue, setSettingsValue } from "../utils/settingsUtils";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
@@ -37,7 +38,7 @@ type LoginForm = z.infer<typeof schema>;
 const LoginScreen: React.FC = () => {
   const { login } = useAuthentication();
 
-  const [rememberMe, setRememberMe] = useState(false); // Checkbox state
+  const [rememberMe, setRememberMe] = useState(false);
   const form = useForm({
     defaultValues: {
       email: "",
@@ -49,6 +50,7 @@ const LoginScreen: React.FC = () => {
       if (rememberMe) {
         await SecureStore.setItemAsync("email", email);
         await SecureStore.setItemAsync("password", password);
+        await setSettingsValue("Remember me", true);
       }
     },
     validatorAdapter: zodValidator(),
@@ -61,8 +63,8 @@ const LoginScreen: React.FC = () => {
     const autoLogin = async () => {
       const savedEmail = await SecureStore.getItemAsync("email");
       const savedPassword = await SecureStore.getItemAsync("password");
-
-      if (savedEmail && savedPassword) {
+      const rememberMe = await getSettingsValue("Remember me", false);
+      if (savedEmail && savedPassword && rememberMe) {
         await login(savedEmail, savedPassword);
       }
     };
@@ -116,9 +118,9 @@ const LoginScreen: React.FC = () => {
       <View style={styles.formView}>
         {/* Remember Me Checkbox */}
         <View style={styles.checkboxContainer}>
-          <CheckBox
-            onChange={() => setRememberMe((prev) => !prev)}
-            checked={rememberMe}
+          <Switch
+            value={rememberMe}
+            onValueChange={(value) => setRememberMe(value)}
           />
           <Text style={styles.checkboxLabel}>Remember Me</Text>
         </View>
