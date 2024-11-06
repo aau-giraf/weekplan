@@ -11,6 +11,13 @@ type MemberViewEntryProps = {
   user: MemberDTO;
 };
 
+/**
+ * Displays a list of member profile images up to a maximum limit.
+ * If the total number of members exceeds the maximum, an indicator for remaining members is shown.
+ *
+ * @param {MemberViewProps} props - The props for the component.
+ * @returns {JSX.Element} A touchable container displaying member profile images.
+ */
 export const MemberView = ({ members }: MemberViewProps) => {
   const MAX_DISPLAYED_MEMBERS = 8;
   members = members as MemberDTO[];

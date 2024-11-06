@@ -1,7 +1,5 @@
 import { MemberView } from "../../components/organisationoverview_components/MemberView";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { ClassView } from "../../components/organisationoverview_components/ClassView";
-import { EditableText } from "../../components/EditableText";
 import {
   colors,
   ScaleSize,
