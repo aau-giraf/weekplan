@@ -7,7 +7,7 @@ describe("getMonthsFromDates", () => {
 
     const result = getMonthsFromDates(startDate, endDate);
 
-    expect(result).toBe("jul.");
+    expect(result).toBe("juli");
   });
 
   it("should return the names of both months when dates are in different months", () => {
@@ -16,7 +16,7 @@ describe("getMonthsFromDates", () => {
 
     const result = getMonthsFromDates(startDate, endDate);
 
-    expect(result).toBe("jul./aug.");
+    expect(result).toBe("juli/august");
   });
 
   it("should throw an error if startDate is invalid", () => {

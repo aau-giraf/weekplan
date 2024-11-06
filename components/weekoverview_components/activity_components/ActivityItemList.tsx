@@ -83,7 +83,6 @@ const ActivityItemList = () => {
       <ActivityItem
         isCompleted={item.isCompleted}
         time={`${item.startTime}-${item.endTime}`}
-        label={item.name}
         deleteActivity={() => handleDeleteActivity(item.activityId)}
         editActivity={() => handleEditTask()}
         checkActivity={() =>
@@ -133,7 +132,7 @@ const ActivityItemList = () => {
             <View style={styles.modalContent}>
               <Image
                 source={{ uri: imageUri }}
-                style={{ width: ScaleSizeW(500), height: ScaleSizeH(500) }}
+                style={{ width: ScaleSizeW(600), height: ScaleSizeH(600) }}
                 contentFit={"contain"}
               />
               <TouchableOpacity
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     marginTop: ScaleSizeH(30),
-    width: ScaleSizeW(150),
+    width: ScaleSizeW(300),
     height: ScaleSizeH(75),
     borderRadius: 5,
     marginBottom: ScaleSizeH(20),
@@ -171,7 +170,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   closeButtonText: {
-    fontSize: ScaleSize(24),
+    fontSize: ScaleSize(48),
     color: colors.white,
   },
 });
