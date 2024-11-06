@@ -15,7 +15,6 @@ const RootLayout = () => {
         <Stack.Screen name="weekplanscreen" />
         <Stack.Screen name="addactivity" />
         <Stack.Screen name="editactivity" />
-        <Stack.Screen name="vieworganisation" />
         <Stack.Screen name="login" />
         <Stack.Screen name="register" />
       </Stack>

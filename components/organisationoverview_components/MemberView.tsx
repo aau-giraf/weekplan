@@ -1,7 +1,7 @@
 import { MemberDTO } from "../../DTO/organisationDTO";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { ProfilePicture } from "../ProfilePicture";
-import { SharedStyles } from "../../utils/SharedStyles";
+import { ScaleSize, SharedStyles, colors } from "../../utils/SharedStyles";
 
 type MemberViewProps = {
   members: MemberDTO[] | undefined;
@@ -15,22 +15,16 @@ export const MemberView = ({ members }: MemberViewProps) => {
   const MAX_DISPLAYED_MEMBERS = 8;
   members = members as MemberDTO[];
 
-  // Display at most MAX_DISPLAYED_MEMBERS members
   const displayedMembers: MemberDTO[] =
     members.length <= MAX_DISPLAYED_MEMBERS
       ? members
       : members.slice(0, MAX_DISPLAYED_MEMBERS);
 
-  // Calculate how many members are not displayed
   const remainingMembers = members.length - displayedMembers.length;
 
   return (
     <TouchableOpacity onPress={() => {}}>
-      <View
-        style={[
-          SharedStyles.trueCenter,
-          { display: "flex", flexDirection: "row", alignItems: "center" },
-        ]}>
+      <View style={styles.memberViewRoot}>
         {displayedMembers.map((member, index) => (
           <MemberViewEntry user={member} key={index} />
         ))}
@@ -58,6 +52,7 @@ const MemberViewEntry = ({ user }: MemberViewEntryProps) => {
           firstName={user.firstName ?? "N/"}
           lastName={user.lastName ?? "A"}
           style={styles.memberImg}
+          textSize={15}
         />
       )}
     </View>
@@ -66,25 +61,29 @@ const MemberViewEntry = ({ user }: MemberViewEntryProps) => {
 
 const styles = StyleSheet.create({
   memberImgContainer: {
-    marginRight: -8,
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    marginRight: -ScaleSize(8),
+    height: ScaleSize(50),
+    width: ScaleSize(50),
   },
   memberImg: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    height: ScaleSize(50),
+    width: ScaleSize(50),
+    borderRadius: ScaleSize(50),
+  },
+  memberViewRoot: {
+    ...SharedStyles.trueCenter,
+    ...SharedStyles.flexRow,
+    marginLeft: -ScaleSize(8),
   },
   remainingMembersContainer: {
     ...SharedStyles.trueCenter,
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    backgroundColor: "#ccc",
+    height: ScaleSize(40),
+    width: ScaleSize(40),
+    borderRadius: ScaleSize(50),
+    backgroundColor: colors.lightGray,
   },
   remainingMembersText: {
-    color: "#fff",
+    color: colors.white,
     fontWeight: "bold",
   },
 });
