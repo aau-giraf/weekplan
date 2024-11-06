@@ -43,5 +43,5 @@ export default function useInvitation() {
     },
   });
 
-  return { fetchByUser, acceptInvitation };
+  return { fetchByUser, acceptInvitation, isSuccess: fetchByUser.isSuccess };
 }
