@@ -80,6 +80,7 @@ const ProfilePage: React.FC = () => {
     <View style={styles.container}>
       <Animated.FlatList
         refreshing={orgIsLoading}
+        onTouchStart={() => bottomSheetRef.current?.close()}
         itemLayoutAnimation={LinearTransition}
         onRefresh={async () => await refetch()}
         data={orgData}
@@ -101,8 +102,10 @@ const ProfilePage: React.FC = () => {
                   {`${data.firstName} ${data.lastName}`}
                 </Text>
               </View>
-              <IconButton style={styles.iconMail}>
-                <Ionicons name="mail-outline" size={ScaleSize(40)} />
+              <IconButton
+                style={styles.settings}
+                onPress={() => router.push("/settings")}>
+                <Ionicons name="settings-outline" size={ScaleSize(40)} />
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
@@ -160,7 +163,8 @@ const AddBottomSheet = ({
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
-      onClose={() => setName("")}>
+      onClose={() => setName("")}
+      style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
       <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(24),
     marginRight: 10,
   },
-  iconMail: {
+  settings: {
     top: ScaleSize(10),
     right: ScaleSize(30),
   },
