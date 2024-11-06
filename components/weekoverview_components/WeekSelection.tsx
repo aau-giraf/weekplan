@@ -59,7 +59,7 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
   return (
     <View style={styles.weekSelection}>
       <Button
-        title={`Uge ${weekNumber} - ${monthString}`}
+        title={`Uge ${weekNumber} \n ${monthString}`}
         onPress={() => setModalVisible(true)}
       />
 
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   weekText: {
     padding: ScaleSize(5),
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(48),
     fontWeight: "bold",
   },
   modalContainer: {

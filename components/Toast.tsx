@@ -50,10 +50,10 @@ const Toast = ({ message, type, id, onClose }: ToastProps) => {
       entering={FadeInUp}
       exiting={FadeOutRight}
       style={[styles.toastContainer, { backgroundColor: color }]}>
-      <Ionicons size={ScaleSize(48)} name={icon} style={styles.icon} />
+      <Ionicons size={ScaleSize(72)} name={icon} style={styles.icon} />
       <Text style={styles.toastMessage}>{message}</Text>
       <Ionicons
-        size={ScaleSize(48)}
+        size={ScaleSize(72)}
         name={"close-outline"}
         style={styles.icon}
         onPress={() => onClose(id)}
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   toastMessage: {
     ...SharedStyles.flexRow,
-    fontSize: ScaleSize(24),
+    fontSize: ScaleSize(48),
     flex: 1,
     textAlign: "center",
     color: colors.white,

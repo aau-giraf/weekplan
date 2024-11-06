@@ -21,12 +21,7 @@ const CameraButton = () => {
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>
       <View style={styles.iconContainer}>
-        <Ionicons name={"camera"} size={ScaleSize(30)} color={colors.white} />
-        <Ionicons
-          name={"add-outline"}
-          size={ScaleSize(25)}
-          style={styles.addIcon}
-        />
+        <Ionicons name={"camera"} size={ScaleSize(72)} color={colors.white} />
       </View>
     </TouchableOpacity>
   );
@@ -36,25 +31,17 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: ScaleSize(80),
-    height: ScaleSize(80),
+    width: ScaleSize(130),
+    height: ScaleSize(130),
     backgroundColor: colors.gray,
     borderRadius: 100,
-    bottom: 20,
-    left: 24,
+    bottom: 5,
+    left: 10,
     position: "absolute",
   },
   iconContainer: {
     alignItems: "center",
     justifyContent: "center",
-  },
-  addIcon: {
-    bottom: -9.8,
-    right: -9.8,
-    position: "absolute",
-    backgroundColor: colors.gray,
-    borderRadius: 100,
-    overflow: "hidden",
   },
 });
 

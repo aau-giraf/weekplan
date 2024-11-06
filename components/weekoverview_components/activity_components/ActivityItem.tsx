@@ -55,7 +55,7 @@ function LeftAction(
         style={[styles.action, { backgroundColor: colors.crimson }]}>
         <Ionicons
           name="trash-outline"
-          size={ScaleSize(48)}
+          size={ScaleSize(72)}
           color={colors.white}
         />
       </TouchableOpacity>
@@ -92,7 +92,7 @@ function RightAction(
         style={[styles.action, { backgroundColor: colors.blue }]}>
         <Ionicons
           name={"pencil-outline"}
-          size={ScaleSize(48)}
+          size={ScaleSize(72)}
           color={colors.white}
         />
       </TouchableOpacity>
@@ -103,7 +103,7 @@ function RightAction(
         style={[styles.action, { backgroundColor: colors.green }]}>
         <Ionicons
           name={"checkmark"}
-          size={ScaleSize(48)}
+          size={ScaleSize(72)}
           color={colors.white}
         />
       </TouchableOpacity>
@@ -239,19 +239,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: ScaleSize(18),
+    fontSize: ScaleSize(48),
     color: colors.black,
   },
   labelText: {
     flex: 0.6,
-    fontSize: ScaleSize(20),
+    fontSize: ScaleSize(38),
     textAlign: "center",
     color: colors.black,
   },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(140),
-    height: ScaleSize(140),
+    width: ScaleSize(180),
+    height: ScaleSize(180),
     borderRadius: 150,
     backgroundColor: colors.orange,
   },

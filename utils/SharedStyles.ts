@@ -31,7 +31,8 @@ const ScaleSizeH = (originalSize: number) => {
  */
 const ScaleSize = (originalSize: number) => {
   const deviceHeight = Dimensions.get("window").height;
-  return (originalSize / 820) * deviceHeight;
+  const deviceWidth = Dimensions.get("window").width;
+  return (originalSize / 820 / 1180) * deviceHeight * deviceWidth;
 };
 
 /**
@@ -66,7 +67,7 @@ const colors = {
 
 const SharedStyles = StyleSheet.create({
   header: {
-    fontSize: ScaleSize(18),
+    fontSize: ScaleSize(48),
     fontWeight: "500",
     paddingBottom: ScaleSize(15),
     color: colors.black,

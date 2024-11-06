@@ -15,10 +15,10 @@ const ActivityAddButton = () => {
 
   return (
     <IconButton onPress={handlePress} style={styles.button}>
-      <Ionicons name={"calendar-outline"} size={ScaleSize(40)} />
+      <Ionicons name={"calendar-outline"} size={ScaleSize(72)} />
       <Ionicons
         name={"add-outline"}
-        size={ScaleSize(25)}
+        size={ScaleSize(48)}
         style={styles.addIcon}
       />
     </IconButton>

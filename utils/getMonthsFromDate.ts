@@ -1,6 +1,6 @@
 const formatDate = (date: Date): string => {
   return date.toLocaleDateString("da-DK", {
-    month: "short",
+    month: "long",
   });
 };
 
