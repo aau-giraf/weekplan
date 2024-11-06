@@ -101,7 +101,9 @@ const ProfilePage: React.FC = () => {
                   {`${data.firstName} ${data.lastName}`}
                 </Text>
               </View>
-              <IconButton style={styles.iconMail}>
+              <IconButton
+                style={styles.iconMail}
+                onPress={() => router.push("/viewinvitation")}>
                 <Ionicons name="mail-outline" size={ScaleSize(40)} />
               </IconButton>
             </View>

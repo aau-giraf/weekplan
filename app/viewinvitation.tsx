@@ -7,19 +7,18 @@ import {
   ListRenderItem,
   ActivityIndicator,
 } from "react-native";
-import { colors, SharedStyles } from "../utils/SharedStyles";
+import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
+import { Ionicons } from "@expo/vector-icons";
 
 type Invitation = {
   id: number;
-  organizationId: number;
-  receiverId: string;
-  senderId: string;
+  organizationName: string;
+  senderName: string;
 };
 
-
 const ViewInvitation = () => {
-  const fetchByUser = useInvitation();
+  const { fetchByUser, acceptInvitation } = useInvitation();
   const { data, error, isLoading } = fetchByUser;
 
   if (isLoading) {
@@ -34,17 +33,37 @@ const ViewInvitation = () => {
     return <Text>Fejl med at hente invitationer: {error.message}</Text>;
   }
 
+  const handleInvitation = async (id: number, isAccepted: boolean) => {
+    await acceptInvitation.mutateAsync({
+      invitationId: id,
+      isAccepted,
+    });
+  };
+
   const renderInvitationContainer: ListRenderItem<Invitation> = ({ item }) => {
     return (
       <View key={item.id} style={styles.invitationContainer}>
-        <Text>Organization ID: {item.organizationId}</Text>
-        <Text>Sender ID: {item.senderId}</Text>
-        <Text>Receiver ID: {item.receiverId}</Text>
+        <View style={styles.textContainer}>
+          <Text>Organisation: {item.organizationName}</Text>
+          <Text>Sendt af: {item.senderName}</Text>
+        </View>
+        <Ionicons
+          name={"checkmark"}
+          size={ScaleSize(48)}
+          color={colors.black}
+          style={styles.iconContainer}
+          onPress={() => handleInvitation(item.id, true)}
+        />
+        <Ionicons
+          name={"close"}
+          size={ScaleSize(48)}
+          color={colors.black}
+          style={styles.iconContainer}
+          onPress={() => handleInvitation(item.id, false)}
+        />
       </View>
     );
   };
-
-  console.log(data);
 
   return (
     <View style={styles.container}>
@@ -56,7 +75,7 @@ const ViewInvitation = () => {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -65,22 +84,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   invitationContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
     borderWidth: 1,
     margin: 10,
     borderColor: colors.black,
     backgroundColor: colors.lightBlue,
   },
-  invitationText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
+  textContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
   },
-  invitationItem: {
-    paddingVertical: 5,
+  iconContainer: {
+    marginLeft: 15,
   },
 });
 

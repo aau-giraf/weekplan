@@ -1,6 +1,9 @@
 import { useAuthentication } from "../providers/AuthenticationProvider";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchInvitationByUserRequest } from "../apis/invitationAPI";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  acceptInvitationRequest,
+  fetchInvitationByUserRequest,
+} from "../apis/invitationAPI";
 
 export default function useInvitation() {
   const { userId } = useAuthentication();
@@ -13,7 +16,32 @@ export default function useInvitation() {
     enabled: !!userId,
   });
 
-  return(
-    fetchByUser
-  )
+  const acceptInvitation = useMutation({
+    mutationFn: ({
+      invitationId,
+      isAccepted,
+    }: {
+      invitationId: number;
+      isAccepted: boolean;
+    }) => acceptInvitationRequest(invitationId, isAccepted),
+
+    onMutate: async ({ invitationId, isAccepted }) => {
+      await queryClient.cancelQueries({ queryKey });
+      const previousInvitations = queryClient.getQueryData(queryKey);
+
+      queryClient.setQueryData(queryKey, (oldData: any) =>
+        oldData.filter((invitation: any) => invitation.id !== invitationId)
+      );
+
+      return { previousInvitations };
+    },
+
+    onError: (_error, _variables, context) => {
+      if (context?.previousInvitations) {
+        queryClient.setQueryData(queryKey, context.previousInvitations);
+      }
+    },
+  });
+
+  return { fetchByUser, acceptInvitation };
 }

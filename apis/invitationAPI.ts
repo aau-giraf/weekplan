@@ -12,3 +12,15 @@ export const fetchInvitationByUserRequest = async (userId: string) => {
   if (!res.ok) throw new Error("Kunne ikke hente dine invitationer");
   return res.json();
 };
+
+export const acceptInvitationRequest = async (
+  invitationId: number,
+  isAccepted: boolean
+) => {
+  const url = `${BASE_URL}/invitations/respond/${invitationId}?response=${isAccepted}`;
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Kunne ikke acceptere invitation");
+};
