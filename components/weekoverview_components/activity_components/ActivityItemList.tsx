@@ -4,8 +4,9 @@ import {
   ActivityIndicator,
   Text,
   Modal,
-  StyleSheet,
+  Image,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import ActivityItem from "./ActivityItem";
 import useActivity from "../../../hooks/useActivity";
@@ -23,7 +24,6 @@ import {
   SharedStyles,
 } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
-import { Image } from "expo-image";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -123,27 +123,26 @@ const ActivityItemList = () => {
         renderItem={renderActivityItem}
         ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
       />
-      {modalVisible && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          onRequestClose={() => setModalVisible(false)}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Image
-                source={{ uri: imageUri }}
-                style={{ width: ScaleSizeW(600), height: ScaleSizeH(600) }}
-                contentFit={"contain"}
-              />
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setModalVisible(false)}>
-                <Text style={styles.closeButtonText}>Luk</Text>
-              </TouchableOpacity>
-            </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Image
+              source={{ uri: imageUri }}
+              style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
+              resizeMode="contain"
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}>
+              <Text style={styles.closeButtonText}>Luk</Text>
+            </TouchableOpacity>
           </View>
-        </Modal>
-      )}
+        </View>
+      </Modal>
     </>
   );
 };
