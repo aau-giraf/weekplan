@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ListRenderItem,
-  ActivityIndicator,
-  Button,
-  Alert,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, ListRenderItem, ActivityIndicator, Button, Alert} from "react-native";
 import { colors, SharedStyles } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
 
