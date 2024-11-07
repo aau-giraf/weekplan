@@ -16,6 +16,7 @@ import ReanimatedSwipeable from "../components/ReanimatedSwipeable";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import FieldInfo from "../components/FieldInfo";
 import useOrganisation from "../hooks/useOrganisation";
+import SwipeableList from "../components/SwipeableList";
 
 const citizenSchema = z.object({
   firstName: z
@@ -132,36 +133,36 @@ const AddCitizen: React.FC = () => {
   );
 
   const renderCitizen = (item: Citizen) => (
-    <ReanimatedSwipeable onSwipeableWillOpen={() => handleDelete(item.id)}>
-      <View style={styles.citizenContainer}>
-        <ProfilePicture
-          label={`${item.firstName} ${item.lastName}`}
-          style={styles.profilePicture}
-        />
-        <Text numberOfLines={3} style={{ flexShrink: 1 }}>
-          {`${item.firstName} ${item.lastName}`}
-        </Text>
-      </View>
-    </ReanimatedSwipeable>
+    <View style={styles.citizenContainer}>
+      <ProfilePicture
+        label={`${item.firstName} ${item.lastName}`}
+        style={styles.profilePicture}
+      />
+      <Text numberOfLines={3} style={{ flexShrink: 1 }}>
+        {`${item.firstName} ${item.lastName}`}
+      </Text>
+    </View>
   );
 
   return (
     <View style={styles.container}>
-      <Animated.FlatList
+      <SwipeableList
         style={{ padding: 20 }}
-        data={citizens}
-        itemLayoutAnimation={
-          Platform.OS === "android" ? undefined : LinearTransition
-        }
-        keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={
-          <>
-            <CitizenForm onSubmit={handleAddCitizen} />
-            <Text style={styles.title}>List over nyligt tilføjede</Text>
-          </>
-        }
+        items={citizens}
         renderItem={({ item }) => renderCitizen(item)}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        keyExtractor={(item) => item.id.toString()}
+        reanimatedSwipeableProps={(item) => ({
+          onSwipeableWillOpen: () => handleDelete(item.id),
+        })}
+        flatListProps={{
+          ListHeaderComponent: (
+            <>
+              <CitizenForm onSubmit={handleAddCitizen} />
+              <Text style={styles.title}>List over nyligt tilføjede</Text>
+            </>
+          ),
+          ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
+        }}
       />
     </View>
   );

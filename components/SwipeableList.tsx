@@ -5,8 +5,11 @@ import {
   TouchableOpacity,
   View,
   LayoutChangeEvent,
+  StyleProp,
+  ViewStyle,
 } from "react-native";
 import Reanimated, {
+  AnimatedStyle,
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -27,11 +30,13 @@ type SwipeableListProps<T> = {
   items: T[];
   keyExtractor: (item: T) => string;
   renderItem: ListRenderItem<T>;
-  reanimatedSwipeableProps?: SwipeableProps &
-    React.RefAttributes<SwipeableMethods>;
-  flatListProps?: FlatListProps<T>;
+  reanimatedSwipeableProps?: (
+    item: T
+  ) => SwipeableProps & React.RefAttributes<SwipeableMethods>;
+  flatListProps?: Omit<FlatListProps<T>, "data" | "renderItem" | "style">;
   leftActions?: Action<T>[];
   rightActions?: Action<T>[];
+  style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
 };
 
 /**
@@ -72,6 +77,7 @@ const SwipeableList = <T,>({
   flatListProps,
   leftActions,
   rightActions,
+  style,
 }: SwipeableListProps<T>) => {
   const [itemDimensions, setItemHeight] = useState<number>(50);
 
@@ -85,36 +91,34 @@ const SwipeableList = <T,>({
   );
 
   const renderItem = useCallback<ListRenderItem<T>>(
-    (info) => (
-      <ReanimatedSwipeable
-        {...reanimatedSwipeableProps}
-        friction={1.5}
-        overshootFriction={10}
-        overshootLeft={false}
-        overshootRight={false}
-        renderLeftActions={(_prog, drag) => {
-          if (!leftActions?.length) return null;
-          return SwipeAction(
-            drag,
-            itemDimensions,
-            leftActions,
-            "left",
-            info.item
-          );
-        }}
-        renderRightActions={(_prog, drag) => {
-          if (!rightActions?.length) return null;
-          return SwipeAction(
-            drag,
-            itemDimensions,
-            rightActions,
-            "right",
-            info.item
-          );
-        }}>
-        <View onLayout={handleLayout}>{defaultRender(info)}</View>
-      </ReanimatedSwipeable>
-    ),
+    (info) => {
+      //Bind the item to the swipeable props, such that it is avalible in callbacks
+      const swipeableProps = reanimatedSwipeableProps?.(info.item);
+      return (
+        <ReanimatedSwipeable
+          {...swipeableProps}
+          friction={1.5}
+          overshootFriction={10}
+          overshootLeft={false}
+          overshootRight={false}
+          {...(leftActions?.length && {
+            renderLeftActions: (_prog, drag) =>
+              SwipeAction(drag, itemDimensions, leftActions, "left", info.item),
+          })}
+          {...(rightActions?.length && {
+            renderRightActions: (_prog, drag) =>
+              SwipeAction(
+                drag,
+                itemDimensions,
+                rightActions,
+                "right",
+                info.item
+              ),
+          })}>
+          <View onLayout={handleLayout}>{defaultRender(info)}</View>
+        </ReanimatedSwipeable>
+      );
+    },
     [
       reanimatedSwipeableProps,
       handleLayout,
@@ -127,6 +131,7 @@ const SwipeableList = <T,>({
 
   return (
     <Reanimated.FlatList
+      style={style}
       data={items}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
