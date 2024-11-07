@@ -34,7 +34,7 @@ const ViewOrganisation = () => {
           <Ionicons name={"create-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Editing Org */}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/create-invitation')} style={styles.buttonValid}>
+        <TouchableOpacity onPress={() => router.push({ pathname: '/create-invitation', params: { orgId: parsedID } })} style={styles.buttonValid}>
           <Ionicons name={"mail-outline"} size={ScaleSize(30)}/>
           {/* //TODO: Setup Invitations */}
         </TouchableOpacity>

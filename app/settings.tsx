@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useAuthentication } from "../providers/AuthenticationProvider";
+import { router } from "expo-router";
 
 const Settings = () => {
   const { logout } = useAuthentication();
@@ -30,7 +31,7 @@ const Settings = () => {
       {
         icon: "mail-outline",
         label: "Invitations",
-        onPress: () => {},
+        onPress: () => {router.push("/viewinvitation");}
       },
       {
         icon: "lock-closed-outline",

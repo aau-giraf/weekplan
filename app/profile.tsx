@@ -72,7 +72,7 @@ const ProfilePage: React.FC = () => {
       style={styles.itemContainer}
       onPress={() => {
         // @ts-ignore
-        router.replace(`/vieworganisation/${item.id}`);
+        router.push(`/vieworganisation/${item.id}`);
       }}>
       <ProfilePicture label={item.name} style={styles.profilePicture} />
       <Text

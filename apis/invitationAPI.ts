@@ -33,15 +33,16 @@ export async function getInvitationsByOrg(orgId: number) {
     return res.json();
 }
 
-export async function createInvitation(orgId: number, receiverId: string, senderId: string) {
-    const newInvitation = { orgId, receiverId, senderId };
+export async function createInvitation(orgId: number, receiverEmail: string, senderId: string) {
+    const newInvitation = { OrganizationId: orgId, receiverEmail, senderId };
+    console.log(newInvitation);
     
     const res = await fetch(`${BASE_URL}/invitations/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newInvitation),
     });
-  
+
     if (!res.ok) throw new Error("Kunne ikke oprette invitation");
     return res.json();
 }

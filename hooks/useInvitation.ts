@@ -5,7 +5,7 @@ import { createInvitation, deleteInvitation, fetchInvitationByUserRequest, respo
 type Invitation = {
   id: number;
   orgId: number;
-  receiverId: string;
+  receiverEmail: string;
   senderId: string;
 };
 
@@ -21,8 +21,8 @@ export default function useInvitation() {
   });
   
   const useCreateInvitation = useMutation({
-    mutationFn: (variables: { orgId: number; receiverId: string; senderId: string }) =>
-        createInvitation(variables.orgId, variables.receiverId, variables.senderId),
+    mutationFn: (variables: { orgId: number; receiverEmail: string; senderId: string }) =>
+        createInvitation(variables.orgId, variables.receiverEmail, variables.senderId),
 
     onMutate: async (variables) => {
         await queryClient.cancelQueries({ queryKey });

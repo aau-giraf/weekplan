@@ -1,12 +1,23 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { colors, ScaleSize } from "../utils/SharedStyles";
+import useInvitation from "../hooks/useInvitation";
+import { useLocalSearchParams } from "expo-router";
+import { useAuthentication } from "../providers/AuthenticationProvider";
 
 const CreateInvitationPage: React.FC = () => {
   const [email, setEmail] = useState("");
+  const { useCreateInvitation } = useInvitation();
+  const createInvitation = useCreateInvitation;
+  const { orgId } = useLocalSearchParams();
+  const { userId } = useAuthentication();
 
   const handleCreateInvitation = () => {
-    console.log({ email });
+    if (!userId) {
+        console.error("Der mangler User ID, prøv at logge ind igen");
+        return;
+      }
+    createInvitation.mutate({orgId: Number(orgId), receiverEmail: email, senderId: userId })
   };
 
   return (
