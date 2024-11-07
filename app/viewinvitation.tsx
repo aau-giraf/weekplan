@@ -50,14 +50,14 @@ const ViewInvitation = () => {
         <Ionicons
           name={"checkmark"}
           size={ScaleSize(48)}
-          color={colors.black}
+          color={colors.green}
           style={styles.iconContainer}
           onPress={() => handleInvitation(item.id, true)}
         />
         <Ionicons
           name={"close"}
           size={ScaleSize(48)}
-          color={colors.black}
+          color={colors.red}
           style={styles.iconContainer}
           onPress={() => handleInvitation(item.id, false)}
         />
