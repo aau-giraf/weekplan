@@ -4,14 +4,16 @@ import {
   createOrganisationsRequest,
   deleteOrganisationRequest,
   fetchAllOrganisationsRequest,
+  fetchOrganisationRequest,
 } from "../apis/organisationAPI";
+import { OrganisationDTO } from "../DTO/organisationDTO";
 
 export type OrgDTO = {
   name: string;
   id: number;
 };
 
-const useOrganisation = () => {
+const useOrganisation = (orgId: number | undefined = undefined) => {
   const { userId } = useAuthentication();
   const queryClient = useQueryClient();
   const queryKey = [userId!, "Organisation"];
