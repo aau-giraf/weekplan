@@ -1,39 +1,48 @@
-import { MemberDTO } from "../../DTO/organisationDTO";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { ProfilePicture } from "../ProfilePicture";
 import { ScaleSize, SharedStyles, colors } from "../../utils/SharedStyles";
 
-type MemberViewProps = {
-  members: MemberDTO[] | undefined;
+// Base type to enforce required fields
+type CutoffViewPropsBase = {
+  firstName: string;
+  lastName: string;
 };
 
-type MemberViewEntryProps = {
-  user: MemberDTO;
+// Generic type for the component props
+type CutoffViewProps<T extends CutoffViewPropsBase> = {
+  entries: T[];
+  onPress: () => void;
+};
+
+type MemberViewEntryProps<T extends CutoffViewPropsBase> = {
+  user: T;
 };
 
 /**
  * Displays a list of member profile images up to a maximum limit.
  * If the total number of members exceeds the maximum, an indicator for remaining members is shown.
  *
- * @param {MemberViewProps} props - The props for the component.
+ * @param {CutoffViewProps<T>} props - The props for the component.
  * @returns {JSX.Element} A touchable container displaying member profile images.
  */
-export const MemberView = ({ members }: MemberViewProps) => {
+export const CutoffList = <T extends CutoffViewPropsBase>({
+  entries,
+  onPress,
+}: CutoffViewProps<T>) => {
   const MAX_DISPLAYED_MEMBERS = 8;
-  members = members as MemberDTO[];
 
-  const displayedMembers: MemberDTO[] =
-    members.length <= MAX_DISPLAYED_MEMBERS
-      ? members
-      : members.slice(0, MAX_DISPLAYED_MEMBERS);
+  const displayedMembers: T[] =
+    entries.length <= MAX_DISPLAYED_MEMBERS
+      ? entries
+      : entries.slice(0, MAX_DISPLAYED_MEMBERS);
 
-  const remainingMembers = members.length - displayedMembers.length;
+  const remainingMembers = entries.length - displayedMembers.length;
 
   return (
-    <TouchableOpacity onPress={() => {}}>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.memberViewRoot}>
         {displayedMembers.map((member, index) => (
-          <MemberViewEntry user={member} key={index} />
+          <CutoffListEntry user={member} key={index} />
         ))}
         {remainingMembers > 0 && (
           <View style={styles.remainingMembersContainer}>
@@ -48,19 +57,17 @@ export const MemberView = ({ members }: MemberViewProps) => {
   );
 };
 
-const MemberViewEntry = ({ user }: MemberViewEntryProps) => {
+const CutoffListEntry = <T extends CutoffViewPropsBase>({
+  user,
+}: MemberViewEntryProps<T>) => {
   return (
     <View style={styles.memberImgContainer} testID={"member"}>
-      {user.image ? (
-        <Image source={{ uri: user.image }} style={styles.memberImg} />
-      ) : (
-        <ProfilePicture
-          firstName={user.firstName ?? "N/"}
-          lastName={user.lastName ?? "A"}
-          style={styles.memberImg}
-          textSize={15}
-        />
-      )}
+      <ProfilePicture
+        firstName={user.firstName ?? "N/A"}
+        lastName={user.lastName ?? "A"}
+        style={styles.memberImg}
+        textSize={15}
+      />
     </View>
   );
 };

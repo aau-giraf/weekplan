@@ -1,5 +1,5 @@
-import { MemberView } from "../../components/organisationoverview_components/MemberView";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { CutoffList } from "../../components/organisationoverview_components/CutoffList";
+import { View, Text, StyleSheet } from "react-native";
 import {
   colors,
   ScaleSize,
@@ -7,16 +7,16 @@ import {
   ScaleSizeW,
   SharedStyles,
 } from "../../utils/SharedStyles";
-import { useOrganisationData } from "../../hooks/useOrganisationData";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import useOrganisation from "../../hooks/useOrganisation";
+import IconButton from "../../components/IconButton";
 
 const ViewOrganisation = () => {
   const { id } = useLocalSearchParams();
   const parsedID = Number(id);
 
-  const { fetchOrganisationData } = useOrganisationData(parsedID);
-  const { data, error, isLoading } = fetchOrganisationData;
+  const { data, error, isLoading } = useOrganisation(parsedID);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -30,21 +30,30 @@ const ViewOrganisation = () => {
     <View style={{ alignItems: "center" }}>
       <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
       <View style={styles.ActionView}>
-        <TouchableOpacity onPress={() => {}} style={styles.buttonValid}>
+        <IconButton onPress={() => {}} absolute={false}>
           <Ionicons name={"create-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Editing Org */}
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.buttonValid}>
+        </IconButton>
+        <IconButton onPress={() => {}} absolute={false}>
           <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Invitations */}
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.buttonValid}>
+        </IconButton>
+        <IconButton onPress={() => {}} absolute={false}>
+          <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
+          {/* //TODO: Setup Invitations */}
+        </IconButton>
+        <IconButton onPress={() => {}} absolute={false}>
           <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Leaving Org */}
-        </TouchableOpacity>
+        </IconButton>
       </View>
       <Text style={styles.heading}>Medlemmer</Text>
-      <MemberView members={data?.users ?? []} />
+      <CutoffList entries={data?.users ?? []} onPress={() => {}} />
+      <Text style={styles.heading}>Borger</Text>
+      <CutoffList
+        entries={data?.citizens ?? []}
+        onPress={() => router.push("/addcitizen")}
+      />
       <Text style={styles.heading}>Klasser</Text>
       {/* //TODO: Add and Implement Classes */}
     </View>
