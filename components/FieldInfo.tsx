@@ -28,12 +28,12 @@ const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
 const styles = StyleSheet.create({
   errorText: {
     color: "red",
-    fontSize: ScaleSize(36),
+    fontSize: ScaleSize(18),
     fontStyle: "italic",
   },
   validatingText: {
     color: "grey",
-    fontSize: ScaleSize(36),
+    fontSize: ScaleSize(18),
   },
 });
 

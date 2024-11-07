@@ -102,7 +102,7 @@ const ProfilePage: React.FC = () => {
                 </Text>
               </View>
               <IconButton style={styles.iconMail}>
-                <Ionicons name="mail-outline" size={ScaleSize(96)} />
+                <Ionicons name="mail-outline" size={ScaleSize(64)} />
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
@@ -115,13 +115,13 @@ const ProfilePage: React.FC = () => {
       <IconButton
         style={styles.iconAdd}
         onPress={() => bottomSheetRef.current?.expand()}>
-        <Ionicons name="add" size={ScaleSize(96)} />
+        <Ionicons name="add" size={ScaleSize(64)} />
       </IconButton>
       {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
       <IconButton
         style={styles.weekoverview}
         onPress={() => router.push("/weekplanscreen")}>
-        <Ionicons name="calendar-outline" size={ScaleSize(96)} />
+        <Ionicons name="calendar-outline" size={ScaleSize(64)} />
       </IconButton>
       <AddBottomSheet
         bottomSheetRef={bottomSheetRef}
@@ -248,16 +248,17 @@ const styles = StyleSheet.create({
     left: ScaleSize(30),
   },
   inputValid: {
-    width: "85%",
-    padding: ScaleSize(30),
+    paddingVertical: ScaleSizeH(16),
+    paddingHorizontal: ScaleSizeW(85),
     borderWidth: 1,
+    fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
     marginVertical: ScaleSizeH(10),
   },
   buttonValid: {
-    paddingVertical: ScaleSizeH(20),
+    paddingVertical: ScaleSizeH(16),
     paddingHorizontal: ScaleSizeW(100),
     borderRadius: 8,
     marginBottom: ScaleSizeH(10),
@@ -266,6 +267,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
+    fontSize: ScaleSize(24),
     fontWeight: "bold",
   },
   sheetContent: {

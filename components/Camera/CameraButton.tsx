@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { takePhoto } from "../Camera/Camera";
 import { colors, ScaleSize } from "../../utils/SharedStyles";
+import IconButton from "../IconButton";
 
 /**
  * CameraButton component renders a button that opens the camera.
@@ -19,30 +20,19 @@ const CameraButton = () => {
   };
 
   return (
-    <TouchableOpacity style={styles.button} onPress={handlePress}>
-      <View style={styles.iconContainer}>
+    <IconButton onPress={handlePress} style={styles.button}>
         <Ionicons name={"camera"} size={ScaleSize(72)} color={colors.white} />
-      </View>
-    </TouchableOpacity>
+    </IconButton>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: ScaleSize(130),
-    height: ScaleSize(130),
-    backgroundColor: colors.gray,
-    borderRadius: 100,
-    bottom: 5,
+    bottom: 10,
     left: 10,
     position: "absolute",
   },
-  iconContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
+
 });
 
 export default CameraButton;

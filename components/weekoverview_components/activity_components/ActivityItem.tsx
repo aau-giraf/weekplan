@@ -26,7 +26,7 @@ import {
 
 const CONTAINER_HEIGHT = ScaleSizeH(220);
 const CONTAINER_PADDING = ScaleSize(20);
-const ACTION_WIDTH = ScaleSizeW(130);
+const ACTION_WIDTH = ScaleSizeW(150);
 
 /**
  * LeftAction component for handling swipe-to-delete functionality.
@@ -208,7 +208,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
               <Pressable onPress={() => handleImagePress(data)}>
                 <Image
                   source={{ uri: data }}
-                  style={{ width: ScaleSizeW(150), height: ScaleSizeH(150) }}
+                  style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
                   resizeMode="contain"
                 />
               </Pressable>
@@ -232,13 +232,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(36),
     color: colors.black,
   },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(275),
-    height: ScaleSize(275),
+    width: ScaleSize(200),
+    height: ScaleSize(200),
     borderRadius: 150,
     backgroundColor: colors.orange,
   },

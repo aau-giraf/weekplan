@@ -54,7 +54,7 @@ const LoginScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <GirafIcon width={ScaleSizeW(350)} height={ScaleSizeH(400)} />
+        <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
       </View>
       <form.Field
         name={"email"}
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: ScaleSizeW(150),
-    height: ScaleSizeH(500),
+    width: ScaleSizeW(400),
+    height: ScaleSizeH(400),
   },
   formView: {
     width: "100%",
@@ -149,17 +149,17 @@ const styles = StyleSheet.create({
   },
   inputValid: {
     width: "85%",
-    padding: ScaleSize(35),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
   },
   inputError: {
     width: "85%",
-    padding: ScaleSize(35),
-    fontSize: ScaleSize(48),
+    padding: ScaleSize(20),
+    fontSize: ScaleSize(24),
     borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(24),
     fontWeight: "500",
   },
 });

@@ -56,7 +56,6 @@ type FormData = z.infer<typeof schema>;
  * @param {number} activityId - The id of the activity.
  * @param {boolean} isCompleted - Whether the activity is completed.
  * @returns {JSX.Element}
- *
  * @example
  * <ActivityEdit
  *   title="Meeting"
@@ -252,7 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   title: {
-    fontSize: ScaleSize(64),
+    fontSize: ScaleSize(48),
     textAlign: "center",
     fontWeight: "600",
   },
@@ -260,7 +259,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(24),
     borderRadius: 5,
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
@@ -270,7 +269,7 @@ const styles = StyleSheet.create({
     padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
     borderRadius: 5,
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(24),
     borderColor: colors.red,
     backgroundColor: colors.white,
   },
@@ -300,7 +299,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray,
   },
   buttonText: {
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(24),
     fontWeight: "500",
     color: colors.white,
   },

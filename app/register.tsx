@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontSize: ScaleSize(64),
+    fontSize: ScaleSize(48),
     fontWeight: "600",
     marginBottom: ScaleSizeH(20),
     textAlign: "center",
@@ -249,17 +249,17 @@ const styles = StyleSheet.create({
   },
   inputValid: {
     width: "85%",
-    padding: ScaleSize(35),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
   },
   inputError: {
     width: "85%",
-    padding: ScaleSize(35),
-    fontSize: ScaleSize(48),
+    padding: ScaleSize(20),
+    fontSize: ScaleSize(24),
     borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(24),
     fontWeight: "500",
   },
   loginButton: {
