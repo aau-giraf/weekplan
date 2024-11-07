@@ -1,22 +1,19 @@
-import React, { useCallback, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
-import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import { colors } from "../utils/SharedStyles";
-import { ProfilePicture } from "../components/ProfilePage";
-import ReanimatedSwipeable from "../components/ReanimatedSwipeable";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import React, { useCallback, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { z } from "zod";
 import FieldInfo from "../components/FieldInfo";
+import { ProfilePicture } from "../components/ProfilePage";
+import SwipeableList from "../components/SwipeableList/SwipeableList";
 import useOrganisation from "../hooks/useOrganisation";
-import SwipeableList from "../components/SwipeableList";
+import { colors } from "../utils/SharedStyles";
 
 const citizenSchema = z.object({
   firstName: z
