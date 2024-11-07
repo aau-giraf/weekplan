@@ -12,9 +12,15 @@ type IconButtonsProps = {
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   children: React.ReactNode;
+  absolute?: boolean;
 };
 
-const IconButton = ({ onPress, style, children }: IconButtonsProps) => {
+const IconButton = ({
+  onPress,
+  style,
+  children,
+  absolute = true,
+}: IconButtonsProps) => {
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
 
@@ -41,7 +47,13 @@ const IconButton = ({ onPress, style, children }: IconButtonsProps) => {
   };
 
   return (
-    <Animated.View style={[styles.button, style, opacityAnimation]}>
+    <Animated.View
+      style={[
+        styles.button,
+        style,
+        opacityAnimation,
+        { position: absolute ? "absolute" : "relative" },
+      ]}>
       <Pressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
@@ -56,11 +68,10 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: ScaleSize(80),
-    height: ScaleSize(80),
+    width: ScaleSize(100),
+    height: ScaleSize(100),
     backgroundColor: colors.lightGreen,
     borderRadius: 100,
-    position: "absolute",
   },
 });
 

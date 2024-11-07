@@ -10,7 +10,12 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { colors, ScaleSize } from "../utils/SharedStyles";
+import {
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+} from "../utils/SharedStyles";
 import { z } from "zod";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useForm } from "@tanstack/react-form";
@@ -88,7 +93,7 @@ const RegisterScreen: React.FC = () => {
                       field.state.meta.isTouched &&
                       field.state.meta.errors.length > 0
                         ? styles.inputError
-                        : styles.input
+                        : styles.inputValid
                     }
                     placeholder="E-mail"
                     value={field.state.value}
@@ -113,7 +118,7 @@ const RegisterScreen: React.FC = () => {
                       field.state.meta.isTouched &&
                       field.state.meta.errors.length > 0
                         ? styles.inputError
-                        : styles.input
+                        : styles.inputValid
                     }
                     placeholder="Fornavn"
                     value={field.state.value}
@@ -137,7 +142,7 @@ const RegisterScreen: React.FC = () => {
                       field.state.meta.isTouched &&
                       field.state.meta.errors.length > 0
                         ? styles.inputError
-                        : styles.input
+                        : styles.inputValid
                     }
                     placeholder="Efternavn"
                     value={field.state.value}
@@ -161,7 +166,7 @@ const RegisterScreen: React.FC = () => {
                       field.state.meta.isTouched &&
                       field.state.meta.errors.length > 0
                         ? styles.inputError
-                        : styles.input
+                        : styles.inputValid
                     }
                     placeholder="Adgangskode"
                     value={field.state.value}
@@ -180,7 +185,7 @@ const RegisterScreen: React.FC = () => {
             style={
               confirmPassword === "" && !isPasswordMatch
                 ? styles.inputError
-                : styles.input
+                : styles.inputValid
             }
             placeholder="Bekræft adgangskode"
             value={confirmPassword}
@@ -227,14 +232,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   scrollContainer: {
-    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   headerText: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(48),
     fontWeight: "600",
-    marginBottom: ScaleSize(20),
+    marginBottom: ScaleSizeH(20),
     textAlign: "center",
     color: colors.black,
   },
@@ -243,40 +247,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
+  inputValid: {
     width: "85%",
-    padding: ScaleSize(10),
-    fontSize: ScaleSize(24),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
+    fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: ScaleSize(10),
   },
   inputError: {
     width: "85%",
-    padding: ScaleSize(10),
+    padding: ScaleSize(20),
     fontSize: ScaleSize(24),
     borderWidth: ScaleSize(1),
     borderColor: colors.red,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginBottom: ScaleSize(10),
   },
   button: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
+    marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
   },
   buttonDisabled: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     alignItems: "center",
     backgroundColor: colors.gray,
     width: "85%",

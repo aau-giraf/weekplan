@@ -83,7 +83,6 @@ const ActivityItemList = () => {
       <ActivityItem
         isCompleted={item.isCompleted}
         time={`${item.startTime}-${item.endTime}`}
-        label={item.name}
         deleteActivity={() => handleDeleteActivity(item.activityId)}
         editActivity={() => handleEditTask()}
         checkActivity={() =>
@@ -160,17 +159,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   closeButton: {
-    marginTop: ScaleSize(30),
-    width: ScaleSizeW(150),
+    marginTop: ScaleSizeH(30),
+    width: ScaleSizeW(300),
     height: ScaleSizeH(75),
     borderRadius: 5,
-    marginBottom: ScaleSize(20),
+    marginBottom: ScaleSizeH(20),
     backgroundColor: colors.blue,
     justifyContent: "center",
     alignItems: "center",
   },
   closeButtonText: {
-    fontSize: ScaleSize(24),
+    fontSize: ScaleSize(48),
     color: colors.white,
   },
 });

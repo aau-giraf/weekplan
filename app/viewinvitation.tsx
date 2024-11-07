@@ -1,36 +1,25 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, ListRenderItem, ActivityIndicator, Button, Alert} from "react-native";
-import { colors, SharedStyles } from "../utils/SharedStyles";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+} from "react-native";
+import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
+import { Ionicons } from "@expo/vector-icons";
 
 type Invitation = {
   id: number;
-  organizationId: number;
-  receiverId: string;
-  senderId: string;
+  organizationName: string;
+  senderName: string;
 };
 
-
 const ViewInvitation = () => {
-  const {fetchByUser, isError,isLoading, data, useRespondToInvitation, useDeleteInvitation} = useInvitation();
-
-  const handleResponse = (id: number, accepted: boolean) => {
-    const action = accepted ? 'acceptere' : 'afvise';
-    Alert.alert(
-      `Er du sikker på, at du vil ${action} denne invitation?`,
-      '',
-      [
-        { text: 'Annuller', style: 'cancel' },
-        {
-          text: 'OK',
-          onPress: () => {
-              useRespondToInvitation.mutate({ id, response: accepted }, {onSuccess: () => useDeleteInvitation.mutate(id)});
-          },
-        },
-      ]
-    );
-  };
-  
+  const { fetchByUser, acceptInvitation } = useInvitation();
+  const { data, error, isLoading } = fetchByUser;
 
   if (isLoading) {
     return (
@@ -40,25 +29,37 @@ const ViewInvitation = () => {
     );
   }
 
-  if (isError) {
-    return <Text>Fejl ved hentning af invitationer</Text>;
+  if (error) {
+    return <Text>Fejl med at hente invitationer: {error.message}</Text>;
   }
+
+  const handleInvitation = async (id: number, isAccepted: boolean) => {
+    await acceptInvitation.mutateAsync({
+      invitationId: id,
+      isAccepted,
+    });
+  };
 
   const renderInvitationContainer: ListRenderItem<Invitation> = ({ item }) => {
     return (
       <View key={item.id} style={styles.invitationContainer}>
-        <Text>Organisation ID: {item.organizationId}</Text>
-        <Text>Afsender ID: {item.senderId}</Text>
-        <Text>Modtager ID: {item.receiverId}</Text>
-        <Button
-          title="Accepter"
-          onPress={() => handleResponse(item.id, true)}
-          color="#28a745"
+        <View style={styles.textContainer}>
+          <Text>Organisation: {item.organizationName}</Text>
+          <Text>Sendt af: {item.senderName}</Text>
+        </View>
+        <Ionicons
+          name={"checkmark"}
+          size={ScaleSize(48)}
+          color={colors.green}
+          style={styles.iconContainer}
+          onPress={() => handleInvitation(item.id, true)}
         />
-        <Button
-          title="Afvis"
-          onPress={() => handleResponse(item.id, false)}
-          color="#dc3545"
+        <Ionicons
+          name={"close"}
+          size={ScaleSize(48)}
+          color={colors.red}
+          style={styles.iconContainer}
+          onPress={() => handleInvitation(item.id, false)}
         />
       </View>
     );
@@ -66,7 +67,7 @@ const ViewInvitation = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={SharedStyles.header}>Invitationer</Text>
+      <Text style={SharedStyles.header}>Invitations</Text>
       <FlatList
         data={data}
         renderItem={renderInvitationContainer}
@@ -83,22 +84,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   invitationContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
     borderWidth: 1,
     margin: 10,
     borderColor: colors.black,
     backgroundColor: colors.lightBlue,
   },
-  invitationText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
+  textContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
   },
-  invitationItem: {
-    paddingVertical: 5,
+  iconContainer: {
+    marginLeft: 15,
   },
 });
 

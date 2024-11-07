@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
   ProfilePictureText: {
     textShadowColor: "black",
     textShadowRadius: 0.5,
-    fontSize: ScaleSize(48),
+    fontSize: ScaleSize(112),
   },
 });

@@ -52,7 +52,7 @@ export const deleteRequest = async (id: number) => {
  */
 export const updateRequest = async (
   data: FullActivityDTO,
-  activityId: number,
+  activityId: number
 ) => {
   const res = await fetch(`${BASE_URL}/weekplan/activity/${activityId}`, {
     method: "PUT",
@@ -69,14 +69,14 @@ export const updateRequest = async (
  */
 export const toggleActivityStatusRequest = async (
   id: number,
-  isCompleted: boolean,
+  isCompleted: boolean
 ) => {
   const res = await fetch(
     `${BASE_URL}/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`,
     {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-    },
+    }
   );
   if (!res.ok) throw new Error("Fejl: Kunne ikke ændre aktivitet status");
 };
@@ -88,7 +88,7 @@ export const toggleActivityStatusRequest = async (
  */
 export const createActivityRequest = async (
   data: ActivityDTO,
-  citizenId: number,
+  citizenId: number
 ) => {
   const res = await fetch(`${BASE_URL}/weekplan/${citizenId}`, {
     method: "POST",
@@ -110,7 +110,7 @@ export const copyActivitiesRequest = async (
   citizenId: number,
   activityIds: number[],
   sourceDate: Date,
-  destinationDate: Date,
+  destinationDate: Date
 ) => {
   const params = new URLSearchParams();
   params.append("citizenId", citizenId.toString());
@@ -122,7 +122,7 @@ export const copyActivitiesRequest = async (
       method: "POST",
       body: JSON.stringify(activityIds),
       headers: { "Content-Type": "application/json" },
-    },
+    }
   );
   if (!res.ok) throw new Error("Fejl: Kunne ikke kopier aktiviteter");
 };

@@ -1,83 +1,102 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
-  createOrganisationsRequest,
-  deleteOrganisationRequest,
-  fetchAllOrganisationsRequest,
+  createCitizenRequest,
+  deleteCitizenRequest,
   fetchOrganisationRequest,
 } from "../apis/organisationAPI";
-import { OrganisationDTO } from "../DTO/organisationDTO";
+import { Citizen, OrgDTO } from "../DTO/organisationDTO";
 
-export type OrgDTO = {
-  name: string;
-  id: number;
-};
-
-const useOrganisation = (orgId: number | undefined = undefined) => {
-  const { userId } = useAuthentication();
+const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
-  const queryKey = [userId!, "Organisation"];
+  const queryKey = [orgId, "Organisation"];
 
-  const fetchOrgOverview = useQuery<OrgDTO[]>({
-    queryFn: async () => fetchAllOrganisationsRequest(userId!),
+  const fetchOrganisation = useQuery<OrgDTO>({
+    queryFn: async () => fetchOrganisationRequest(orgId),
     queryKey,
-    enabled: !!userId,
   });
 
-  const deleteOrganisation = useMutation({
-    mutationFn: (orgId: number) => deleteOrganisationRequest(orgId),
-    onMutate: async (orgId) => {
+  const createCitizen = useMutation<number, Error, Omit<Citizen, "id">>({
+    mutationFn: (citizen: Omit<Citizen, "id">) =>
+      createCitizenRequest(citizen.firstName, citizen.lastName, orgId),
+    onMutate: async (newCitizen) => {
       await queryClient.cancelQueries({ queryKey });
-      const previousOrgs = queryClient.getQueryData<OrgDTO[]>(queryKey);
-      queryClient.setQueryData<OrgDTO[]>(queryKey, (oldData) => {
-        return oldData?.filter((org) => org.id !== orgId);
+
+      const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
+      queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            citizens: [
+              {
+                id: -1,
+                ...newCitizen,
+              },
+              ...oldData.citizens,
+            ],
+          };
+        }
+        return previousOrg;
       });
-
-      return previousOrgs;
     },
-    onError: (_error, _deleted, context) => {
+    onError: (_error, _newCitizen, context) => {
       if (context) {
         queryClient.setQueryData(queryKey, context);
       }
+    },
+    onSuccess: (actualId, _variables, _context) => {
+      queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            citizens: oldData.citizens.map((citizen) => {
+              if (citizen.id === -1) {
+                return {
+                  id: actualId,
+                  firstName: citizen.firstName,
+                  lastName: citizen.lastName,
+                };
+              }
+              return citizen;
+            }),
+          };
+        }
+        return oldData;
+      });
     },
   });
 
-  const createOrganisation = useMutation({
-    mutationFn: (orgName: string) =>
-      createOrganisationsRequest(userId!, orgName),
-    onMutate: async (newOrgName) => {
+  const deleteCitizen = useMutation<void, Error, number>({
+    mutationFn: (citizenId: number) => deleteCitizenRequest(orgId, citizenId),
+    onMutate: async (citizenId) => {
       await queryClient.cancelQueries({ queryKey });
 
-      const previousOrgs = queryClient.getQueryData<OrgDTO[]>(queryKey);
-      queryClient.setQueryData<OrgDTO[]>(queryKey, (oldData) => [
-        ...(oldData || []),
-        { name: newOrgName, id: -1 },
-      ]);
-
-      return previousOrgs;
+      const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
+      queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            citizens: oldData.citizens.filter(
+              (citizen) => citizen.id !== citizenId
+            ),
+          };
+        }
+        return previousOrg;
+      });
     },
-    onError: (_error, _newOrg, context) => {
+    onError: (_error, _citizenId, context) => {
       if (context) {
         queryClient.setQueryData(queryKey, context);
       }
-    },
-    onSuccess: (data, _variables, _context) => {
-      queryClient.setQueryData<OrgDTO[]>(queryKey, (oldData) =>
-        (oldData || []).map((org) =>
-          org.id === -1 ? { ...org, id: data.id } : org
-        )
-      );
     },
   });
 
   return {
-    data: fetchOrgOverview.data,
-    isLoading: fetchOrgOverview.isLoading,
-    isError: fetchOrgOverview.isError,
-    isSuccess: fetchOrgOverview.isSuccess,
-    refetch: fetchOrgOverview.refetch,
-    createOrganisation,
-    deleteOrganisation,
+    data: fetchOrganisation.data,
+    isLoading: fetchOrganisation.isLoading,
+    refetch: fetchOrganisation.refetch,
+    error: fetchOrganisation.error,
+    createCitizen,
+    deleteCitizen,
   };
 };
 

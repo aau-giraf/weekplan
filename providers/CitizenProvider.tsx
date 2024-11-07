@@ -4,7 +4,7 @@ type CitizenProviderValues = {
   citizenId: number;
 };
 const CitizenContext = createContext<CitizenProviderValues | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -18,8 +18,7 @@ const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
     <CitizenContext.Provider
       value={{
         citizenId: 1,
-      }}
-    >
+      }}>
       {children}
     </CitizenContext.Provider>
   );

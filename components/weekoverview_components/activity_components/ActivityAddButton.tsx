@@ -1,13 +1,7 @@
-import { View, StyleSheet } from "react-native";
-import { Pressable } from "expo-router/build/views/Pressable";
+import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../../utils/SharedStyles";
 import IconButton from "../../IconButton";
 
 /**
@@ -21,10 +15,10 @@ const ActivityAddButton = () => {
 
   return (
     <IconButton onPress={handlePress} style={styles.button}>
-      <Ionicons name={"calendar-outline"} size={ScaleSize(40)} />
+      <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
       <Ionicons
         name={"add-outline"}
-        size={ScaleSize(25)}
+        size={ScaleSize(36)}
         style={styles.addIcon}
       />
     </IconButton>
