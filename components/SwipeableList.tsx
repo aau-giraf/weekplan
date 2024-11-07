@@ -17,7 +17,7 @@ import ReanimatedSwipeable, {
 import { Ionicons } from "@expo/vector-icons";
 import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
 
-type Action<T> = {
+export type Action<T> = {
   icon: keyof typeof Ionicons.glyphMap;
   color: `#${string}`;
   onPress: (item: T) => void;
@@ -93,7 +93,7 @@ const SwipeableList = <T,>({
         overshootLeft={false}
         overshootRight={false}
         renderLeftActions={(_prog, drag) => {
-          if (leftActions?.length || leftActions === undefined) return null;
+          if (!leftActions?.length) return null;
           return SwipeAction(
             drag,
             itemDimensions,
@@ -103,7 +103,7 @@ const SwipeableList = <T,>({
           );
         }}
         renderRightActions={(_prog, drag) => {
-          if (rightActions?.length || rightActions === undefined) return null;
+          if (!rightActions?.length) return null;
           return SwipeAction(
             drag,
             itemDimensions,
@@ -166,7 +166,16 @@ function SwipeAction<T>(
             { backgroundColor: act.color },
             { width: actionDimensions },
           ]}>
-          <Ionicons name={act.icon} size={ScaleSize(48)} color={colors.white} />
+          <Ionicons
+            name={act.icon}
+            size={ScaleSize(48)}
+            color={colors.white}
+            testID={
+              swipeDirection === "left"
+                ? "left-action-icon"
+                : "right-action-icon"
+            }
+          />
         </TouchableOpacity>
       ))}
     </Reanimated.View>
