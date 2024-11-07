@@ -4,20 +4,26 @@ import { colors, ScaleSize } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
 import { useLocalSearchParams } from "expo-router";
 import { useAuthentication } from "../providers/AuthenticationProvider";
+import { useToast } from "../providers/ToastProvider";
 
 const CreateInvitationPage: React.FC = () => {
   const [email, setEmail] = useState("");
-  const { useCreateInvitation } = useInvitation();
-  const createInvitation = useCreateInvitation;
+  const { createInvitation } = useInvitation();
+  const createInv = createInvitation;
   const { orgId } = useLocalSearchParams();
   const { userId } = useAuthentication();
+  const {addToast} = useToast();
 
   const handleCreateInvitation = () => {
     if (!userId) {
-        console.error("Der mangler User ID, prøv at logge ind igen");
+        addToast({ message: "Du er ikke logget ind", type: "error" });
         return;
       }
-    createInvitation.mutate({orgId: Number(orgId), receiverEmail: email, senderId: userId })
+    createInv.mutateAsync({orgId: Number(orgId), receiverEmail: email, senderId: userId }).then(() =>{
+        addToast({ message: "Invitation oprettet", type: "success" });
+    }).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
   };
 
   return (
