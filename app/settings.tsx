@@ -22,14 +22,14 @@ const Settings = () => {
     () => [
       {
         icon: "log-out-outline",
-        label: "Log out",
+        label: "Log ud",
         onPress: async () => {
           await logout();
         },
       },
       {
         icon: "mail-outline",
-        label: "Invitations",
+        label: "Invitationer",
         onPress: () => {},
       },
       {
@@ -38,11 +38,11 @@ const Settings = () => {
       },
       {
         icon: "key-outline",
-        label: "Remember me",
+        label: "Husk mig",
       },
       {
         icon: "person-outline",
-        label: "Edit profile",
+        label: "Rediger profil",
         onPress: () => {
           // Implement edit profile logic here
         },
