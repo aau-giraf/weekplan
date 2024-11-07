@@ -21,7 +21,7 @@ const CameraButton = () => {
 
   return (
     <IconButton onPress={handlePress} style={styles.button}>
-        <Ionicons name={"camera"} size={ScaleSize(72)} color={colors.white} />
+        <Ionicons name={"camera"} size={ScaleSize(72)} color={colors.black} />
     </IconButton>
   );
 };

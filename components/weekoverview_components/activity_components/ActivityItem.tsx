@@ -26,7 +26,8 @@ import {
 
 const CONTAINER_HEIGHT = ScaleSizeH(220);
 const CONTAINER_PADDING = ScaleSize(20);
-const ACTION_WIDTH = ScaleSizeW(150);
+// Width of the action buttons scaled larger the smaller the screen size
+const ACTION_WIDTH = ScaleSizeW(300 - ScaleSizeW(200));
 
 /**
  * LeftAction component for handling swipe-to-delete functionality.
