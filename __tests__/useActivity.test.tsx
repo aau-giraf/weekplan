@@ -43,12 +43,14 @@ jest
   .mockImplementation(() => Promise.resolve());
 
 jest.mock("../apis/activityAPI", () => ({
-  fetchByDateRequest: jest.fn().mockImplementation((activityId: number, date) => {
-    return Promise.resolve([
-      { ...mockActivity, activityId: 1 },
-      { ...mockActivity, activityId: 2 },
-    ]);
-  }),
+  fetchByDateRequest: jest
+    .fn()
+    .mockImplementation((activityId: number, date) => {
+      return Promise.resolve([
+        { ...mockActivity, activityId: 1 },
+        { ...mockActivity, activityId: 2 },
+      ]);
+    }),
   deleteRequest: jest.fn().mockImplementation((activityId: number) => {
     return Promise.resolve();
   }),
@@ -116,7 +118,7 @@ test("deleteActivity removes the activity from the list", async () => {
   });
 
   await waitFor(() =>
-    expect(result.current.useFetchActivities.isSuccess).toBe(true),
+    expect(result.current.useFetchActivities.isSuccess).toBe(true)
   );
 
   const key = dateToQueryKey(date);
@@ -279,10 +281,10 @@ test("toggleActivityStatus toggles the status of the activity", async () => {
   });
   const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
   const activityWithId1 = updatedData?.find(
-    (activity) => activity.activityId === 1,
+    (activity) => activity.activityId === 1
   );
   expect(activityWithId1).toEqual(
-    expect.objectContaining({ isCompleted: true }),
+    expect.objectContaining({ isCompleted: true })
   );
 });
 

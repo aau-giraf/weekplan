@@ -16,6 +16,7 @@ import { z } from "zod";
 import {
   colors,
   ScaleSize,
+  ScaleSizeH,
   ScaleSizeW,
   SharedStyles,
 } from "../../../utils/SharedStyles";
@@ -55,7 +56,6 @@ type FormData = z.infer<typeof schema>;
  * @param {number} activityId - The id of the activity.
  * @param {boolean} isCompleted - Whether the activity is completed.
  * @returns {JSX.Element}
- *
  * @example
  * <ActivityEdit
  *   title="Meeting"
@@ -251,27 +251,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   title: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(48),
     textAlign: "center",
     fontWeight: "600",
   },
   inputValid: {
     width: "100%",
-    padding: ScaleSize(10),
-    borderWidth: ScaleSizeW(1),
+    padding: ScaleSize(20),
+    borderWidth: ScaleSize(1),
     fontSize: ScaleSize(24),
     borderRadius: 5,
-    marginBottom: ScaleSize(10),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
   },
   inputError: {
     width: "100%",
-    padding: ScaleSize(10),
-    borderWidth: ScaleSizeW(1),
-    fontSize: ScaleSize(24),
+    padding: ScaleSize(20),
+    borderWidth: ScaleSize(1),
     borderRadius: 5,
-    marginBottom: ScaleSize(10),
+    fontSize: ScaleSize(24),
     borderColor: colors.red,
     backgroundColor: colors.white,
   },
@@ -283,27 +281,27 @@ const styles = StyleSheet.create({
     ...SharedStyles.header,
   },
   buttonValid: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
   },
   buttonDisabled: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.gray,
   },
   buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(24),
     fontWeight: "500",
+    color: colors.white,
   },
 });
 

@@ -9,14 +9,30 @@ import { Dimensions, StyleSheet } from "react-native";
  * @example
  * ScaleSizeW(100) // Returns 100 scaled to the device's width
  */
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const ScaleSizeW = (originalSize: number) => {
-  const deviceWidth = Dimensions.get("window").width;
+  if(deviceWidth >= 820)
+  {
+    return originalSize
+  }
+  if(deviceWidth <= 320)
+  {
+    return originalSize / 2
+  }
   return (originalSize / 820) * deviceWidth;
 };
 
 const ScaleSizeH = (originalSize: number) => {
-  const deviceHeight = Dimensions.get("window").height;
+  if(deviceHeight >= 1180)
+  {
+    return originalSize
+  }
+  if(deviceHeight <= 480)
+  {
+    return originalSize / 2
+  }
   return (originalSize / 1180) * deviceHeight;
 };
 
@@ -30,8 +46,15 @@ const ScaleSizeH = (originalSize: number) => {
  * ScaleSize(100) // Returns 100 scaled to the device's width
  */
 const ScaleSize = (originalSize: number) => {
-  const deviceHeight = Dimensions.get("window").height;
-  return (originalSize / 820) * deviceHeight;
+  if(deviceHeight >= 1180)
+    {
+      return originalSize
+    }
+    if(deviceHeight <= 480)
+    {
+      return originalSize / 2
+    }
+    return (originalSize / 1180) * deviceHeight;
 };
 
 /**
@@ -66,7 +89,7 @@ const colors = {
 
 const SharedStyles = StyleSheet.create({
   header: {
-    fontSize: ScaleSize(18),
+    fontSize: ScaleSize(32),
     fontWeight: "500",
     paddingBottom: ScaleSize(15),
     color: colors.black,

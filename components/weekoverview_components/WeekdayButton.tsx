@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet, Dimensions } from "react-native";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
 import {
@@ -19,7 +19,6 @@ type WeekdayButtonProps = {
 const formattedDate = (date: Date) => {
   return date.toLocaleDateString("da-DK", {
     day: "numeric",
-    month: "short",
   });
 };
 
@@ -62,22 +61,22 @@ const styles = StyleSheet.create({
     height: ScaleSizeH(100),
   },
   dayText: {
-    fontSize: ScaleSize(26),
+    fontSize: ScaleSize(24),
     color: colors.black,
   },
   circle: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(60),
-    height: ScaleSize(60),
+    width: Dimensions.get("window").width > Dimensions.get("window").height ? ScaleSizeW(60) : ScaleSizeH(60),
+    height: Dimensions.get("window").width > Dimensions.get("window").height ? ScaleSizeW(60) : ScaleSizeH(60),
     borderRadius: 100,
-    marginBottom: ScaleSize(5),
+    marginBottom: ScaleSizeH(5),
     backgroundColor: colors.gray,
   },
   selectedCircle: {
     backgroundColor: colors.orange,
   },
   dateText: {
-    fontSize: ScaleSize(16),
+    fontSize: ScaleSize(24),
     color: colors.black,
   },
 });
