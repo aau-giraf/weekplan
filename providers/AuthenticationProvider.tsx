@@ -69,6 +69,7 @@ const AuthenticationProvider = ({
         if (res.token) {
           setJwt(res.token);
           setUserId(getUserIdFromToken(res.token));
+          // @ts-ignore
           router.replace("/addcitizen");
         } else {
           addToast({ message: "Toast not received", type: "error" });
