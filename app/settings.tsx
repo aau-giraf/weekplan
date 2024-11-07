@@ -15,13 +15,12 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { router } from "expo-router";
-import useInvitation from "../hooks/useInvitation"; // Import your invitation hook
+import useInvitation from "../hooks/useInvitation";
 
 const Settings = () => {
   const { logout } = useAuthentication();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
 
-  // Fetch invitations
   const { fetchByUser } = useInvitation();
   const { data: inviteData } = fetchByUser;
 
@@ -49,11 +48,14 @@ const Settings = () => {
       },
       {
         icon: "person-outline",
+        label: "Edit profile",
+        onPress: () => {router.push("/editprofile")}
         label: "Rediger profil",
         onPress: () => {
           // Implement edit profile logic here
         },
       },
+      
     ],
     [logout]
   );
@@ -101,7 +103,7 @@ type RenderSettingProps = {
   item: Setting;
   toggleStates: { [key: string]: boolean };
   handleToggleChange: (label: string, value: boolean) => void;
-  hasInvitations?: boolean; // New prop to control badge visibility
+  hasInvitations?: boolean; 
 };
 
 const RenderSetting = ({
