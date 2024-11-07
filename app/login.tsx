@@ -7,7 +7,6 @@ import {
   StyleSheet,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import GirafIcon from "../components/SVG/GirafIcon";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
   colors,
@@ -22,6 +21,7 @@ import FieldInfo from "../components/FieldInfo";
 import { router } from "expo-router";
 import { Switch } from "react-native-gesture-handler";
 import { getSettingsValue, setSettingsValue } from "../utils/settingsUtils";
+import GirafIcon from "../assets/SVG/GirafIcon";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
