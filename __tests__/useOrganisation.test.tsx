@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import useOrganisation from "../hooks/useOrganisation";
+import useOrganisationOverview from "../hooks/useOrganisationOverview";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,7 +36,7 @@ jest.mock("../providers/AuthenticationProvider", () => ({
   }),
 }));
 
-jest.mock("../apis/organisationAPI", () => ({
+jest.mock("../apis/organisationOverviewAPI", () => ({
   fetchAllOrganisationsRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve([mockOrganisation, { ...mockOrganisation, id: 2 }]);
   }),
@@ -65,7 +65,7 @@ afterEach(async () => {
 });
 
 test("fetches organisations", async () => {
-  const { result } = renderHook(() => useOrganisation(), {
+  const { result } = renderHook(() => useOrganisationOverview(), {
     wrapper,
   });
 
@@ -80,7 +80,7 @@ test("fetches organisations", async () => {
 });
 
 test("creates organisation", async () => {
-  const { result } = renderHook(() => useOrganisation(), {
+  const { result } = renderHook(() => useOrganisationOverview(), {
     wrapper,
   });
 
@@ -104,7 +104,7 @@ test("creates organisation", async () => {
 });
 
 test("new organisation id is initially -1 and then sets the id from the promise", async () => {
-  const { result } = renderHook(() => useOrganisation(), {
+  const { result } = renderHook(() => useOrganisationOverview(), {
     wrapper,
   });
 
@@ -113,9 +113,9 @@ test("new organisation id is initially -1 and then sets the id from the promise"
   });
 
   await waitFor(() => {
-    expect(queryClient.getQueryData(["mockUserId", "Organisation"])).toEqual([
-      { id: -1, name: "New Organisation" },
-    ]);
+    expect(
+      queryClient.getQueryData(["mockUserId", "OrganisationOverview"])
+    ).toEqual([{ id: -1, name: "New Organisation" }]);
   });
 
   await waitFor(() => {
@@ -126,7 +126,7 @@ test("new organisation id is initially -1 and then sets the id from the promise"
 });
 
 test("deletes organisation", async () => {
-  const { result } = renderHook(() => useOrganisation(), {
+  const { result } = renderHook(() => useOrganisationOverview(), {
     wrapper,
   });
 

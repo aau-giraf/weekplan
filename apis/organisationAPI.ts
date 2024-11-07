@@ -1,5 +1,6 @@
-import { OrgDTO } from "../hooks/useOrganisation";
 import { BASE_URL } from "../utils/globals";
+
+import { OrgDTO } from "../DTO/organisationDTO";
 
 export const fetchAllOrganisationsRequest = async (userId: string) => {
   if (userId === null) {
@@ -21,11 +22,32 @@ export const fetchOrganisationRequest = async (organisationId: number) => {
   return res.json();
 };
 
-export const deleteOrganisationRequest = async (organisationId: number) => {
-  const url = `${BASE_URL}/organizations/${organisationId}`;
+export const createCitizenRequest = async (
+  firstname: string,
+  lastName: string,
+  orgId: number
+): Promise<number> => {
+  const url = `${BASE_URL}/organizations/${orgId}/add-citizen`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ firstName: firstname, lastName: lastName }),
+  });
+  if (!res.ok) throw new Error("Kunne ikke oprette borger");
+  return res.json();
+};
+
+export const deleteCitizenRequest = async (
+  orgId: number,
+  citizenId: number
+) => {
+  const url = `${BASE_URL}/organizations/${orgId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "DELETE",
   });
+
   if (!res.ok) throw new Error("Kunne ikke slette organisationen");
 };
 
