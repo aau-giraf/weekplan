@@ -1,6 +1,6 @@
 import { BASE_URL } from "../utils/globals";
-import {OrgDTO} from "../hooks/useOrganisation";
 
+import { OrgDTO } from "../DTO/organisationDTO";
 
 export const fetchAllOrganisationsRequest = async (userId: string) => {
   if (userId === null) {

@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
@@ -131,7 +132,7 @@ const AddCitizen: React.FC = () => {
   );
 
   const renderCitizen = (item: Citizen) => (
-    <ReanimatedSwipeable onSwipeableOpen={() => handleDelete(item.id)}>
+    <ReanimatedSwipeable onSwipeableWillOpen={() => handleDelete(item.id)}>
       <View style={styles.citizenContainer}>
         <ProfilePicture
           label={`${item.firstName} ${item.lastName}`}
@@ -149,7 +150,9 @@ const AddCitizen: React.FC = () => {
       <Animated.FlatList
         style={{ padding: 20 }}
         data={citizens}
-        itemLayoutAnimation={LinearTransition}
+        itemLayoutAnimation={
+          Platform.OS === "android" ? undefined : LinearTransition
+        }
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
           <>

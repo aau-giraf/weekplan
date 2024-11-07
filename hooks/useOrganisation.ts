@@ -4,26 +4,7 @@ import {
   deleteCitizenRequest,
   fetchOrganisationRequest,
 } from "../apis/organisationAPI";
-
-type User = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-type Citizen = {
-  id: number;
-  firstName: string;
-  lastName: string;
-};
-
-export type OrgDTO = {
-  id: number;
-  name: string;
-  users: User[];
-  citizens: Citizen[];
-};
+import { Citizen, OrgDTO } from "../DTO/organisationDTO";
 
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
@@ -113,6 +94,7 @@ const useOrganisation = (orgId: number) => {
     data: fetchOrganisation.data,
     isLoading: fetchOrganisation.isLoading,
     refetch: fetchOrganisation.refetch,
+    error: fetchOrganisation.error,
     createCitizen,
     deleteCitizen,
   };
