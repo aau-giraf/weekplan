@@ -69,7 +69,7 @@ const AuthenticationProvider = ({
         if (res.token) {
           setJwt(res.token);
           setUserId(getUserIdFromToken(res.token));
-          router.replace("/list");
+          router.replace("/profile");
         } else {
           addToast({ message: "Toast not received", type: "error" });
         }
