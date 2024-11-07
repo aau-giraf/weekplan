@@ -11,7 +11,9 @@ import useProfile from "../hooks/useProfile";
 import { ProfilePicture } from "../components/ProfilePage";
 import { useRef, useState } from "react";
 import IconButton from "../components/IconButton";
-import useOrganisation, { OrgDTO } from "../hooks/useOrganisation";
+import useOrganisationOverview, {
+  OrgOverviewDTO,
+} from "../hooks/useOrganisationOverview";
 import BottomSheet, {
   BottomSheetTextInput,
   BottomSheetScrollView,
@@ -45,7 +47,7 @@ const ProfilePage: React.FC = () => {
     isLoading: orgIsLoading,
     createOrganisation,
     refetch,
-  } = useOrganisation();
+  } = useOrganisationOverview();
 
   if (isLoading) {
     return (
@@ -136,7 +138,12 @@ const ProfilePage: React.FC = () => {
 
 type BottomSheetProps = {
   bottomSheetRef: React.RefObject<BottomSheet>;
-  createOrganisation: UseMutationResult<OrgDTO, Error, string, OrgDTO[]>;
+  createOrganisation: UseMutationResult<
+    OrgOverviewDTO,
+    Error,
+    string,
+    OrgOverviewDTO[]
+  >;
 };
 const AddBottomSheet = ({
   bottomSheetRef,
