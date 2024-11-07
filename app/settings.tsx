@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useAuthentication } from "../providers/AuthenticationProvider";
+import { router } from "expo-router";
 
 const Settings = () => {
   const { logout } = useAuthentication();
@@ -42,11 +43,14 @@ const Settings = () => {
       },
       {
         icon: "person-outline",
+        label: "Edit profile",
+        onPress: () => {router.push("/editprofile")}
         label: "Rediger profil",
         onPress: () => {
           // Implement edit profile logic here
         },
       },
+      
     ],
     [logout]
   );
