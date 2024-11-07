@@ -83,7 +83,7 @@ const useOrganisation = (orgId: number) => {
         return previousOrg;
       });
     },
-    onError: (error, _citizenId, context) => {
+    onError: (_error, _citizenId, context) => {
       if (context) {
         queryClient.setQueryData(queryKey, context);
       }
