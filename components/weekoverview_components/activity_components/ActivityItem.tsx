@@ -26,7 +26,8 @@ import {
 
 const CONTAINER_HEIGHT = ScaleSizeH(220);
 const CONTAINER_PADDING = ScaleSize(20);
-const ACTION_WIDTH = ScaleSizeW(130);
+// Width of the action buttons scaled larger the smaller the screen size
+const ACTION_WIDTH = ScaleSizeW(300 - ScaleSizeW(200));
 
 /**
  * LeftAction component for handling swipe-to-delete functionality.
@@ -113,7 +114,6 @@ function RightAction(
 
 type ActivityItemProps = {
   time: string;
-  label: string;
   isCompleted: boolean;
   deleteActivity: () => void;
   editActivity: () => void;
@@ -128,7 +128,6 @@ type ActivityItemProps = {
  * @component
  * @param {Object} props - The properties object.
  * @param {string} props.time - The time associated with the activity.
- * @param {string} props.label - The label or name of the activity.
  * @param {boolean} props.isCompleted - Flag indicating if the activity is completed.
  * @param {Function} props.deleteActivity - Function to delete the activity.
  * @param {Function} props.editActivity - Function to edit the activity.
@@ -139,7 +138,6 @@ type ActivityItemProps = {
  */
 const ActivityItem: React.FC<ActivityItemProps> = ({
   time,
-  label,
   isCompleted,
   deleteActivity,
   editActivity,
@@ -206,15 +204,12 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
             },
           ]}>
           <Text style={styles.timeText}>{time.replace("-", "\n")}</Text>
-          <Text style={styles.labelText} numberOfLines={2} ellipsizeMode="tail">
-            {label}
-          </Text>
           <View style={styles.iconContainer}>
             {data ? (
               <Pressable onPress={() => handleImagePress(data)}>
                 <Image
                   source={{ uri: data }}
-                  style={{ width: ScaleSizeW(110), height: ScaleSizeH(110) }}
+                  style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
                   resizeMode="contain"
                 />
               </Pressable>
@@ -227,7 +222,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
     </>
   );
 };
-
 const styles = StyleSheet.create({
   taskContainer: {
     ...SharedStyles.flexRow,
@@ -239,19 +233,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
   },
   timeText: {
-    fontSize: ScaleSize(18),
-    color: colors.black,
-  },
-  labelText: {
-    flex: 0.6,
-    fontSize: ScaleSize(20),
-    textAlign: "center",
+    fontSize: ScaleSize(36),
     color: colors.black,
   },
   iconContainer: {
     ...SharedStyles.trueCenter,
-    width: ScaleSize(100),
-    height: ScaleSize(100),
+    width: ScaleSize(200),
+    height: ScaleSize(200),
     borderRadius: 150,
     backgroundColor: colors.orange,
   },

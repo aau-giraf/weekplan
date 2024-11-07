@@ -1,6 +1,5 @@
 import { BASE_URL } from "../utils/globals";
 
-
 /**
  * Function that sends a POST request to the server to try to login.
  * @param email {string} - The username of the user.

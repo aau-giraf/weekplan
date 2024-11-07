@@ -114,7 +114,7 @@ const ProfilePage: React.FC = () => {
               <IconButton
                 style={styles.settings}
                 onPress={() => router.push("/settings")}>
-                <Ionicons name="settings-outline" size={ScaleSize(40)} />
+                <Ionicons name="settings-outline" size={ScaleSize(64)} />
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
@@ -127,13 +127,13 @@ const ProfilePage: React.FC = () => {
       <IconButton
         style={styles.iconAdd}
         onPress={() => bottomSheetRef.current?.expand()}>
-        <Ionicons name="add" size={ScaleSize(40)} />
+        <Ionicons name="add" size={ScaleSize(64)} />
       </IconButton>
       {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
       <IconButton
         style={styles.weekoverview}
         onPress={() => router.push("/weekplanscreen")}>
-        <Ionicons name="calendar-outline" size={ScaleSize(40)} />
+        <Ionicons name="calendar-outline" size={ScaleSize(64)} />
       </IconButton>
       <AddBottomSheet
         bottomSheetRef={bottomSheetRef}
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     width: screenWidth / calculateNumberOfColumns() - ScaleSizeW(8),
   },
   profilePicture: {
-    height: ScaleSizeH(200),
+    height: ScaleSizeH(150),
     borderRadius: 1000,
     aspectRatio: 1,
   },
@@ -221,14 +221,14 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     padding: ScaleSize(10),
-    paddingTop: ScaleSize(30),
+    paddingTop: ScaleSizeH(30),
     alignItems: "center",
     shadowRadius: 20,
     shadowOpacity: 0.15,
   },
   mainProfilePicture: {
     width: "50%",
-    maxHeight: ScaleSizeH(300),
+    maxHeight: ScaleSizeH(250),
     aspectRatio: 1,
     borderRadius: 10000,
   },
@@ -245,8 +245,8 @@ const styles = StyleSheet.create({
     padding: ScaleSize(14),
   },
   organizationsText: {
-    fontSize: ScaleSize(24),
-    marginRight: 10,
+    fontSize: ScaleSize(48),
+    marginRight: ScaleSizeW(10),
   },
   settings: {
     top: ScaleSize(10),
@@ -261,29 +261,31 @@ const styles = StyleSheet.create({
     left: ScaleSize(30),
   },
   inputValid: {
-    width: "85%",
-    padding: 10,
+    paddingVertical: ScaleSizeH(16),
+    paddingHorizontal: ScaleSizeW(85),
     borderWidth: 1,
+    fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
-    marginVertical: 10,
+    marginVertical: ScaleSizeH(10),
   },
   buttonValid: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: ScaleSizeH(16),
+    paddingHorizontal: ScaleSizeW(100),
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: ScaleSizeH(10),
     alignItems: "center",
     backgroundColor: colors.green,
   },
   buttonText: {
     color: "#fff",
+    fontSize: ScaleSize(24),
     fontWeight: "bold",
   },
   sheetContent: {
-    gap: 10,
-    padding: 30,
+    gap: ScaleSize(10),
+    padding: ScaleSize(90),
     alignItems: "center",
   },
 });
