@@ -16,6 +16,7 @@ const RootLayout = () => {
         <Stack.Screen name="addactivity" />
         <Stack.Screen name="editactivity" />
         <Stack.Screen name="login" />
+        <Stack.Screen name="editprofile" />
         <Stack.Screen name="settings" />
         <Stack.Screen name="addcitizen" />
         <Stack.Screen name="register" />

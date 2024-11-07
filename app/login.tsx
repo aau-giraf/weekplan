@@ -7,6 +7,8 @@ import {
   StyleSheet,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import GirafIcon from "../assets/SVG/GirafIcon";
+        
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
   colors,
