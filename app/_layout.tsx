@@ -19,6 +19,8 @@ const RootLayout = () => {
         <Stack.Screen name="settings" />
         <Stack.Screen name="addcitizen" />
         <Stack.Screen name="register" />
+        <Stack.Screen name="viewinvitation" />
+        <Stack.Screen name="settings" />
       </Stack>
     </ProviderWrapper>
   );
