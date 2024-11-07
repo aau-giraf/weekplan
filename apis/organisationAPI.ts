@@ -4,7 +4,7 @@ import { BASE_URL } from "../utils/globals";
 export const fetchAllOrganisationsRequest = async (userId: string) => {
   if (userId === null) {
     throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
+      "FATAL FEJL: Bruger-ID er ikke initialiseret korrekt i din session."
     );
   }
 
@@ -17,7 +17,7 @@ export const fetchAllOrganisationsRequest = async (userId: string) => {
 export const fetchOrganisationRequest = async (organisationId: number) => {
   const url = `${BASE_URL}/organizations/${organisationId}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente organisation dataen");
+  if (!res.ok) throw new Error("Kunne ikke hente data for organisationen");
   return res.json();
 };
 
@@ -26,7 +26,7 @@ export const deleteOrganisationRequest = async (organisationId: number) => {
   const res = await fetch(url, {
     method: "DELETE",
   });
-  if (!res.ok) throw new Error("Kunne ikke slette organisation");
+  if (!res.ok) throw new Error("Kunne ikke slette organisationen");
 };
 
 export const createOrganisationsRequest = async (

@@ -63,8 +63,17 @@ const ProfilePage: React.FC = () => {
     );
   }
 
-  const renderOrgContainer = ({ item }: { item: { name: string } }) => (
-    <View style={styles.itemContainer}>
+  const renderOrgContainer = ({
+    item,
+  }: {
+    item: { name: string; id: number };
+  }) => (
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => {
+        // @ts-ignore
+        router.replace(`/vieworganisation/${item.id}`);
+      }}>
       <ProfilePicture label={item.name} style={styles.profilePicture} />
       <Text
         adjustsFontSizeToFit={true}
@@ -73,13 +82,14 @@ const ProfilePage: React.FC = () => {
         minimumFontScale={0.3}>
         {item.name}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
       <Animated.FlatList
         refreshing={orgIsLoading}
+        onTouchStart={() => bottomSheetRef.current?.close()}
         itemLayoutAnimation={LinearTransition}
         onRefresh={async () => await refetch()}
         data={orgData}
@@ -101,8 +111,10 @@ const ProfilePage: React.FC = () => {
                   {`${data.firstName} ${data.lastName}`}
                 </Text>
               </View>
-              <IconButton style={styles.iconMail}>
-                <Ionicons name="mail-outline" size={ScaleSize(64)} />
+              <IconButton
+                style={styles.settings}
+                onPress={() => router.push("/settings")}>
+                <Ionicons name="settings-outline" size={ScaleSize(64)} />
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
@@ -160,7 +172,8 @@ const AddBottomSheet = ({
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
-      onClose={() => setName("")}>
+      onClose={() => setName("")}
+      style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
       <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
@@ -235,7 +248,7 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(48),
     marginRight: ScaleSizeW(10),
   },
-  iconMail: {
+  settings: {
     top: ScaleSize(10),
     right: ScaleSize(30),
   },

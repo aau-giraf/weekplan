@@ -29,8 +29,6 @@ export const dateToQueryKey = (date: Date) => {
  * @return {useFetchActivities, useDeleteActivity, updateActivity, useToggleActivityStatus, useCreateActivity, copyActivities}
  * @return {invalidateQueries, data}
  * @return {useFetchActivity}
- *
- *
  */
 
 export default function useActivity({ date }: { date: Date }) {
@@ -69,6 +67,7 @@ export default function useActivity({ date }: { date: Date }) {
       }
     },
   });
+
   const updateActivity = useMutation({
     mutationFn: (data: FullActivityDTO) => updateRequest(data, data.activityId),
     onMutate: async (data: FullActivityDTO) => {
