@@ -8,7 +8,7 @@ import {
   SharedStyles,
 } from "../../utils/SharedStyles";
 import { useOrganisationData } from "../../hooks/useOrganisationData";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 const ViewOrganisation = () => {
@@ -34,8 +34,8 @@ const ViewOrganisation = () => {
           <Ionicons name={"create-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Editing Org */}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.buttonValid}>
-          <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
+        <TouchableOpacity onPress={() => router.push('/create-invitation')} style={styles.buttonValid}>
+          <Ionicons name={"mail-outline"} size={ScaleSize(30)}/>
           {/* //TODO: Setup Invitations */}
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}} style={styles.buttonValid}>
