@@ -39,8 +39,7 @@ const DateProvider = ({ children }: { children: React.ReactNode }) => {
         goToNextWeek,
         weekNumber,
         setWeekAndYear,
-      }}
-    >
+      }}>
       {children}
     </DateContext.Provider>
   );

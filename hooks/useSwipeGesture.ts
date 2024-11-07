@@ -21,7 +21,7 @@ const X_AXIS_SENSITIVITY = 30;
  */
 const useSwipeGesture = (
   goToPreviousWeek: () => void,
-  goToNextWeek: () => void,
+  goToNextWeek: () => void
 ) => {
   const translateX = useSharedValue(0);
   const startTranslateX = useSharedValue(0);
@@ -40,10 +40,10 @@ const useSwipeGesture = (
             duration: DURATIONS_MS,
             easing: Easing.out(Easing.exp),
           });
-        },
+        }
       );
     },
-    [translateX],
+    [translateX]
   );
 
   const swipeGesture = useMemo(
@@ -67,7 +67,7 @@ const useSwipeGesture = (
       handleSwipeAnimation,
       goToPreviousWeek,
       goToNextWeek,
-    ],
+    ]
   );
 
   const boxAnimatedStyles = useAnimatedStyle(() => ({

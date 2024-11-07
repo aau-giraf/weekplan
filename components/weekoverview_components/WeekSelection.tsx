@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  Modal,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { View, Modal, Button, StyleSheet } from "react-native";
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
@@ -17,6 +10,7 @@ import {
   ScaleSizeW,
   SharedStyles,
 } from "../../utils/SharedStyles";
+import getMonthsFromDates from "../../utils/getMonthsFromDate";
 
 type WeekSelectionProps = {};
 
@@ -47,13 +41,15 @@ const getYears = () => {
  */
 const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const currentDate = new Date();
-  const { setWeekAndYear, weekNumber } = useDate();
+  const { setWeekAndYear, weekNumber, weekDates } = useDate();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedWeek, setSelectedWeek] = useState(getWeekNumber(currentDate));
   const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
 
   const weeks = getWeeks(selectedYear);
   const years = getYears();
+
+  const monthString = getMonthsFromDates(weekDates[0], weekDates[6]);
 
   const handleWeekSelection = () => {
     setWeekAndYear(selectedWeek, selectedYear);
@@ -62,9 +58,10 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
 
   return (
     <View style={styles.weekSelection}>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Text style={styles.weekText}>{`Uge ${weekNumber}`}</Text>
-      </TouchableOpacity>
+      <Button
+        title={`Uge ${weekNumber} \n ${monthString}`}
+        onPress={() => setModalVisible(true)}
+      />
 
       {/* Modal for Week/Year Picker */}
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
@@ -99,7 +96,7 @@ const styles = StyleSheet.create({
   },
   weekText: {
     padding: ScaleSize(5),
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(48),
     fontWeight: "bold",
   },
   modalContainer: {
@@ -109,8 +106,8 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     ...SharedStyles.flexRow,
-    marginLeft: ScaleSize(10),
-    marginRight: ScaleSize(10),
+    marginLeft: ScaleSizeW(10),
+    marginRight: ScaleSizeW(10),
     padding: ScaleSize(50),
     borderRadius: 25,
     justifyContent: "center",

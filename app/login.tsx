@@ -75,7 +75,7 @@ const LoginScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <GirafIcon width={ScaleSizeW(350)} height={ScaleSizeH(400)} />
+        <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
       </View>
       <form.Field
         name={"email"}
@@ -159,9 +159,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: ScaleSizeW(150),
-    height: ScaleSizeH(500),
-    marginBottom: ScaleSize(30),
+    width: ScaleSizeW(400),
+    height: ScaleSizeH(400),
   },
   formView: {
     width: "100%",
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
   },
   inputValid: {
     width: "85%",
-    padding: ScaleSize(10),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
     fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
@@ -179,7 +178,7 @@ const styles = StyleSheet.create({
   },
   inputError: {
     width: "85%",
-    padding: ScaleSize(10),
+    padding: ScaleSize(20),
     fontSize: ScaleSize(24),
     borderWidth: ScaleSize(1),
     borderColor: colors.red,
@@ -187,19 +186,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
+    marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
     width: "85%",
   },
   buttonDisabled: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     alignItems: "center",
     backgroundColor: colors.gray,
     width: "85%",

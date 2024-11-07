@@ -34,7 +34,7 @@ describe("DateProvider and useDate", () => {
         <View>
           <Text>Child Component</Text>
         </View>
-      </DateProvider>,
+      </DateProvider>
     );
 
     expect(screen.getByText("Child Component")).toBeTruthy();

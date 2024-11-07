@@ -132,7 +132,6 @@ const AddActivity = () => {
                       placeholder="Beskrivelse"
                       value={field.state.value}
                       onChangeText={(text) => field.handleChange(text)}
-                      multiline
                       returnKeyType="done"
                     />
                     <FieldInfo field={field} />
@@ -205,15 +204,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   headerText: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(48),
     fontWeight: "600",
-    marginBottom: ScaleSize(20),
+    marginBottom: ScaleSizeH(20),
     textAlign: "center",
     color: colors.black,
   },
   inputValid: {
     width: "100%",
-    padding: ScaleSize(10),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
     fontSize: ScaleSize(24),
     borderRadius: 5,
@@ -222,7 +221,7 @@ const styles = StyleSheet.create({
   },
   inputError: {
     width: "100%",
-    padding: ScaleSize(10),
+    padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
     borderRadius: 5,
     fontSize: ScaleSize(24),
@@ -230,25 +229,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   buttonValid: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
   },
   buttonDisabled: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
+    paddingHorizontal: ScaleSizeW(20),
     borderRadius: 8,
-    marginVertical: ScaleSize(10),
+    marginVertical: ScaleSizeH(10),
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.gray,
   },
   buttonText: {
-    fontSize: ScaleSize(28),
+    fontSize: ScaleSize(24),
     fontWeight: "500",
     color: colors.white,
   },
