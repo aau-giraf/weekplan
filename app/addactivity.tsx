@@ -13,11 +13,7 @@ import { prettyDate } from "../utils/prettyDate";
 import useActivity from "../hooks/useActivity";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { z } from "zod";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-} from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH } from "../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { useToast } from "../providers/ToastProvider";
@@ -90,15 +86,33 @@ const AddActivity = () => {
           <Text style={styles.headerText}>
             Opret en aktivitet til {prettyDate(selectedDate)}
           </Text>
-          <FieldInputText form={form} formName={"title"} placeholder={"Titel"} />
+          <FieldInputText
+            form={form}
+            formName={"title"}
+            placeholder={"Titel"}
+          />
           <FieldInputText
             form={form}
             formName={"description"}
             multiline={true}
-            placeholder={"Beskrivelse"} />
-          <FieldTimePicker form={form} name={"startTime"} title={"Vælg start tid"} setMaxDate={form.getFieldValue("endTime")}  androidDisplay={"spinner"} iosDisplay={"default"}/>
-          <FieldTimePicker form={form} name={"endTime"} title={"Vælg slut tid"} setMinDate={form.getFieldValue("startTime")} androidDisplay={"spinner"}
-                    iosDisplay={"default"} />
+            placeholder={"Beskrivelse"}
+          />
+          <FieldTimePicker
+            form={form}
+            name={"startTime"}
+            title={"Vælg start tid"}
+            setMaxDate={form.getFieldValue("endTime")}
+            androidDisplay={"spinner"}
+            iosDisplay={"default"}
+          />
+          <FieldTimePicker
+            form={form}
+            name={"endTime"}
+            title={"Vælg slut tid"}
+            setMinDate={form.getFieldValue("startTime")}
+            androidDisplay={"spinner"}
+            iosDisplay={"default"}
+          />
           <FieldSubmitButton form={form} text={"Tilføj"} />
         </ScrollView>
       </TouchableWithoutFeedback>

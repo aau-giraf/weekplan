@@ -1,10 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
@@ -47,14 +42,22 @@ const CitizenForm: React.FC<CitizenFormProps> = ({ onSubmit }) => {
     <View>
       <Text style={styles.title}>Tilføj borger</Text>
       <View style={styles.inputContainer}>
-      <Text>Fornavn:</Text>
-      <FieldInputText form={form} formName="firstName" placeholder="Fornavn" />
+        <Text>Fornavn:</Text>
+        <FieldInputText
+          form={form}
+          formName="firstName"
+          placeholder="Fornavn"
+        />
       </View>
       <View style={styles.inputContainer}>
-      <Text>Efternavn:</Text>
-      <FieldInputText form={form} formName="lastName" placeholder="Efternavn" />
+        <Text>Efternavn:</Text>
+        <FieldInputText
+          form={form}
+          formName="lastName"
+          placeholder="Efternavn"
+        />
       </View>
-      <FieldSubmitButton form={form} text={"Tilføj borger"}/>
+      <FieldSubmitButton form={form} text={"Tilføj borger"} />
     </View>
   );
 };

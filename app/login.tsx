@@ -75,31 +75,40 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-    <ScrollView contentContainerStyle={{ flexGrow: 1, gap: ScaleSize(20) }}>
-      <View style={styles.iconContainer}>
-        <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
-      </View>
-      <FieldInputText form={form} formName={"email"} placeholder={"Email"} returnKeyType={"done"}/>
-      <FieldInputText form={form} formName={"password"} placeholder={"Kodeord"} returnKeyType={"done"}/>
-      <View style={styles.formView}>
-        {/* Remember Me Checkbox */}
-        <View style={styles.checkboxContainer}>
-          <Switch
-            value={rememberMe}
-            onValueChange={(value) => setRememberMe(value)}
-          />
-          <Text style={styles.checkboxLabel}>Remember Me</Text>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, gap: ScaleSize(20) }}>
+        <View style={styles.iconContainer}>
+          <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
         </View>
-        <FieldSubmitButton form={form} text={"Login"}/>
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: colors.blue }]}
-          onPress={() => router.replace("/register")}>
-          <Text style={styles.buttonText}>Tilføj ny konto</Text>
-        </TouchableOpacity>
-      </View>
+        <FieldInputText
+          form={form}
+          formName={"email"}
+          placeholder={"Email"}
+          returnKeyType={"done"}
+        />
+        <FieldInputText
+          form={form}
+          formName={"password"}
+          placeholder={"Kodeord"}
+          returnKeyType={"done"}
+        />
+        <View style={styles.formView}>
+          {/* Remember Me Checkbox */}
+          <View style={styles.checkboxContainer}>
+            <Switch
+              value={rememberMe}
+              onValueChange={(value) => setRememberMe(value)}
+            />
+            <Text style={styles.checkboxLabel}>Remember Me</Text>
+          </View>
+          <FieldSubmitButton form={form} text={"Login"} />
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: colors.blue }]}
+            onPress={() => router.replace("/register")}>
+            <Text style={styles.buttonText}>Tilføj ny konto</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
-
   );
 };
 

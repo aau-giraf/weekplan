@@ -1,5 +1,11 @@
 import React from "react";
-import { Text, TouchableOpacity, View, StyleSheet, Dimensions } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
 import {
@@ -66,8 +72,14 @@ const styles = StyleSheet.create({
   },
   circle: {
     ...SharedStyles.trueCenter,
-    width: Dimensions.get("window").width > Dimensions.get("window").height ? ScaleSizeW(60) : ScaleSizeH(60),
-    height: Dimensions.get("window").width > Dimensions.get("window").height ? ScaleSizeW(60) : ScaleSizeH(60),
+    width:
+      Dimensions.get("window").width > Dimensions.get("window").height
+        ? ScaleSizeW(60)
+        : ScaleSizeH(60),
+    height:
+      Dimensions.get("window").width > Dimensions.get("window").height
+        ? ScaleSizeW(60)
+        : ScaleSizeH(60),
     borderRadius: 100,
     marginBottom: ScaleSizeH(5),
     backgroundColor: colors.gray,
