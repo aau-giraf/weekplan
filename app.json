@@ -25,13 +25,21 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router", [
-      "expo-image-picker",
-      {
-        "photosPermission": "The app accesses your photos to get pictures for the weekplans"
-      }
-    ]],
-
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to get pictures for the weekplans"
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     }
