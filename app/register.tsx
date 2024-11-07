@@ -20,8 +20,9 @@ import { z } from "zod";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../components/FieldInfo";
 import PrivacyPolicy from "../components/Legal/PrivacyPolicy";
+import FieldInputText from "../components/InputValidation/FieldInputText";
+import FieldSubmitButton from "../components/InputValidation/FieldSumbitButton";
 
 /**
  * Regex
@@ -83,103 +84,30 @@ const RegisterScreen: React.FC = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.headerText}>Opret en konto</Text>
-          <form.Field
-            name={"email"}
-            children={(field) => {
-              return (
-                <View style={styles.formView}>
-                  <TextInput
-                    style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
-                        ? styles.inputError
-                        : styles.inputValid
-                    }
-                    placeholder="E-mail"
-                    value={field.state.value}
-                    onChangeText={(value) => {
-                      field.setValue(value);
-                    }}
-                    keyboardType="email-address"
-                    returnKeyType="next"
-                  />
-                  <FieldInfo field={field} />
-                </View>
-              );
-            }}
+          <FieldInputText
+            form={form}
+            formName={"email"}
+            placeholder={"E-mail"}
+            returnKeyType={"done"}
           />
-          <form.Field
-            name={"firstName"}
-            children={(field) => {
-              return (
-                <View style={styles.formView}>
-                  <TextInput
-                    style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
-                        ? styles.inputError
-                        : styles.inputValid
-                    }
-                    placeholder="Fornavn"
-                    value={field.state.value}
-                    onChangeText={(value) => {
-                      field.setValue(value);
-                    }}
-                    returnKeyType="next"
-                  />
-                  <FieldInfo field={field} />
-                </View>
-              );
-            }}
+          <FieldInputText
+            form={form}
+            formName={"firstName"}
+            placeholder={"Fornavn"}
+            returnKeyType={"done"}
           />
-          <form.Field
-            name={"lastName"}
-            children={(field) => {
-              return (
-                <View style={styles.formView}>
-                  <TextInput
-                    style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
-                        ? styles.inputError
-                        : styles.inputValid
-                    }
-                    placeholder="Efternavn"
-                    value={field.state.value}
-                    onChangeText={(value) => {
-                      field.setValue(value);
-                    }}
-                    returnKeyType="next"
-                  />
-                  <FieldInfo field={field} />
-                </View>
-              );
-            }}
+          <FieldInputText
+            form={form}
+            formName={"lastName"}
+            placeholder={"Efternavn"}
+            returnKeyType={"done"}
           />
-          <form.Field
-            name={"password"}
-            children={(field) => {
-              return (
-                <View style={styles.formView}>
-                  <TextInput
-                    style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
-                        ? styles.inputError
-                        : styles.inputValid
-                    }
-                    placeholder="Adgangskode"
-                    value={field.state.value}
-                    onChangeText={(value) => {
-                      field.setValue(value);
-                    }}
-                    secureTextEntry
-                    returnKeyType="done"
-                  />
-                  <FieldInfo field={field} />
-                </View>
-              );
-            }}
+          <FieldInputText
+            form={form}
+            formName={"password"}
+            placeholder={"Adgangskode"}
+            secureTextEntry={true}
+            returnKeyType={"done"}
           />
           <TextInput
             style={
@@ -200,19 +128,7 @@ const RegisterScreen: React.FC = () => {
               ? "Adgangskoderne stemmer ikke overens"
               : " "}
           </Text>
-          <form.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
-              <TouchableOpacity
-                style={canSubmit ? styles.button : styles.buttonDisabled}
-                disabled={!canSubmit}
-                onPress={form.handleSubmit}>
-                <Text style={styles.buttonText}>
-                  {isSubmitting ? "..." : "Register"}
-                </Text>
-              </TouchableOpacity>
-            )}
-          />
+          <FieldSubmitButton form={form} text={"Opret konto"} />
           <TouchableOpacity
             style={[styles.button, styles.loginButton]}
             onPress={() => router.replace("/login")}>
@@ -233,7 +149,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     justifyContent: "center",
-    alignItems: "center",
   },
   headerText: {
     fontSize: ScaleSize(48),
@@ -242,13 +157,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.black,
   },
-  formView: {
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   inputValid: {
-    width: "85%",
+    width: "100%",
     padding: ScaleSize(20),
     borderWidth: ScaleSize(1),
     fontSize: ScaleSize(24),
@@ -257,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   inputError: {
-    width: "85%",
+    width: "100%",
     padding: ScaleSize(20),
     fontSize: ScaleSize(24),
     borderWidth: ScaleSize(1),
@@ -273,16 +183,7 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
-    width: "85%",
-  },
-  buttonDisabled: {
-    paddingVertical: ScaleSizeH(20),
-    paddingHorizontal: ScaleSizeW(20),
-    borderRadius: 8,
-    marginVertical: ScaleSizeH(10),
-    alignItems: "center",
-    backgroundColor: colors.gray,
-    width: "85%",
+    width: "100%",
   },
   buttonText: {
     color: colors.white,

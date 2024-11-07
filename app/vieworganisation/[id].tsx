@@ -1,7 +1,6 @@
 import { CutoffList } from "../../components/organisationoverview_components/CutoffList";
 import { View, Text, StyleSheet } from "react-native";
 import {
-  colors,
   ScaleSize,
   ScaleSizeH,
   ScaleSizeW,
@@ -77,14 +76,6 @@ const styles = StyleSheet.create({
     marginBottom: ScaleSize(10),
     textAlign: "center",
     fontWeight: "bold",
-  },
-  buttonValid: {
-    ...SharedStyles.trueCenter,
-    height: ScaleSize(50),
-    width: ScaleSize(50),
-    borderRadius: ScaleSize(50),
-    marginBottom: ScaleSize(10),
-    backgroundColor: colors.green,
   },
 });
 

@@ -94,11 +94,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: ScaleSize(10),
   },
-  weekText: {
-    padding: ScaleSize(5),
-    fontSize: ScaleSize(48),
-    fontWeight: "bold",
-  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",

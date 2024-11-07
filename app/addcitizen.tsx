@@ -2,9 +2,7 @@ import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
-  TouchableOpacity,
   Platform,
 } from "react-native";
 import { z } from "zod";
@@ -14,8 +12,9 @@ import { colors } from "../utils/SharedStyles";
 import { ProfilePicture } from "../components/ProfilePage";
 import ReanimatedSwipeable from "../components/ReanimatedSwipeable";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import FieldInfo from "../components/FieldInfo";
 import useOrganisation from "../hooks/useOrganisation";
+import FieldInputText from "../components/InputValidation/FieldInputText";
+import FieldSubmitButton from "../components/InputValidation/FieldSumbitButton";
 
 const citizenSchema = z.object({
   firstName: z
@@ -47,60 +46,15 @@ const CitizenForm: React.FC<CitizenFormProps> = ({ onSubmit }) => {
   return (
     <View>
       <Text style={styles.title}>Tilføj borger</Text>
-
-      <form.Field
-        name="firstName"
-        children={(field) => (
-          <View style={styles.inputContainer}>
-            <Text>Fornavn:</Text>
-            <TextInput
-              style={
-                field.state.meta.isTouched && field.state.meta.errors.length > 0
-                  ? styles.inputError
-                  : styles.input
-              }
-              placeholder="Fornavn"
-              value={field.state.value}
-              onChangeText={field.setValue}
-            />
-            <FieldInfo field={field} />
-          </View>
-        )}
-      />
-
-      <form.Field
-        name="lastName"
-        children={(field) => (
-          <View style={styles.inputContainer}>
-            <Text>Efternavn:</Text>
-            <TextInput
-              style={
-                field.state.meta.isTouched && field.state.meta.errors.length > 0
-                  ? styles.inputError
-                  : styles.input
-              }
-              placeholder="Efternavn"
-              value={field.state.value}
-              onChangeText={field.setValue}
-            />
-            <FieldInfo field={field} />
-          </View>
-        )}
-      />
-
-      <form.Subscribe
-        selector={(state) => [state.canSubmit, state.isSubmitting]}
-        children={([canSubmit, isSubmitting]) => (
-          <TouchableOpacity
-            style={canSubmit ? styles.button : styles.buttonDisabled}
-            disabled={!canSubmit}
-            onPress={form.handleSubmit}>
-            <Text style={styles.buttonText}>
-              {isSubmitting ? "..." : "Tilføj borger"}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+      <View style={styles.inputContainer}>
+      <Text>Fornavn:</Text>
+      <FieldInputText form={form} formName="firstName" placeholder="Fornavn" />
+      </View>
+      <View style={styles.inputContainer}>
+      <Text>Efternavn:</Text>
+      <FieldInputText form={form} formName="lastName" placeholder="Efternavn" />
+      </View>
+      <FieldSubmitButton form={form} text={"Tilføj borger"}/>
     </View>
   );
 };

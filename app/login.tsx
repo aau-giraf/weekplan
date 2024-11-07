@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import GirafIcon from "../components/SVG/GirafIcon";
+import GirafIcon from "../assets/SVG/GirafIcon";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
   colors,
@@ -18,10 +18,11 @@ import {
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../components/FieldInfo";
 import { router } from "expo-router";
 import { Switch } from "react-native-gesture-handler";
 import { getSettingsValue, setSettingsValue } from "../utils/settingsUtils";
+import FieldInputText from "../components/InputValidation/FieldInputText";
+import FieldSubmitButton from "../components/InputValidation/FieldSumbitButton";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
@@ -74,47 +75,12 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+    <ScrollView contentContainerStyle={{ flexGrow: 1, gap: ScaleSize(20) }}>
       <View style={styles.iconContainer}>
         <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
       </View>
-      <form.Field
-        name={"email"}
-        children={(field) => (
-          <View style={styles.formView}>
-            <TextInput
-              style={
-                field.state.meta.isTouched && field.state.meta.errors.length > 0
-                  ? styles.inputError
-                  : styles.inputValid
-              }
-              placeholder="Email"
-              value={field.state.value}
-              onChangeText={(value) => field.setValue(value)}
-              keyboardType="email-address"
-            />
-            <FieldInfo field={field} />
-          </View>
-        )}
-      />
-      <form.Field
-        name={"password"}
-        children={(field) => (
-          <View style={styles.formView}>
-            <TextInput
-              style={
-                field.state.meta.isTouched && field.state.meta.errors.length > 0
-                  ? styles.inputError
-                  : styles.inputValid
-              }
-              placeholder="Kodeord"
-              value={field.state.value}
-              onChangeText={(value) => field.setValue(value)}
-              secureTextEntry
-            />
-            <FieldInfo field={field} />
-          </View>
-        )}
-      />
+      <FieldInputText form={form} formName={"email"} placeholder={"Email"} returnKeyType={"done"}/>
+      <FieldInputText form={form} formName={"password"} placeholder={"Kodeord"} returnKeyType={"done"}/>
       <View style={styles.formView}>
         {/* Remember Me Checkbox */}
         <View style={styles.checkboxContainer}>
@@ -124,27 +90,16 @@ const LoginScreen: React.FC = () => {
           />
           <Text style={styles.checkboxLabel}>Remember Me</Text>
         </View>
-
-        <form.Subscribe
-          selector={(state) => [state.canSubmit, state.isSubmitting]}
-          children={([canSubmit, isSubmitting]) => (
-            <TouchableOpacity
-              style={canSubmit ? styles.button : styles.buttonDisabled}
-              disabled={!canSubmit}
-              onPress={form.handleSubmit}>
-              <Text style={styles.buttonText}>
-                {isSubmitting ? "..." : "Login"}
-              </Text>
-            </TouchableOpacity>
-          )}
-        />
+        <FieldSubmitButton form={form} text={"Login"}/>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: colors.blue }]}
           onPress={() => router.replace("/register")}>
           <Text style={styles.buttonText}>Tilføj ny konto</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </View>
+
   );
 };
 
@@ -152,38 +107,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     flex: 1,
-    alignItems: "center",
     padding: ScaleSize(20),
     gap: ScaleSize(10),
   },
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: ScaleSizeW(400),
+    width: "100%",
     height: ScaleSizeH(400),
   },
   formView: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-  },
-  inputValid: {
-    width: "85%",
-    padding: ScaleSize(20),
-    borderWidth: ScaleSize(1),
-    fontSize: ScaleSize(24),
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-    borderRadius: 5,
-  },
-  inputError: {
-    width: "85%",
-    padding: ScaleSize(20),
-    fontSize: ScaleSize(24),
-    borderWidth: ScaleSize(1),
-    borderColor: colors.red,
-    backgroundColor: colors.white,
-    borderRadius: 5,
   },
   button: {
     paddingVertical: ScaleSizeH(20),
@@ -193,16 +129,7 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     alignItems: "center",
     backgroundColor: colors.green,
-    width: "85%",
-  },
-  buttonDisabled: {
-    paddingVertical: ScaleSizeH(20),
-    paddingHorizontal: ScaleSizeW(20),
-    borderRadius: 8,
-    marginVertical: ScaleSizeH(10),
-    alignItems: "center",
-    backgroundColor: colors.gray,
-    width: "85%",
+    width: "100%",
   },
   buttonText: {
     color: colors.white,

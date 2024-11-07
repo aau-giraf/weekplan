@@ -133,7 +133,6 @@ const RenderSetting = ({
     </Animated.View>
   );
 };
-
 const styles = StyleSheet.create({
   settingItemContainer: {
     backgroundColor: colors.lightGray,

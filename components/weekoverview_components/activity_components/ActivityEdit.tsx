@@ -1,29 +1,18 @@
 import React from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useDate } from "../../../providers/DateProvider";
 import useActivity from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import { router } from "expo-router";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
-import TimePicker from "../../TimePicker";
 import { z } from "zod";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-  SharedStyles,
-} from "../../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../../FieldInfo";
 import { useToast } from "../../../providers/ToastProvider";
+import FieldInputText from "../../InputValidation/FieldInputText";
+import FieldSubmitButton from "../../InputValidation/FieldSumbitButton";
+import FieldTimePicker from "../../InputValidation/FieldTimePicker";
 
 type EditActivityButtonProps = {
   title: string;
@@ -117,127 +106,39 @@ const ActivityEdit = ({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ændre Aktivitet</Text>
-      <View>
-        <form.Field
-          name="title"
-          children={(field) => {
-            return (
-              <View>
-                <TextInput
-                  value={field.state.value}
-                  placeholder="Titel"
-                  style={
-                    field.state.meta.errors.length
-                      ? styles.inputError
-                      : styles.inputValid
-                  }
-                  onChangeText={(text) => field.handleChange(text)}
-                />
-                <FieldInfo field={field} />
-              </View>
-            );
-          }}
-        />
-      </View>
-      <View>
-        <form.Field
-          name="description"
-          children={(field) => {
-            return (
-              <View>
-                <TextInput
-                  value={field.state.value}
-                  placeholder="Beskrivelse"
-                  style={
-                    field.state.meta.errors.length
-                      ? styles.inputError
-                      : styles.inputValid
-                  }
-                  onChangeText={(text) => field.handleChange(text)}
-                />
-                <FieldInfo field={field} />
-              </View>
-            );
-          }}
-        />
-      </View>
-      <View style={styles.pickerContainer}>
-        <form.Field
-          name="startTime"
-          children={(field) => {
-            return (
-              <View>
-                <TimePicker
-                  title="Vælg start tid"
-                  mode="time"
-                  value={field.state.value}
-                  maxDate={form.getFieldValue("endTime")}
-                  onChange={(selectedDate) => {
-                    field.handleChange(selectedDate);
-                  }}
-                />
-                <FieldInfo field={field} />
-              </View>
-            );
-          }}
-        />
-      </View>
-      <View style={styles.pickerContainer}>
-        <form.Field
-          name="endTime"
-          children={(field) => {
-            return (
-              <View>
-                <TimePicker
-                  title="Vælg start tid"
-                  mode="time"
-                  value={field.state.value}
-                  minDate={form.getFieldValue("startTime")}
-                  onChange={(selectedDate) => {
-                    field.handleChange(selectedDate);
-                  }}
-                />
-                <FieldInfo field={field} />
-              </View>
-            );
-          }}
-        />
-      </View>
-      <View style={styles.pickerContainer}>
-        <View>
-          <form.Field
-            name={"date"}
-            children={(field) => {
-              return (
-                <View>
-                  <TimePicker
-                    title={"Dato for aktivitet"}
-                    value={field.state.value}
-                    onChange={(selectedDate) => {
-                      field.handleChange(selectedDate);
-                    }}
-                    mode={"date"}
-                  />
-                  <FieldInfo field={field} />
-                </View>
-              );
-            }}
-          />
-        </View>
-      </View>
-      <form.Subscribe
-        selector={(state) => [state.canSubmit, state.isSubmitting]}
-        children={([canSubmit, isSubmitting]) => (
-          <TouchableOpacity
-            style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
-            disabled={!canSubmit}
-            onPress={form.handleSubmit}>
-            <Text style={styles.buttonText}>
-              {isSubmitting ? "..." : "Ændre aktivitet"}
-            </Text>
-          </TouchableOpacity>
-        )}
+      <FieldInputText form={form} formName={"title"} placeholder={"Titel"} />
+      <FieldInputText
+        form={form}
+        formName={"description"}
+        placeholder={"Beskrivelse"}
       />
+      <View style={styles.pickerContainer}>
+        <FieldTimePicker
+          form={form}
+          name={"startTime"}
+          title={"Vælg start tid"}
+          mode={"time"}
+          setMaxDate={form.getFieldValue("endTime")}
+        />
+      </View>
+      <View style={styles.pickerContainer}>
+        <FieldTimePicker
+          form={form}
+          name={"endTime"}
+          title={"Vælg slut tid"}
+          mode={"time"}
+          setMinDate={form.getFieldValue("startTime")}
+        />
+      </View>
+      <View style={styles.pickerContainer}>
+        <FieldTimePicker
+          form={form}
+          name={"date"}
+          title={"Dato for aktivitet"}
+          mode={"date"}
+        />
+      </View>
+      <FieldSubmitButton form={form} text="Ændre Aktivitet" />
     </View>
   );
 };
@@ -255,53 +156,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
   },
-  inputValid: {
-    width: "100%",
-    padding: ScaleSize(20),
-    borderWidth: ScaleSize(1),
-    fontSize: ScaleSize(24),
-    borderRadius: 5,
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-  },
-  inputError: {
-    width: "100%",
-    padding: ScaleSize(20),
-    borderWidth: ScaleSize(1),
-    borderRadius: 5,
-    fontSize: ScaleSize(24),
-    borderColor: colors.red,
-    backgroundColor: colors.white,
-  },
   pickerContainer: {
     marginBottom: ScaleSize(20),
     alignItems: "center",
-  },
-  header: {
-    ...SharedStyles.header,
-  },
-  buttonValid: {
-    paddingVertical: ScaleSizeH(20),
-    paddingHorizontal: ScaleSizeW(20),
-    borderRadius: 8,
-    marginVertical: ScaleSizeH(10),
-    marginTop: "auto",
-    alignItems: "center",
-    backgroundColor: colors.green,
-  },
-  buttonDisabled: {
-    paddingVertical: ScaleSizeH(20),
-    paddingHorizontal: ScaleSizeW(20),
-    borderRadius: 8,
-    marginVertical: ScaleSizeH(10),
-    marginTop: "auto",
-    alignItems: "center",
-    backgroundColor: colors.gray,
-  },
-  buttonText: {
-    fontSize: ScaleSize(24),
-    fontWeight: "500",
-    color: colors.white,
   },
 });
 

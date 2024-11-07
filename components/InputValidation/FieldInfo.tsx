@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { FieldApi } from "@tanstack/react-form";
-import { ScaleSize } from "../utils/SharedStyles";
+import { ScaleSize } from "../../utils/SharedStyles";
 
 /**
  * FieldInfo component displays error messages and validation status for a field.
