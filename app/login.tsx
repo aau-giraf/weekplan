@@ -22,6 +22,7 @@ import FieldInfo from "../components/FieldInfo";
 import { router } from "expo-router";
 import { Switch } from "react-native-gesture-handler";
 import { getSettingsValue, setSettingsValue } from "../utils/settingsUtils";
+import GirafIcon from "../assets/SVG/GirafIcon";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
