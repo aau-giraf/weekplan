@@ -116,6 +116,11 @@ const ProfilePage: React.FC = () => {
                 onPress={() => router.push("/settings")}>
                 <Ionicons name="settings-outline" size={ScaleSize(64)} />
               </IconButton>
+              <IconButton
+                style={styles.iconMail}
+                onPress={() => router.push("/viewinvitation")}>
+                <Ionicons name="mail-outline" size={ScaleSize(40)} />
+              </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
               <Text style={styles.organizationsText}>Dine orginisationer</Text>
@@ -255,6 +260,10 @@ const styles = StyleSheet.create({
   iconAdd: {
     bottom: ScaleSize(30),
     right: ScaleSize(30),
+  },
+  iconMail: {
+    top: ScaleSize(10),
+    left: ScaleSize(30),
   },
   weekoverview: {
     bottom: ScaleSize(30),
