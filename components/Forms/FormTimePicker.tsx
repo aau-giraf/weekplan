@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, TextStyle, View, StyleSheet } from "react-native";
 import { Controller, FieldValues, Control, FieldPath, useFormState } from "react-hook-form";
-import TimePicker from "./TimePicker";
-import { colors, ScaleSize } from "../utils/SharedStyles";
+import TimePicker from "../TimePicker";
+import { colors, ScaleSize } from "../../utils/SharedStyles";
 
-type FormFieldProps<T extends FieldValues> = {
+type FormTimePickerProps<T extends FieldValues> = {
   control: Control<T>;
   name: FieldPath<T>;
   placeholder: string;
@@ -30,7 +30,7 @@ function FormTimePicker<T extends FieldValues>({
   iosDisplay = "default",
   minuteInterval = 5,
   is24Hour = true,
-}: FormFieldProps<T>) {
+}: FormTimePickerProps<T>) {
   const { errors } = useFormState({ control });
   return (
     <Controller
