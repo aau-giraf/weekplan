@@ -16,9 +16,7 @@ const queryClient = new QueryClient({
   },
 });
 
-jest
-  .spyOn(queryClient, "invalidateQueries")
-  .mockImplementation(() => Promise.resolve());
+jest.spyOn(queryClient, "invalidateQueries").mockImplementation(() => Promise.resolve());
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -40,13 +38,9 @@ jest.mock("../apis/organisationOverviewAPI", () => ({
   fetchAllOrganisationsRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve([mockOrganisation, { ...mockOrganisation, id: 2 }]);
   }),
-  createOrganisationsRequest: jest
-    .fn()
-    .mockImplementation((orgName: string) => {
-      return new Promise((resolve) =>
-        setTimeout(() => resolve({ id: 3, name: orgName }), 50)
-      );
-    }),
+  createOrganisationsRequest: jest.fn().mockImplementation((orgName: string) => {
+    return new Promise((resolve) => setTimeout(() => resolve({ id: 3, name: orgName }), 50));
+  }),
   deleteOrganisationRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve({ ...mockOrganisation, id: 3 });
   }),
@@ -73,10 +67,7 @@ test("fetches organisations", async () => {
     expect(result.current.isSuccess).toBe(true);
   });
 
-  expect(result.current.data).toEqual([
-    mockOrganisation,
-    { ...mockOrganisation, id: 2 },
-  ]);
+  expect(result.current.data).toEqual([mockOrganisation, { ...mockOrganisation, id: 2 }]);
 });
 
 test("creates organisation", async () => {
@@ -113,9 +104,9 @@ test("new organisation id is initially -1 and then sets the id from the promise"
   });
 
   await waitFor(() => {
-    expect(
-      queryClient.getQueryData(["mockUserId", "OrganisationOverview"])
-    ).toEqual([{ id: -1, name: "New Organisation" }]);
+    expect(queryClient.getQueryData(["mockUserId", "OrganisationOverview"])).toEqual([
+      { id: -1, name: "New Organisation" },
+    ]);
   });
 
   await waitFor(() => {

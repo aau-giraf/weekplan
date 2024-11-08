@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { takePhoto } from "../Camera/Camera";
 import { colors, ScaleSize } from "../../utils/SharedStyles";
@@ -21,7 +21,7 @@ const CameraButton = () => {
 
   return (
     <IconButton onPress={handlePress} style={styles.button}>
-        <Ionicons name={"camera"} size={ScaleSize(72)} color={colors.black} />
+      <Ionicons name={"camera"} size={ScaleSize(72)} color={colors.black} />
     </IconButton>
   );
 };
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     left: 10,
     position: "absolute",
   },
-
 });
 
 export default CameraButton;

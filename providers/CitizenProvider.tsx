@@ -3,9 +3,7 @@ import { createContext, useContext } from "react";
 type CitizenProviderValues = {
   citizenId: number;
 };
-const CitizenContext = createContext<CitizenProviderValues | undefined>(
-  undefined
-);
+const CitizenContext = createContext<CitizenProviderValues | undefined>(undefined);
 
 /**
  * Provider for citizen context

@@ -11,19 +11,12 @@ type AuthenticationProviderValues = {
   jwt: string | null;
   userId: string | null;
   isAuthenticated: () => boolean;
-  register: (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string
-  ) => Promise<void>;
+  register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
-const AuthenticationContext = createContext<
-  AuthenticationProviderValues | undefined
->(undefined);
+const AuthenticationContext = createContext<AuthenticationProviderValues | undefined>(undefined);
 
 /**
  * Provider for Authentication context
@@ -31,11 +24,7 @@ const AuthenticationContext = createContext<
  * @constructor
  * @return {ReactNode}
  */
-const AuthenticationProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => {
   const [jwt, setJwt] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const { addToast } = useToast();
@@ -45,12 +34,7 @@ const AuthenticationProvider = ({
   }, [jwt]);
 
   const register = useCallback(
-    async (
-      email: string,
-      password: string,
-      firstName: string,
-      lastName: string
-    ) => {
+    async (email: string, password: string, firstName: string, lastName: string) => {
       const userData = { email, password, firstName, lastName };
       try {
         await createUserRequest(userData);
@@ -111,9 +95,7 @@ const AuthenticationProvider = ({
 export const useAuthentication = () => {
   const context = useContext(AuthenticationContext);
   if (context === undefined) {
-    throw new Error(
-      "useAuthentication skal bruges i en AuthenticationProvider"
-    );
+    throw new Error("useAuthentication skal bruges i en AuthenticationProvider");
   }
   return context;
 };

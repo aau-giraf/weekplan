@@ -50,10 +50,7 @@ export const deleteRequest = async (id: number) => {
  * @param data {FullActivityDTO} - The updated data for the activity
  * @param activityId {number} - The ID of the activity to be updated
  */
-export const updateRequest = async (
-  data: FullActivityDTO,
-  activityId: number
-) => {
+export const updateRequest = async (data: FullActivityDTO, activityId: number) => {
   const res = await fetch(`${BASE_URL}/weekplan/activity/${activityId}`, {
     method: "PUT",
     body: JSON.stringify(data),
@@ -67,17 +64,11 @@ export const updateRequest = async (
  * @param id {number} - ID of the activity
  * @param isCompleted {boolean} - Whether to mark it as completed or unfinished
  */
-export const toggleActivityStatusRequest = async (
-  id: number,
-  isCompleted: boolean
-) => {
-  const res = await fetch(
-    `${BASE_URL}/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+export const toggleActivityStatusRequest = async (id: number, isCompleted: boolean) => {
+  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+  });
   if (!res.ok) throw new Error("Fejl: Kunne ikke ændre aktivitet status");
 };
 
@@ -86,10 +77,7 @@ export const toggleActivityStatusRequest = async (
  * @param data {ActivityDTO} - Data for the Activity to be created
  * @param citizenId {number} - ID for the associated citizen
  */
-export const createActivityRequest = async (
-  data: ActivityDTO,
-  citizenId: number
-) => {
+export const createActivityRequest = async (data: ActivityDTO, citizenId: number) => {
   const res = await fetch(`${BASE_URL}/weekplan/${citizenId}`, {
     method: "POST",
     body: JSON.stringify(data),
@@ -116,13 +104,10 @@ export const copyActivitiesRequest = async (
   params.append("citizenId", citizenId.toString());
   params.append("dateStr", formatQueryDate(sourceDate));
   params.append("newDateStr", formatQueryDate(destinationDate));
-  const res = await fetch(
-    `${BASE_URL}/weekplan/activity/copy?${params.toString()}`,
-    {
-      method: "POST",
-      body: JSON.stringify(activityIds),
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  const res = await fetch(`${BASE_URL}/weekplan/activity/copy?${params.toString()}`, {
+    method: "POST",
+    body: JSON.stringify(activityIds),
+    headers: { "Content-Type": "application/json" },
+  });
   if (!res.ok) throw new Error("Fejl: Kunne ikke kopier aktiviteter");
 };

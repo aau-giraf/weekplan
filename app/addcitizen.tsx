@@ -1,13 +1,7 @@
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import React, { useCallback, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 import FieldInfo from "../components/FieldInfo";
 import { ProfilePicture } from "../components/ProfilePage";
@@ -16,14 +10,8 @@ import useOrganisation from "../hooks/useOrganisation";
 import { colors } from "../utils/SharedStyles";
 
 const citizenSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, "First name must be at least 2 characters long")
-    .max(20),
-  lastName: z
-    .string()
-    .min(2, "Last name must be at least 2 characters long")
-    .max(20),
+  firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
+  lastName: z.string().min(2, "Last name must be at least 2 characters long").max(20),
 });
 
 type CitizenData = z.infer<typeof citizenSchema>;
@@ -93,9 +81,7 @@ const CitizenForm: React.FC<CitizenFormProps> = ({ onSubmit }) => {
             style={canSubmit ? styles.button : styles.buttonDisabled}
             disabled={!canSubmit}
             onPress={form.handleSubmit}>
-            <Text style={styles.buttonText}>
-              {isSubmitting ? "..." : "Tilføj borger"}
-            </Text>
+            <Text style={styles.buttonText}>{isSubmitting ? "..." : "Tilføj borger"}</Text>
           </TouchableOpacity>
         )}
       />
@@ -131,10 +117,7 @@ const AddCitizen: React.FC = () => {
 
   const renderCitizen = (item: Citizen) => (
     <View style={styles.citizenContainer}>
-      <ProfilePicture
-        label={`${item.firstName} ${item.lastName}`}
-        style={styles.profilePicture}
-      />
+      <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
       <Text numberOfLines={3} style={{ flexShrink: 1 }}>
         {`${item.firstName} ${item.lastName}`}
       </Text>

@@ -12,25 +12,10 @@ type Params = {
 };
 
 const EditActivity = () => {
-  const {
-    name,
-    description,
-    startTime,
-    endTime,
-    activityId,
-    isCompleted,
-    date,
-  } = useLocalSearchParams<Params>();
+  const { name, description, startTime, endTime, activityId, isCompleted, date } =
+    useLocalSearchParams<Params>();
 
-  if (
-    !name ||
-    !description ||
-    !startTime ||
-    !endTime ||
-    !activityId ||
-    !isCompleted ||
-    !date
-  ) {
+  if (!name || !description || !startTime || !endTime || !activityId || !isCompleted || !date) {
     throw new Error("Mangler påkrævet parameter");
   }
 
