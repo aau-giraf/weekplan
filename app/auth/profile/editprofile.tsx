@@ -5,20 +5,19 @@ import {
     TouchableOpacity,
     View,
   } from "react-native";
-  import FieldInfo from "../components/FieldInfo";
+  import FieldInfo from "../../../components/FieldInfo";
   import React from "react";
   import { z } from "zod";
   import { useForm } from "@tanstack/react-form";
   import { zodValidator } from "@tanstack/zod-form-adapter";
-  import useProfile from "../hooks/useProfile";
-  import { useToast } from "../providers/ToastProvider";
+  import useProfile from "../../../hooks/useProfile";
+  import { useToast } from "../../../providers/ToastProvider";
   import {
     colors,
     ScaleSize,
     ScaleSizeH,
     ScaleSizeW,
-    SharedStyles,
-  } from "../utils/SharedStyles";
+  } from "../../../utils/SharedStyles";
 import { router } from "expo-router";
   
   const schema = z.object({

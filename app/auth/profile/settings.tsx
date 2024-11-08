@@ -49,7 +49,7 @@ const Settings = () => {
       {
         icon: "person-outline",
         label: "Rediger profil",
-        onPress: () => {router.push("/editprofile")}
+        onPress: () => {router.push("/auth/profile/editprofile")}
         ,
       },
     ],

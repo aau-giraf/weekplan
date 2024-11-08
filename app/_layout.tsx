@@ -11,6 +11,7 @@ const RootLayout = () => {
       />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="+not-found" />
         <Stack.Screen name="auth" />
       </Stack>
     </ProviderWrapper>

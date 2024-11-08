@@ -6,7 +6,7 @@ export default function NotFoundScreen() {
     <>
       <Stack.Screen options={{ title: "Fejl! Kunne ikke finde siden" }} />
       <View style={styles.container}>
-        <Link href="/">Gå tilbage til login</Link>
+        <Link href="/">Fejl! Kunne ikke finde siden klik for at gå tilage</Link>
       </View>
     </>
   );

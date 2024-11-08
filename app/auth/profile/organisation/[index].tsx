@@ -40,7 +40,7 @@ const ViewOrganisation = () => {
         </IconButton>
         <IconButton
           onPress={() => {
-            router.push("/addcitizen");
+            router.push("/auth/profile/organisation/addcitizen");
           }}
           absolute={false}>
           <Ionicons name={"person-outline"} size={ScaleSize(30)} />
@@ -56,7 +56,7 @@ const ViewOrganisation = () => {
       <Text style={styles.heading}>Borger</Text>
       <CutoffList
         entries={data?.citizens ?? []}
-        onPress={() => router.push("./addcitizen")}
+        onPress={() => router.push("/auth/profile/organisation/addcitizen")}
       />
       <Text style={styles.heading}>Klasser</Text>
       {/* //TODO: Add and Implement Classes */}
