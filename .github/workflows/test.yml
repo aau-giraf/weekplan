@@ -24,6 +24,7 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           github_token: ${{ secrets.USER_PERSONAL_ACCESS_TOKEN }}  # Use PAT for Prettier
+          prettier_options: --write '**/*.{js,jsx,ts,tsx}
 
       # Commit Prettier changes with PAT instead of GITHUB_TOKEN
       - name: Commit Prettier changes
