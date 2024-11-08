@@ -11,7 +11,7 @@ import { colors } from "../utils/SharedStyles";
 
 const citizenSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
-  lastName: z.string().min(2, "Last name must be at least 2 characters long").max(20),
+  lastName: z.string().min(2, "dette skal være snaks").max(20),
 });
 
 type CitizenData = z.infer<typeof citizenSchema>;
