@@ -28,7 +28,7 @@ jobs:
         with:
           github_token: ${{ secrets.GIRAF_PAT }}  # Use correct PAT for authentication
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-          commit_options: --no-commit  # Prevents the auto-commit from Prettier
+          same_commit: true # Prevents the auto-commit from Prettier
 
       - name: Get Commit SHA
         id: get-commit-sha
