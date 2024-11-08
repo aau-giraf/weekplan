@@ -13,8 +13,8 @@ import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
 
 const ViewOrganisation = () => {
-  const { id } = useLocalSearchParams();
-  const parsedID = Number(id);
+  const { index } = useLocalSearchParams();
+  const parsedID = Number(index);
 
   const { data, error, isLoading } = useOrganisation(parsedID);
 

@@ -12,10 +12,14 @@ const AuthRootLayout = () => {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="register" />
-        <Stack.Screen name="profile" />
+        <Stack.Screen name="profile/index" />
         <Stack.Screen name="profile/settings" />
         <Stack.Screen name="profile/viewinvitation" />
-        <Stack.Screen name="profile/organisation" />
+        <Stack.Screen name="profile/organisation/[index]" />
+        <Stack.Screen name="profile/organisation/addactivity" />
+        <Stack.Screen name="profile/organisation/addcitizen" />
+        <Stack.Screen name="profile/organisation/editactivity" />
+        <Stack.Screen name="profile/organisation/weekplanscreen" />
       </Stack>
     </ProviderWrapper>
   );
