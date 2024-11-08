@@ -3,9 +3,6 @@ name: tests
 on:
   pull_request:
     branches: [master]   # Triggers on pull requests to master
-  push:                   # Also trigger on pushes to the branch associated with the pull request
-    branches:             # This should cover all branches, or specify the relevant branches if known
-      - '*'
 
 permissions:
   contents: write
