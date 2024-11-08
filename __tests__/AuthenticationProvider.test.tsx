@@ -6,24 +6,6 @@ import { router } from "expo-router";
 
 jest.mock("../apis/registerAPI");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 jest.mock("../apis/loginAPI");
 jest.mock("expo-router", () => ({
   router: {
