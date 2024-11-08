@@ -13,16 +13,8 @@ import FormHeader from "../../Forms/FormHeader";
 import FormTimePicker from "../../Forms/FormTimePicker";
 import SubmitButton from "../../Forms/SubmitButton";
 import FormField from "../../Forms/TextInput";
-
-type EditActivityButtonProps = {
-  title: string;
-  description: string;
-  startTime: Date;
-  endTime: Date;
-  activityId: number;
-  isCompleted: boolean;
-  date: Date;
-};
+import { ActivityDTO } from "../../../DTO/activityDTO";
+import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -55,15 +47,7 @@ type FormData = z.infer<typeof schema>;
  *   isCompleted={false}
  * />
  */
-const ActivityEdit = ({
-  title,
-  description,
-  startTime,
-  endTime,
-  activityId,
-  isCompleted,
-  date,
-}: EditActivityButtonProps) => {
+const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
   const { updateActivity } = useActivity({ date: selectedDate });
@@ -77,11 +61,11 @@ const ActivityEdit = ({
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: title,
-      description: description,
-      startTime: startTime,
-      endTime: endTime,
-      date: date,
+      title: activity.name,
+      description: activity.description,
+      startTime: new Date(dateAndTimeToISO(activity.date, activity.startTime)),
+      endTime: new Date(dateAndTimeToISO(activity.date, activity.endTime)),
+      date: new Date(dateAndTimeToISO(activity.date)),
     },
     mode: "onChange",
   });
@@ -90,14 +74,14 @@ const ActivityEdit = ({
     const startTimeHHMM = formatTimeHHMM(formData.startTime);
     const endTimeHHMM = formatTimeHHMM(formData.endTime);
     const data = {
-      activityId: activityId,
+      activityId: activity.activityId,
       citizenId: citizenId,
       date: formData.date.toDateString(),
       name: formData.title,
       description: formData.description,
       startTime: startTimeHHMM,
       endTime: endTimeHHMM,
-      isCompleted: isCompleted,
+      isCompleted: activity.isCompleted,
     };
     updateActivity
       .mutateAsync(data)
