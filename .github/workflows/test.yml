@@ -1,7 +1,6 @@
 on:
-  push:
-    branches: 
-    - "*"
+  pull_request:
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -12,51 +11,34 @@ permissions:
 jobs:
   prettier:
     runs-on: ubuntu-latest
-    outputs:
-      prettier_changed: ${{ steps.check_changes.outputs.prettier_changed }}
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch full history to check for changes
+          fetch-depth: 0
           ref: ${{ github.head_ref }}
-
-      - name: Run Prettier
+      - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
-      - name: Check if Prettier made any changes
-        id: check_changes
-        run: |
-          # Check for any changes after running Prettier
-          git diff --exit-code || echo "prettier_changed=true" >> $GITHUB_ENV
-          echo "prettier_changed=${{ env.prettier_changed }}" >> $GITHUB_OUTPUT
-  
   tests:
     needs: prettier
     runs-on: ubuntu-latest
-    if: ${{ always() }}  # Ensure that tests will always run after the 'prettier' job, but conditionally based on the changes
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch full history to check for changes
-          ref: ${{ github.head_ref }}
 
+    steps:
+      - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
           node-version: 20
           cache: "npm"
-
       - name: Install Dependencies
         run: npm ci
-
       - name: Build Application
         run: npm run build --if-present
-
       - name: Run Tests
         run: npm run test-ci
-        if: ${{ steps.check_changes.outputs.prettier_changed == 'true' }}  # Only run tests if Prettier made changes
