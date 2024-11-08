@@ -3,9 +3,7 @@ import { UpdateProfileDTO } from "../hooks/useProfile";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {
-    throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
-    );
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
   const url = `${BASE_URL}/users/${userId}`;
   const res = await fetch(url);
@@ -13,14 +11,9 @@ export const fetchProfileRequest = async (userId: string | null) => {
   return res.json();
 };
 
-export const updateProfileRequest = async (
-  userId: string | null,
-  data: UpdateProfileDTO
-) => {
+export const updateProfileRequest = async (userId: string | null, data: UpdateProfileDTO) => {
   if (userId === null) {
-    throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
-    );
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
   const res = await fetch(`${BASE_URL}/users/${userId}`, {
     method: "PUT",

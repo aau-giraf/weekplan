@@ -29,10 +29,7 @@ export const loadSettingValues = async (settings: Setting[]) => {
     await Promise.all(
       settings
         .filter((setting) => !setting.onPress)
-        .map(async (setting) => [
-          setting.label,
-          await getSettingsValue(setting.label, false),
-        ])
+        .map(async (setting) => [setting.label, await getSettingsValue(setting.label, false)])
     )
   );
 };

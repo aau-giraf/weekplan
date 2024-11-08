@@ -3,9 +3,7 @@ import { BASE_URL } from "../utils/globals";
 
 export const fetchAllOrganisationsRequest = async (userId: string) => {
   if (userId === null) {
-    throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
-    );
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
   const url = `${BASE_URL}/organizations/user/${userId}`;
