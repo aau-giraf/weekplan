@@ -1,6 +1,7 @@
+name: tests
+
 on:
   pull_request:
-    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -11,8 +12,7 @@ permissions:
 jobs:
   prettier:
     runs-on: ubuntu-latest
-    outputs:
-      commit_sha: ${{ steps.get_commit_sha.outputs.commit_sha }}  # Define commit_sha as job output
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,44 +25,31 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-      
-      # Delay to allow GitHub to register any new commits by Prettier
-      - name: Wait for commit processing
-        run: sleep 25
-      
-      # Capture the latest commit SHA and set it as an output
-      - name: Get Latest Commit SHA
-        id: get_commit_sha
+
+      # New step to commit Prettier changes, if any
+      - name: Commit Prettier changes
         run: |
-          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-          echo "commit_sha=$(git rev-parse HEAD)"
-          echo $GITHUB_OUTPUT
-  
+          git config --global user.name "TBjerregaard"
+          git config --global user.email "tbjerr22@student.aau.dk"
+          git add .
+          git commit -m "Prettified Code" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   tests:
     needs: prettier
     runs-on: ubuntu-latest
-    env:
-      commit_sha: ${{ needs.prettier.outputs.commit_sha }}
-
     steps:
-      - name: refToHead
-        run: echo $GITHUB_ENV
-      # Use the commit SHA from the Prettier job to checkout the latest commit
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          ref: ${{ env.commit_sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Use Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
 
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Build Application
-        run: npm run build --if-present
-
-      - name: Run Tests
-        run: npm run test-ci
+      - run: npm ci
+      - run: npm run test-ci
