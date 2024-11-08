@@ -7,8 +7,23 @@ import formatTimeHHMM from "../utils/formatTimeHHMM";
 describe('ActivityTimePicker', () => {
   const mockOnChange = jest.fn();
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   const initialProps = {
-    title: "Select Time",
+    title: 'Select Time',
     value: new Date(new Date().setHours(14, 30)),
     onChange: mockOnChange,
   };

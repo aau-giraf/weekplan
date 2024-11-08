@@ -36,13 +36,18 @@ jobs:
       # Capture the new commit SHA after Prettier job completes
       - name: Get Latest Commit SHA
         id: get_commit_sha
-        run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        run: | 
+          echo "commit_sha=$(git rev-parse HEAD)"
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        
 
   tests:
     needs: prettier
     runs-on: ubuntu-latest
 
     steps:
+      - name: refToHead
+        run: echo $GITHUB_ENV
       # Use the commit SHA from the Prettier job to checkout the latest commit
       - uses: actions/checkout@v3
         with:
