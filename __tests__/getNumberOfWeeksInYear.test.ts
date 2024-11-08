@@ -12,21 +12,7 @@ describe("getNumberOfWeeksInYear", () => {
     const year = 2026;
 
     const weeks = getNumberOfWeeksInYear(year);
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     expect(weeks).toBe(53);
   });
 });
