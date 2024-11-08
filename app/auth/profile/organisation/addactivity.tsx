@@ -26,6 +26,7 @@ import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../../../../components/FieldInfo";
 import { useToast } from "../../../../providers/ToastProvider";
+import { useCitizen } from "../../../../providers/CitizenProvider";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -47,6 +48,7 @@ const AddActivity = () => {
   const { selectedDate } = useDate();
   const { addToast } = useToast();
   const { useCreateActivity } = useActivity({ date: selectedDate });
+  const { citizenId } = useCitizen();
 
   const form = useForm({
     defaultValues: {
@@ -63,7 +65,7 @@ const AddActivity = () => {
 
       await useCreateActivity
         .mutateAsync({
-          citizenId: 1,
+          citizenId: citizenId,
           data: {
             activityId: -1,
             name: title,

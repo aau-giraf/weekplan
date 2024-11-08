@@ -38,8 +38,12 @@ const ViewOrganisation = () => {
           <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Invitations */}
         </IconButton>
-        <IconButton onPress={() => {}} absolute={false}>
-          <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
+        <IconButton
+          onPress={() => {
+            router.push("/addcitizen");
+          }}
+          absolute={false}>
+          <Ionicons name={"person-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Invitations */}
         </IconButton>
         <IconButton onPress={() => {}} absolute={false}>

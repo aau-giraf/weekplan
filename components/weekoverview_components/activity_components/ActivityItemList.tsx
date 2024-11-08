@@ -15,7 +15,6 @@ import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
-import Animated, { LinearTransition } from "react-native-reanimated";
 import {
   colors,
   ScaleSize,
@@ -24,6 +23,7 @@ import {
   SharedStyles,
 } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
+import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -57,45 +57,38 @@ const ActivityItemList = () => {
     );
   }
 
-  if (error) {
-    return <Text>Fejl med at hente aktiviteter: {error.message}</Text>;
+  if (error || !data) {
+    return <Text>Fejl med at hente aktiviteter {error?.message}</Text>;
   }
 
-  const renderActivityItem = ({ item }: { item: ActivityDTO }) => {
-    const handleEditTask = () => {
-      const data: FullActivityDTO = {
-        citizenId: citizenId,
-        name: item.name,
-        description: item.description,
-        activityId: item.activityId,
-        date: dateAndTimeToISO(item.date).toISOString(),
-        endTime: dateAndTimeToISO(item.date, item.endTime).toISOString(),
-        startTime: dateAndTimeToISO(item.date, item.startTime).toISOString(),
-        isCompleted: item.isCompleted,
-      };
-      router.push({
-        pathname: "./editactivity",
-        params: { ...data, isCompleted: item.isCompleted.toString() },
-      });
-    };
-
-    return (
-      <ActivityItem
-        isCompleted={item.isCompleted}
-        time={`${item.startTime}-${item.endTime}`}
-        deleteActivity={() => handleDeleteActivity(item.activityId)}
-        editActivity={() => handleEditTask()}
-        checkActivity={() =>
-          handleCheckActivity(item.activityId, item.isCompleted)
-        }
-        setImageUri={setImageUri}
-        setModalVisible={setModalVisible}
-      />
-    );
-  };
+  const renderActivityItem = (item: ActivityDTO) => (
+    <ActivityItem
+      isCompleted={item.isCompleted}
+      time={`${item.startTime}\n${item.endTime}`}
+      setImageUri={setImageUri}
+      setModalVisible={setModalVisible}
+    />
+  );
 
   const handleDeleteActivity = async (id: number) => {
     await useDeleteActivity.mutateAsync(id);
+  };
+
+  const handleEditTask = (item: ActivityDTO) => {
+    const data: FullActivityDTO = {
+      citizenId: citizenId,
+      name: item.name,
+      description: item.description,
+      activityId: item.activityId,
+      date: dateAndTimeToISO(item.date).toISOString(),
+      endTime: dateAndTimeToISO(item.date, item.endTime).toISOString(),
+      startTime: dateAndTimeToISO(item.date, item.startTime).toISOString(),
+      isCompleted: item.isCompleted,
+    };
+    router.push({
+      pathname: "./editactivity",
+      params: { ...data, isCompleted: item.isCompleted.toString() },
+    });
   };
 
   const handleCheckActivity = (id: number, isCompleted: boolean) => {
@@ -109,19 +102,43 @@ const ActivityItemList = () => {
       );
   };
 
+  const rightActions: Action<ActivityDTO>[] = [
+    {
+      icon: "pencil-outline",
+      color: colors.blue,
+      onPress: (item) => handleEditTask(item),
+      closeDelay: 500,
+    },
+    {
+      icon: "checkmark",
+      color: colors.green,
+      onPress: (item) => handleCheckActivity(item.activityId, item.isCompleted),
+    },
+  ];
+
+  const leftActions: Action<ActivityDTO>[] = [
+    {
+      icon: "trash",
+      color: colors.crimson,
+      onPress: (item) => handleDeleteActivity(item.activityId),
+    },
+  ];
   return (
     <>
-      <Animated.FlatList
-        data={data}
-        onRefresh={async () => await refetch()}
-        itemLayoutAnimation={LinearTransition}
-        refreshing={isLoading}
-        ItemSeparatorComponent={() => (
-          <View style={{ height: ScaleSizeH(10) }} />
-        )}
+      <SwipeableList
+        items={data}
+        renderItem={({ item }) => renderActivityItem(item)}
         keyExtractor={(item) => item.activityId.toString()}
-        renderItem={renderActivityItem}
-        ListEmptyComponent={() => <Text>Ingen aktiviteter fundet</Text>}
+        flatListProps={{
+          ListEmptyComponent: <Text>Ingen aktiviteter fundet</Text>,
+          refreshing: isLoading,
+          onRefresh: async () => await refetch(),
+          ItemSeparatorComponent: () => (
+            <View style={{ height: ScaleSizeH(10) }} />
+          ),
+        }}
+        rightActions={rightActions}
+        leftActions={leftActions}
       />
       <Modal
         animationType="slide"

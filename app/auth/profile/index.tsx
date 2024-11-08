@@ -1,3 +1,4 @@
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +10,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import useProfile from "../../../hooks/useProfile";
 import { ProfilePicture } from "../../../components/ProfilePage";
-import { useRef, useState } from "react";
 import IconButton from "../../../components/IconButton";
 import useOrganisationOverview, {
   OrgOverviewDTO,
@@ -30,6 +30,7 @@ import {
 } from "../../../utils/SharedStyles";
 
 import { router } from "expo-router";
+import useInvitation from "../../../hooks/useInvitation";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -48,6 +49,8 @@ const ProfilePage: React.FC = () => {
     createOrganisation,
     refetch,
   } = useOrganisationOverview();
+  const { fetchByUser } = useInvitation();
+  const { data: inviteData } = fetchByUser;
 
   if (isLoading) {
     return (
@@ -116,15 +119,13 @@ const ProfilePage: React.FC = () => {
                 style={styles.settings}
                 onPress={() => router.push("/auth/profile/settings")}>
                 <Ionicons name="settings-outline" size={ScaleSize(64)} />
-              </IconButton>
-              <IconButton
-                style={styles.iconMail}
-                onPress={() => router.push("/auth/profile/viewinvitation")}>
-                <Ionicons name="mail-outline" size={ScaleSize(40)} />
+                {inviteData && inviteData.length > 0 && (
+                  <View style={styles.notificationBadge} />
+                )}
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
-              <Text style={styles.organizationsText}>Dine orginisationer</Text>
+              <Text style={styles.organizationsText}>Dine organisationer</Text>
             </View>
           </View>
         }
@@ -191,7 +192,7 @@ const AddBottomSheet = ({
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
           style={styles.inputValid}
-          placeholder="Navn på orginasition"
+          placeholder="Navn på organisation"
           value={name}
           onChangeText={setName}
         />
@@ -264,6 +265,15 @@ const styles = StyleSheet.create({
   settings: {
     top: ScaleSize(10),
     right: ScaleSize(30),
+  },
+  notificationBadge: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "red",
   },
   iconAdd: {
     bottom: ScaleSize(30),
