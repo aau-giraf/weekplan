@@ -4,25 +4,8 @@ import { Platform } from "react-native";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 
-describe('ActivityTimePicker', () => {
+describe("ActivityTimePicker", () => {
   const mockOnChange = jest.fn();
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   const initialProps = {
     title: "Select Time",
