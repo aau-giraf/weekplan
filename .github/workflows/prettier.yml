@@ -1,0 +1,39 @@
+name: prettier
+
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  statuses: write
+  actions: write
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GIRAF_TOKEN }}
+
+      - name: Prettify code
+        id: prettier
+        run: .github/format.sh
+        env:
+          INPUT_PRETTIER_VERSION: "3.3.3"
+          INPUT_FILES_GLOB: "**/*.{js,jsx,ts,tsx}"
+          INPUT_CONFIG_PATH: ".pretterrc.json"
+
+      - name: Stage, commit, and push changes
+        if: steps.prettier.outputs.changed-files == 'true'
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "chore: apply Prettier formatting"
+          git push origin ${{ github.head_ref }}
