@@ -25,19 +25,23 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-      
+
       - name: Get Commit SHA
         id: get-commit-sha
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   tests:
-    needs: prettier
+    needs: prettier  # This ensures tests start only after prettier completes
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code from Prettier
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.prettier.outputs.commit_sha }}
+
+      # Optional delay to ensure GitHub processes any new commit
+      - name: Wait for changes to register
+        run: sleep 20
 
       - name: Use Node.js
         uses: actions/setup-node@v4
