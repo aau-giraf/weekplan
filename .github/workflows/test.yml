@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Fetch full history to check for changes
+          ref: ${{ github.head_ref }}
 
       - name: Run Prettier
         uses: creyD/prettier_action@v4.3
@@ -23,7 +24,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
+      - name: Check if Prettier made changes
+        id: check_changes
+        run: |
+          git diff --exit-code || echo "prettier_changes=true" >> $GITHUB_ENV
+          echo "prettier_changes=${{ env.prettier_changes }}" >> $GITHUB_OUTPUT
+
       - name: Commit and push changes
+        if: ${{ env.prettier_changes == 'true' }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -41,6 +49,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -56,4 +65,3 @@ jobs:
 
       - name: Run Tests
         run: npm run test-ci
-
