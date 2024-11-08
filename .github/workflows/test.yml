@@ -31,42 +31,43 @@ jobs:
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   tests:
-      needs: prettier
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout latest code from Prettier
-          uses: actions/checkout@v3
-          with:
-            ref: ${{ needs.prettier.outputs.commit_sha }}
+    needs: prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code from Prettier
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.prettier.outputs.commit_sha }}
 
-        - name: Use Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: 20
-            cache: "npm"
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
 
-        - name: Install Dependencies
-          run: npm ci
+      - name: Install Dependencies
+        run: npm ci
 
-        - name: Build Application
-          run: npm run build --if-present
+      - name: Build Application
+        run: npm run build --if-present
 
-        - name: Run Tests
-          run: npm run test-ci
+      - name: Run Tests
+        run: npm run test-ci
 
-        - name: Report status back to GitHub
-          uses: actions/github-script@v6
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            script: |
-              const context = require('@actions/github').context;
-              const status = 'success';  // Or 'failure', depending on your tests result
-              await github.rest.repos.createCommitStatus({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                sha: context.sha,
-                state: status,
-                target_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}',
-                description: 'Tests completed successfully',
-                context: 'test-status'
-              });
+      - name: Report status back to GitHub
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const github = require('@actions/github');  # Don't redeclare 'context', use github directly
+            const status = 'success';  // Or 'failure', depending on your tests result
+            const { context } = github;  # Get context from the imported 'github' object
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: status,
+              target_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}',
+              description: 'Tests completed successfully',
+              context: 'test-status'
+            });
