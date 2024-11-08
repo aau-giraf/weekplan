@@ -20,7 +20,7 @@ import useInvitation from "../hooks/useInvitation";
 const Settings = () => {
   const { logout } = useAuthentication();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
-
+  
   const { fetchByUser } = useInvitation();
   const { data: inviteData } = fetchByUser;
 
@@ -48,14 +48,9 @@ const Settings = () => {
       },
       {
         icon: "person-outline",
-        label: "Edit profile",
-        onPress: () => {router.push("/editprofile")}
         label: "Rediger profil",
-        onPress: () => {
-          // Implement edit profile logic here
-        },
+        onPress: () => {router.push("/editprofile")}
       },
-      
     ],
     [logout]
   );
