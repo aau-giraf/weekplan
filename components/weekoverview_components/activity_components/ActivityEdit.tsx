@@ -24,16 +24,8 @@ import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../../FieldInfo";
 import { useToast } from "../../../providers/ToastProvider";
-
-type EditActivityButtonProps = {
-  title: string;
-  description: string;
-  startTime: Date;
-  endTime: Date;
-  activityId: number;
-  isCompleted: boolean;
-  date: Date;
-};
+import { ActivityDTO } from "../../../DTO/activityDTO";
+import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -66,35 +58,27 @@ type FormData = z.infer<typeof schema>;
  *   isCompleted={false}
  * />
  */
-const ActivityEdit = ({
-  title,
-  description,
-  startTime,
-  endTime,
-  activityId,
-  isCompleted,
-  date,
-}: EditActivityButtonProps) => {
+const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   const form = useForm({
     defaultValues: {
-      title: title,
-      description: description,
-      startTime: startTime,
-      endTime: endTime,
-      date: date,
+      title: activity.name,
+      description: activity.description,
+      startTime: new Date(dateAndTimeToISO(activity.date, activity.startTime)),
+      endTime: new Date(dateAndTimeToISO(activity.date, activity.endTime)),
+      date: new Date(dateAndTimeToISO(activity.date)),
     } as FormData,
     onSubmit: async ({ value }) => {
       const startTimeHHMM = formatTimeHHMM(value.startTime);
       const endTimeHHMM = formatTimeHHMM(value.endTime);
       const data = {
-        activityId: activityId,
+        activityId: activity.activityId,
         citizenId: citizenId,
         date: value.date.toDateString(),
         name: value.title,
         description: value.description,
         startTime: startTimeHHMM,
         endTime: endTimeHHMM,
-        isCompleted: isCompleted,
+        isCompleted: activity.isCompleted,
       };
       updateActivity
         .mutateAsync(data)

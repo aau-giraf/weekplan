@@ -75,19 +75,9 @@ const ActivityItemList = () => {
   };
 
   const handleEditTask = (item: ActivityDTO) => {
-    const data: FullActivityDTO = {
-      citizenId: citizenId,
-      name: item.name,
-      description: item.description,
-      activityId: item.activityId,
-      date: dateAndTimeToISO(item.date).toISOString(),
-      endTime: dateAndTimeToISO(item.date, item.endTime).toISOString(),
-      startTime: dateAndTimeToISO(item.date, item.startTime).toISOString(),
-      isCompleted: item.isCompleted,
-    };
     router.push({
       pathname: "./editactivity",
-      params: { ...data, isCompleted: item.isCompleted.toString() },
+      params: { activityId: item.activityId.toString() },
     });
   };
 
