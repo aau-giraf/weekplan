@@ -7,7 +7,7 @@ jest.mock("expo-image-picker", () => ({
   MediaTypeOptions: { Images: "Images" },
 }));
 
-describe('takePhoto', () => {
+describe("takePhoto", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
