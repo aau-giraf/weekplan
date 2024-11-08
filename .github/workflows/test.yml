@@ -44,6 +44,7 @@ jobs:
   tests:
     needs: prettier
     runs-on: ubuntu-latest
+    if: ${{ env.prettier_changes != 'true' }}  # Skip tests if Prettier made changes
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

@@ -15,6 +15,24 @@ describe("DateProvider and useDate", () => {
     });
 
     expect(result.current.selectedDate).toBe(newDate);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   });
 
   it("should throw an error if useDate is used outside DateProvider", () => {
