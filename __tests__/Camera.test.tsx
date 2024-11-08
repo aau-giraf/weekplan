@@ -22,7 +22,7 @@ describe("takePhoto", () => {
     expect(ImagePicker.requestCameraPermissionsAsync).toHaveBeenCalled();
   });
 
-  it('should alert if permission is denied', async () => {
+  it("should alert if permission is denied", async () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
       granted: false,
     });
