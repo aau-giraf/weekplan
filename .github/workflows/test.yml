@@ -25,8 +25,16 @@ jobs:
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
           only_changed: True
 
+      # Delay to allow GitHub to register any new commits by Prettier
+      - name: Wait for commit processing
+        run: sleep 30
+
+      # Re-fetch repository to ensure we have the latest commit from Prettier
+      - name: Fetch Latest Changes
+        run: git fetch --all
+
       # Capture the new commit SHA after Prettier job completes
-      - name: Get Commit SHA
+      - name: Get Latest Commit SHA
         id: get_commit_sha
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
