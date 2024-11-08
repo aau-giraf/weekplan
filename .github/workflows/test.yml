@@ -23,7 +23,7 @@ jobs:
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
   tests:
-    needs: prettier  # Ensures this job runs only after the 'prettier' job completes
+    needs: prettier
     runs-on: ubuntu-latest
 
     steps:
