@@ -21,16 +21,6 @@ describe("MemberView Component", () => {
   });
 
   it("renders only MAX_DISPLAYED_MEMBERS when members exceed limit", () => {
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     const members = Array.from({ length: 10 }, (_, i) =>
       generateMember(i.toString(), i.toString() + "@mail")
     );
