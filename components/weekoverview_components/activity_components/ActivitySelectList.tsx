@@ -1,12 +1,7 @@
 import { FlatList } from "react-native-gesture-handler";
 import { ActivityDTO } from "../../../DTO/activityDTO";
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeW,
-  SharedStyles,
-} from "../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 
 type ActivitySelectListProps = {
   activities: ActivityDTO[];
@@ -24,19 +19,12 @@ type ActivitySelectListProps = {
  *
  * @returns {JSX.Element} The rendered component.
  */
-const ActivitySelectList = ({
-  activities,
-  toggleCheck,
-  selectedIds,
-}: ActivitySelectListProps) => {
+const ActivitySelectList = ({ activities, toggleCheck, selectedIds }: ActivitySelectListProps) => {
   const renderItem = ({ item }: { item: ActivityDTO }) => {
     return (
       <TouchableOpacity
         onPress={() => toggleCheck(item.activityId)}
-        style={[
-          styles.activityEntry,
-          { borderLeftWidth: selectedIds.includes(item.activityId) ? 1 : 0 },
-        ]}>
+        style={[styles.activityEntry, { borderLeftWidth: selectedIds.includes(item.activityId) ? 1 : 0 }]}>
         <Text style={{ fontSize: 18 }}>{item.name}</Text>
       </TouchableOpacity>
     );

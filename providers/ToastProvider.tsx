@@ -5,10 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScaleSize } from "../utils/SharedStyles";
 
 type ToastProviderValues = {
-  addToast: (
-    toast: Omit<ToastProps, "id" | "onClose">,
-    duration?: number
-  ) => void;
+  addToast: (toast: Omit<ToastProps, "id" | "onClose">, duration?: number) => void;
   toasts: Omit<ToastProps, "onClose">[];
   removeToast: (id: number) => void;
 };

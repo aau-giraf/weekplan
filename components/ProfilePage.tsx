@@ -1,9 +1,6 @@
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
-import {
-  hashNameToColour,
-  getContrastingTextColor,
-} from "../utils/profileColors";
+import { hashNameToColour, getContrastingTextColor } from "../utils/profileColors";
 
 type ProfilePictureProps = {
   label: string;
@@ -19,12 +16,7 @@ export const ProfilePicture = ({ label, style }: ProfilePictureProps) => {
     .join("")
     .toUpperCase();
   return (
-    <View
-      style={[
-        styles.ProfilePictureContainer,
-        style,
-        { backgroundColor: colourFromName },
-      ]}>
+    <View style={[styles.ProfilePictureContainer, style, { backgroundColor: colourFromName }]}>
       <Text
         style={[styles.ProfilePictureText, { color: colourTextContrast }]}
         adjustsFontSizeToFit={true}

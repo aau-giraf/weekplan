@@ -17,9 +17,6 @@ export function getUserIdFromToken(token: string): string {
   parsed = parsed.substring(0, parsed.lastIndexOf("}") + 1);
   const payload = JSON.parse(parsed);
 
-  const userId =
-    payload[
-      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-    ];
+  const userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
   return userId;
 }
