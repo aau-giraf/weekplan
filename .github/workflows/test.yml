@@ -3,8 +3,9 @@ name: tests
 on:
   pull_request:
     branches: [master]
-    types: [opened, synchronize, reopened]  # Only trigger on these types
-  workflow_dispatch:  # Allows manual triggering of the workflow
+    types: [opened, synchronize, reopened]
+  workflow_dispatch: # Allows manual triggering of the workflow
+
 concurrency:
   group: ${{ github.sha }}
   cancel-in-progress: true
@@ -20,7 +21,7 @@ jobs:
     outputs:
       commit_sha: ${{ steps.get-commit-sha.outputs.commit_sha }}
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -31,25 +32,29 @@ jobs:
           git config --global user.name "TBjerregaard"
           git config --global user.email "tbjerr22@student.aau.dk"
 
-      - name: Prettify code
+      - name: Prettify Code
         uses: creyD/prettier_action@v4.3
         with:
-          github_token: ${{ secrets.GIRAF_PAT }}
+          github_token: ${{ secrets.GIRAF_PAT }}  # Correct PAT token here
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
+      - name: Echo GIRAF_PAT
+        run: echo "GIRAF_PAT is ${{ secrets.GIRAF_PAT }}"
+      
       - name: Get Commit SHA
         id: get-commit-sha
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Squash and recreate commit
+      - name: Commit Prettier Changes Manually
         run: |
-          git reset --soft HEAD~1  # Undo the last commit (prettified)
           git add .
-          git commit --author="TBjerregaard <tbjerr22@student.aau.dk>" -m "Prettified code"
-          git push --force origin ${{ github.head_ref }}
-  
+          git diff --quiet && exit 0 || git commit -m "Prettified Code!" --author="Tbjerregaard <tbjerr22@student.aau.dk>"
+          git push origin ${{ github.head_ref }}
+        env:
+          GIRAF_PAT: ${{ secrets.GIRAF_PAT }}
+
   tests:
-    needs: prettier  # Ensure tests only run after prettier job
+    needs: prettier
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code from Prettier
@@ -74,18 +79,3 @@ jobs:
 
       - name: Run Tests
         run: npm run test-ci
-
-      - name: Check for new commits
-        id: check-new-commits
-        run: |
-          latest_commit=$(git rev-parse HEAD)
-          echo "latest_commit=$latest_commit" >> $GITHUB_ENV
-          echo "Previous commit was: ${{ needs.prettier.outputs.commit_sha }}"
-
-      - name: Trigger rerun if a new commit is found
-        if: ${{ env.latest_commit != needs.prettier.outputs.commit_sha }}
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GIRAF_PAT }}" \
-            -d '{"ref":"${{ github.head_ref }}"}' \
-            "https://api.github.com/repos/TBjerregaard/weekplan/actions/workflows/tests.yml/dispatches"
