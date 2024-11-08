@@ -21,10 +21,9 @@ export default function useProfile() {
   });
 
   const updateProfile = useMutation({
-    mutationFn: async (data: UpdateProfileDTO) =>
-      updateProfileRequest(userId, data),
+    mutationFn: async (data: UpdateProfileDTO) => updateProfileRequest(userId, data),
     onMutate: async (data) => {
-      console.log(data)
+      console.log(data);
       const { firstName, lastName } = data;
       await queryClient.cancelQueries({ queryKey: [userId, "Profile"] });
       queryClient.setQueryData<UpdateProfileDTO>([userId, "Profile"], {
@@ -38,10 +37,7 @@ export default function useProfile() {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousData) {
-        queryClient.setQueryData<UpdateProfileDTO>(
-          [userId, "Profile"],
-          context.previousData
-        );
+        queryClient.setQueryData<UpdateProfileDTO>([userId, "Profile"], context.previousData);
       }
     },
     onSuccess: () => {

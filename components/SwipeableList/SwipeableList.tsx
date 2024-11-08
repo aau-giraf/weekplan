@@ -2,10 +2,7 @@ import { SwipeableMethods, SwipeableProps } from "../ReanimatedSwipeable";
 import { SwipeableItem } from "./SwipeableItem";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import Reanimated, {
-  AnimatedStyle,
-  LinearTransition,
-} from "react-native-reanimated";
+import Reanimated, { AnimatedStyle, LinearTransition } from "react-native-reanimated";
 import {
   FlatListProps,
   LayoutChangeEvent,
@@ -26,9 +23,7 @@ type SwipeableListProps<T> = {
   items: T[];
   keyExtractor: (item: T) => string;
   renderItem: ListRenderItem<T>;
-  reanimatedSwipeableProps?: (
-    item: T
-  ) => SwipeableProps & React.RefAttributes<SwipeableMethods>;
+  reanimatedSwipeableProps?: (item: T) => SwipeableProps & React.RefAttributes<SwipeableMethods>;
   flatListProps?: Omit<FlatListProps<T>, "data" | "renderItem" | "style">;
   leftActions?: Action<T>[];
   rightActions?: Action<T>[];
@@ -88,9 +83,7 @@ const SwipeableList = <T,>({
       style={style}
       data={items}
       keyExtractor={keyExtractor}
-      itemLayoutAnimation={
-        Platform.OS === "android" ? undefined : LinearTransition
-      }
+      itemLayoutAnimation={Platform.OS === "android" ? undefined : LinearTransition}
       renderItem={(info) => {
         const swipeableProps = reanimatedSwipeableProps?.(info.item);
 
