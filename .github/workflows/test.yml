@@ -9,10 +9,37 @@ permissions:
   actions: write
 
 jobs:
-  prettier:
+  tests:
     runs-on: ubuntu-latest
     outputs:
-      commit_sha: ${{ steps.get_commit_sha.outputs.commit_sha }}  # Define commit_sha as job output
+      commit_sha: ${{ github.sha }}  # Capture the original commit SHA
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build --if-present
+
+      - name: Run Tests
+        run: npm run test-ci
+
+  prettier:
+    needs: tests  # Ensure Prettier runs after tests
+    runs-on: ubuntu-latest
+    outputs:
+      commit_sha: ${{ steps.get_commit_sha.outputs.commit_sha }}  # Save the new commit SHA
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,36 +52,25 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-      
-      # Delay to allow GitHub to register any new commits by Prettier
+
+      # Wait for GitHub to process the new commit (e.g., Prettier's commit)
       - name: Wait for commit processing
-        run: sleep 25
-      
-      # Capture the latest commit SHA and set it as an output
+        run: sleep 5
+
       - name: Get Latest Commit SHA
         id: get_commit_sha
         run: |
           echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
           echo "commit_sha=$(git rev-parse HEAD)"
-          echo $GITHUB_OUTPUT
   
-  tests:
+  tests-after-prettier:
     needs: prettier
-    
-    permissions:
-      statuses: write
-      
     runs-on: ubuntu-latest
-    env:
-      commit_sha: ${{ needs.prettier.outputs.commit_sha }}
-
     steps:
-      - name: refToHead
-        run: echo $GITHUB_ENV
-      # Use the commit SHA from the Prettier job to checkout the latest commit
-      - uses: actions/checkout@v3
+      - name: Checkout the new commit (created by Prettier)
+        uses: actions/checkout@v3
         with:
-          ref: ${{ env.commit_sha }}
+          ref: ${{ needs.prettier.outputs.commit_sha }}  # Checkout the new commit SHA from Prettier
 
       - name: Use Node.js
         uses: actions/setup-node@v4
