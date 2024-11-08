@@ -12,7 +12,7 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     outputs:
-      prettier_changes: ${{ steps.check_changes.outputs.prettier_changes }}  # Define output for prettier changes
+      prettier_changes: ${{ steps.check_changes.outputs.prettier_changes }}  # Declare output here
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,9 +30,7 @@ jobs:
         id: check_changes
         run: |
           git diff --exit-code || echo "prettier_changes=true" >> $GITHUB_ENV
-          echo "prettier_changes=${{ env.prettier_changes }}" >> $GITHUB_OUTPUT
-        outputs:
-          prettier_changes: ${{ steps.check_changes.outputs.prettier_changes }}
+          echo "::set-output name=prettier_changes::${{ env.prettier_changes }}"
 
       - name: Commit and push changes
         if: ${{ steps.check_changes.outputs.prettier_changes == 'true' }}
