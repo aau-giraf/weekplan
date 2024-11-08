@@ -54,22 +54,12 @@ export default function useInvitation() {
       receiverEmail: string;
       senderId: string;
     }) => createInvitationRequest(orgId, receiverEmail, senderId),
-
-    onMutate: async ({ orgId, receiverEmail, senderId }) => {
-      await queryClient.cancelQueries({ queryKey });
-      const previousInvitations = queryClient.getQueryData(queryKey);
-
-      return { previousInvitations };
-    },
-
-    onError: (_error, _variables, context) => {
-      if (context?.previousInvitations) {
-        queryClient.setQueryData(queryKey, context.previousInvitations);
-      }
-    }
   });
 
-
-
-  return { fetchByUser, acceptInvitation, createInvitation, isSuccess: fetchByUser.isSuccess };
+  return {
+    fetchByUser,
+    acceptInvitation,
+    createInvitation,
+    isSuccess: fetchByUser.isSuccess,
+  };
 }

@@ -30,9 +30,10 @@ const Settings = () => {
       },
       {
         icon: "mail-outline",
-        label: "Invitationer",
-        onPress: () => {router.push("/viewinvitation");}
-
+        label: "Invitations",
+        onPress: () => {
+          router.push("/viewinvitation");
+        },
       },
       {
         icon: "lock-closed-outline",

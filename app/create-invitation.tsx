@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { useState } from "react";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
@@ -12,25 +18,34 @@ const CreateInvitationPage: React.FC = () => {
   const createInv = createInvitation;
   const { orgId } = useLocalSearchParams();
   const { userId } = useAuthentication();
-  const {addToast} = useToast();
+  const { addToast } = useToast();
 
   const handleCreateInvitation = () => {
     if (!userId) {
-        addToast({ message: "Du er ikke logget ind", type: "error" });
-        return;
-      }
-    createInv.mutateAsync({orgId: Number(orgId), receiverEmail: email, senderId: userId }).then(() =>{
+      addToast({ message: "Du er ikke logget ind", type: "error" });
+      return;
+    }
+    createInv
+      .mutateAsync({
+        orgId: Number(orgId),
+        receiverEmail: email,
+        senderId: userId,
+      })
+      .then(() => {
         addToast({ message: "Invitation oprettet", type: "success" });
-    }).catch((error) => {
-      addToast({ message: error.message, type: "error" });
-    });
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.header}>Opret Invitation</Text>
-        <Text style={styles.subHeader}>Indtast e-mailadressen på modtageren:</Text>
+        <Text style={styles.subHeader}>
+          Indtast e-mailadressen på modtageren:
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="Modtager E-mail"
@@ -41,8 +56,7 @@ const CreateInvitationPage: React.FC = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={handleCreateInvitation}
-        >
+          onPress={handleCreateInvitation}>
           <Text style={styles.buttonText}>Opret Invitation</Text>
         </TouchableOpacity>
       </View>
