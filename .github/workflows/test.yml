@@ -1,8 +1,10 @@
 name: Node.js CI
 
 on:
-  pull_request:
-    branches: [master]
+  workflow_run:
+    workflows: ["Prettier Formatting"]  # Name of the Prettier workflow
+    types:
+      - completed
 
 jobs:
   tests:
