@@ -36,20 +36,18 @@ jobs:
         with:
           github_token: ${{ secrets.GIRAF_PAT }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-      
-      
+
       - name: Get Commit SHA
         id: get-commit-sha
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Commit Prettier changes
+      - name: Squash and recreate commit
         run: |
+          git reset --soft HEAD~1  # Undo the last commit (prettified)
           git add .
-          git diff --quiet && exit 0 || git commit -m "Test message"
-          git push origin ${{ github.head_ref }}
-        env:
-          GIRAF_PAT: ${{ secrets.GIRAF_PAT }}
-
+          git commit --author="TBjerregaard <tbjerr22@student.aau.dk>" -m "Prettified code"
+          git push --force origin ${{ github.head_ref }}
+  
   tests:
     needs: prettier  # Ensure tests only run after prettier job
     runs-on: ubuntu-latest
