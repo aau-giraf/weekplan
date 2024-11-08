@@ -6,6 +6,8 @@ on:
 
 permissions:
   contents: write
+  statuses: write
+  actions: write
 
 jobs:
   prettier:
