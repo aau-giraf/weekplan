@@ -6,8 +6,7 @@ on:
     types: [opened, synchronize, reopened]  # Only trigger on these types
   workflow_dispatch:  # Allows manual triggering of the workflow
 concurrency:
-  # Rerun check when the PR is updated, https://stackoverflow.com/a/72408109
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.sha }}
   cancel-in-progress: true
 
 permissions:
@@ -27,21 +26,24 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
+      - name: Set Git configuration
+        run: |
+          git config --global user.name "TBjerregaard"
+          git config --global user.email "tbjerr22@student.aau.dk"
+
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          github_token: ${{ secrets.GIRAF_PAT }}  # Use correct PAT for authentication
+          github_token: ${{ secrets.GIRAF_PAT }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-          commit: false
-
+      
+      
       - name: Get Commit SHA
         id: get-commit-sha
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Commit Prettier changes
         run: |
-          git config --global user.name "TBjerregaard"
-          git config --global user.email "tbjerr22@student.aau.dk"
           git add .
           git diff --quiet && exit 0 || git commit -m "Test message"
           git push origin ${{ github.head_ref }}
