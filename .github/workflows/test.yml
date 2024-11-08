@@ -17,6 +17,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
+
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
@@ -24,20 +25,32 @@ jobs:
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
           only_changed: True
 
+      # Capture the new commit SHA after Prettier job completes
+      - name: Get Commit SHA
+        id: get_commit_sha
+        run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
   tests:
     needs: prettier
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # Use the commit SHA from the Prettier job to checkout the latest commit
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.commit_sha }}
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
+
       - name: Install Dependencies
         run: npm ci
+
       - name: Build Application
         run: npm run build --if-present
+
       - name: Run Tests
         run: npm run test-ci

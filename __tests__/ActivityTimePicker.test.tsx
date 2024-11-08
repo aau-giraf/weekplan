@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 
-describe('testforprettier', () => {
+describe("ActivityTimePicker", () => {
   const mockOnChange = jest.fn();
 
   const initialProps = {
