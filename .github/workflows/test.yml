@@ -74,4 +74,3 @@ jobs:
             -H "Authorization: token ${{ secrets.GIRAF_PAT }}" \
             -d '{"ref":"${{ github.head_ref }}"}' \
             "https://api.github.com/repos/TBjerregaard/weekplan/actions/workflows/tests.yml/dispatches"
-      

@@ -31,6 +31,18 @@ describe("getMonthsFromDates", () => {
     const endDate = new Date("invalid-date");
 
     expect(() => getMonthsFromDates(startDate, endDate)).toThrow("Invalid date(s) provided");
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   });
 
   it("should throw an error if both dates are invalid", () => {
