@@ -21,6 +21,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
+          commit_message: "The PR did not follow the prettier config! The code has been prettified!"
 
   tests:
     needs: prettier
