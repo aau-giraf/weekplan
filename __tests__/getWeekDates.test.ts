@@ -22,14 +22,7 @@ describe("Return correct dates for week 39 of 2024", () => {
   });
 });
 
-describe("should return the correct week dates for leap year", () => 
-
-
-
-
-
-
-{
+describe("should return the correct week dates for leap year", () => {
   const mockDate = new Date("2024-02-29");
   const dates = getWeekDates(mockDate);
 
