@@ -1,29 +1,20 @@
-import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useForm } from "react-hook-form";
+import { StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
-import FieldInfo from "../components/FieldInfo";
+import SubmitButton from "../components/Forms/SubmitButton";
+import FormField from "../components/Forms/TextInput";
 import { ProfilePicture } from "../components/ProfilePage";
 import SwipeableList from "../components/SwipeableList/SwipeableList";
 import useOrganisation from "../hooks/useOrganisation";
-import { colors } from "../utils/SharedStyles";
+import { colors, ScaleSize } from "../utils/SharedStyles";
+import FormContainer from "../components/Forms/FormContainer";
+import FormHeader from "../components/Forms/FormHeader";
 
 const citizenSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, "First name must be at least 2 characters long")
-    .max(20),
-  lastName: z
-    .string()
-    .min(2, "Last name must be at least 2 characters long")
-    .max(20),
+  firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
+  lastName: z.string().min(2, "Last name must be at least 2 characters long").max(20),
 });
 
 type CitizenData = z.infer<typeof citizenSchema>;
@@ -33,73 +24,33 @@ type CitizenFormProps = {
 };
 
 const CitizenForm: React.FC<CitizenFormProps> = ({ onSubmit }) => {
-  const form = useForm({
-    onSubmit: (props: { value: CitizenData }) => {
-      onSubmit({ value: props.value });
-      form.reset();
-    },
-    validatorAdapter: zodValidator(),
-    validators: { onChange: citizenSchema },
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isValid, isSubmitting },
+  } = useForm<CitizenData>({
+    resolver: zodResolver(citizenSchema),
+    mode: "onChange",
   });
 
+  const onFormSubmit = async (data: CitizenData) => {
+    reset();
+    onSubmit({ value: data });
+  };
+
   return (
-    <View>
-      <Text style={styles.title}>Tilføj borger</Text>
-
-      <form.Field
-        name="firstName"
-        children={(field) => (
-          <View style={styles.inputContainer}>
-            <Text>Fornavn:</Text>
-            <TextInput
-              style={
-                field.state.meta.isTouched && field.state.meta.errors.length > 0
-                  ? styles.inputError
-                  : styles.input
-              }
-              placeholder="Fornavn"
-              value={field.state.value}
-              onChangeText={field.setValue}
-            />
-            <FieldInfo field={field} />
-          </View>
-        )}
+    <FormContainer>
+      <FormHeader title={"Tilføj borger"} />
+      <FormField control={control} name="firstName" placeholder="Fornavn" />
+      <FormField control={control} name="lastName" placeholder="Efternavn" />
+      <SubmitButton
+        isValid={isValid}
+        isSubmitting={isSubmitting}
+        handleSubmit={handleSubmit(onFormSubmit)}
+        label={"Tilføj borger"}
       />
-
-      <form.Field
-        name="lastName"
-        children={(field) => (
-          <View style={styles.inputContainer}>
-            <Text>Efternavn:</Text>
-            <TextInput
-              style={
-                field.state.meta.isTouched && field.state.meta.errors.length > 0
-                  ? styles.inputError
-                  : styles.input
-              }
-              placeholder="Efternavn"
-              value={field.state.value}
-              onChangeText={field.setValue}
-            />
-            <FieldInfo field={field} />
-          </View>
-        )}
-      />
-
-      <form.Subscribe
-        selector={(state) => [state.canSubmit, state.isSubmitting]}
-        children={([canSubmit, isSubmitting]) => (
-          <TouchableOpacity
-            style={canSubmit ? styles.button : styles.buttonDisabled}
-            disabled={!canSubmit}
-            onPress={form.handleSubmit}>
-            <Text style={styles.buttonText}>
-              {isSubmitting ? "..." : "Tilføj borger"}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
+    </FormContainer>
   );
 };
 
@@ -111,7 +62,7 @@ type Citizen = {
 
 const AddCitizen: React.FC = () => {
   const [citizens, setCitizens] = useState<Citizen[]>([]);
-  const { createCitizen, deleteCitizen } = useOrganisation(1);
+  const { createCitizen, deleteCitizen } = useOrganisation(3);
 
   const handleAddCitizen = async ({ value }: { value: CitizenData }) => {
     const realId = await createCitizen.mutateAsync({
@@ -131,10 +82,7 @@ const AddCitizen: React.FC = () => {
 
   const renderCitizen = (item: Citizen) => (
     <View style={styles.citizenContainer}>
-      <ProfilePicture
-        label={`${item.firstName} ${item.lastName}`}
-        style={styles.profilePicture}
-      />
+      <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
       <Text numberOfLines={3} style={{ flexShrink: 1 }}>
         {`${item.firstName} ${item.lastName}`}
       </Text>
@@ -155,7 +103,10 @@ const AddCitizen: React.FC = () => {
           ListHeaderComponent: (
             <>
               <CitizenForm onSubmit={handleAddCitizen} />
-              <Text style={styles.title}>List over nyligt tilføjede</Text>
+              <FormHeader
+                style={{ textAlign: "left", fontSize: ScaleSize(35), marginVertical: 20 }}
+                title={"List over nyligt tilføjede"}
+              />
             </>
           ),
           ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
@@ -183,41 +134,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginVertical: 16,
-  },
-  inputContainer: {
-    marginBottom: 12,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 8,
-    marginTop: 4,
-  },
-  inputError: {
-    borderWidth: 1,
-    borderColor: "red",
-    padding: 8,
-    marginTop: 4,
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    backgroundColor: colors.green,
-    marginTop: 10,
-  },
-  buttonDisabled: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    backgroundColor: "gray",
-    marginTop: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
   },
   profilePicture: {
     maxWidth: 50,

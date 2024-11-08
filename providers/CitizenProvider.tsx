@@ -3,9 +3,7 @@ import { createContext, useContext } from "react";
 type CitizenProviderValues = {
   citizenId: number;
 };
-const CitizenContext = createContext<CitizenProviderValues | undefined>(
-  undefined
-);
+const CitizenContext = createContext<CitizenProviderValues | undefined>(undefined);
 
 /**
  * Provider for citizen context
@@ -17,7 +15,7 @@ const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <CitizenContext.Provider
       value={{
-        citizenId: 3,
+        citizenId: 38,
       }}>
       {children}
     </CitizenContext.Provider>
