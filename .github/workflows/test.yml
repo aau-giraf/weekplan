@@ -59,13 +59,11 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const github = require('@actions/github');  # Don't redeclare 'context', use github directly
-            const status = 'success';  // Or 'failure', depending on your tests result
-            const { context } = github;  # Get context from the imported 'github' object
+            const status = 'success';  # Or 'failure', depending on your tests result
             await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.sha,
+              owner: github.context.repo.owner,
+              repo: github.context.repo.repo,
+              sha: github.context.sha,
               state: status,
               target_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}',
               description: 'Tests completed successfully',
