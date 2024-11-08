@@ -1,13 +1,7 @@
 // FormField.tsx
 import React from "react";
 import { View, TextInput, Text, StyleSheet, TextStyle } from "react-native";
-import {
-  Control,
-  Controller,
-  FieldPath,
-  FieldValues,
-  useFormState,
-} from "react-hook-form";
+import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";
 
 type FormFieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -15,6 +9,7 @@ type FormFieldProps<T extends FieldValues> = {
   placeholder: string;
   inputStyle?: TextStyle;
   errorStyle?: TextStyle;
+  secureText?: boolean;
 };
 
 function FormField<T extends FieldValues>({
@@ -23,6 +18,7 @@ function FormField<T extends FieldValues>({
   placeholder,
   inputStyle,
   errorStyle,
+  secureText = false,
 }: FormFieldProps<T>) {
   const { errors } = useFormState({ control });
 
@@ -31,22 +27,17 @@ function FormField<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field: { onChange, value } }) => (
-        <View>
+        <View style={{ width: "100%" }}>
           <TextInput
             value={value}
             placeholder={placeholder}
-            style={[
-              styles.inputBase,
-              errors[name] ? styles.inputError : styles.inputValid,
-              inputStyle,
-            ]}
+            style={[styles.inputBase, errors[name] ? styles.inputError : styles.inputValid, inputStyle]}
             onChangeText={onChange}
+            secureTextEntry={secureText}
           />
           {errors[name] && (
             <Text style={[styles.errorText, errorStyle]}>
-              {typeof errors[name]?.message === "string"
-                ? errors[name]?.message
-                : ""}
+              {typeof errors[name]?.message === "string" ? errors[name]?.message : ""}
             </Text>
           )}
         </View>

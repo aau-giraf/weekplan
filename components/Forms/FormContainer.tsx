@@ -1,5 +1,5 @@
 import { View, StyleSheet, ViewStyle, StyleProp } from "react-native";
-import { colors, ScaleSizeW } from "../../utils/SharedStyles";
+import { colors } from "../../utils/SharedStyles";
 
 type FormContainerProps = {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ type FormContainerProps = {
 };
 
 const FormContainer = ({ children, style }: FormContainerProps) => {
-  return <View style={[style, styles.container]}>{children}</View>;
+  return <View style={[styles.container, style]}>{children}</View>;
 };
 
 export default FormContainer;
@@ -15,8 +15,9 @@ export default FormContainer;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 5,
     justifyContent: "center",
+    alignItems: "center",
     backgroundColor: colors.white,
-    paddingHorizontal: ScaleSizeW(20),
   },
 });

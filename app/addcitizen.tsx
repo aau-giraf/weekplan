@@ -8,7 +8,9 @@ import FormField from "../components/Forms/TextInput";
 import { ProfilePicture } from "../components/ProfilePage";
 import SwipeableList from "../components/SwipeableList/SwipeableList";
 import useOrganisation from "../hooks/useOrganisation";
-import { colors } from "../utils/SharedStyles";
+import { colors, ScaleSize } from "../utils/SharedStyles";
+import FormContainer from "../components/Forms/FormContainer";
+import FormHeader from "../components/Forms/FormHeader";
 
 const citizenSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
@@ -25,6 +27,7 @@ const CitizenForm: React.FC<CitizenFormProps> = ({ onSubmit }) => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { isValid, isSubmitting },
   } = useForm<CitizenData>({
     resolver: zodResolver(citizenSchema),
@@ -32,16 +35,22 @@ const CitizenForm: React.FC<CitizenFormProps> = ({ onSubmit }) => {
   });
 
   const onFormSubmit = async (data: CitizenData) => {
+    reset();
     onSubmit({ value: data });
   };
 
   return (
-    <View>
-      <Text style={styles.title}>Tilføj borger</Text>
+    <FormContainer>
+      <FormHeader title={"Tilføj borger"} />
       <FormField control={control} name="firstName" placeholder="Fornavn" />
       <FormField control={control} name="lastName" placeholder="Efternavn" />
-      <SubmitButton isValid={isValid} isSubmitting={isSubmitting} handleSubmit={handleSubmit(onFormSubmit)} />
-    </View>
+      <SubmitButton
+        isValid={isValid}
+        isSubmitting={isSubmitting}
+        handleSubmit={handleSubmit(onFormSubmit)}
+        label={"Tilføj borger"}
+      />
+    </FormContainer>
   );
 };
 
@@ -53,7 +62,7 @@ type Citizen = {
 
 const AddCitizen: React.FC = () => {
   const [citizens, setCitizens] = useState<Citizen[]>([]);
-  const { createCitizen, deleteCitizen } = useOrganisation(1);
+  const { createCitizen, deleteCitizen } = useOrganisation(3);
 
   const handleAddCitizen = async ({ value }: { value: CitizenData }) => {
     const realId = await createCitizen.mutateAsync({
@@ -94,7 +103,10 @@ const AddCitizen: React.FC = () => {
           ListHeaderComponent: (
             <>
               <CitizenForm onSubmit={handleAddCitizen} />
-              <Text style={styles.title}>List over nyligt tilføjede</Text>
+              <FormHeader
+                style={{ textAlign: "left", fontSize: ScaleSize(35), marginVertical: 20 }}
+                title={"List over nyligt tilføjede"}
+              />
             </>
           ),
           ItemSeparatorComponent: () => <View style={{ height: 10 }} />,

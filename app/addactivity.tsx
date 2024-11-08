@@ -2,11 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Keyboard, ScrollView, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, ScrollView, TouchableWithoutFeedback } from "react-native";
 import { z } from "zod";
 import FormContainer from "../components/Forms/FormContainer";
 import FormHeader from "../components/Forms/FormHeader";
 import FormTimePicker from "../components/Forms/FormTimePicker";
+import SecondaryButton from "../components/Forms/SecondaryButton";
 import SubmitButton from "../components/Forms/SubmitButton";
 import FormField from "../components/Forms/TextInput";
 import useActivity from "../hooks/useActivity";
@@ -15,7 +16,6 @@ import { useDate } from "../providers/DateProvider";
 import { useToast } from "../providers/ToastProvider";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { prettyDate } from "../utils/prettyDate";
-import { ScaleSize } from "../utils/SharedStyles";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -81,16 +81,12 @@ const AddActivity = () => {
   };
 
   return (
-    <FormContainer>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: ScaleSize(20) }}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <FormContainer style={{ padding: 30 }}>
           <FormHeader title={"Opret en aktivitet til " + prettyDate(selectedDate)} />
-          <View>
-            <FormField control={control} name="title" placeholder="Titel" />
-          </View>
-          <View>
-            <FormField control={control} name="description" placeholder="Beskrivelse" />
-          </View>
+          <FormField control={control} name="title" placeholder="Titel" />
+          <FormField control={control} name="description" placeholder="Beskrivelse" />
           <FormTimePicker
             control={control}
             name="startTime"
@@ -107,10 +103,16 @@ const AddActivity = () => {
             androidDisplay={"spinner"}
             iosDisplay={"default"}
           />
-          <SubmitButton isValid={isValid} isSubmitting={isSubmitting} handleSubmit={handleSubmit(onSubmit)} />
-        </ScrollView>
-      </TouchableWithoutFeedback>
-    </FormContainer>
+          <SubmitButton
+            isValid={isValid}
+            isSubmitting={isSubmitting}
+            handleSubmit={handleSubmit(onSubmit)}
+            label={"Tilføj aktivitet"}
+          />
+          <SecondaryButton onPress={() => router.back()} label={"Tilbage"} />
+        </FormContainer>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 };
 

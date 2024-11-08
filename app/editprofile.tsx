@@ -46,11 +46,16 @@ const ProfileEdit: React.FC = () => {
   };
 
   return (
-    <FormContainer>
+    <FormContainer style={{ padding: 30 }}>
       <FormHeader title="Rediger Profil" />
       <FormField control={control} name="firstName" placeholder="Fornavn" />
       <FormField control={control} name="lastName" placeholder="Efternavn" />
-      <SubmitButton isValid={isValid} isSubmitting={isSubmitting} handleSubmit={handleSubmit(onSubmit)} />
+      <SubmitButton
+        isValid={isValid}
+        isSubmitting={isSubmitting}
+        handleSubmit={handleSubmit(onSubmit)}
+        label="Opdater profil"
+      />
       <TouchableOpacity
         style={[styles.buttonValid, { backgroundColor: colors.blue }]}
         onPress={() => router.back()}>

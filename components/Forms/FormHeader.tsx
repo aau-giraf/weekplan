@@ -6,7 +6,7 @@ type FormHeaderProps = {
   style?: StyleProp<TextStyle>;
 };
 const FormHeader = ({ title, style }: FormHeaderProps) => {
-  return <Text style={[style, styles.headerText]}>{title}</Text>;
+  return <Text style={[styles.headerText, style]}>{title}</Text>;
 };
 
 const styles = StyleSheet.create({
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(48),
     fontWeight: "600",
     marginBottom: ScaleSizeH(20),
-    textAlign: "center",
     color: colors.black,
   },
 });

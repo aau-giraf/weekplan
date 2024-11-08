@@ -2,14 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
 import { z } from "zod";
 import useActivity from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import { useDate } from "../../../providers/DateProvider";
 import { useToast } from "../../../providers/ToastProvider";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
-import { ScaleSize } from "../../../utils/SharedStyles";
 import FormContainer from "../../Forms/FormContainer";
 import FormHeader from "../../Forms/FormHeader";
 import FormTimePicker from "../../Forms/FormTimePicker";
@@ -108,45 +106,31 @@ const ActivityEdit = ({
   };
 
   return (
-    <FormContainer>
+    <FormContainer style={{ padding: 30, gap: 15 }}>
       <FormHeader title="Ændre Aktivitet" />
-      <View>
-        <FormField control={control} name="title" placeholder="Titel" />
-      </View>
-      <View>
-        <FormField control={control} name="description" placeholder="Beskrivelse" />
-      </View>
-      <View style={styles.pickerContainer}>
-        <FormTimePicker
-          control={control}
-          name="startTime"
-          placeholder="Vælg start tid"
-          maxDate={getValues("endTime")}
-        />
-      </View>
-      <View style={styles.pickerContainer}>
-        <FormTimePicker
-          control={control}
-          name="endTime"
-          placeholder="Vælg slut tid"
-          minDate={getValues("startTime")}
-        />
-      </View>
-      <View style={styles.pickerContainer}>
-        <View>
-          <FormTimePicker control={control} name="date" placeholder="Dato for aktivitet" mode="date" />
-        </View>
-      </View>
-      <SubmitButton isValid={isValid} isSubmitting={isSubmitting} handleSubmit={handleSubmit(onSubmit)} />
+      <FormField control={control} name="title" placeholder="Titel" />
+      <FormField control={control} name="description" placeholder="Beskrivelse" />
+      <FormTimePicker
+        control={control}
+        name="startTime"
+        placeholder="Vælg start tid"
+        maxDate={getValues("endTime")}
+      />
+      <FormTimePicker
+        control={control}
+        name="endTime"
+        placeholder="Vælg slut tid"
+        minDate={getValues("startTime")}
+      />
+      <FormTimePicker control={control} name="date" placeholder="Dato for aktivitet" mode="date" />
+      <SubmitButton
+        isValid={isValid}
+        isSubmitting={isSubmitting}
+        handleSubmit={handleSubmit(onSubmit)}
+        label="Opdater aktivitet"
+      />
     </FormContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  pickerContainer: {
-    marginBottom: ScaleSize(20),
-    alignItems: "center",
-  },
-});
 
 export default ActivityEdit;
