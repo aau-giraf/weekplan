@@ -9,6 +9,25 @@ describe("getMonthsFromDates", () => {
 
     expect(result).toBe("juli");
   });
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   it("should return the names of both months when dates are in different months", () => {
     const startDate = new Date("2023-07-15");
