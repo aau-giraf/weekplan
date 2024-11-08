@@ -72,11 +72,7 @@ const Settings = () => {
             item={item}
             toggleStates={toggleStates}
             handleToggleChange={handleToggleChange}
-            hasInvitations={
-              item.label === "Invitationer" &&
-              inviteData &&
-              inviteData.length > 0
-            }
+            hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
           />
         )}
         keyExtractor={(item) => item.label}
@@ -90,7 +86,7 @@ type RenderSettingProps = {
   item: Setting;
   toggleStates: { [key: string]: boolean };
   handleToggleChange: (label: string, value: boolean) => void;
-  hasInvitations?: boolean; 
+  hasInvitations?: boolean;
 };
 
 const RenderSetting = ({ item, toggleStates, handleToggleChange }: RenderSettingProps) => {

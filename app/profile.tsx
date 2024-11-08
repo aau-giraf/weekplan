@@ -99,9 +99,7 @@ const ProfilePage: React.FC = () => {
               </View>
               <IconButton style={styles.settings} onPress={() => router.push("/settings")}>
                 <Ionicons name="settings-outline" size={ScaleSize(64)} />
-                {inviteData && inviteData.length > 0 && (
-                  <View style={styles.notificationBadge} />
-                )}
+                {inviteData && inviteData.length > 0 && <View style={styles.notificationBadge} />}
               </IconButton>
             </View>
             <View style={styles.organizationsContainer}>
