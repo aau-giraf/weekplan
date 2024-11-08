@@ -9,68 +9,38 @@ permissions:
   actions: write
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
-    outputs:
-      commit_sha: ${{ github.sha }}  # Capture the original commit SHA
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Build Application
-        run: npm run build --if-present
-
-      - name: Run Tests
-        run: npm run test-ci
-
   prettier:
-    needs: tests  # Ensure Prettier runs after tests
     runs-on: ubuntu-latest
     outputs:
-      commit_sha: ${{ steps.get_commit_sha.outputs.commit_sha }}  # Save the new commit SHA
+      prettier_changed: ${{ steps.check_changes.outputs.prettier_changed }}
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
+          fetch-depth: 0  # Fetch full history to check for changes
 
-      - name: Prettify code
+      - name: Run Prettier
         uses: creyD/prettier_action@v4.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
-      # Wait for GitHub to process the new commit (e.g., Prettier's commit)
-      - name: Wait for commit processing
-        run: sleep 5
-
-      - name: Get Latest Commit SHA
-        id: get_commit_sha
+      - name: Check if Prettier made any changes
+        id: check_changes
         run: |
-          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-          echo "commit_sha=$(git rev-parse HEAD)"
+          # Check for any changes after running Prettier
+          git diff --exit-code || echo "prettier_changed=true" >> $GITHUB_ENV
+          echo "prettier_changed=${{ env.prettier_changed }}" >> $GITHUB_OUTPUT
   
-  tests-after-prettier:
+  tests:
     needs: prettier
     runs-on: ubuntu-latest
+    if: ${{ always() }}  # Ensure that tests will always run after the 'prettier' job, but conditionally based on the changes
     steps:
-      - name: Checkout the new commit (created by Prettier)
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ needs.prettier.outputs.commit_sha }}  # Checkout the new commit SHA from Prettier
+          fetch-depth: 0  # Fetch full history to check for changes
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -86,3 +56,4 @@ jobs:
 
       - name: Run Tests
         run: npm run test-ci
+        if: ${{ steps.check_changes.outputs.prettier_changed == 'true' }}  # Only run tests if Prettier made changes

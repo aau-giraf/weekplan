@@ -7,6 +7,35 @@ describe("getWeekNumber", () => {
     expect(weekNumber).toBe(24);
   });
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   test("should return correct week number for a date in the beginning of the year", () => {
     const date = new Date("2023-01-05");
     const weekNumber = getWeekNumber(date);
