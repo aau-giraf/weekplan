@@ -2,12 +2,12 @@ name: tests
 
 on:
   pull_request:
-    branches: [master]   # Triggers on pull requests to master
+    branches: [master]
+  workflow_dispatch:
 
 permissions:
   contents: write
   statuses: write
-  actions: write
 
 jobs:
   prettier:
@@ -19,15 +19,13 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          token: ${{ secrets.GIRAF_PAT }}  # Use PAT for Prettier
-          prettier_options: --write '**/*.{js,jsx,ts,tsx}
+          token: ${{ secrets.GIRAF_PAT }}
+          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
-      # Commit Prettier changes with PAT instead of GITHUB_TOKEN
       - name: Commit Prettier changes
         run: |
           git config --global user.name "TBjerregaard"
@@ -36,13 +34,29 @@ jobs:
           git commit -m "Prettified Code" || echo "No changes to commit"
           git push origin ${{ github.head_ref }}
         env:
-          token: ${{ secrets.GIRAF_PAT }}  # Use PAT here as well
+          token: ${{ secrets.GIRAF_PAT }}
+
+      - name: Update Prettier Status
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { context } = require('@actions/github');
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              description: 'Prettier formatting completed',
+              context: 'prettier-status'
+            });
 
   tests:
     needs: prettier
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -54,3 +68,18 @@ jobs:
 
       - run: npm ci
       - run: npm run test-ci
+
+      - name: Update Tests Status
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { context } = require('@actions/github');
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              description: 'Tests completed successfully',
+              context: 'tests-status'
+            });
