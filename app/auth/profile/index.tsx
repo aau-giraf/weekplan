@@ -7,19 +7,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import useProfile from "../hooks/useProfile";
-import { ProfilePicture } from "../components/ProfilePage";
+import useProfile from "../../../hooks/useProfile";
+import { ProfilePicture } from "../../../components/ProfilePage";
 import { useRef, useState } from "react";
-import IconButton from "../components/IconButton";
+import IconButton from "../../../components/IconButton";
 import useOrganisationOverview, {
   OrgOverviewDTO,
-} from "../hooks/useOrganisationOverview";
+} from "../../../hooks/useOrganisationOverview";
 import BottomSheet, {
   BottomSheetTextInput,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { UseMutationResult } from "@tanstack/react-query";
-import { useToast } from "../providers/ToastProvider";
+import { useToast } from "../../../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import {
   colors,
@@ -27,7 +27,7 @@ import {
   ScaleSizeH,
   ScaleSizeW,
   SharedStyles,
-} from "../utils/SharedStyles";
+} from "../../../utils/SharedStyles";
 
 import { router } from "expo-router";
 
@@ -73,7 +73,7 @@ const ProfilePage: React.FC = () => {
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => {
-        router.push(`/vieworganisation/${item.id}`);
+        router.push(`/auth/profile/organisation/${item.id}`);
       }}>
       <ProfilePicture label={item.name} style={styles.profilePicture} />
       <Text
@@ -114,12 +114,12 @@ const ProfilePage: React.FC = () => {
               </View>
               <IconButton
                 style={styles.settings}
-                onPress={() => router.push("/settings")}>
+                onPress={() => router.push("/auth/profile/settings")}>
                 <Ionicons name="settings-outline" size={ScaleSize(64)} />
               </IconButton>
               <IconButton
                 style={styles.iconMail}
-                onPress={() => router.push("/viewinvitation")}>
+                onPress={() => router.push("/auth/profile/viewinvitation")}>
                 <Ionicons name="mail-outline" size={ScaleSize(40)} />
               </IconButton>
             </View>
@@ -138,7 +138,9 @@ const ProfilePage: React.FC = () => {
       {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
       <IconButton
         style={styles.weekoverview}
-        onPress={() => router.push("/weekplanscreen")}>
+        onPress={() =>
+          router.push("/auth/profile/organisation/weekplanscreen")
+        }>
         <Ionicons name="calendar-outline" size={ScaleSize(64)} />
       </IconButton>
       <AddBottomSheet

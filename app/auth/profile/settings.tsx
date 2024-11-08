@@ -1,19 +1,19 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList, Switch } from "react-native-gesture-handler";
-import { colors } from "../utils/SharedStyles";
+import { colors } from "../../../utils/SharedStyles";
 import { useEffect, useMemo, useState } from "react";
 import {
   loadSettingValues,
   setSettingsValue,
   Setting,
-} from "../utils/settingsUtils";
+} from "../../../utils/settingsUtils";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { useAuthentication } from "../providers/AuthenticationProvider";
+import { useAuthentication } from "../../../providers/AuthenticationProvider";
 
 const Settings = () => {
   const { logout } = useAuthentication();

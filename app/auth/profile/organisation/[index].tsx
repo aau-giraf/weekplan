@@ -1,4 +1,4 @@
-import { CutoffList } from "../../components/organisationoverview_components/CutoffList";
+import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
 import { View, Text, StyleSheet } from "react-native";
 import {
   colors,
@@ -6,11 +6,11 @@ import {
   ScaleSizeH,
   ScaleSizeW,
   SharedStyles,
-} from "../../utils/SharedStyles";
+} from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import useOrganisation from "../../hooks/useOrganisation";
-import IconButton from "../../components/IconButton";
+import useOrganisation from "../../../../hooks/useOrganisation";
+import IconButton from "../../../../components/IconButton";
 
 const ViewOrganisation = () => {
   const { id } = useLocalSearchParams();
@@ -52,7 +52,7 @@ const ViewOrganisation = () => {
       <Text style={styles.heading}>Borger</Text>
       <CutoffList
         entries={data?.citizens ?? []}
-        onPress={() => router.push("/addcitizen")}
+        onPress={() => router.push("./addcitizen")}
       />
       <Text style={styles.heading}>Klasser</Text>
       {/* //TODO: Add and Implement Classes */}

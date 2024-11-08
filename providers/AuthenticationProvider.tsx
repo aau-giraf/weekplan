@@ -54,7 +54,7 @@ const AuthenticationProvider = ({
       const userData = { email, password, firstName, lastName };
       try {
         await createUserRequest(userData);
-        router.replace("/login");
+        router.replace("/auth");
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });
       }
@@ -69,7 +69,7 @@ const AuthenticationProvider = ({
         if (res.token) {
           setJwt(res.token);
           setUserId(getUserIdFromToken(res.token));
-          router.replace("/profile");
+          router.replace("/auth/profile");
         } else {
           addToast({ message: "Toast not received", type: "error" });
         }
@@ -87,7 +87,7 @@ const AuthenticationProvider = ({
     await setSettingsValue("Remember me", false);
     setJwt(null);
     setUserId(null);
-    router.replace("/login");
+    router.replace("/auth");
   }, []);
 
   return (

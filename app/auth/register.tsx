@@ -15,13 +15,13 @@ import {
   ScaleSize,
   ScaleSizeH,
   ScaleSizeW,
-} from "../utils/SharedStyles";
+} from "../../utils/SharedStyles";
 import { z } from "zod";
-import { useAuthentication } from "../providers/AuthenticationProvider";
+import { useAuthentication } from "../../providers/AuthenticationProvider";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../components/FieldInfo";
-import PrivacyPolicy from "../components/Legal/PrivacyPolicy";
+import FieldInfo from "../../components/FieldInfo";
+import PrivacyPolicy from "../../components/Legal/PrivacyPolicy";
 
 /**
  * Regex
@@ -215,7 +215,7 @@ const RegisterScreen: React.FC = () => {
           />
           <TouchableOpacity
             style={[styles.button, styles.loginButton]}
-            onPress={() => router.replace("/login")}>
+            onPress={() => router.replace("/auth")}>
             <Text style={styles.buttonText}>Gå til login</Text>
           </TouchableOpacity>
         </ScrollView>

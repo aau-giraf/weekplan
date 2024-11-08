@@ -10,12 +10,12 @@ import {
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import { colors } from "../utils/SharedStyles";
-import { ProfilePicture } from "../components/ProfilePage";
-import ReanimatedSwipeable from "../components/ReanimatedSwipeable";
+import { colors } from "../../../../utils/SharedStyles";
+import { ProfilePicture } from "../../../../components/ProfilePage";
+import ReanimatedSwipeable from "../../../../components/ReanimatedSwipeable";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import FieldInfo from "../components/FieldInfo";
-import useOrganisation from "../hooks/useOrganisation";
+import FieldInfo from "../../../../components/FieldInfo";
+import useOrganisation from "../../../../hooks/useOrganisation";
 
 const citizenSchema = z.object({
   firstName: z

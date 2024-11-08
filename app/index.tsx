@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     if (!isSplashVisible) {
-      router.replace("/login");
+      router.replace("/auth");
     }
   }, [isSplashVisible]);
 

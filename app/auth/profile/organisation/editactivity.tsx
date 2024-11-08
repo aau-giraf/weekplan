@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import ActivityEdit from "../components/weekoverview_components/activity_components/ActivityEdit";
+import ActivityEdit from "../../../../components/weekoverview_components/activity_components/ActivityEdit";
 
 type Params = {
   name: string;

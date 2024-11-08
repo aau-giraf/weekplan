@@ -7,21 +7,21 @@ import {
   StyleSheet,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import { useAuthentication } from "../providers/AuthenticationProvider";
+import { useAuthentication } from "../../providers/AuthenticationProvider";
 import {
   colors,
   ScaleSize,
   ScaleSizeH,
   ScaleSizeW,
-} from "../utils/SharedStyles";
+} from "../../utils/SharedStyles";
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../components/FieldInfo";
+import FieldInfo from "../../components/FieldInfo";
 import { router } from "expo-router";
 import { Switch } from "react-native-gesture-handler";
-import { getSettingsValue, setSettingsValue } from "../utils/settingsUtils";
-import GirafIcon from "../assets/SVG/GirafIcon";
+import { getSettingsValue, setSettingsValue } from "../../utils/settingsUtils";
+import GirafIcon from "../../assets/SVG/GirafIcon";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
@@ -140,7 +140,7 @@ const LoginScreen: React.FC = () => {
         />
         <TouchableOpacity
           style={[styles.button, { backgroundColor: colors.blue }]}
-          onPress={() => router.replace("/register")}>
+          onPress={() => router.push("/auth/register")}>
           <Text style={styles.buttonText}>Tilføj ny konto</Text>
         </TouchableOpacity>
       </View>
