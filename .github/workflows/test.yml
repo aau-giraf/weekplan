@@ -2,7 +2,10 @@ name: tests
 
 on:
   pull_request:
-  workflow_dispatch:
+    branches: [master]   # Triggers on pull requests to master
+  push:                   # Also trigger on pushes to the branch associated with the pull request
+    branches:             # This should cover all branches, or specify the relevant branches if known
+      - '*'
 
 permissions:
   contents: write
@@ -23,19 +26,18 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
+          github_token: ${{ secrets.USER_PERSONAL_ACCESS_TOKEN }}  # Use PAT for Prettier
 
-      # New step to commit Prettier changes, if any
+      # Commit Prettier changes with PAT instead of GITHUB_TOKEN
       - name: Commit Prettier changes
         run: |
           git config --global user.name "TBjerregaard"
           git config --global user.email "tbjerr22@student.aau.dk"
           git add .
           git commit -m "Prettified Code" || echo "No changes to commit"
-          git push
+          git push origin ${{ github.head_ref }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.USER_PERSONAL_ACCESS_TOKEN }}  # Use PAT here as well
 
   tests:
     needs: prettier
