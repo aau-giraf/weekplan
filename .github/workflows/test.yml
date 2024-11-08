@@ -1,39 +1,19 @@
-on:
-  pull_request:
-    branches: [master]
-  workflow_dispatch:
+name: Run Tests
 
-permissions:
-  contents: write
-  statuses: write
-  actions: write
+on:
+  workflow_run:
+    workflows: ["Prettier"]
+    types:
+      - completed
 
 jobs:
-  prettier:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-
   tests:
-    needs: prettier
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
           node-version: 20
           cache: "npm"
       - name: Install Dependencies
