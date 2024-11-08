@@ -2,7 +2,18 @@ import { renderHook, act, render, screen } from "@testing-library/react-native";
 import DateProvider, { useDate } from "../providers/DateProvider";
 import { View, Text } from "react-native";
 
-describe("DateProvider and useDate", () => {
+describe('DateProvider and useDate', () => {
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   it("should update selectedDate when setSelectedDate is called", () => {
     const { result } = renderHook(() => useDate(), {
       wrapper: DateProvider,
