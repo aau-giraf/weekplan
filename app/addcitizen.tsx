@@ -1,15 +1,24 @@
-import React, { useCallback, useState } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
-import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
-import { colors } from "../utils/SharedStyles";
+import React, { useCallback, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { z } from "zod";
 import { ProfilePicture } from "../components/ProfilePage";
+import SwipeableList from "../components/SwipeableList/SwipeableList";
+import useOrganisation from "../hooks/useOrganisation";
+import { colors } from "../utils/SharedStyles";
+import FieldInputText from "../components/InputValidation/FieldInputText";
+import FieldSubmitButton from "../components/InputValidation/FieldSumbitButton";
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
 import ReanimatedSwipeable from "../components/ReanimatedSwipeable";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import useOrganisation from "../hooks/useOrganisation";
-import FieldInputText from "../components/InputValidation/FieldInputText";
-import FieldSubmitButton from "../components/InputValidation/FieldSumbitButton";
 
 const citizenSchema = z.object({
   firstName: z
@@ -89,36 +98,36 @@ const AddCitizen: React.FC = () => {
   );
 
   const renderCitizen = (item: Citizen) => (
-    <ReanimatedSwipeable onSwipeableWillOpen={() => handleDelete(item.id)}>
-      <View style={styles.citizenContainer}>
-        <ProfilePicture
-          label={`${item.firstName} ${item.lastName}`}
-          style={styles.profilePicture}
-        />
-        <Text numberOfLines={3} style={{ flexShrink: 1 }}>
-          {`${item.firstName} ${item.lastName}`}
-        </Text>
-      </View>
-    </ReanimatedSwipeable>
+    <View style={styles.citizenContainer}>
+      <ProfilePicture
+        label={`${item.firstName} ${item.lastName}`}
+        style={styles.profilePicture}
+      />
+      <Text numberOfLines={3} style={{ flexShrink: 1 }}>
+        {`${item.firstName} ${item.lastName}`}
+      </Text>
+    </View>
   );
 
   return (
     <View style={styles.container}>
-      <Animated.FlatList
+      <SwipeableList
         style={{ padding: 20 }}
-        data={citizens}
-        itemLayoutAnimation={
-          Platform.OS === "android" ? undefined : LinearTransition
-        }
-        keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={
-          <>
-            <CitizenForm onSubmit={handleAddCitizen} />
-            <Text style={styles.title}>List over nyligt tilføjede</Text>
-          </>
-        }
+        items={citizens}
         renderItem={({ item }) => renderCitizen(item)}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        keyExtractor={(item) => item.id.toString()}
+        reanimatedSwipeableProps={(item) => ({
+          onSwipeableWillOpen: () => handleDelete(item.id),
+        })}
+        flatListProps={{
+          ListHeaderComponent: (
+            <>
+              <CitizenForm onSubmit={handleAddCitizen} />
+              <Text style={styles.title}>List over nyligt tilføjede</Text>
+            </>
+          ),
+          ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
+        }}
       />
     </View>
   );

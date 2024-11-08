@@ -20,6 +20,8 @@ import { useToast } from "../providers/ToastProvider";
 import FieldInputText from "../components/InputValidation/FieldInputText";
 import FieldTimePicker from "../components/InputValidation/FieldTimePicker";
 import FieldSubmitButton from "../components/InputValidation/FieldSumbitButton";
+import { useCitizen } from "../providers/CitizenProvider";
+
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -41,6 +43,7 @@ const AddActivity = () => {
   const { selectedDate } = useDate();
   const { addToast } = useToast();
   const { useCreateActivity } = useActivity({ date: selectedDate });
+  const { citizenId } = useCitizen();
 
   const form = useForm({
     defaultValues: {
@@ -57,7 +60,7 @@ const AddActivity = () => {
 
       await useCreateActivity
         .mutateAsync({
-          citizenId: 1,
+          citizenId: citizenId,
           data: {
             activityId: -1,
             name: title,
