@@ -1,10 +1,4 @@
-import {
-  act,
-  fireEvent,
-  renderHook,
-  screen,
-  waitFor,
-} from "@testing-library/react-native";
+import { act, fireEvent, renderHook, screen, waitFor } from "@testing-library/react-native";
 import ToastProvider, { useToast } from "../providers/ToastProvider";
 import { ToastProps } from "../components/Toast";
 
@@ -52,16 +46,12 @@ describe("ToastProvider and useToast", () => {
   });
 
   it("should throw an error if useToast is used outside ToastProvider", () => {
-    const consoleErrorMock = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+    const consoleErrorMock = jest.spyOn(console, "error").mockImplementation(() => {});
 
     try {
       renderHook(() => useToast());
     } catch (error) {
-      expect(error).toEqual(
-        new Error("useToast must be used within a ToastProvider")
-      );
+      expect(error).toEqual(new Error("useToast must be used within a ToastProvider"));
     }
 
     consoleErrorMock.mockRestore();

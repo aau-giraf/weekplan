@@ -3,16 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { FlatList, Switch } from "react-native-gesture-handler";
 import { colors } from "../utils/SharedStyles";
 import { useEffect, useMemo, useState } from "react";
-import {
-  loadSettingValues,
-  setSettingsValue,
-  Setting,
-} from "../utils/settingsUtils";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+import { loadSettingValues, setSettingsValue, Setting } from "../utils/settingsUtils";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { router } from "expo-router";
 import useInvitation from "../hooks/useInvitation";
@@ -80,17 +72,11 @@ const Settings = () => {
             item={item}
             toggleStates={toggleStates}
             handleToggleChange={handleToggleChange}
-            hasInvitations={
-              item.label === "Invitationer" &&
-              inviteData &&
-              inviteData.length > 0
-            }
+            hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
           />
         )}
         keyExtractor={(item) => item.label}
-        ItemSeparatorComponent={() => (
-          <View style={styles.ItemSeparatorComponent}></View>
-        )}
+        ItemSeparatorComponent={() => <View style={styles.ItemSeparatorComponent}></View>}
       />
     </View>
   );
@@ -103,12 +89,7 @@ type RenderSettingProps = {
   hasInvitations?: boolean;
 };
 
-const RenderSetting = ({
-  item,
-  toggleStates,
-  handleToggleChange,
-  hasInvitations,
-}: RenderSettingProps) => {
+const RenderSetting = ({ item, toggleStates, handleToggleChange, hasInvitations }: RenderSettingProps) => {
   const opacity = useSharedValue(1);
   const opacityAnimation = useAnimatedStyle(() => ({
     opacity: opacity.value,

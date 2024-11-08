@@ -45,14 +45,11 @@ export default function useActivity({ date }: { date: Date }) {
     mutationFn: deleteRequest,
     onMutate: async (activityId: number) => {
       await queryClient.cancelQueries({ queryKey });
-      const previousActivities =
-        queryClient.getQueryData<ActivityDTO[]>(queryKey);
+      const previousActivities = queryClient.getQueryData<ActivityDTO[]>(queryKey);
 
       queryClient.setQueryData<ActivityDTO[]>(
         queryKey,
-        (oldData) =>
-          oldData?.filter((activity) => activity.activityId !== activityId) ||
-          []
+        (oldData) => oldData?.filter((activity) => activity.activityId !== activityId) || []
       );
 
       return { previousActivities };
@@ -60,10 +57,7 @@ export default function useActivity({ date }: { date: Date }) {
 
     onError: (_error, _variables, context) => {
       if (context?.previousActivities) {
-        queryClient.setQueryData<ActivityDTO[]>(
-          queryKey,
-          context.previousActivities
-        );
+        queryClient.setQueryData<ActivityDTO[]>(queryKey, context.previousActivities);
       }
     },
   });
@@ -74,27 +68,20 @@ export default function useActivity({ date }: { date: Date }) {
       const { citizenId, ...activityData } = data;
       await queryClient.cancelQueries({ queryKey });
 
-      const isSameDate =
-        new Date(activityData.date).toDateString() ===
-        new Date(date).toDateString();
+      const isSameDate = new Date(activityData.date).toDateString() === new Date(date).toDateString();
 
       if (isSameDate) {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
           (oldData) =>
             oldData?.map((activity) =>
-              activity.activityId === activityData.activityId
-                ? activityData
-                : activity
+              activity.activityId === activityData.activityId ? activityData : activity
             ) || []
         );
       } else {
         queryClient.setQueryData<ActivityDTO[]>(
           queryKey,
-          (oldData) =>
-            oldData?.filter(
-              (activity) => activity.activityId !== activityData.activityId
-            ) || []
+          (oldData) => oldData?.filter((activity) => activity.activityId !== activityData.activityId) || []
         );
       }
 
@@ -104,10 +91,7 @@ export default function useActivity({ date }: { date: Date }) {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousActivities) {
-        queryClient.setQueryData<ActivityDTO[]>(
-          queryKey,
-          context.previousActivities
-        );
+        queryClient.setQueryData<ActivityDTO[]>(queryKey, context.previousActivities);
       }
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
@@ -120,8 +104,7 @@ export default function useActivity({ date }: { date: Date }) {
     onMutate: async (variables) => {
       await queryClient.cancelQueries({ queryKey });
 
-      const previousActivities =
-        queryClient.getQueryData<ActivityDTO[]>(queryKey);
+      const previousActivities = queryClient.getQueryData<ActivityDTO[]>(queryKey);
 
       queryClient.setQueryData<ActivityDTO[]>(queryKey, (oldData) => [
         ...(oldData || []),
@@ -147,11 +130,7 @@ export default function useActivity({ date }: { date: Date }) {
   });
 
   const copyActivities = useMutation({
-    mutationFn: (variables: {
-      activityIds: number[];
-      sourceDate: Date;
-      destinationDate: Date;
-    }) =>
+    mutationFn: (variables: { activityIds: number[]; sourceDate: Date; destinationDate: Date }) =>
       copyActivitiesRequest(
         citizenId,
         variables.activityIds,
@@ -167,16 +146,13 @@ export default function useActivity({ date }: { date: Date }) {
 
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey });
-      const previousActivities =
-        queryClient.getQueryData<ActivityDTO[]>(queryKey);
+      const previousActivities = queryClient.getQueryData<ActivityDTO[]>(queryKey);
 
       queryClient.setQueryData<ActivityDTO[]>(
         queryKey,
         (oldData) =>
           oldData?.map((activity) =>
-            activity.activityId === id
-              ? { ...activity, isCompleted: !activity.isCompleted }
-              : activity
+            activity.activityId === id ? { ...activity, isCompleted: !activity.isCompleted } : activity
           ) || []
       );
 
@@ -185,10 +161,7 @@ export default function useActivity({ date }: { date: Date }) {
 
     onError: (_error, _variables, context) => {
       if (context?.previousActivities) {
-        queryClient.setQueryData<ActivityDTO[]>(
-          queryKey,
-          context.previousActivities
-        );
+        queryClient.setQueryData<ActivityDTO[]>(queryKey, context.previousActivities);
       }
     },
   });

@@ -18,13 +18,9 @@ const EditActivity = () => {
     throw new Error("Ugyldigt aktivitet id");
   }
 
-  const activities = queryClient.getQueryData<ActivityDTO[]>(
-    dateToQueryKey(selectedDate)
-  );
+  const activities = queryClient.getQueryData<ActivityDTO[]>(dateToQueryKey(selectedDate));
 
-  const activity = activities?.find(
-    (activity) => activity.activityId === parseInt(activityId)
-  );
+  const activity = activities?.find((activity) => activity.activityId === parseInt(activityId));
 
   if (!activity) {
     throw new Error("Aktiviteten findes ikke");
