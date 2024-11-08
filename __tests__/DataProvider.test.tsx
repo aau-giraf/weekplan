@@ -9,13 +9,7 @@ describe("DateProvider and useDate", () => {
     });
 
     const newDate = new Date("2024-02-01");
-    
-    
-    
-    
-    
-    
-    
+
     act(() => {
       result.current.setSelectedDate(newDate);
     });
