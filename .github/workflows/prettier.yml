@@ -1,6 +1,8 @@
 name: Prettier Formatting
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [master]
 
 permissions:
   contents: write
@@ -19,6 +21,5 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          only_changed: True
           github_token: ${{ secrets.PRETTIER_PAT }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
