@@ -33,6 +33,16 @@ jobs:
         id: get-commit-sha
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
+      - name: Commit Prettier changes
+        run: |
+          git config --global user.name "TBjerregaard"
+          git config --global user.email "tbjerr22@student.aau.dk"
+          git add .
+          git diff --quiet && exit 0 || git commit -m "Test message"
+          git push origin ${{ github.head_ref }}
+        env:
+          GIRAF_PAT: ${{ secrets.GIRAF_PAT }}
+
   tests:
     needs: prettier  # Ensure tests only run after prettier job
     runs-on: ubuntu-latest
