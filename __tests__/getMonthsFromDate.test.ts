@@ -29,14 +29,6 @@ describe("getMonthsFromDates", () => {
   it("should throw an error if endDate is invalid", () => {
     const startDate = new Date("2023-07-15");
     const endDate = new Date("invalid-date");
-    
-    
-    
-    
-    
-    
-    
-    
 
     expect(() => getMonthsFromDates(startDate, endDate)).toThrow("Invalid date(s) provided");
   });
