@@ -1,11 +1,8 @@
 name: Prettier Formatting
 
 on:
-  workflow_dispatch:  # Allows manual triggering
-  workflow_run:
-    workflows: ["Prettier Formatting"]
-    types:
-      - completed
+  pull_request:
+    branches: [master]
 
 permissions:
   contents: write
