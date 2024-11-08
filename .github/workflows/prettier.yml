@@ -1,0 +1,24 @@
+name: Prettier Formatting
+
+on: [push, pull_request]
+
+permissions:
+  contents: write
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          only_changed: True
+          github_token: ${{ secrets.PRETTIER_PAT }}
+          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
