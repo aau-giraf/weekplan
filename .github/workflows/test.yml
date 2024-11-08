@@ -26,10 +26,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
       
-      # Capture the commit SHA after Prettier, in case it made any changes
       - name: Get Commit SHA
         id: get-commit-sha
-        run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT  # Output the SHA as 'commit_sha'
+        run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   tests:
     needs: prettier
@@ -38,7 +37,7 @@ jobs:
       - name: Checkout latest code from Prettier
         uses: actions/checkout@v3
         with:
-          ref: ${{ needs.prettier.outputs.commit_sha }}  # Checkout the commit SHA from the prettier job
+          ref: ${{ needs.prettier.outputs.commit_sha }}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
