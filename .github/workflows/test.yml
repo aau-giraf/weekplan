@@ -1,11 +1,8 @@
 name: Node.js CI
 
 on:
-  workflow_dispatch: # Allows manual triggering
-  workflow_run:
-    workflows: ["Prettier Formatting"]  # Triggers when Prettier Formatting completes
-    types:
-      - completed
+  pull_request:
+    branches: [master]
 
 jobs:
   tests:
