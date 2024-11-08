@@ -3,8 +3,8 @@ name: tests
 on:
   pull_request:
     branches: [master]
-    types: [opened, synchronize, reopened] # Only trigger on these types
-
+    types: [opened, synchronize, reopened]  # Only trigger on these types
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 permissions:
   contents: write
@@ -14,6 +14,8 @@ permissions:
 jobs:
   prettier:
     runs-on: ubuntu-latest
+    outputs:
+      commit_sha: ${{ steps.get-commit-sha.outputs.commit_sha }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -24,26 +26,24 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          github_token: ${{ secrets.GIRAF_PAT }}  # Use the correct secret for GitHub authentication
+          github_token: ${{ secrets.GIRAF_PAT }}  # Use correct PAT for authentication
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
-      - name: Commit Prettier changes
-        run: |
-          git config --global user.name "TBjerregaard"
-          git config --global user.email "tbjerr22@student.aau.dk"
-          git add .
-          git diff --quiet && exit 0 || git commit -m "Prettified Code"
-          git push origin ${{ github.head_ref }}
-        env:
-          github_token: ${{ secrets.GIRAF_PAT }}
+      - name: Get Commit SHA
+        id: get-commit-sha
+        run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   tests:
-    needs: prettier
+    needs: prettier  # Ensure tests only run after prettier job
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout latest code from Prettier
+        uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ needs.prettier.outputs.commit_sha }}
+
+      - name: Wait for changes to register
+        run: sleep 5  # Optional, gives GitHub time to process the commit
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -51,18 +51,24 @@ jobs:
           node-version: 20
           cache: "npm"
 
-      - run: npm ci
-      - run: npm run test-ci
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build --if-present
+
+      - name: Run Tests
+        run: npm run test-ci
 
       - name: Check for new commits
         id: check-new-commits
         run: |
           latest_commit=$(git rev-parse HEAD)
           echo "latest_commit=$latest_commit" >> $GITHUB_ENV
-          echo "Previous commit was: ${{ github.event.pull_request.head.sha }}"
+          echo "Previous commit was: ${{ needs.prettier.outputs.commit_sha }}"
 
       - name: Trigger rerun if a new commit is found
-        if: ${{ env.latest_commit != github.event.pull_request.head.sha }}
+        if: ${{ env.latest_commit != needs.prettier.outputs.commit_sha }}
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.GIRAF_PAT }}" \
