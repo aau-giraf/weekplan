@@ -19,11 +19,12 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
+          
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          github_token: ${{ secrets.USER_PERSONAL_ACCESS_TOKEN }}  # Use PAT for Prettier
+          token: ${{ secrets.GIRAF_PAT }}  # Use PAT for Prettier
           prettier_options: --write '**/*.{js,jsx,ts,tsx}
 
       # Commit Prettier changes with PAT instead of GITHUB_TOKEN
@@ -35,7 +36,7 @@ jobs:
           git commit -m "Prettified Code" || echo "No changes to commit"
           git push origin ${{ github.head_ref }}
         env:
-          GITHUB_TOKEN: ${{ secrets.USER_PERSONAL_ACCESS_TOKEN }}  # Use PAT here as well
+          token: ${{ secrets.GIRAF_PAT }}  # Use PAT here as well
 
   tests:
     needs: prettier
