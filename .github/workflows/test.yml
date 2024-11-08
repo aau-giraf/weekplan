@@ -11,6 +11,8 @@ permissions:
 jobs:
   prettier:
     runs-on: ubuntu-latest
+    outputs:
+      commit_sha: ${{ steps.get-commit-sha.outputs.COMMIT_SHA }}  # Define commit_sha as job output
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -24,27 +26,28 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
           only_changed: True
-
+          
       # Delay to allow GitHub to register any new commits by Prettier
       - name: Wait for commit processing
-        run: sleep 30
+        run: sleep 25
 
       # Re-fetch repository to ensure we have the latest commit from Prettier
       - name: Fetch Latest Changes
         run: git fetch --all
-
-      # Capture the new commit SHA after Prettier job completes
+      
+      # Capture the latest commit SHA and set it as an output
       - name: Get Latest Commit SHA
         id: get_commit_sha
         run: |
-          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
-          echo "commit_sha=$(git rev-parse HEAD)"
-          echo $GITHUB_ENV
+          echo "COMMIT_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "COMMIT_SHA=$(git rev-parse HEAD)"
+          echo $GITHUB_OUTPUT
           
-        
   tests:
     needs: prettier
     runs-on: ubuntu-latest
+    env:
+      COMMIT_SHA: ${{ needs.prettier.outputs.commit_sha }}
 
     steps:
       - name: refToHead
@@ -52,7 +55,7 @@ jobs:
       # Use the commit SHA from the Prettier job to checkout the latest commit
       - uses: actions/checkout@v3
         with:
-          ref: ${{ env.commit_sha }}
+          ref: ${{ env.COMMIT_SHA }}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
