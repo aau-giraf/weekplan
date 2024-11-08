@@ -35,7 +35,7 @@ jobs:
           git diff --quiet && exit 0 || git commit -m "Prettified Code"
           git push origin ${{ github.head_ref }}
         env:
-          token: ${{ secrets.GIRAF_PAT }}
+          github_token: ${{ secrets.GIRAF_PAT }}
 
   tests:
     needs: prettier
@@ -57,14 +57,15 @@ jobs:
       - name: Check for new commits
         id: check-new-commits
         run: |
-          # Get latest commit hash
           latest_commit=$(git rev-parse HEAD)
           echo "latest_commit=$latest_commit" >> $GITHUB_ENV
           echo "Previous commit was: ${{ github.event.pull_request.head.sha }}"
 
-      - name: Trigger rerun if new commit exists
+      - name: Trigger rerun if a new commit is found
         if: ${{ env.latest_commit != github.event.pull_request.head.sha }}
-        uses: peter-evans/retry-workflow@v1
-        with:
-          workflow: tests.yml
-          ref: ${{ github.head_ref }}
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GIRAF_PAT }}" \
+            -d '{"ref":"${{ github.head_ref }}"}' \
+            "https://api.github.com/repos/TBjerregaard/weekplan/actions/workflows/tests.yml/dispatches"
+      
