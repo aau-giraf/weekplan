@@ -14,17 +14,6 @@ describe("getMonthsFromDates", () => {
     const startDate = new Date("2023-07-15");
     const endDate = new Date("2023-08-05");
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     const result = getMonthsFromDates(startDate, endDate);
 
     expect(result).toBe("juli/august");
