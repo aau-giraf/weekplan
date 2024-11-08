@@ -12,7 +12,7 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     outputs:
-      commit_sha: ${{ steps.get-commit-sha.outputs.COMMIT_SHA }}  # Define commit_sha as job output
+      commit_sha: ${{ steps.get_commit_sha.outputs.commit_sha }}  # Define commit_sha as job output
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,8 +39,8 @@ jobs:
       - name: Get Latest Commit SHA
         id: get_commit_sha
         run: |
-          echo "COMMIT_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-          echo "COMMIT_SHA=$(git rev-parse HEAD)"
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "commit_sha=$(git rev-parse HEAD)"
           echo $GITHUB_OUTPUT
   
   tests:
@@ -55,7 +55,7 @@ jobs:
       # Use the commit SHA from the Prettier job to checkout the latest commit
       - uses: actions/checkout@v3
         with:
-          ref: ${{ env.COMMIT_SHA }}
+          ref: ${{ env.commit_sha }}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
