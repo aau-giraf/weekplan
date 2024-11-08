@@ -27,29 +27,16 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
-      - name: Set Git configuration
-        run: |
-          git config --global user.name "TBjerregaard"
-          git config --global user.email "tbjerr22@student.aau.dk"
-
       - name: Prettify Code
         uses: creyD/prettier_action@v4.3
         with:
           github_token: ${{ secrets.GIRAF_PAT }}  # Correct PAT token here
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
-      - name: Echo GIRAF_PAT
-        run: echo "GIRAF_PAT is ${{ secrets.GIRAF_PAT }}"
-      
       - name: Get Commit SHA
         id: get-commit-sha
         run: echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Commit Prettier Changes Manually
-        run: |
-          git add .
-          git diff --quiet && exit 0 || git commit -m "Prettified Code!" --author="Tbjerregaard <tbjerr22@student.aau.dk>"
-          git push origin ${{ github.head_ref }}
         env:
           GIRAF_PAT: ${{ secrets.GIRAF_PAT }}
 
@@ -62,8 +49,30 @@ jobs:
         with:
           ref: ${{ needs.prettier.outputs.commit_sha }}
 
-      - name: Wait for changes to register
-        run: sleep 5  # Optional, gives GitHub time to process the commit
+      - name: Check for new commits
+        id: check_new_commits
+        run: |
+          latest_commit=$(git rev-parse HEAD)
+          echo "latest_commit=$latest_commit" >> $GITHUB_ENV
+          echo "Previous commit was: ${{ needs.prettier.outputs.commit_sha }}"
+
+      - name: Get workflow ID for tests.yml
+        id: get-workflow-id
+        run: |
+          workflow_id=$(curl -s -H "Authorization: token ${{ secrets.GIRAF_PAT }}" \
+          "https://api.github.com/repos/TBjerregaard/weekplan/actions/workflows" | \
+          jq -r '.workflows[] | select(.name == "tests") | .id')
+          echo "Workflow ID: $workflow_id"
+          echo "workflow_id=$workflow_id" >> $GITHUB_ENV
+
+      - name: Trigger rerun if new commit found
+        if: ${{ env.latest_commit != needs.prettier.outputs.commit_sha }}
+        run: |
+          echo "New commit detected. Re-triggering tests."
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GIRAF_PAT }}" \
+            -d '{"ref":"${{ github.head_ref }}"}' \
+            "https://api.github.com/repos/TBjerregaard/weekplan/actions/workflows/${{ env.workflow_id }}/dispatches"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

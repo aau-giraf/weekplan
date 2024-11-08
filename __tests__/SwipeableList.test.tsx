@@ -17,6 +17,10 @@ describe("SwipeableList", () => {
     {
       icon: "trash",
       color: "#FF0000",
+      
+      
+      
+      
       onPress: jest.fn(),
     },
   ];
