@@ -1,16 +1,14 @@
-import { zodValidator } from "@tanstack/zod-form-adapter";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useForm } from "react-hook-form";
+import { StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
-import FieldInfo from "../components/FieldInfo";
+import SubmitButton from "../components/Forms/SubmitButton";
+import FormField from "../components/Forms/TextInput";
 import { ProfilePicture } from "../components/ProfilePage";
 import SwipeableList from "../components/SwipeableList/SwipeableList";
 import useOrganisation from "../hooks/useOrganisation";
 import { colors } from "../utils/SharedStyles";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import FormField from "../components/Forms/TextInput";
-import SubmitButton from "../components/Forms/SubmitButton";
 
 const citizenSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
