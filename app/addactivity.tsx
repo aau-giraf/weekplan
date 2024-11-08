@@ -16,12 +16,7 @@ import useActivity from "../hooks/useActivity";
 import TimePicker from "../components/TimePicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { z } from "zod";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import FieldInfo from "../components/FieldInfo";
@@ -91,9 +86,7 @@ const AddActivity = () => {
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1, gap: ScaleSize(20) }}>
-          <Text style={styles.headerText}>
-            Opret en aktivitet til {prettyDate(selectedDate)}
-          </Text>
+          <Text style={styles.headerText}>Opret en aktivitet til {prettyDate(selectedDate)}</Text>
           <View>
             <form.Field
               name="title"
@@ -102,8 +95,7 @@ const AddActivity = () => {
                   <View>
                     <TextInput
                       style={
-                        field.state.meta.isTouched &&
-                        field.state.meta.errors.length > 0
+                        field.state.meta.isTouched && field.state.meta.errors.length > 0
                           ? styles.inputError
                           : styles.inputValid
                       }
@@ -126,8 +118,7 @@ const AddActivity = () => {
                   <View>
                     <TextInput
                       style={
-                        field.state.meta.isTouched &&
-                        field.state.meta.errors.length > 0
+                        field.state.meta.isTouched && field.state.meta.errors.length > 0
                           ? styles.inputError
                           : styles.inputValid
                       }
@@ -187,9 +178,7 @@ const AddActivity = () => {
                 style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
                 disabled={!canSubmit}
                 onPress={form.handleSubmit}>
-                <Text style={styles.buttonText}>
-                  {isSubmitting ? "..." : "Tilføj"}
-                </Text>
+                <Text style={styles.buttonText}>{isSubmitting ? "..." : "Tilføj"}</Text>
               </TouchableOpacity>
             )}
           />

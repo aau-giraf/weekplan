@@ -4,12 +4,7 @@ import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeW,
-  SharedStyles,
-} from "../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../../utils/SharedStyles";
 import getMonthsFromDates from "../../utils/getMonthsFromDate";
 
 type WeekSelectionProps = {};
@@ -58,10 +53,7 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
 
   return (
     <View style={styles.weekSelection}>
-      <Button
-        title={`Uge ${weekNumber} \n ${monthString}`}
-        onPress={() => setModalVisible(true)}
-      />
+      <Button title={`Uge ${weekNumber} \n ${monthString}`} onPress={() => setModalVisible(true)} />
 
       {/* Modal for Week/Year Picker */}
       <Modal visible={modalVisible} animationType="slide" transparent={true}>

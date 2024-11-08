@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useDate } from "../../../providers/DateProvider";
 import useActivity from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
@@ -98,9 +92,7 @@ const ActivityEdit = ({
       };
       updateActivity
         .mutateAsync(data)
-        .catch((error) =>
-          addToast({ message: (error as any).message, type: "error" })
-        )
+        .catch((error) => addToast({ message: (error as any).message, type: "error" }))
         .finally(() => router.back());
     },
     validatorAdapter: zodValidator(),
@@ -126,11 +118,7 @@ const ActivityEdit = ({
                 <TextInput
                   value={field.state.value}
                   placeholder="Titel"
-                  style={
-                    field.state.meta.errors.length
-                      ? styles.inputError
-                      : styles.inputValid
-                  }
+                  style={field.state.meta.errors.length ? styles.inputError : styles.inputValid}
                   onChangeText={(text) => field.handleChange(text)}
                 />
                 <FieldInfo field={field} />
@@ -148,11 +136,7 @@ const ActivityEdit = ({
                 <TextInput
                   value={field.state.value}
                   placeholder="Beskrivelse"
-                  style={
-                    field.state.meta.errors.length
-                      ? styles.inputError
-                      : styles.inputValid
-                  }
+                  style={field.state.meta.errors.length ? styles.inputError : styles.inputValid}
                   onChangeText={(text) => field.handleChange(text)}
                 />
                 <FieldInfo field={field} />
@@ -232,9 +216,7 @@ const ActivityEdit = ({
             style={canSubmit ? styles.buttonValid : styles.buttonDisabled}
             disabled={!canSubmit}
             onPress={form.handleSubmit}>
-            <Text style={styles.buttonText}>
-              {isSubmitting ? "..." : "Ændre aktivitet"}
-            </Text>
+            <Text style={styles.buttonText}>{isSubmitting ? "..." : "Ændre aktivitet"}</Text>
           </TouchableOpacity>
         )}
       />

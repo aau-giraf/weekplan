@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Text,
-  Platform,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { Text, Platform, View, TouchableOpacity, StyleSheet } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
 import { SharedStyles } from "../utils/SharedStyles";

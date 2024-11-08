@@ -19,10 +19,7 @@ const X_AXIS_SENSITIVITY = 30;
  * * swipeGesture - {@link useMemo} to handle whether the swipe has crossed the threshold set by {@link X_AXIS_SENSITIVITY}
  * * boxAnimatedStyles - {@link useAnimatedStyle} to be assigned to the component to be animated
  */
-const useSwipeGesture = (
-  goToPreviousWeek: () => void,
-  goToNextWeek: () => void
-) => {
+const useSwipeGesture = (goToPreviousWeek: () => void, goToNextWeek: () => void) => {
   const translateX = useSharedValue(0);
   const startTranslateX = useSharedValue(0);
   const { width } = Dimensions.get("window");
@@ -61,13 +58,7 @@ const useSwipeGesture = (
             handleSwipeAnimation(width, goToPreviousWeek);
           }
         }),
-    [
-      startTranslateX,
-      width,
-      handleSwipeAnimation,
-      goToPreviousWeek,
-      goToNextWeek,
-    ]
+    [startTranslateX, width, handleSwipeAnimation, goToPreviousWeek, goToNextWeek]
   );
 
   const boxAnimatedStyles = useAnimatedStyle(() => ({

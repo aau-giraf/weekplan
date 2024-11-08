@@ -1,8 +1,6 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react-native";
-import SwipeableList, {
-  Action,
-} from "../components/SwipeableList/SwipeableList";
+import SwipeableList, { Action } from "../components/SwipeableList/SwipeableList";
 import { View, Text } from "react-native";
 
 describe("SwipeableList", () => {
@@ -66,11 +64,7 @@ describe("SwipeableList", () => {
 
   it("does not show swipe actions when leftActions and rightActions are not provided", () => {
     render(
-      <SwipeableList
-        items={mockData}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
+      <SwipeableList items={mockData} keyExtractor={(item) => item.id} renderItem={renderItem} />
     );
 
     expect(screen.queryByTestId("left-action-icon")).toBeNull();

@@ -10,12 +10,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
 import { z } from "zod";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useForm } from "@tanstack/react-form";
@@ -36,13 +31,10 @@ const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
   firstName: z.string().trim().min(2, "Fornavn skal være mindst 2 tegn"),
   lastName: z.string().trim().min(2, "Efternavn skal være mindst 2 tegn"),
-  password: z
-    .string()
-    .trim()
-    .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
-      message:
-        "Adgangskode skal indholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
-    }),
+  password: z.string().trim().regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
+    message:
+      "Adgangskode skal indholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
+  }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -90,8 +82,7 @@ const RegisterScreen: React.FC = () => {
                 <View style={styles.formView}>
                   <TextInput
                     style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
+                      field.state.meta.isTouched && field.state.meta.errors.length > 0
                         ? styles.inputError
                         : styles.inputValid
                     }
@@ -115,8 +106,7 @@ const RegisterScreen: React.FC = () => {
                 <View style={styles.formView}>
                   <TextInput
                     style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
+                      field.state.meta.isTouched && field.state.meta.errors.length > 0
                         ? styles.inputError
                         : styles.inputValid
                     }
@@ -139,8 +129,7 @@ const RegisterScreen: React.FC = () => {
                 <View style={styles.formView}>
                   <TextInput
                     style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
+                      field.state.meta.isTouched && field.state.meta.errors.length > 0
                         ? styles.inputError
                         : styles.inputValid
                     }
@@ -163,8 +152,7 @@ const RegisterScreen: React.FC = () => {
                 <View style={styles.formView}>
                   <TextInput
                     style={
-                      field.state.meta.isTouched &&
-                      field.state.meta.errors.length > 0
+                      field.state.meta.isTouched && field.state.meta.errors.length > 0
                         ? styles.inputError
                         : styles.inputValid
                     }
@@ -183,9 +171,7 @@ const RegisterScreen: React.FC = () => {
           />
           <TextInput
             style={
-              confirmPassword === "" && !isPasswordMatch
-                ? styles.inputError
-                : styles.inputValid
+              confirmPassword === "" && !isPasswordMatch ? styles.inputError : styles.inputValid
             }
             placeholder="Bekræft adgangskode"
             value={confirmPassword}
@@ -207,9 +193,7 @@ const RegisterScreen: React.FC = () => {
                 style={canSubmit ? styles.button : styles.buttonDisabled}
                 disabled={!canSubmit}
                 onPress={form.handleSubmit}>
-                <Text style={styles.buttonText}>
-                  {isSubmitting ? "..." : "Register"}
-                </Text>
+                <Text style={styles.buttonText}>{isSubmitting ? "..." : "Register"}</Text>
               </TouchableOpacity>
             )}
           />

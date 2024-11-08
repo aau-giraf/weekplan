@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Animated, StyleSheet } from "react-native";
 import GirafIcon from "../assets/SVG/GirafIcon";
-import {
-  colors,
-  ScaleSizeH,
-  ScaleSizeW,
-  SharedStyles,
-} from "../utils/SharedStyles";
+import { colors, ScaleSizeH, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";
 
 /**
  * SplashScreenComponent is a React functional component that displays an animated splash screen.
@@ -41,10 +36,7 @@ const SplashScreenComponent: React.FC = () => {
   return (
     <View style={styles.animationContainer}>
       <Animated.View
-        style={[
-          styles.image,
-          { transform: [{ scale: logoSpin }, { rotate: rotation }] },
-        ]}>
+        style={[styles.image, { transform: [{ scale: logoSpin }, { rotate: rotation }] }]}>
         <GirafIcon />
       </Animated.View>
     </View>

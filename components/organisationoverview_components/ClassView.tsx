@@ -1,8 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
-import {
-  getContrastingTextColor,
-  hashNameToColour,
-} from "../../utils/colourFunctions";
+import { getContrastingTextColor, hashNameToColour } from "../../utils/colourFunctions";
 import { SharedStyles } from "../../utils/SharedStyles";
 import { truncateText } from "../../utils/truncateText";
 
@@ -36,9 +33,7 @@ const ClassViewEntry = ({ classData }: ClassViewEntryProps) => {
 
   return (
     <View style={[styles.classContainer, { backgroundColor: nameColour }]}>
-      <Text style={{ color: textColour }}>
-        {truncateText(classData.name, 18)}
-      </Text>
+      <Text style={{ color: textColour }}>{truncateText(classData.name, 18)}</Text>
     </View>
   );
 };

@@ -32,9 +32,7 @@ export const CutoffList = <T extends CutoffViewPropsBase>({
   const MAX_DISPLAYED_MEMBERS = 8;
 
   const displayedMembers: T[] =
-    entries.length <= MAX_DISPLAYED_MEMBERS
-      ? entries
-      : entries.slice(0, MAX_DISPLAYED_MEMBERS);
+    entries.length <= MAX_DISPLAYED_MEMBERS ? entries : entries.slice(0, MAX_DISPLAYED_MEMBERS);
 
   const remainingMembers = entries.length - displayedMembers.length;
 
@@ -46,10 +44,7 @@ export const CutoffList = <T extends CutoffViewPropsBase>({
         ))}
         {remainingMembers > 0 && (
           <View style={styles.remainingMembersContainer}>
-            <Text
-              style={
-                styles.remainingMembersText
-              }>{`+${remainingMembers}`}</Text>
+            <Text style={styles.remainingMembersText}>{`+${remainingMembers}`}</Text>
           </View>
         )}
       </View>
@@ -57,9 +52,7 @@ export const CutoffList = <T extends CutoffViewPropsBase>({
   );
 };
 
-const CutoffListEntry = <T extends CutoffViewPropsBase>({
-  user,
-}: MemberViewEntryProps<T>) => {
+const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntryProps<T>) => {
   return (
     <View style={styles.memberImgContainer} testID={"member"}>
       <ProfilePicture

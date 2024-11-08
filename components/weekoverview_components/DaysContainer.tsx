@@ -19,10 +19,7 @@ import { ScaleSizeH } from "../../utils/SharedStyles";
 const DaysContainer = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { weekDates, goToPreviousWeek, goToNextWeek, selectedDate } = useDate();
-  const { swipeGesture, boxAnimatedStyles } = useSwipeGesture(
-    goToPreviousWeek,
-    goToNextWeek
-  );
+  const { swipeGesture, boxAnimatedStyles } = useSwipeGesture(goToPreviousWeek, goToNextWeek);
 
   return (
     <View>

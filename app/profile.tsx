@@ -11,23 +11,12 @@ import useProfile from "../hooks/useProfile";
 import { ProfilePicture } from "../components/ProfilePage";
 import { useRef, useState } from "react";
 import IconButton from "../components/IconButton";
-import useOrganisationOverview, {
-  OrgOverviewDTO,
-} from "../hooks/useOrganisationOverview";
-import BottomSheet, {
-  BottomSheetTextInput,
-  BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
+import useOrganisationOverview, { OrgOverviewDTO } from "../hooks/useOrganisationOverview";
+import BottomSheet, { BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useToast } from "../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-  SharedStyles,
-} from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";
 
 import { router } from "expo-router";
 
@@ -65,11 +54,7 @@ const ProfilePage: React.FC = () => {
     );
   }
 
-  const renderOrgContainer = ({
-    item,
-  }: {
-    item: { name: string; id: number };
-  }) => (
+  const renderOrgContainer = ({ item }: { item: { name: string; id: number } }) => (
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => {
@@ -108,18 +93,12 @@ const ProfilePage: React.FC = () => {
               />
               <View style={styles.profileTextContainer}>
                 <Text style={SharedStyles.header}>{data.email}</Text>
-                <Text style={SharedStyles.header}>
-                  {`${data.firstName} ${data.lastName}`}
-                </Text>
+                <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
               </View>
-              <IconButton
-                style={styles.settings}
-                onPress={() => router.push("/settings")}>
+              <IconButton style={styles.settings} onPress={() => router.push("/settings")}>
                 <Ionicons name="settings-outline" size={ScaleSize(64)} />
               </IconButton>
-              <IconButton
-                style={styles.iconMail}
-                onPress={() => router.push("/viewinvitation")}>
+              <IconButton style={styles.iconMail} onPress={() => router.push("/viewinvitation")}>
                 <Ionicons name="mail-outline" size={ScaleSize(40)} />
               </IconButton>
             </View>
@@ -130,38 +109,23 @@ const ProfilePage: React.FC = () => {
         }
       />
 
-      <IconButton
-        style={styles.iconAdd}
-        onPress={() => bottomSheetRef.current?.expand()}>
+      <IconButton style={styles.iconAdd} onPress={() => bottomSheetRef.current?.expand()}>
         <Ionicons name="add" size={ScaleSize(64)} />
       </IconButton>
       {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
-      <IconButton
-        style={styles.weekoverview}
-        onPress={() => router.push("/weekplanscreen")}>
+      <IconButton style={styles.weekoverview} onPress={() => router.push("/weekplanscreen")}>
         <Ionicons name="calendar-outline" size={ScaleSize(64)} />
       </IconButton>
-      <AddBottomSheet
-        bottomSheetRef={bottomSheetRef}
-        createOrganisation={createOrganisation}
-      />
+      <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
     </View>
   );
 };
 
 type BottomSheetProps = {
   bottomSheetRef: React.RefObject<BottomSheet>;
-  createOrganisation: UseMutationResult<
-    OrgOverviewDTO,
-    Error,
-    string,
-    OrgOverviewDTO[]
-  >;
+  createOrganisation: UseMutationResult<OrgOverviewDTO, Error, string, OrgOverviewDTO[]>;
 };
-const AddBottomSheet = ({
-  bottomSheetRef,
-  createOrganisation,
-}: BottomSheetProps) => {
+const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps) => {
   const [name, setName] = useState("");
   const { addToast } = useToast();
 

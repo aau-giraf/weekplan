@@ -1,16 +1,8 @@
 import { useRef } from "react";
 import { SwipeAction } from "./SwipeAction";
 import { Action } from "./SwipeableList";
-import {
-  LayoutChangeEvent,
-  ListRenderItem,
-  ListRenderItemInfo,
-  View,
-} from "react-native";
-import ReanimatedSwipeable, {
-  SwipeableMethods,
-  SwipeableProps,
-} from "../ReanimatedSwipeable";
+import { LayoutChangeEvent, ListRenderItem, ListRenderItemInfo, View } from "react-native";
+import ReanimatedSwipeable, { SwipeableMethods, SwipeableProps } from "../ReanimatedSwipeable";
 
 type SwipeableItemProps<T> = {
   renderItem: ListRenderItem<T>;
@@ -43,25 +35,11 @@ export const SwipeableItem = <T,>({
       overshootRight={false}
       {...(leftActions?.length && {
         renderLeftActions: (_prog, drag) =>
-          SwipeAction(
-            drag,
-            itemDimensions,
-            leftActions,
-            "left",
-            info.item,
-            swipeableRef
-          ),
+          SwipeAction(drag, itemDimensions, leftActions, "left", info.item, swipeableRef),
       })}
       {...(rightActions?.length && {
         renderRightActions: (_prog, drag) =>
-          SwipeAction(
-            drag,
-            itemDimensions,
-            rightActions,
-            "right",
-            info.item,
-            swipeableRef
-          ),
+          SwipeAction(drag, itemDimensions, rightActions, "right", info.item, swipeableRef),
       })}>
       <View onLayout={handleLayout}>{renderItem && renderItem(info)}</View>
     </ReanimatedSwipeable>

@@ -15,12 +15,7 @@ type IconButtonsProps = {
   absolute?: boolean;
 };
 
-const IconButton = ({
-  onPress,
-  style,
-  children,
-  absolute = true,
-}: IconButtonsProps) => {
+const IconButton = ({ onPress, style, children, absolute = true }: IconButtonsProps) => {
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
 
@@ -54,10 +49,7 @@ const IconButton = ({
         opacityAnimation,
         { position: absolute ? "absolute" : "relative" },
       ]}>
-      <Pressable
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={onPress}>
+      <Pressable onPressIn={handlePressIn} onPressOut={handlePressOut} onPress={onPress}>
         <Animated.View style={[animatedIcon]}>{children}</Animated.View>
       </Pressable>
     </Animated.View>

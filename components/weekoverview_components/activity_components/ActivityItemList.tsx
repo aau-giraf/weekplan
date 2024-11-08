@@ -40,10 +40,9 @@ import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
-  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } =
-    useActivity({
-      date: selectedDate,
-    });
+  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } = useActivity({
+    date: selectedDate,
+  });
   const { data, error, isLoading, refetch } = useFetchActivities;
   const { addToast } = useToast();
   const [modalVisible, setModalVisible] = useState(false);
@@ -97,9 +96,7 @@ const ActivityItemList = () => {
         id,
         isCompleted: !isCompleted,
       })
-      .catch((error) =>
-        addToast({ message: (error as any).message, type: "error" })
-      );
+      .catch((error) => addToast({ message: (error as any).message, type: "error" }));
   };
 
   const rightActions: Action<ActivityDTO>[] = [
@@ -133,9 +130,7 @@ const ActivityItemList = () => {
           ListEmptyComponent: <Text>Ingen aktiviteter fundet</Text>,
           refreshing: isLoading,
           onRefresh: async () => await refetch(),
-          ItemSeparatorComponent: () => (
-            <View style={{ height: ScaleSizeH(10) }} />
-          ),
+          ItemSeparatorComponent: () => <View style={{ height: ScaleSizeH(10) }} />,
         }}
         rightActions={rightActions}
         leftActions={leftActions}
@@ -152,9 +147,7 @@ const ActivityItemList = () => {
               style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
               resizeMode="contain"
             />
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
               <Text style={styles.closeButtonText}>Luk</Text>
             </TouchableOpacity>
           </View>

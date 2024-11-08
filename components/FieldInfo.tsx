@@ -12,9 +12,7 @@ const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
   return (
     <View>
       {field.state.meta.isTouched && field.state.meta.errors.length > 0 ? (
-        <Text style={styles.errorText}>
-          {field.state.meta.errors.join(",")}
-        </Text>
+        <Text style={styles.errorText}>{field.state.meta.errors.join(",")}</Text>
       ) : (
         <Text style={styles.validatingText}> </Text>
       )}

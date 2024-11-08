@@ -1,12 +1,7 @@
 import React from "react";
 import usePictogram from "../../../hooks/usePictogram";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  SharedStyles,
-} from "../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../utils/SharedStyles";
 
 type ActivityItemProps = {
   time: string;

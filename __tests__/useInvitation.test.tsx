@@ -17,9 +17,7 @@ const queryClient = new QueryClient({
   },
 });
 
-jest
-  .spyOn(queryClient, "invalidateQueries")
-  .mockImplementation(() => Promise.resolve());
+jest.spyOn(queryClient, "invalidateQueries").mockImplementation(() => Promise.resolve());
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -61,10 +59,7 @@ test("fetches invitations by user", async () => {
     expect(result.current.isSuccess).toBe(true);
   });
 
-  expect(result.current.fetchByUser.data).toEqual([
-    mockInvitation,
-    { ...mockInvitation, id: 2 },
-  ]);
+  expect(result.current.fetchByUser.data).toEqual([mockInvitation, { ...mockInvitation, id: 2 }]);
 });
 
 test("accepts invitation", async () => {
