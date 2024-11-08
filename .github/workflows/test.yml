@@ -44,22 +44,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Step 2: Wait for the new commit after Prettier (if any)
-  wait_for_commit:
-    needs: prettier
-    runs-on: ubuntu-latest
-    if: ${{ needs.prettier.outputs.prettier_changes == 'true' }}  # Only run if Prettier made changes
-    steps:
-      - name: Wait for commit processing
+      - name: Trigger Tests on New Commit
+        if: ${{ steps.check_changes.outputs.prettier_changes == 'true' }}
         run: |
-          echo "Waiting for new commit to be processed by GitHub"
-          sleep 15  # Adjust if necessary to wait for the commit to be processed
-
-  # Step 3: Tests job
+          curl -X POST \
+            https://api.github.com/repos/${{ github.repository }}/dispatches \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -d '{"event_type": "trigger-tests"}'
+  
+  # Step 2: Tests job (triggered after Prettier commit)
   tests:
-    needs: [prettier, wait_for_commit]
     runs-on: ubuntu-latest
-    if: ${{ needs.prettier.outputs.prettier_changes != 'true' }}  # Skip tests if Prettier made changes
+    if: ${{ github.event_name == 'repository_dispatch' && github.event.action == 'trigger-tests' }}  # Only run if triggered by the event
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
