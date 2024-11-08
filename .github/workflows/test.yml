@@ -2,26 +2,32 @@ name: Node.js CI
 
 on:
   pull_request:
+    branches: [master]
   workflow_dispatch:
+
+permissions:
+  contents: write
+  statuses: write
+  actions: write
 
 jobs:
   prettier:
     runs-on: ubuntu-latest
     outputs:
       commit_status: ${{ steps.check_commit.outputs.status }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
 
-      - name: Run Prettier Action
-        id: prettier
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-          commit_message: "Apply Prettier formatting"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
 
       - name: Check if Prettier committed changes
         id: check_commit
