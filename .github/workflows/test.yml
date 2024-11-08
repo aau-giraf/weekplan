@@ -11,6 +11,8 @@ permissions:
 jobs:
   prettier:
     runs-on: ubuntu-latest
+    outputs:
+      prettier_changes: ${{ steps.check_changes.outputs.prettier_changes }}  # Define output for prettier changes
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -29,9 +31,11 @@ jobs:
         run: |
           git diff --exit-code || echo "prettier_changes=true" >> $GITHUB_ENV
           echo "prettier_changes=${{ env.prettier_changes }}" >> $GITHUB_OUTPUT
+        outputs:
+          prettier_changes: ${{ steps.check_changes.outputs.prettier_changes }}
 
       - name: Commit and push changes
-        if: ${{ env.prettier_changes == 'true' }}
+        if: ${{ steps.check_changes.outputs.prettier_changes == 'true' }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -44,7 +48,7 @@ jobs:
   tests:
     needs: prettier
     runs-on: ubuntu-latest
-    if: ${{ env.prettier_changes != 'true' }}  # Skip tests if Prettier made changes
+    if: ${{ needs.prettier.outputs.prettier_changes != 'true' }}  # Skip tests if Prettier made changes
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
