@@ -16,6 +16,13 @@ describe("The pickImage function can find a picture from a ImageLibrary based on
     };
     (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue(mockResult);
 
+    
+    
+    
+    
+    
+    
+    
     const result = await pickImage();
     expect(result).toBe("test-uri");
   });
