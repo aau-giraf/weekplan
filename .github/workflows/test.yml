@@ -14,22 +14,19 @@ permissions:
 jobs:
   prettier:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
           github_token: ${{ secrets.GIRAF_PAT }}  # Use the correct secret for GitHub authentication
           prettier_options: --write '**/*.{js,jsx,ts,tsx}'
-      
-      # Commit Prettier changes with PAT instead of GITHUB_TOKEN
+
       - name: Commit Prettier changes
         run: |
           git config --global user.name "TBjerregaard"
@@ -38,7 +35,7 @@ jobs:
           git diff --quiet && exit 0 || git commit -m "Prettified Code"
           git push origin ${{ github.head_ref }}
         env:
-          token: ${{ secrets.GIRAF_PAT }}  # Use PAT here as well
+          token: ${{ secrets.GIRAF_PAT }}
 
   tests:
     needs: prettier
@@ -56,3 +53,18 @@ jobs:
 
       - run: npm ci
       - run: npm run test-ci
+
+      - name: Check for new commits
+        id: check-new-commits
+        run: |
+          # Get latest commit hash
+          latest_commit=$(git rev-parse HEAD)
+          echo "latest_commit=$latest_commit" >> $GITHUB_ENV
+          echo "Previous commit was: ${{ github.event.pull_request.head.sha }}"
+
+      - name: Trigger rerun if new commit exists
+        if: ${{ env.latest_commit != github.event.pull_request.head.sha }}
+        uses: peter-evans/retry-workflow@v1
+        with:
+          workflow: tests.yml
+          ref: ${{ github.head_ref }}
