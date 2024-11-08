@@ -1,14 +1,29 @@
-name: Node.js CI
-
 on:
-  workflow_dispatch:  # Allows manual triggering
-  workflow_run:
-    workflows: ["Prettier Formatting"]
-    types:
-      - completed
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  statuses: write
+  actions: write
 
 jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
+
   tests:
+    needs: prettier  # Ensures this job runs only after the 'prettier' job completes
     runs-on: ubuntu-latest
 
     steps:
