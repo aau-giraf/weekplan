@@ -1,16 +1,7 @@
 import { Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Animated, {
-  FadeInUp,
-  FadeOutRight,
-  LinearTransition,
-} from "react-native-reanimated";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeW,
-  SharedStyles,
-} from "../utils/SharedStyles";
+import Animated, { FadeInUp, FadeOutRight, LinearTransition } from "react-native-reanimated";
+import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";
 
 type ToastNotification = "success" | "error" | "warning";
 type ToastStyle = {

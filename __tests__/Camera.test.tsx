@@ -29,9 +29,7 @@ describe("takePhoto", () => {
     global.alert = jest.fn();
     await takePhoto();
 
-    expect(global.alert).toHaveBeenCalledWith(
-      "Camera access is required to take a photo!"
-    );
+    expect(global.alert).toHaveBeenCalledWith("Camera access is required to take a photo!");
   });
 
   it("should launch camera if permission is granted", async () => {
@@ -43,9 +41,7 @@ describe("takePhoto", () => {
       canceled: false,
       assets: [{ uri: "mockImageUri" }],
     };
-    (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue(
-      mockCameraResult
-    );
+    (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue(mockCameraResult);
 
     const uri = await takePhoto();
 

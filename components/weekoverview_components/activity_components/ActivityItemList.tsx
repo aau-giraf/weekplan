@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  ActivityIndicator,
-  Text,
-  Modal,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, ActivityIndicator, Text, Modal, Image, TouchableOpacity, StyleSheet } from "react-native";
 import ActivityItem from "./ActivityItem";
 import useActivity from "../../../hooks/useActivity";
 import { useDate } from "../../../providers/DateProvider";
@@ -15,13 +7,7 @@ import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-  SharedStyles,
-} from "../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";
 
@@ -40,10 +26,9 @@ import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
-  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } =
-    useActivity({
-      date: selectedDate,
-    });
+  const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } = useActivity({
+    date: selectedDate,
+  });
   const { data, error, isLoading, refetch } = useFetchActivities;
   const { addToast } = useToast();
   const [modalVisible, setModalVisible] = useState(false);
@@ -97,9 +82,7 @@ const ActivityItemList = () => {
         id,
         isCompleted: !isCompleted,
       })
-      .catch((error) =>
-        addToast({ message: (error as any).message, type: "error" })
-      );
+      .catch((error) => addToast({ message: (error as any).message, type: "error" }));
   };
 
   const rightActions: Action<ActivityDTO>[] = [
@@ -133,9 +116,7 @@ const ActivityItemList = () => {
           ListEmptyComponent: <Text>Ingen aktiviteter fundet</Text>,
           refreshing: isLoading,
           onRefresh: async () => await refetch(),
-          ItemSeparatorComponent: () => (
-            <View style={{ height: ScaleSizeH(10) }} />
-          ),
+          ItemSeparatorComponent: () => <View style={{ height: ScaleSizeH(10) }} />,
         }}
         rightActions={rightActions}
         leftActions={leftActions}
@@ -152,9 +133,7 @@ const ActivityItemList = () => {
               style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
               resizeMode="contain"
             />
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
               <Text style={styles.closeButtonText}>Luk</Text>
             </TouchableOpacity>
           </View>
