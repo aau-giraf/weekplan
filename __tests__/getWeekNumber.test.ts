@@ -17,13 +17,6 @@ describe("getWeekNumber", () => {
     const date = new Date("2023-12-31");
     const weekNumber = getWeekNumber(date);
     expect(weekNumber).toBe(52);
-    
-    
-    
-    
-    
-    
-    
   });
 
   test("should return correct week number for a leap year date", () => {
