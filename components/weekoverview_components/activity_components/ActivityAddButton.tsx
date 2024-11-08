@@ -10,7 +10,7 @@ import IconButton from "../../IconButton";
  */
 const ActivityAddButton = () => {
   const handlePress = () => {
-    router.push("/addactivity");
+    router.push("/auth/profile/organisation/addactivity");
   };
 
   return (
