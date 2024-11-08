@@ -3,8 +3,7 @@
   "tabWidth": 2,
   "semi": true,
   "singleQuote": false,
-  "print_width": 110,
-  "indent_size": 2,
+  "printWidth": 110,
   "bracketSpacing": true,
   "bracketSameLine": true
 }
