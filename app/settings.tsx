@@ -3,16 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { FlatList, Switch } from "react-native-gesture-handler";
 import { colors } from "../utils/SharedStyles";
 import { useEffect, useMemo, useState } from "react";
-import {
-  loadSettingValues,
-  setSettingsValue,
-  Setting,
-} from "../utils/settingsUtils";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+import { loadSettingValues, setSettingsValue, Setting } from "../utils/settingsUtils";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { router } from "expo-router";
 
@@ -43,14 +35,11 @@ const Settings = () => {
       },
       {
         icon: "person-outline",
-        label: "Edit profile",
-        onPress: () => {router.push("/editprofile")}
-        label: "Rediger profil",
         onPress: () => {
-          // Implement edit profile logic here
+          router.push("/editprofile");
         },
+        label: "Rediger profil",
       },
-      
     ],
     [logout]
   );
@@ -81,9 +70,7 @@ const Settings = () => {
           />
         )}
         keyExtractor={(item) => item.label}
-        ItemSeparatorComponent={() => (
-          <View style={styles.ItemSeparatorComponent}></View>
-        )}
+        ItemSeparatorComponent={() => <View style={styles.ItemSeparatorComponent}></View>}
       />
     </View>
   );
@@ -95,11 +82,7 @@ type RenderSettingProps = {
   handleToggleChange: (label: string, value: boolean) => void;
 };
 
-const RenderSetting = ({
-  item,
-  toggleStates,
-  handleToggleChange,
-}: RenderSettingProps) => {
+const RenderSetting = ({ item, toggleStates, handleToggleChange }: RenderSettingProps) => {
   const opacity = useSharedValue(1);
   const opacityAnimation = useAnimatedStyle(() => ({
     opacity: opacity.value,

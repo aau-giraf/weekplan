@@ -1,21 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import GirafIcon from "../assets/SVG/GirafIcon";
-        
 import { useAuthentication } from "../providers/AuthenticationProvider";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
@@ -27,12 +14,9 @@ import GirafIcon from "../assets/SVG/GirafIcon";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
-  password: z
-    .string()
-    .trim()
-    .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
-      message: "Du skal indtaste en adgangskode",
-    }),
+  password: z.string().trim().regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
+    message: "Du skal indtaste en adgangskode",
+  }),
 });
 
 type LoginForm = z.infer<typeof schema>;
@@ -120,10 +104,7 @@ const LoginScreen: React.FC = () => {
       <View style={styles.formView}>
         {/* Remember Me Checkbox */}
         <View style={styles.checkboxContainer}>
-          <Switch
-            value={rememberMe}
-            onValueChange={(value) => setRememberMe(value)}
-          />
+          <Switch value={rememberMe} onValueChange={(value) => setRememberMe(value)} />
           <Text style={styles.checkboxLabel}>Remember Me</Text>
         </View>
 
@@ -134,9 +115,7 @@ const LoginScreen: React.FC = () => {
               style={canSubmit ? styles.button : styles.buttonDisabled}
               disabled={!canSubmit}
               onPress={form.handleSubmit}>
-              <Text style={styles.buttonText}>
-                {isSubmitting ? "..." : "Login"}
-              </Text>
+              <Text style={styles.buttonText}>{isSubmitting ? "..." : "Login"}</Text>
             </TouchableOpacity>
           )}
         />
