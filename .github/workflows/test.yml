@@ -1,13 +1,14 @@
 name: Node.js CI
 
 on:
-  pull_request:
-    branches: [master]
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual triggering
+  workflow_run:
+    workflows: ["Prettier Formatting"]  # Triggers when Prettier Formatting completes
+    types:
+      - completed
 
 jobs:
   tests:
-    needs: [prettier]
     runs-on: ubuntu-latest
 
     steps:
