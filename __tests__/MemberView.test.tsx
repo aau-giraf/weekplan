@@ -9,15 +9,6 @@ const generateMember = (index: string, email: string): User => ({
   email: email,
   firstName: `Member${index}`,
   lastName: `Last${index}`,
-  
-  
-  
-  
-  
-  
-  
-  
-  
 });
 
 describe("MemberView Component", () => {
