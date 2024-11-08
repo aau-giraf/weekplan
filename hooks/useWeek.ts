@@ -37,14 +37,10 @@ const useWeek = (initialDate = new Date()) => {
     dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek; // Make Sunday (0) become 7
 
     // Subtract (dayOfWeek - 1) days to move back to the Monday of that week
-    const mondayWeekOne = new Date(
-      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS
-    );
+    const mondayWeekOne = new Date(jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS);
 
     // Calculate the selected date based on the week number
-    const selectedDate = new Date(
-      mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS
-    );
+    const selectedDate = new Date(mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS);
     setCurrentDate(selectedDate);
 
     // Get the current day of the week (1 = Monday, 7 = Sunday)

@@ -1,11 +1,4 @@
-import {
-  Modal,
-  TouchableOpacity,
-  Button,
-  View,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { Modal, TouchableOpacity, Button, View, Text, StyleSheet } from "react-native";
 import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
@@ -46,12 +39,8 @@ export default function CopyDateActivitiesModal({
       transparent
       animationType="slide"
       onRequestClose={() => setModalVisible(false)}>
-      <TouchableOpacity
-        style={styles.modalBackground}
-        onPress={() => setModalVisible(false)}>
-        <View
-          style={styles.modalContainer}
-          onStartShouldSetResponder={() => true}>
+      <TouchableOpacity style={styles.modalBackground} onPress={() => setModalVisible(false)}>
+        <View style={styles.modalContainer} onStartShouldSetResponder={() => true}>
           <TimePicker
             value={dates.sourceDate}
             title={"Kopier Fra"}
@@ -73,9 +62,7 @@ export default function CopyDateActivitiesModal({
                 gap: ScaleSize(10),
                 marginBottom: ScaleSize(10),
               }}>
-              <Text style={{ fontSize: ScaleSize(28) }}>
-                Aktiviteter som vil kopieres
-              </Text>
+              <Text style={{ fontSize: ScaleSize(28) }}>Aktiviteter som vil kopieres</Text>
               <ActivitySelectList
                 activities={data}
                 toggleCheck={toggleActivitySelection}

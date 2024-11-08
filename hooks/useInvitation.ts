@@ -1,9 +1,6 @@
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  acceptInvitationRequest,
-  fetchInvitationByUserRequest,
-} from "../apis/invitationAPI";
+import { acceptInvitationRequest, fetchInvitationByUserRequest } from "../apis/invitationAPI";
 
 export default function useInvitation() {
   const { userId } = useAuthentication();
@@ -17,13 +14,8 @@ export default function useInvitation() {
   });
 
   const acceptInvitation = useMutation({
-    mutationFn: ({
-      invitationId,
-      isAccepted,
-    }: {
-      invitationId: number;
-      isAccepted: boolean;
-    }) => acceptInvitationRequest(invitationId, isAccepted),
+    mutationFn: ({ invitationId, isAccepted }: { invitationId: number; isAccepted: boolean }) =>
+      acceptInvitationRequest(invitationId, isAccepted),
 
     onMutate: async ({ invitationId, isAccepted }) => {
       await queryClient.cancelQueries({ queryKey });
