@@ -4,10 +4,6 @@ import { SafeAreaView } from "react-native";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 
 const RootLayout = () => {
-  
-  
-  
-  
   return (
     <ProviderWrapper>
       <SafeAreaView style={{ backgroundColor: colors.white, padding: ScaleSize(10) }} />
