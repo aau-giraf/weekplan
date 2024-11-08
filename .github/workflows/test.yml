@@ -26,9 +26,9 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          token: ${{ secrets.GIRAF_PAT }}  # Use PAT for Prettier
-          prettier_options: --write '**/*.{js,jsx,ts,tsx}
-
+          github_token: ${{ secrets.GIRAF_PAT }}  # Use the correct secret for GitHub authentication
+          prettier_options: --write '**/*.{js,jsx,ts,tsx}'
+      
       # Commit Prettier changes with PAT instead of GITHUB_TOKEN
       - name: Commit Prettier changes
         run: |
