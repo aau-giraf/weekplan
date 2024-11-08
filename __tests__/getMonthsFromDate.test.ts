@@ -18,9 +18,6 @@ describe("getMonthsFromDates", () => {
 
     expect(result).toBe("juli/august");
   });
-  
-  
-  
 
   it("should throw an error if startDate is invalid", () => {
     const startDate = new Date("invalid-date");
