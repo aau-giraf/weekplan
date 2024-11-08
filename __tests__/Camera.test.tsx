@@ -36,9 +36,6 @@ describe("takePhoto", () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
       granted: true,
     });
-    
-    
-    
 
     const mockCameraResult = {
       canceled: false,
