@@ -35,6 +35,11 @@ describe("should return the correct week dates for leap year", () => {
 
 describe("should return the correct week dates for the first week of the year", () => {
   const mockDate = new Date("2024-01-01");
+  
+  
+  
+  
+  
   const dates = getWeekDates(mockDate);
 
   const expectedDates = [1, 2, 3, 4, 5, 6, 7];
