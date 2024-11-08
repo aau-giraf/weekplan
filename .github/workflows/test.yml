@@ -61,7 +61,7 @@ jobs:
         run: |
           workflow_id=$(curl -s -H "Authorization: token ${{ secrets.GIRAF_PAT }}" \
           "https://api.github.com/repos/TBjerregaard/weekplan/actions/workflows" | \
-          jq -r '.workflows[] | select(.name == "tests") | .id')
+          jq -r '.workflows[] | select(.name == "test") | .id')
           echo "Workflow ID: $workflow_id"
           echo "workflow_id=$workflow_id" >> $GITHUB_ENV
 
