@@ -18,6 +18,20 @@ const queryClient = new QueryClient({
   },
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const mockActivity: FullActivityDTO = {
   citizenId: 1,
   activityId: 1,
