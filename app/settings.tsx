@@ -7,10 +7,15 @@ import { loadSettingValues, setSettingsValue, Setting } from "../utils/settingsU
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { router } from "expo-router";
+import useInvitation from "../hooks/useInvitation";
 
 const Settings = () => {
   const { logout } = useAuthentication();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
+
+  const { fetchByUser } = useInvitation();
+  const { data: inviteData } = fetchByUser;
+
   const settings: Setting[] = useMemo(
     () => [
       {
@@ -23,7 +28,7 @@ const Settings = () => {
       {
         icon: "mail-outline",
         label: "Invitationer",
-        onPress: () => {},
+        onPress: () => router.push("/viewinvitation"),
       },
       {
         icon: "lock-closed-outline",
@@ -67,6 +72,11 @@ const Settings = () => {
             item={item}
             toggleStates={toggleStates}
             handleToggleChange={handleToggleChange}
+            hasInvitations={
+              item.label === "Invitationer" &&
+              inviteData &&
+              inviteData.length > 0
+            }
           />
         )}
         keyExtractor={(item) => item.label}
@@ -80,6 +90,7 @@ type RenderSettingProps = {
   item: Setting;
   toggleStates: { [key: string]: boolean };
   handleToggleChange: (label: string, value: boolean) => void;
+  hasInvitations?: boolean; 
 };
 
 const RenderSetting = ({ item, toggleStates, handleToggleChange }: RenderSettingProps) => {
@@ -109,6 +120,7 @@ const RenderSetting = ({ item, toggleStates, handleToggleChange }: RenderSetting
         <View style={styles.settingItemContainerSeparator}>
           <Ionicons name={item.icon} size={40} />
           <Text style={styles.settingItemText}>{item.label}</Text>
+          {hasInvitations && <View style={styles.notificationBadge} />}
         </View>
         {!item.onPress && (
           <Switch
@@ -136,6 +148,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
+    position: "relative",
   },
   settingItemText: {
     fontSize: 20,
@@ -143,6 +156,14 @@ const styles = StyleSheet.create({
   ItemSeparatorComponent: {
     borderWidth: 0.5,
     borderColor: "black",
+  },
+  notificationBadge: {
+    top: -2,
+    right: -175,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: "red",
   },
 });
 
