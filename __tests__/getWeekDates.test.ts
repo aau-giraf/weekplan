@@ -42,12 +42,6 @@ describe("should return the correct week dates for the first week of the year", 
 
   dates.forEach((date, index) => {
     expect(date.getDate()).toBe(expectedDates[index]);
-    
-    
-    
-    
-    
-    
   });
 });
 
