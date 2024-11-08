@@ -3,10 +3,7 @@ import { TouchableOpacity } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
 import { SwipeableMethods } from "../ReanimatedSwipeable";
 import { Action } from "./SwipeableList";
-import Reanimated, {
-  SharedValue,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import Reanimated, { SharedValue, useAnimatedStyle } from "react-native-reanimated";
 
 export function SwipeAction<T>(
   drag: SharedValue<number>,
@@ -21,9 +18,7 @@ export function SwipeAction<T>(
     return {
       transform: [
         {
-          translateX:
-            drag.value +
-            actionDimensions * actions.length * swipeDirectionValue,
+          translateX: drag.value + actionDimensions * actions.length * swipeDirectionValue,
         },
       ],
     };
@@ -40,20 +35,12 @@ export function SwipeAction<T>(
             act.onPress(item);
           }}
           testID={`${swipeDirection}-action-${index}`}
-          style={[
-            SharedStyles.trueCenter,
-            { backgroundColor: act.color },
-            { width: actionDimensions },
-          ]}>
+          style={[SharedStyles.trueCenter, { backgroundColor: act.color }, { width: actionDimensions }]}>
           <Ionicons
             name={act.icon}
             size={ScaleSize(48)}
             color={colors.white}
-            testID={
-              swipeDirection === "left"
-                ? "left-action-icon"
-                : "right-action-icon"
-            }
+            testID={swipeDirection === "left" ? "left-action-icon" : "right-action-icon"}
           />
         </TouchableOpacity>
       ))}

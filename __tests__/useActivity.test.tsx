@@ -1,9 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import useActivity, {
-  dateToQueryKey,
-  useSingleActivity,
-} from "../hooks/useActivity";
+import useActivity, { dateToQueryKey, useSingleActivity } from "../hooks/useActivity";
 import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
 import CitizenProvider from "../providers/CitizenProvider";
 
@@ -38,35 +35,27 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
   </CitizenProvider>
 );
 
-jest
-  .spyOn(queryClient, "invalidateQueries")
-  .mockImplementation(() => Promise.resolve());
+jest.spyOn(queryClient, "invalidateQueries").mockImplementation(() => Promise.resolve());
 
 jest.mock("../apis/activityAPI", () => ({
-  fetchByDateRequest: jest
-    .fn()
-    .mockImplementation((activityId: number, date) => {
-      return Promise.resolve([
-        { ...mockActivity, activityId: 1 },
-        { ...mockActivity, activityId: 2 },
-      ]);
-    }),
+  fetchByDateRequest: jest.fn().mockImplementation((activityId: number, date) => {
+    return Promise.resolve([
+      { ...mockActivity, activityId: 1 },
+      { ...mockActivity, activityId: 2 },
+    ]);
+  }),
   deleteRequest: jest.fn().mockImplementation((activityId: number) => {
     return Promise.resolve();
   }),
   updateRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve();
   }),
-  toggleActivityStatusRequest: jest
-    .fn()
-    .mockImplementation((activityId: number) => {
-      return Promise.resolve({ activityId, isCompleted: true });
-    }),
-  createActivityRequest: jest
-    .fn()
-    .mockImplementation((activity: ActivityDTO) => {
-      return Promise.resolve({ ...activity, activityId: 3 });
-    }),
+  toggleActivityStatusRequest: jest.fn().mockImplementation((activityId: number) => {
+    return Promise.resolve({ activityId, isCompleted: true });
+  }),
+  createActivityRequest: jest.fn().mockImplementation((activity: ActivityDTO) => {
+    return Promise.resolve({ ...activity, activityId: 3 });
+  }),
   fetchActivityRequest: jest.fn().mockImplementation((activityId: number) => {
     return Promise.resolve({ ...mockActivity, activityId });
   }),
@@ -99,9 +88,7 @@ test("invalid date throws an error", () => {
 
 test("invalid date throws on error when used in useActivity", async () => {
   //Needed to not log the error
-  const consoleErrorMock = jest
-    .spyOn(console, "error")
-    .mockImplementation(() => {});
+  const consoleErrorMock = jest.spyOn(console, "error").mockImplementation(() => {});
   const date = "2024-10-01";
 
   expect(() => {
@@ -117,9 +104,7 @@ test("deleteActivity removes the activity from the list", async () => {
     wrapper,
   });
 
-  await waitFor(() =>
-    expect(result.current.useFetchActivities.isSuccess).toBe(true)
-  );
+  await waitFor(() => expect(result.current.useFetchActivities.isSuccess).toBe(true));
 
   const key = dateToQueryKey(date);
 
@@ -134,9 +119,7 @@ test("deleteActivity removes the activity from the list", async () => {
   await waitFor(() => {
     expect(result.current.useDeleteActivity.isSuccess).toBe(true);
   });
-  expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
-    { ...mockActivity, activityId: 2 },
-  ]);
+  expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([{ ...mockActivity, activityId: 2 }]);
 });
 
 test("updateActivity updates the activity in the list", async () => {
@@ -198,9 +181,7 @@ test("updateActivity removes activity when date differs", async () => {
     expect(result.current.updateActivity.isSuccess).toBe(true);
   });
 
-  expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
-    { ...localMock, activityId: 2 },
-  ]);
+  expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([{ ...localMock, activityId: 2 }]);
 });
 
 test("fetchActivities retrieves and sets activities", async () => {
@@ -280,12 +261,8 @@ test("toggleActivityStatus toggles the status of the activity", async () => {
     expect(result.current.useToggleActivityStatus.isSuccess).toBe(true);
   });
   const updatedData = queryClient.getQueryData<ActivityDTO[]>(key);
-  const activityWithId1 = updatedData?.find(
-    (activity) => activity.activityId === 1
-  );
-  expect(activityWithId1).toEqual(
-    expect.objectContaining({ isCompleted: true })
-  );
+  const activityWithId1 = updatedData?.find((activity) => activity.activityId === 1);
+  expect(activityWithId1).toEqual(expect.objectContaining({ isCompleted: true }));
 });
 
 test("toggleActivityStatus does not update the list if the activity is not found", async () => {
@@ -330,9 +307,7 @@ test("toggleActivityStatus does not update data if the key differs from initial"
   const differentKey = dateToQueryKey(new Date("2024-10-02"));
 
   await act(async () => {
-    queryClient.setQueryData<ActivityDTO[]>(differentKey, [
-      { ...mockActivity, activityId: 1 },
-    ]);
+    queryClient.setQueryData<ActivityDTO[]>(differentKey, [{ ...mockActivity, activityId: 1 }]);
     await result.current.useToggleActivityStatus.mutateAsync({
       id: 1,
       isCompleted: true,
@@ -342,8 +317,7 @@ test("toggleActivityStatus does not update data if the key differs from initial"
   await waitFor(() => {
     expect(result.current.useToggleActivityStatus.isSuccess).toBe(true);
   });
-  const differentKeyData =
-    queryClient.getQueryData<ActivityDTO[]>(differentKey);
+  const differentKeyData = queryClient.getQueryData<ActivityDTO[]>(differentKey);
   expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
 });
 
@@ -358,9 +332,7 @@ test("deleteActivity does not remove data if the key differs from initial", asyn
   const differentKey = dateToQueryKey(new Date("2024-10-02"));
 
   await act(async () => {
-    queryClient.setQueryData<ActivityDTO[]>(differentKey, [
-      { ...mockActivity, activityId: 1 },
-    ]);
+    queryClient.setQueryData<ActivityDTO[]>(differentKey, [{ ...mockActivity, activityId: 1 }]);
     await result.current.useDeleteActivity.mutateAsync(1);
   });
 
@@ -368,8 +340,7 @@ test("deleteActivity does not remove data if the key differs from initial", asyn
     expect(result.current.useDeleteActivity.isSuccess).toBe(true);
   });
 
-  const differentKeyData =
-    queryClient.getQueryData<ActivityDTO[]>(differentKey);
+  const differentKeyData = queryClient.getQueryData<ActivityDTO[]>(differentKey);
   expect(differentKeyData).toEqual([{ ...mockActivity, activityId: 1 }]);
 });
 
