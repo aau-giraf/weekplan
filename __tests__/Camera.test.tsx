@@ -34,30 +34,6 @@ describe("takePhoto", () => {
 
   it("should launch camera if permission is granted", async () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       granted: true,
     });
 

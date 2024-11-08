@@ -7,9 +7,6 @@ describe("isTokenExpired", () => {
   });
 
   it("returns false for valid token", () => {
-    
-    
-    
     const validToken = "header." + btoa(JSON.stringify({ exp: Date.now() / 1000 + 1000 })) + ".signature";
     expect(isTokenExpired(validToken)).toBe(false);
   });
