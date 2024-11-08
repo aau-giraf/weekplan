@@ -41,10 +41,6 @@ describe("getWeekNumber", () => {
     const date = new Date("2025-1-1");
     const weekNumber = getWeekNumber(date);
     expect(weekNumber).toBe(1);
-    
-    
-    
-    
   });
 
   test("should return correct week number for a random date in 2024", () => {
