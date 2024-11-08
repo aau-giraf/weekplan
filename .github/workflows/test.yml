@@ -5,6 +5,7 @@ on:
 
 jobs:
   tests:
+    needs: [prettier]
     runs-on: ubuntu-latest
 
     steps:
