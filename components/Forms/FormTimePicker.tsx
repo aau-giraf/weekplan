@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, TextStyle, View, StyleSheet } from "react-native";
-import { Controller, FieldValues, Control, FieldPath, useFormState } from "react-hook-form";
+import { StyleSheet, Text, TextStyle, View } from "react-native";
+import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";
 import TimePicker from "../TimePicker";
 import { colors, ScaleSize } from "../../utils/SharedStyles";
 

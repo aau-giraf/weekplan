@@ -1,5 +1,5 @@
 import { BASE_URL } from "../utils/globals";
-import { UpdateProfileDTO, ChangePasswordDTO } from "../hooks/useProfile";
+import { ChangePasswordDTO, UpdateProfileDTO } from "../hooks/useProfile";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {

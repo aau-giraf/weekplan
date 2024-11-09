@@ -1,5 +1,5 @@
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { colors, ScaleSizeW, ScaleSize, ScaleSizeH } from "../../utils/SharedStyles";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 
 type SubmitButtonProps = {
   isValid: boolean;

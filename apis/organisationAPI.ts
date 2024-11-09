@@ -25,7 +25,7 @@ export const createCitizenRequest = async (
   lastName: string,
   orgId: number
 ): Promise<number> => {
-  const url = `${BASE_URL}/organizations/${orgId}/add-citizen`;
+  const url = `${BASE_URL}/citizens/${orgId}/add-citizen`;
   const res = await fetch(url, {
     method: "POST",
     headers: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
 

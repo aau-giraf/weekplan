@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, ListRenderItem, ActivityIndicator } from "react-native";
-import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
-import useInvitation from "../hooks/useInvitation";
+import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, Text, View } from "react-native";
+import { colors, ScaleSize, SharedStyles } from "../../../utils/SharedStyles";
+import useInvitation from "../../../hooks/useInvitation";
 import { Ionicons } from "@expo/vector-icons";
 
 type Invitation = {

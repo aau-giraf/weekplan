@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Image, View, StyleSheet } from "react-native";
+import { Button, Image, StyleSheet, View } from "react-native";
 import pickImage from "../utils/pickImage";
 import { ScaleSizeH, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";
 

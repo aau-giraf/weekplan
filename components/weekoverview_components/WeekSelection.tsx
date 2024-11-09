@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Modal, Button, StyleSheet } from "react-native";
+import { Button, Modal, StyleSheet, View } from "react-native";
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";

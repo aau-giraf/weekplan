@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { View, ActivityIndicator, Text, Modal, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { ActivityIndicator, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityItem from "./ActivityItem";
 import useActivity from "../../../hooks/useActivity";
 import { useDate } from "../../../providers/DateProvider";
-import { ActivityDTO, FullActivityDTO } from "../../../DTO/activityDTO";
+import { ActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { useCitizen } from "../../../providers/CitizenProvider";
-import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";

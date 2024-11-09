@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { createUserRequest } from "../apis/registerAPI";
 import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "./ToastProvider";
@@ -6,7 +6,7 @@ import { router } from "expo-router";
 import { getUserIdFromToken, isTokenExpired } from "../utils/jwtDecode";
 import * as SecureStore from "expo-secure-store";
 import { setSettingsValue } from "../utils/settingsUtils";
-import { RegisterForm } from "../app/register";
+import { RegisterForm } from "../app/auth/register";
 
 type AuthenticationProviderValues = {
   jwt: string | null;
@@ -38,7 +38,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
     async (form: RegisterForm) => {
       try {
         await createUserRequest(form);
-        router.replace("/login");
+        router.replace("/auth");
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });
       }
@@ -53,7 +53,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
         if (res.token) {
           setJwt(res.token);
           setUserId(getUserIdFromToken(res.token));
-          router.replace("/profile");
+          router.replace("/auth/profile");
         } else {
           addToast({ message: "Toast not received", type: "error" });
         }
@@ -71,7 +71,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
     await setSettingsValue("Remember me", false);
     setJwt(null);
     setUserId(null);
-    router.replace("/login");
+    router.replace("/auth");
   }, []);
 
   return (

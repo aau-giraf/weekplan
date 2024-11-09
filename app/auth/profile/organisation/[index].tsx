@@ -1,14 +1,14 @@
-import { CutoffList } from "../../components/organisationoverview_components/CutoffList";
-import { View, Text, StyleSheet } from "react-native";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../utils/SharedStyles";
+import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
+import { StyleSheet, Text, View } from "react-native";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import useOrganisation from "../../hooks/useOrganisation";
-import IconButton from "../../components/IconButton";
+import useOrganisation from "../../../../hooks/useOrganisation";
+import IconButton from "../../../../components/IconButton";
 
 const ViewOrganisation = () => {
-  const { id } = useLocalSearchParams();
-  const parsedID = Number(id);
+  const { index } = useLocalSearchParams();
+  const parsedID = Number(index);
 
   const { data, error, isLoading } = useOrganisation(parsedID);
 
@@ -41,7 +41,7 @@ const ViewOrganisation = () => {
         </IconButton>
         <IconButton
           onPress={() => {
-            router.push("/addcitizen");
+            router.push("/auth/profile/organisation/addcitizen");
           }}
           absolute={false}>
           <Ionicons name={"person-outline"} size={ScaleSize(30)} />
@@ -55,7 +55,10 @@ const ViewOrganisation = () => {
       <Text style={styles.heading}>Medlemmer</Text>
       <CutoffList entries={data?.users ?? []} onPress={() => {}} />
       <Text style={styles.heading}>Borger</Text>
-      <CutoffList entries={data?.citizens ?? []} onPress={() => router.push("/addcitizen")} />
+      <CutoffList
+        entries={data?.citizens ?? []}
+        onPress={() => router.push("/auth/profile/organisation/addcitizen")}
+      />
       <Text style={styles.heading}>Klasser</Text>
       {/* //TODO: Add and Implement Classes */}
     </View>
