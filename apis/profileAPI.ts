@@ -1,5 +1,5 @@
 import { BASE_URL } from "../utils/globals";
-import { UpdateProfileDTO } from "../hooks/useProfile";
+import { UpdateProfileDTO, ChangePasswordDTO } from "../hooks/useProfile";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {
@@ -21,4 +21,17 @@ export const updateProfileRequest = async (userId: string | null, data: UpdatePr
     headers: { "Content-Type": "application/json" },
   });
   if (!res.ok) throw new Error("Kunne ikke opdatere profildata");
+};
+
+export const changePasswordRequest = async (userId: string | null, data: ChangePasswordDTO) => {
+  if (userId === null) {
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
+  }
+
+  const res = await fetch(`${BASE_URL}/users/${userId}/change-password`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Kunne ikke opdatere adgangskode");
 };
