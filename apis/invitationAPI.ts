@@ -20,11 +20,7 @@ export const acceptInvitationRequest = async (invitationId: number, isAccepted: 
   if (!res.ok) throw new Error("Kunne ikke acceptere invitation");
 };
 
-export const createInvitationRequest = async (
-  orgId: number,
-  receiverEmail: string,
-  senderId: string
-) => {
+export const createInvitationRequest = async (orgId: number, receiverEmail: string, senderId: string) => {
   const newInvitation = { organizationId: orgId, receiverEmail, senderId };
   const url = `${BASE_URL}/invitations`;
   const res = await fetch(url, {
@@ -32,7 +28,6 @@ export const createInvitationRequest = async (
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newInvitation),
   });
-  if (res.status === 400)
-    throw new Error("Kunne ikke finde en bruger med den angivne email");
+  if (res.status === 400) throw new Error("Kunne ikke finde en bruger med den angivne email");
   if (!res.ok) throw new Error("Kunne ikke oprette invitation");
 };

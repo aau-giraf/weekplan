@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
@@ -43,20 +37,11 @@ const CreateInvitationPage: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.header}>Opret Invitation</Text>
-        <Text style={styles.subHeader}>
-          Indtast e-mailadressen på modtageren:
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Modtager E-mail"
-          value={email}
-          onChangeText={setEmail}
-        />
+        <Text style={styles.subHeader}>Indtast e-mailadressen på modtageren:</Text>
+        <TextInput style={styles.input} placeholder="Modtager E-mail" value={email} onChangeText={setEmail} />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleCreateInvitation}>
+        <TouchableOpacity style={styles.button} onPress={handleCreateInvitation}>
           <Text style={styles.buttonText}>Opret Invitation</Text>
         </TouchableOpacity>
       </View>
