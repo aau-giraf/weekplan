@@ -1,11 +1,9 @@
 import { BASE_URL } from "../utils/globals";
-import { UpdateProfileDTO } from "../hooks/useProfile";
+import { UpdateProfileDTO, ChangePasswordDTO } from "../hooks/useProfile";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {
-    throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
-    );
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
   const url = `${BASE_URL}/users/${userId}`;
   const res = await fetch(url);
@@ -13,14 +11,9 @@ export const fetchProfileRequest = async (userId: string | null) => {
   return res.json();
 };
 
-export const updateProfileRequest = async (
-  userId: string | null,
-  data: UpdateProfileDTO
-) => {
+export const updateProfileRequest = async (userId: string | null, data: UpdateProfileDTO) => {
   if (userId === null) {
-    throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
-    );
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
   const res = await fetch(`${BASE_URL}/users/${userId}`, {
     method: "PUT",
@@ -28,4 +21,17 @@ export const updateProfileRequest = async (
     headers: { "Content-Type": "application/json" },
   });
   if (!res.ok) throw new Error("Kunne ikke opdatere profildata");
+};
+
+export const changePasswordRequest = async (userId: string | null, data: ChangePasswordDTO) => {
+  if (userId === null) {
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
+  }
+
+  const res = await fetch(`${BASE_URL}/users/${userId}/change-password`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Kunne ikke opdatere adgangskode");
 };
