@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useCallback, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { Fragment, useCallback, useState } from "react";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import SwipeableList from "../../../../components/SwipeableList/SwipeableList";
 import { ProfilePicture } from "../../../../components/ProfilePage";
@@ -90,29 +90,32 @@ const AddCitizen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <SwipeableList
-        style={{ padding: 20 }}
-        items={citizens}
-        renderItem={({ item }) => renderCitizen(item)}
-        keyExtractor={(item) => item.id.toString()}
-        reanimatedSwipeableProps={(item) => ({
-          onSwipeableWillOpen: () => handleDelete(item.id),
-        })}
-        flatListProps={{
-          ListHeaderComponent: (
-            <>
-              <CitizenForm onSubmit={handleAddCitizen} />
-              <FormHeader
-                style={{ textAlign: "left", fontSize: ScaleSize(35), marginVertical: 20 }}
-                title={"List over nyligt tilføjede"}
-              />
-            </>
-          ),
-          ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
-        }}
-      />
-    </View>
+    <Fragment>
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <View style={styles.container}>
+        <SwipeableList
+          style={{ padding: 20 }}
+          items={citizens}
+          renderItem={({ item }) => renderCitizen(item)}
+          keyExtractor={(item) => item.id.toString()}
+          reanimatedSwipeableProps={(item) => ({
+            onSwipeableWillOpen: () => handleDelete(item.id),
+          })}
+          flatListProps={{
+            ListHeaderComponent: (
+              <>
+                <CitizenForm onSubmit={handleAddCitizen} />
+                <FormHeader
+                  style={{ textAlign: "left", fontSize: ScaleSize(35), marginVertical: 20 }}
+                  title={"List over nyligt tilføjede"}
+                />
+              </>
+            ),
+            ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
+          }}
+        />
+      </View>
+    </Fragment>
   );
 };
 

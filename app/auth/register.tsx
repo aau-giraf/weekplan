@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import React from "react";
-import { ScrollView } from "react-native";
+import React, { Fragment } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
 import { z } from "zod";
 import FormContainer from "../../components/Forms/FormContainer";
 import FormHeader from "../../components/Forms/FormHeader";
@@ -57,29 +57,32 @@ const RegisterScreen: React.FC = () => {
   });
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <FormContainer style={{ padding: 30 }}>
-        <FormHeader title={"Opret en konto"} />
-        <FormField control={control} name={"email"} placeholder={"E-mail"} />
-        <FormField control={control} name={"firstName"} placeholder={"Fornavn"} />
-        <FormField control={control} name={"lastName"} placeholder={"Efternavn"} />
-        <FormField control={control} name={"password"} placeholder={"Adgangskode"} secureText={true} />
-        <FormField
-          control={control}
-          name={"confirmPassword"}
-          placeholder={"Bekræft adgangskode"}
-          secureText={true}
-        />
-        <SubmitButton
-          isValid={isValid}
-          isSubmitting={isSubmitting}
-          handleSubmit={handleSubmit(register)}
-          label={"Tilføj konto"}
-        />
-        <SecondaryButton label={"Gå til login"} onPress={() => router.replace("/auth")} />
-        <PrivacyPolicy />
-      </FormContainer>
-    </ScrollView>
+    <Fragment>
+      <SafeAreaView />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <FormContainer style={{ padding: 30 }}>
+          <FormHeader title={"Opret en konto"} />
+          <FormField control={control} name={"email"} placeholder={"E-mail"} />
+          <FormField control={control} name={"firstName"} placeholder={"Fornavn"} />
+          <FormField control={control} name={"lastName"} placeholder={"Efternavn"} />
+          <FormField control={control} name={"password"} placeholder={"Adgangskode"} secureText={true} />
+          <FormField
+            control={control}
+            name={"confirmPassword"}
+            placeholder={"Bekræft adgangskode"}
+            secureText={true}
+          />
+          <SubmitButton
+            isValid={isValid}
+            isSubmitting={isSubmitting}
+            handleSubmit={handleSubmit(register)}
+            label={"Tilføj konto"}
+          />
+          <SecondaryButton label={"Gå til login"} onPress={() => router.replace("/auth")} />
+          <PrivacyPolicy />
+        </FormContainer>
+      </ScrollView>
+    </Fragment>
   );
 };
 

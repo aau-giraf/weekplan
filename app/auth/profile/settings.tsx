@@ -2,7 +2,6 @@ import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList, Switch } from "react-native-gesture-handler";
 import { Fragment, useEffect, useMemo, useState } from "react";
-
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -73,9 +72,7 @@ const Settings = () => {
     <Fragment>
       <SafeAreaView />
       <ScrollView style={styles.container}>
-        <Pressable
-          style={{ position: "absolute", top: 0, left: 5, zIndex: 2, padding: 10 }}
-          onPress={() => router.back()}>
+        <Pressable style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
         </Pressable>
 
@@ -110,6 +107,55 @@ const Settings = () => {
         </View>
       </ScrollView>
     </Fragment>
+  );
+};
+
+type RenderSettingProps = {
+  item: Setting;
+  toggleStates: { [key: string]: boolean };
+  handleToggleChange: (label: string, value: boolean) => void;
+  hasInvitations?: boolean;
+};
+
+const RenderSetting = ({ item, toggleStates, handleToggleChange, hasInvitations }: RenderSettingProps) => {
+  const opacity = useSharedValue(1);
+  const opacityAnimation = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  const onPress = item.onPress
+    ? item.onPress
+    : () => handleToggleChange(item.label, !toggleStates[item.label]);
+
+  const handlePressIn = () => {
+    opacity.value = withTiming(0.7, { duration: 150 });
+  };
+  const handlePressOut = () => {
+    opacity.value = withTiming(1, { duration: 150 });
+  };
+
+  return (
+    <Animated.View style={opacityAnimation}>
+      <Pressable
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={onPress}
+        style={styles.settingItem}>
+        <View style={styles.settingItemContainerSeparator}>
+          <Ionicons name={item.icon} size={40} />
+          <Text style={styles.settingItemText}>{item.label}</Text>
+          {hasInvitations && <View style={styles.notificationBadge} />}
+        </View>
+        {!item.onPress ? (
+          <Switch
+            value={toggleStates[item.label] || false}
+            onValueChange={(value) => handleToggleChange(item.label, value)}
+          />
+        ) : (
+          <Ionicons name="chevron-forward-outline" size={30} />
+        )}
+      </Pressable>
+    </Animated.View>
   );
 };
 
@@ -166,55 +212,14 @@ const styles = StyleSheet.create({
     aspectRatio: 1 / 1,
     borderRadius: 10000,
   },
+  backButton: {
+    position: "absolute",
+    top: 0,
+    left: 5,
+    zIndex: 2,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+  },
 });
 
 export default Settings;
-
-type RenderSettingProps = {
-  item: Setting;
-  toggleStates: { [key: string]: boolean };
-  handleToggleChange: (label: string, value: boolean) => void;
-  hasInvitations?: boolean;
-};
-
-const RenderSetting = ({ item, toggleStates, handleToggleChange, hasInvitations }: RenderSettingProps) => {
-  const opacity = useSharedValue(1);
-  const opacityAnimation = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-  }));
-
-  const onPress = item.onPress
-    ? item.onPress
-    : () => handleToggleChange(item.label, !toggleStates[item.label]);
-
-  const handlePressIn = () => {
-    opacity.value = withTiming(0.7, { duration: 150 });
-  };
-  const handlePressOut = () => {
-    opacity.value = withTiming(1, { duration: 150 });
-  };
-
-  return (
-    <Animated.View style={opacityAnimation}>
-      <Pressable
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={onPress}
-        style={styles.settingItem}>
-        <View style={styles.settingItemContainerSeparator}>
-          <Ionicons name={item.icon} size={40} />
-          <Text style={styles.settingItemText}>{item.label}</Text>
-          {hasInvitations && <View style={styles.notificationBadge} />}
-        </View>
-        {!item.onPress ? (
-          <Switch
-            value={toggleStates[item.label] || false}
-            onValueChange={(value) => handleToggleChange(item.label, value)}
-          />
-        ) : (
-          <Ionicons name="chevron-forward-outline" size={30} />
-        )}
-      </Pressable>
-    </Animated.View>
-  );
-};

@@ -1,10 +1,11 @@
 import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
+import { Fragment } from "react";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
@@ -21,47 +22,50 @@ const ViewOrganisation = () => {
   }
 
   return (
-    <View style={{ alignItems: "center" }}>
-      <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
-      <View style={styles.ActionView}>
-        <IconButton onPress={() => {}} absolute={false}>
-          <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-          {/* //TODO: Setup Editing Org */}
-        </IconButton>
-        <IconButton
-          onPress={() =>
-            router.push({
-              pathname: "/create-invitation",
-              params: { orgId: parsedID },
-            })
-          }
-          absolute={false}>
-          <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
-          {/* //TODO: Setup Invitations */}
-        </IconButton>
-        <IconButton
-          onPress={() => {
-            router.push("/auth/profile/organisation/addcitizen");
-          }}
-          absolute={false}>
-          <Ionicons name={"person-outline"} size={ScaleSize(30)} />
-          {/* //TODO: Setup Invitations */}
-        </IconButton>
-        <IconButton onPress={() => {}} absolute={false}>
-          <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
-          {/* //TODO: Setup Leaving Org */}
-        </IconButton>
+    <Fragment>
+      <SafeAreaView />
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
+        <View style={styles.ActionView}>
+          <IconButton onPress={() => {}} absolute={false}>
+            <Ionicons name={"create-outline"} size={ScaleSize(30)} />
+            {/* //TODO: Setup Editing Org */}
+          </IconButton>
+          <IconButton
+            onPress={() =>
+              router.push({
+                pathname: "/create-invitation",
+                params: { orgId: parsedID },
+              })
+            }
+            absolute={false}>
+            <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
+            {/* //TODO: Setup Invitations */}
+          </IconButton>
+          <IconButton
+            onPress={() => {
+              router.push("/auth/profile/organisation/addcitizen");
+            }}
+            absolute={false}>
+            <Ionicons name={"person-outline"} size={ScaleSize(30)} />
+            {/* //TODO: Setup Invitations */}
+          </IconButton>
+          <IconButton onPress={() => {}} absolute={false}>
+            <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
+            {/* //TODO: Setup Leaving Org */}
+          </IconButton>
+        </View>
+        <Text style={styles.heading}>Medlemmer</Text>
+        <CutoffList entries={data?.users ?? []} onPress={() => {}} />
+        <Text style={styles.heading}>Borger</Text>
+        <CutoffList
+          entries={data?.citizens ?? []}
+          onPress={() => router.push("/auth/profile/organisation/addcitizen")}
+        />
+        <Text style={styles.heading}>Klasser</Text>
+        {/* //TODO: Add and Implement Classes */}
       </View>
-      <Text style={styles.heading}>Medlemmer</Text>
-      <CutoffList entries={data?.users ?? []} onPress={() => {}} />
-      <Text style={styles.heading}>Borger</Text>
-      <CutoffList
-        entries={data?.citizens ?? []}
-        onPress={() => router.push("/auth/profile/organisation/addcitizen")}
-      />
-      <Text style={styles.heading}>Klasser</Text>
-      {/* //TODO: Add and Implement Classes */}
-    </View>
+    </Fragment>
   );
 };
 

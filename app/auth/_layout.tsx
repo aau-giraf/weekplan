@@ -1,7 +1,5 @@
 import { Stack } from "expo-router";
 import ProviderWrapper from "../../providers/ProviderWrapper";
-import { SafeAreaView } from "react-native";
-import { colors, ScaleSize } from "../../utils/SharedStyles";
 
 /*
 The paths will be updated automatically updated within the .expo/types/router.d.ts everytime expo runs.
@@ -12,7 +10,6 @@ For instance, it may require you to write router.push(".index"), instead of just
 const AuthRootLayout = () => {
   return (
     <ProviderWrapper>
-      <SafeAreaView style={{ backgroundColor: colors.white, padding: ScaleSize(10) }} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="register" />

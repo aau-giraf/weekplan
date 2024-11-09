@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import React from "react";
-import { Keyboard, ScrollView, TouchableWithoutFeedback } from "react-native";
+import React, { Fragment } from "react";
+import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback } from "react-native";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import FormContainer from "../../../../components/Forms/FormContainer";
@@ -81,38 +81,41 @@ const AddActivity = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <FormContainer style={{ padding: 30 }}>
-          <FormHeader title={"Opret en aktivitet til " + prettyDate(selectedDate)} />
-          <FormField control={control} name="title" placeholder="Titel" />
-          <FormField control={control} name="description" placeholder="Beskrivelse" />
-          <FormTimePicker
-            control={control}
-            name="startTime"
-            placeholder="Vælg start tid"
-            maxDate={getValues("endTime")}
-            androidDisplay={"spinner"}
-            iosDisplay={"default"}
-          />
-          <FormTimePicker
-            control={control}
-            name="endTime"
-            placeholder="Vælg slut tid"
-            minDate={getValues("startTime")}
-            androidDisplay={"spinner"}
-            iosDisplay={"default"}
-          />
-          <SubmitButton
-            isValid={isValid}
-            isSubmitting={isSubmitting}
-            handleSubmit={handleSubmit(onSubmit)}
-            label={"Tilføj aktivitet"}
-          />
-          <SecondaryButton onPress={() => router.back()} label={"Tilbage"} />
-        </FormContainer>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+    <Fragment>
+      <SafeAreaView />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <FormContainer style={{ padding: 30 }}>
+            <FormHeader title={"Opret en aktivitet til " + prettyDate(selectedDate)} />
+            <FormField control={control} name="title" placeholder="Titel" />
+            <FormField control={control} name="description" placeholder="Beskrivelse" />
+            <FormTimePicker
+              control={control}
+              name="startTime"
+              placeholder="Vælg start tid"
+              maxDate={getValues("endTime")}
+              androidDisplay={"spinner"}
+              iosDisplay={"default"}
+            />
+            <FormTimePicker
+              control={control}
+              name="endTime"
+              placeholder="Vælg slut tid"
+              minDate={getValues("startTime")}
+              androidDisplay={"spinner"}
+              iosDisplay={"default"}
+            />
+            <SubmitButton
+              isValid={isValid}
+              isSubmitting={isSubmitting}
+              handleSubmit={handleSubmit(onSubmit)}
+              label={"Tilføj aktivitet"}
+            />
+            <SecondaryButton onPress={() => router.back()} label={"Tilbage"} />
+          </FormContainer>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </Fragment>
   );
 };
 
