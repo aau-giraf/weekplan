@@ -37,7 +37,7 @@ const schema = z
       if (data.oldPassword !== data.confirmOldPassword) {
         ctx.addIssue({
           code: "custom",
-          path: ["confirmCurrentPassword"],
+          path: ["confirmOldPassword"],
           message: "Nuværende adgangskoder stemmer ikke overens",
         });
       }
