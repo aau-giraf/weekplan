@@ -4,6 +4,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useDate } from "../providers/DateProvider";
 import { dateToQueryKey } from "../hooks/useActivity";
 import { ActivityDTO } from "../DTO/activityDTO";
+import { Fragment } from "react";
+import { SafeAreaView } from "react-native";
+import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type Params = {
   activityId: string;
@@ -26,7 +29,12 @@ const EditActivity = () => {
     throw new Error("Aktiviteten findes ikke");
   }
 
-  return <ActivityEdit activity={activity} />;
+  return (
+    <Fragment>
+      <SafeAreaView style={{ backgroundColor: colors.white, padding: ScaleSize(10) }} />
+      <ActivityEdit activity={activity} />
+    </Fragment>
+  );
 };
 
 export default EditActivity;

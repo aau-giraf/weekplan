@@ -1,5 +1,13 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList, ListRenderItem, ActivityIndicator } from "react-native";
+import React, { Fragment } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+  SafeAreaView,
+} from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
 import { Ionicons } from "@expo/vector-icons";
@@ -59,14 +67,17 @@ const ViewInvitation = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={SharedStyles.header}>Invitations</Text>
-      <FlatList
-        data={data}
-        renderItem={renderInvitationContainer}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </View>
+    <Fragment>
+      <SafeAreaView style={{ backgroundColor: colors.white, padding: ScaleSize(10) }} />
+      <View style={styles.container}>
+        <Text style={SharedStyles.header}>Invitations</Text>
+        <FlatList
+          data={data}
+          renderItem={renderInvitationContainer}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      </View>
+    </Fragment>
   );
 };
 

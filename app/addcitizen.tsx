@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useCallback, useState } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import SubmitButton from "../components/Forms/SubmitButton";
 import FormField from "../components/Forms/TextInput";
-import { ProfilePicture } from "../components/ProfilePage";
+import { ProfilePicture } from "../components/ProfilePicture";
 import SwipeableList from "../components/SwipeableList/SwipeableList";
 import useOrganisation from "../hooks/useOrganisation";
 import { colors, ScaleSize } from "../utils/SharedStyles";
@@ -40,17 +40,20 @@ const CitizenForm: React.FC<CitizenFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <FormContainer>
-      <FormHeader title={"Tilføj borger"} />
-      <FormField control={control} name="firstName" placeholder="Fornavn" />
-      <FormField control={control} name="lastName" placeholder="Efternavn" />
-      <SubmitButton
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        handleSubmit={handleSubmit(onFormSubmit)}
-        label={"Tilføj borger"}
-      />
-    </FormContainer>
+    <Fragment>
+      <SafeAreaView style={{ backgroundColor: colors.white, padding: ScaleSize(10) }} />
+      <FormContainer>
+        <FormHeader title={"Tilføj borger"} />
+        <FormField control={control} name="firstName" placeholder="Fornavn" />
+        <FormField control={control} name="lastName" placeholder="Efternavn" />
+        <SubmitButton
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+          handleSubmit={handleSubmit(onFormSubmit)}
+          label={"Tilføj borger"}
+        />
+      </FormContainer>
+    </Fragment>
   );
 };
 

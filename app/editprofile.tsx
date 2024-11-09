@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
-import React from "react";
+import React, { Fragment } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { z } from "zod";
 import SubmitButton from "../components/Forms/SubmitButton";
 import FormField from "../components/Forms/TextInput";
@@ -93,40 +93,43 @@ const ProfileEdit: React.FC = () => {
   };
 
   return (
-    <FormContainer style={{ padding: 30 }}>
-      <FormHeader title="Rediger Profil" />
-      <FormField control={control} name="firstName" placeholder="Fornavn" />
-      <FormField control={control} name="lastName" placeholder="Efternavn" />
-      <FormField
-        control={control}
-        name="oldPassword"
-        placeholder="Indtast nuværende adgangskode"
-        secureText={true}
-      />
-      <FormField
-        control={control}
-        name="confirmOldPassword"
-        placeholder="Bekræft nuværende adgangskode"
-        secureText={true}
-      />
-      <FormField
-        control={control}
-        name="newPassword"
-        placeholder="Indtast ny adgangskode"
-        secureText={true}
-      />
-      <SubmitButton
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        handleSubmit={handleSubmit(onSubmit)}
-        label="Opdater profil"
-      />
-      <TouchableOpacity
-        style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-        onPress={() => router.back()}>
-        <Text style={styles.buttonText}>Annuller</Text>
-      </TouchableOpacity>
-    </FormContainer>
+    <Fragment>
+      <SafeAreaView style={{ backgroundColor: colors.white, padding: ScaleSize(10) }} />
+      <FormContainer style={{ padding: 30 }}>
+        <FormHeader title="Rediger Profil" />
+        <FormField control={control} name="firstName" placeholder="Fornavn" />
+        <FormField control={control} name="lastName" placeholder="Efternavn" />
+        <FormField
+          control={control}
+          name="oldPassword"
+          placeholder="Indtast nuværende adgangskode"
+          secureText={true}
+        />
+        <FormField
+          control={control}
+          name="confirmOldPassword"
+          placeholder="Bekræft nuværende adgangskode"
+          secureText={true}
+        />
+        <FormField
+          control={control}
+          name="newPassword"
+          placeholder="Indtast ny adgangskode"
+          secureText={true}
+        />
+        <SubmitButton
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+          handleSubmit={handleSubmit(onSubmit)}
+          label="Opdater profil"
+        />
+        <TouchableOpacity
+          style={[styles.buttonValid, { backgroundColor: colors.blue }]}
+          onPress={() => router.back()}>
+          <Text style={styles.buttonText}>Annuller</Text>
+        </TouchableOpacity>
+      </FormContainer>
+    </Fragment>
   );
 };
 
