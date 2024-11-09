@@ -1,25 +1,44 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { useState } from "react";
-import { colors, ScaleSize } from "../utils/SharedStyles";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { colors } from "../utils/SharedStyles";
 import useInvitation from "../hooks/useInvitation";
 import { useLocalSearchParams } from "expo-router";
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useToast } from "../providers/ToastProvider";
+import FormContainer from "../components/Forms/FormContainer";
+import FormHeader from "../components/Forms/FormHeader";
+import FormField from "../components/Forms/TextInput";
+import SubmitButton from "../components/Forms/SubmitButton";
+
+const invitationSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+});
+
+type InvitationFormData = z.infer<typeof invitationSchema>;
 
 const CreateInvitationPage: React.FC = () => {
-  const [email, setEmail] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, isSubmitting },
+  } = useForm<InvitationFormData>({
+    resolver: zodResolver(invitationSchema),
+    mode: "onChange",
+  });
+
   const { createInvitation } = useInvitation();
-  const createInv = createInvitation;
   const { orgId } = useLocalSearchParams();
   const { userId } = useAuthentication();
   const { addToast } = useToast();
 
-  const handleCreateInvitation = () => {
+  const onSubmit = async (data: InvitationFormData) => {
+    const { email } = data;
     if (!userId) {
       addToast({ message: "Du er ikke logget ind", type: "error" });
       return;
     }
-    createInv
+    createInvitation
       .mutateAsync({
         orgId: Number(orgId),
         receiverEmail: email,
@@ -34,67 +53,17 @@ const CreateInvitationPage: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <Text style={styles.header}>Opret Invitation</Text>
-        <Text style={styles.subHeader}>Indtast e-mailadressen på modtageren:</Text>
-        <TextInput style={styles.input} placeholder="Modtager E-mail" value={email} onChangeText={setEmail} />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleCreateInvitation}>
-          <Text style={styles.buttonText}>Opret Invitation</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <FormContainer style={{ padding: 20, backgroundColor: colors.white }}>
+      <FormHeader title="Opret Invitation" />
+      <FormField control={control} name="email" placeholder="Modtager E-mail" />
+      <SubmitButton
+        isValid={isValid}
+        isSubmitting={isSubmitting}
+        handleSubmit={handleSubmit(onSubmit)}
+        label="Opret Invitation"
+      />
+    </FormContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: colors.white,
-  },
-  contentContainer: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  header: {
-    fontSize: 32,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 50,
-    color: colors.black,
-  },
-  subHeader: {
-    fontSize: 18,
-    marginBottom: 20,
-    color: colors.black,
-  },
-  input: {
-    height: 45,
-    borderColor: colors.lightGray,
-    borderWidth: 1,
-    paddingLeft: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-    fontSize: 16,
-  },
-  buttonContainer: {
-    paddingHorizontal: 20,
-  },
-  button: {
-    paddingVertical: ScaleSize(12),
-    paddingHorizontal: ScaleSize(20),
-    borderRadius: 8,
-    alignItems: "center",
-    backgroundColor: colors.green,
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(24),
-    fontWeight: "500",
-  },
-});
 
 export default CreateInvitationPage;
