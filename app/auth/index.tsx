@@ -1,42 +1,19 @@
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import * as SecureStore from "expo-secure-store";
-import { useAuthentication } from "../../providers/AuthenticationProvider";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../../utils/SharedStyles";
-import { z } from "zod";
-import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../../components/FieldInfo";
-import { router } from "expo-router";
-import { Switch } from "react-native-gesture-handler";
-import { getSettingsValue, setSettingsValue } from "../../utils/settingsUtils";
-import GirafIcon from "../../assets/SVG/GirafIcon";
 import { StyleSheet, Text, View } from "react-native";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "expo-router";
-import { useForm } from "react-hook-form";
-import { Switch } from "react-native-gesture-handler";
 import { z } from "zod";
-import GirafIcon from "../assets/SVG/GirafIcon";
-import FormContainer from "../components/Forms/FormContainer";
-import SecondaryButton from "../components/Forms/SecondaryButton";
-import SubmitButton from "../components/Forms/SubmitButton";
-import FormField from "../components/Forms/TextInput";
-import { useAuthentication } from "../providers/AuthenticationProvider";
-import { getSettingsValue, setSettingsValue } from "../utils/settingsUtils";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
+import { router } from "expo-router";
+import { Switch } from "react-native-gesture-handler";
+import GirafIcon from "../../assets/SVG/GirafIcon";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import FormContainer from "../../components/Forms/FormContainer";
+import SecondaryButton from "../../components/Forms/SecondaryButton";
+import SubmitButton from "../../components/Forms/SubmitButton";
+import FormField from "../../components/Forms/TextInput";
+import { useAuthentication } from "../../providers/AuthenticationProvider";
+import { getSettingsValue, setSettingsValue } from "../../utils/settingsUtils";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 
 const schema = z.object({
   email: z.string().trim().email("Indtast en gyldig e-mailadresse"),
@@ -101,7 +78,7 @@ const LoginScreen: React.FC = () => {
         handleSubmit={handleSubmit(onsSubmit)}
         label="Login"
       />
-      <SecondaryButton onPress={() => router.replace("/register")} label="Tilføj ny konto" />
+      <SecondaryButton onPress={() => router.replace("/auth/register")} label="Tilføj ny konto" />
     </FormContainer>
   );
 };

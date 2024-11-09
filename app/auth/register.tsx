@@ -1,21 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React from "react";
-import { useForm } from "react-hook-form";
 import { ScrollView } from "react-native";
 import { z } from "zod";
-import FormContainer from "../components/Forms/FormContainer";
-import FormHeader from "../components/Forms/FormHeader";
-import SecondaryButton from "../components/Forms/SecondaryButton";
-import SubmitButton from "../components/Forms/SubmitButton";
-import FormField from "../components/Forms/TextInput";
-import PrivacyPolicy from "../components/Legal/PrivacyPolicy";
-import { useAuthentication } from "../providers/AuthenticationProvider";
+import FormContainer from "../../components/Forms/FormContainer";
+import FormHeader from "../../components/Forms/FormHeader";
+import SecondaryButton from "../../components/Forms/SecondaryButton";
+import SubmitButton from "../../components/Forms/SubmitButton";
+import FormField from "../../components/Forms/TextInput";
 import { useAuthentication } from "../../providers/AuthenticationProvider";
-import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../../components/FieldInfo";
 import PrivacyPolicy from "../../components/Legal/PrivacyPolicy";
+import { useForm } from "react-hook-form";
 
 /**
  * Regex

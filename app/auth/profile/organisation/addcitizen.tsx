@@ -1,23 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
 import { StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
-import { useForm } from "@tanstack/react-form";
 import SwipeableList from "../../../../components/SwipeableList/SwipeableList";
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import { colors } from "../../../../utils/SharedStyles";
 import { ProfilePicture } from "../../../../components/ProfilePage";
-import FieldInfo from "../../../../components/FieldInfo";
+import SubmitButton from "../../../../components/Forms/SubmitButton";
+import FormField from "../../../../components/Forms/TextInput";
 import useOrganisation from "../../../../hooks/useOrganisation";
-import SubmitButton from "../components/Forms/SubmitButton";
-import FormField from "../components/Forms/TextInput";
-import { ProfilePicture } from "../components/ProfilePage";
-import SwipeableList from "../components/SwipeableList/SwipeableList";
-import useOrganisation from "../hooks/useOrganisation";
-import { colors, ScaleSize } from "../utils/SharedStyles";
-import FormContainer from "../components/Forms/FormContainer";
-import FormHeader from "../components/Forms/FormHeader";
+import { colors, ScaleSize } from "../../../../utils/SharedStyles";
+import FormContainer from "../../../../components/Forms/FormContainer";
+import FormHeader from "../../../../components/Forms/FormHeader";
+import { useForm } from "react-hook-form";
 
 const citizenSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),

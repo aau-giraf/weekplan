@@ -4,15 +4,13 @@
 // move faster and fix possible issues quicker
 
 import React, { ForwardedRef, forwardRef, useCallback, useImperativeHandle, useRef } from "react";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { GestureStateChangeEvent, GestureUpdateEvent } from "react-native-gesture-handler";
-import type { PanGestureHandlerProperties } from "react-native-gesture-handler";
-import type { PanGestureHandlerEventPayload } from "react-native-gesture-handler";
+import type { PanGestureHandlerEventPayload, PanGestureHandlerProperties } from "react-native-gesture-handler";
+import { Gesture, GestureDetector, GestureStateChangeEvent, GestureUpdateEvent } from "react-native-gesture-handler";
 import Animated, {
   Extrapolation,
-  SharedValue,
   interpolate,
   runOnJS,
+  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withSpring,

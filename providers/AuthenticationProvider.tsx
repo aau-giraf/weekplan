@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { createUserRequest } from "../apis/registerAPI";
 import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "./ToastProvider";
@@ -6,7 +6,7 @@ import { router } from "expo-router";
 import { getUserIdFromToken, isTokenExpired } from "../utils/jwtDecode";
 import * as SecureStore from "expo-secure-store";
 import { setSettingsValue } from "../utils/settingsUtils";
-import { RegisterForm } from "../app/register";
+import { RegisterForm } from "../app/auth/register";
 
 type AuthenticationProviderValues = {
   jwt: string | null;

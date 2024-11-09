@@ -1,11 +1,11 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList, Switch } from "react-native-gesture-handler";
 import { colors } from "../../../utils/SharedStyles";
 import { useEffect, useMemo, useState } from "react";
-import { loadSettingValues, setSettingsValue, Setting } from "../utils/settingsUtils";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
-import { useAuthentication } from "../providers/AuthenticationProvider";
+import { loadSettingValues, setSettingsValue, Setting } from "../../../utils/settingsUtils";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { router } from "expo-router";
 import useInvitation from "../../../hooks/useInvitation";
 

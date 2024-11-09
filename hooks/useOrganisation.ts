@@ -1,9 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  createCitizenRequest,
-  deleteCitizenRequest,
-  fetchOrganisationRequest,
-} from "../apis/organisationAPI";
+import { createCitizenRequest, deleteCitizenRequest, fetchOrganisationRequest } from "../apis/organisationAPI";
 import { Citizen, OrgDTO } from "../DTO/organisationDTO";
 
 const useOrganisation = (orgId: number) => {

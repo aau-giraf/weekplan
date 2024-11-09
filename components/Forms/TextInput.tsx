@@ -1,6 +1,6 @@
 // FormField.tsx
 import React from "react";
-import { View, TextInput, Text, StyleSheet, TextStyle } from "react-native";
+import { StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
 import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";
 
 type FormFieldProps<T extends FieldValues> = {

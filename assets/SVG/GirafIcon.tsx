@@ -1,5 +1,5 @@
 import * as React from "react";
-import Svg, { NumberProp, Rect, Path, G } from "react-native-svg";
+import Svg, { G, NumberProp, Path, Rect } from "react-native-svg";
 
 type GirafIconProps = {
   width?: NumberProp;

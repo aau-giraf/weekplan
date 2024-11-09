@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ActivityAddButton from "../../../../components/weekoverview_components/activity_components/ActivityAddButton";
 import WeekSelection from "../../../../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../../../../components/weekoverview_components/DaysContainer";

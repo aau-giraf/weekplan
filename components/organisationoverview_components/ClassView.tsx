@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { getContrastingTextColor, hashNameToColour } from "../../utils/colourFunctions";
 import { SharedStyles } from "../../utils/SharedStyles";
 import { truncateText } from "../../utils/truncateText";

@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ProfilePicture } from "../ProfilePicture";
-import { ScaleSize, SharedStyles, colors } from "../../utils/SharedStyles";
+import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
 
 // Base type to enforce required fields
 type CutoffViewPropsBase = {

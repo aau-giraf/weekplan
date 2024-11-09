@@ -1,12 +1,6 @@
 import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
-import { View, Text, StyleSheet } from "react-native";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-  SharedStyles,
-} from "../../../../utils/SharedStyles";
+import { StyleSheet, Text, View } from "react-native";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";

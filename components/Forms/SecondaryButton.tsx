@@ -1,5 +1,5 @@
-import { TouchableOpacity, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { colors, ScaleSizeW, ScaleSize, ScaleSizeH } from "../../utils/SharedStyles";
+import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 
 type SecondaryButtonProps = {
   onPress: () => void;

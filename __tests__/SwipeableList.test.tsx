@@ -1,7 +1,7 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react-native";
+import { fireEvent, render, screen } from "@testing-library/react-native";
 import SwipeableList, { Action } from "../components/SwipeableList/SwipeableList";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 
 describe("SwipeableList", () => {
   const mockData = [{ id: "1", name: "Item 1" }];

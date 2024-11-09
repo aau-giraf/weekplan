@@ -1,48 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from "react-native";
-import { useDate } from "../../../../providers/DateProvider";
-import { prettyDate } from "../../../../utils/prettyDate";
-import useActivity from "../../../../hooks/useActivity";
-import TimePicker from "../../../../components/TimePicker";
-import formatTimeHHMM from "../../../../utils/formatTimeHHMM";
-import { z } from "zod";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  ScaleSizeW,
-} from "../../../../utils/SharedStyles";
-import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import FieldInfo from "../../../../components/FieldInfo";
-import { useToast } from "../../../../providers/ToastProvider";
-import { useCitizen } from "../../../../providers/CitizenProvider";
-import { useForm } from "react-hook-form";
 import { Keyboard, ScrollView, TouchableWithoutFeedback } from "react-native";
 import { z } from "zod";
-import FormContainer from "../components/Forms/FormContainer";
-import FormHeader from "../components/Forms/FormHeader";
-import FormTimePicker from "../components/Forms/FormTimePicker";
-import SecondaryButton from "../components/Forms/SecondaryButton";
-import SubmitButton from "../components/Forms/SubmitButton";
-import FormField from "../components/Forms/TextInput";
-import useActivity from "../hooks/useActivity";
-import { useCitizen } from "../providers/CitizenProvider";
-import { useDate } from "../providers/DateProvider";
-import { useToast } from "../providers/ToastProvider";
-import formatTimeHHMM from "../utils/formatTimeHHMM";
-import { prettyDate } from "../utils/prettyDate";
+import { useForm } from "react-hook-form";
+import FormContainer from "../../../../components/Forms/FormContainer";
+import FormHeader from "../../../../components/Forms/FormHeader";
+import FormTimePicker from "../../../../components/Forms/FormTimePicker";
+import SecondaryButton from "../../../../components/Forms/SecondaryButton";
+import SubmitButton from "../../../../components/Forms/SubmitButton";
+import FormField from "../../../../components/Forms/TextInput";
+import useActivity from "../../../../hooks/useActivity";
+import { useCitizen } from "../../../../providers/CitizenProvider";
+import { useDate } from "../../../../providers/DateProvider";
+import { useToast } from "../../../../providers/ToastProvider";
+import formatTimeHHMM from "../../../../utils/formatTimeHHMM";
+import { prettyDate } from "../../../../utils/prettyDate";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),

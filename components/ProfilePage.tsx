@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
-import { hashNameToColour, getContrastingTextColor } from "../utils/profileColors";
+import { getContrastingTextColor, hashNameToColour } from "../utils/profileColors";
 
 type ProfilePictureProps = {
   label: string;

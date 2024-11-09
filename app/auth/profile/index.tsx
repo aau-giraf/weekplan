@@ -1,27 +1,17 @@
 import React, { useRef, useState } from "react";
-import { View, Text, ActivityIndicator, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { ActivityIndicator, Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import useProfile from "../../../hooks/useProfile";
 import { ProfilePicture } from "../../../components/ProfilePage";
 import IconButton from "../../../components/IconButton";
-import useOrganisationOverview, {
-  OrgOverviewDTO,
-} from "../../../hooks/useOrganisationOverview";
-import BottomSheet, {
-  BottomSheetTextInput,
-  BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
-import useProfile from "../hooks/useProfile";
-import { ProfilePicture } from "../components/ProfilePage";
-import IconButton from "../components/IconButton";
-import useOrganisationOverview, { OrgOverviewDTO } from "../hooks/useOrganisationOverview";
-import BottomSheet, { BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import useProfile from "../../../hooks/useProfile";
+import useOrganisationOverview, { OrgOverviewDTO } from "../../../hooks/useOrganisationOverview";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useToast } from "../../../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { router } from "expo-router";
-import SecondaryButton from "../components/Forms/SecondaryButton";
+import SecondaryButton from "../../../components/Forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
 
 const screenWidth = Dimensions.get("window").width;
@@ -112,7 +102,7 @@ const ProfilePage: React.FC = () => {
         <Ionicons name="add" size={ScaleSize(64)} />
       </IconButton>
       {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
-      <IconButton style={styles.weekoverview} onPress={() => router.push("/weekplanscreen")}>
+      <IconButton style={styles.weekoverview} onPress={() => router.push("/auth/profile/organisation/weekplanscreen")}>
         <Ionicons name="calendar-outline" size={ScaleSize(64)} />
       </IconButton>
       <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
