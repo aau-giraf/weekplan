@@ -16,12 +16,9 @@ const schema = z
   .object({
     oldPassword: z.string().trim().min(8, "Indtast nuværende adgangskode"),
     confirmOldPassword: z.string().trim().min(8, "Bekræft nuværende adgangskode"),
-    newPassword: z
-      .string()
-      .trim()
-      .regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
-        message: "Adgangskode skal indeholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
-      }),
+    newPassword: z.string().trim().regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
+      message: "Adgangskode skal indeholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
+    }),
   })
   .superRefine((data, ctx) => {
     if (data.oldPassword !== data.confirmOldPassword) {
