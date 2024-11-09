@@ -1,4 +1,6 @@
 import * as SecureStore from "expo-secure-store";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import FieldInfo from "../components/FieldInfo";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { z } from "zod";

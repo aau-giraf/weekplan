@@ -28,7 +28,14 @@ const ViewOrganisation = () => {
           <Ionicons name={"create-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Editing Org */}
         </IconButton>
-        <IconButton onPress={() => {}} absolute={false}>
+        <IconButton
+          onPress={() =>
+            router.push({
+              pathname: "/create-invitation",
+              params: { orgId: parsedID },
+            })
+          }
+          absolute={false}>
           <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
           {/* //TODO: Setup Invitations */}
         </IconButton>
