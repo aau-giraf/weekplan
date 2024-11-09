@@ -18,13 +18,8 @@ export default function useInvitation() {
   });
 
   const acceptInvitation = useMutation({
-    mutationFn: ({
-      invitationId,
-      isAccepted,
-    }: {
-      invitationId: number;
-      isAccepted: boolean;
-    }) => acceptInvitationRequest(invitationId, isAccepted),
+    mutationFn: ({ invitationId, isAccepted }: { invitationId: number; isAccepted: boolean }) =>
+      acceptInvitationRequest(invitationId, isAccepted),
 
     onMutate: async ({ invitationId, isAccepted }) => {
       await queryClient.cancelQueries({ queryKey });

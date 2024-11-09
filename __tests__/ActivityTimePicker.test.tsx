@@ -32,9 +32,7 @@ describe("ActivityTimePicker", () => {
       render(<TimePicker {...initialProps} />);
 
       const newTimeIOS = new Date(initialProps.value);
-      expect([newTimeIOS.getHours(), newTimeIOS.getMinutes()]).toEqual([
-        14, 30,
-      ]);
+      expect([newTimeIOS.getHours(), newTimeIOS.getMinutes()]).toEqual([14, 30]);
 
       // Simulate selecting the new time by calling onChange directly
       newTimeIOS.setHours(15, 30);

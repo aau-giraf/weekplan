@@ -2,9 +2,7 @@ import { BASE_URL } from "../utils/globals";
 
 export const fetchInvitationByUserRequest = async (userId: string) => {
   if (userId === null) {
-    throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session."
-    );
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
   const url = `${BASE_URL}/invitations/user/${userId}`;
@@ -13,10 +11,7 @@ export const fetchInvitationByUserRequest = async (userId: string) => {
   return res.json();
 };
 
-export const acceptInvitationRequest = async (
-  invitationId: number,
-  isAccepted: boolean
-) => {
+export const acceptInvitationRequest = async (invitationId: number, isAccepted: boolean) => {
   const url = `${BASE_URL}/invitations/respond/${invitationId}?response=${isAccepted}`;
   const res = await fetch(url, {
     method: "PUT",

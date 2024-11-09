@@ -18,31 +18,13 @@ const GirafIcon = (props: GirafIconProps) => (
     {...props}>
     <G transform="matrix(1,0,0,1,-510.923,-750.098)">
       <G transform="matrix(1,0,0,1.0296,0,-22.1041)">
-        <Rect
-          x="555.118"
-          y="750"
-          width="14.173"
-          height="15.158"
-          fill="rgb(253,153,35)"
-        />
+        <Rect x="555.118" y="750" width="14.173" height="15.158" fill="rgb(253,153,35)" />
       </G>
       <G transform="matrix(1.01679,0,0,1.00983,-9.81746,-7.27424)">
-        <Rect
-          x="584.646"
-          y="750"
-          width="6.538"
-          height="15.158"
-          fill="rgb(253,153,34)"
-        />
+        <Rect x="584.646" y="750" width="6.538" height="15.158" fill="rgb(253,153,34)" />
       </G>
       <G transform="matrix(0.910729,0,0,1.00983,52.2763,-7.27424)">
-        <Rect
-          x="591.732"
-          y="750"
-          width="7.087"
-          height="15.158"
-          fill="rgb(229,115,25)"
-        />
+        <Rect x="591.732" y="750" width="7.087" height="15.158" fill="rgb(229,115,25)" />
       </G>
       <G transform="matrix(1.02083,0,0,0.993151,-13.0659,5.33936)">
         <Path

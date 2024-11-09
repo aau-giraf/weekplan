@@ -44,9 +44,7 @@ const useCopyDayData = () => {
    */
   const toggleActivitySelection = (activityId: number) => {
     if (selectedActivityIds.includes(activityId)) {
-      setSelectedActivityIds(
-        selectedActivityIds.filter((id) => id !== activityId)
-      );
+      setSelectedActivityIds(selectedActivityIds.filter((id) => id !== activityId));
     } else {
       setSelectedActivityIds([...selectedActivityIds, activityId]);
     }

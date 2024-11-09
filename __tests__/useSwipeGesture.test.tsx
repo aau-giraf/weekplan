@@ -1,17 +1,9 @@
-import {
-  FlingGesture,
-  GestureDetector,
-  GestureHandlerRootView,
-  State,
-} from "react-native-gesture-handler";
+import { FlingGesture, GestureDetector, GestureHandlerRootView, State } from "react-native-gesture-handler";
 
 import { Text } from "react-native";
 import { render, waitFor } from "@testing-library/react-native";
 import useSwipeGesture from "../hooks/useSwipeGesture";
-import {
-  fireGestureHandler,
-  getByGestureTestId,
-} from "react-native-gesture-handler/jest-utils";
+import { fireGestureHandler, getByGestureTestId } from "react-native-gesture-handler/jest-utils";
 
 function SwipeGestureTestComponent({
   goToPreviousWeek,
@@ -41,12 +33,7 @@ describe("useSwipeGesture", () => {
   });
 
   it("should call goToNextWeek on left swipe", async () => {
-    render(
-      <SwipeGestureTestComponent
-        goToPreviousWeek={goToPreviousWeek}
-        goToNextWeek={goToNextWeek}
-      />
-    );
+    render(<SwipeGestureTestComponent goToPreviousWeek={goToPreviousWeek} goToNextWeek={goToNextWeek} />);
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
       { state: State.BEGAN, x: 0 },
@@ -61,12 +48,7 @@ describe("useSwipeGesture", () => {
   });
 
   it("should call goToPreviousWeek on right swipe", async () => {
-    render(
-      <SwipeGestureTestComponent
-        goToPreviousWeek={goToPreviousWeek}
-        goToNextWeek={goToNextWeek}
-      />
-    );
+    render(<SwipeGestureTestComponent goToPreviousWeek={goToPreviousWeek} goToNextWeek={goToNextWeek} />);
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
       { state: State.BEGAN, x: 0 },
@@ -81,12 +63,7 @@ describe("useSwipeGesture", () => {
   });
 
   it("should not call any function if swipe is not enough", async () => {
-    render(
-      <SwipeGestureTestComponent
-        goToPreviousWeek={goToPreviousWeek}
-        goToNextWeek={goToNextWeek}
-      />
-    );
+    render(<SwipeGestureTestComponent goToPreviousWeek={goToPreviousWeek} goToNextWeek={goToNextWeek} />);
 
     fireGestureHandler<FlingGesture>(getByGestureTestId("testDetector"), [
       { state: State.BEGAN, x: 0 },

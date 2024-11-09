@@ -5,21 +5,14 @@ import { Platform } from "react-native";
  * @param id {number} - The ID of the pictogram to be fetched.
  */
 export const fetchPictograms = async (id: number): Promise<string> => {
-  const res = await fetch(
-    `https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`
-  );
+  const res = await fetch(`https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`);
 
   if (!res.ok) {
-    throw new Error(
-      `Fejl kunne ikke hente piktogramarne, status kode: ${res.status}`
-    );
+    throw new Error(`Fejl kunne ikke hente piktogramarne, status kode: ${res.status}`);
   }
 
   const contentType = res.headers.get("Content-Type");
-  if (
-    contentType?.includes("image/png") ||
-    contentType?.includes("image/jpeg")
-  ) {
+  if (contentType?.includes("image/png") || contentType?.includes("image/jpeg")) {
     const imageBlob = await res.blob();
 
     if (Platform.OS === "ios") {
