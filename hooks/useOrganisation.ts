@@ -75,9 +75,7 @@ const useOrganisation = (orgId: number) => {
         if (oldData) {
           return {
             ...oldData,
-            citizens: oldData.citizens.filter(
-              (citizen) => citizen.id !== citizenId
-            ),
+            citizens: oldData.citizens.filter((citizen) => citizen.id !== citizenId),
           };
         }
         return previousOrg;

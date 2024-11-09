@@ -1,9 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { tryLogin } from "../apis/loginAPI";
 import { useToast } from "../providers/ToastProvider";
-import AuthenticationProvider, {
-  useAuthentication,
-} from "../providers/AuthenticationProvider";
+import AuthenticationProvider, { useAuthentication } from "../providers/AuthenticationProvider";
 import { router } from "expo-router";
 
 jest.mock("../apis/registerAPI");
@@ -108,28 +106,19 @@ describe("AuthenticationProvider and useAuthentication", () => {
 
   it("should add a toast if register fails", async () => {
     const error = new Error("Register failed");
-    jest
-      .spyOn(require("../apis/registerAPI"), "createUserRequest")
-      .mockRejectedValueOnce(error);
+    jest.spyOn(require("../apis/registerAPI"), "createUserRequest").mockRejectedValueOnce(error);
 
     const mockAddToast = jest.fn();
-    jest
-      .spyOn(require("../providers/ToastProvider"), "useToast")
-      .mockReturnValue({
-        addToast: mockAddToast,
-      });
+    jest.spyOn(require("../providers/ToastProvider"), "useToast").mockReturnValue({
+      addToast: mockAddToast,
+    });
 
     const { result } = renderHook(() => useAuthentication(), {
       wrapper: AuthenticationProvider,
     });
 
     await act(async () => {
-      await result.current.register(
-        "test@test.dk",
-        "testTest1",
-        "Test",
-        "Test"
-      );
+      await result.current.register("test@test.dk", "testTest1", "Test", "Test");
     });
 
     await waitFor(() => {
@@ -151,9 +140,7 @@ describe("AuthenticationProvider and useAuthentication", () => {
   });
 
   it("should return false for isAuthenticated if jwt is expired", async () => {
-    jest
-      .spyOn(require("../utils/jwtDecode"), "isTokenExpired")
-      .mockReturnValueOnce(true);
+    jest.spyOn(require("../utils/jwtDecode"), "isTokenExpired").mockReturnValueOnce(true);
 
     const { result } = renderHook(() => useAuthentication(), {
       wrapper: AuthenticationProvider,
@@ -176,15 +163,11 @@ describe("AuthenticationProvider and useAuthentication", () => {
   });
 
   it("should throw error if used outside of provider", async () => {
-    const consoleErrorMock = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+    const consoleErrorMock = jest.spyOn(console, "error").mockImplementation(() => {});
     try {
       renderHook(() => useAuthentication());
     } catch (error) {
-      expect(error).toEqual(
-        new Error("useAuthentication skal bruges i en AuthenticationProvider")
-      );
+      expect(error).toEqual(new Error("useAuthentication skal bruges i en AuthenticationProvider"));
     }
     consoleErrorMock.mockRestore();
   });

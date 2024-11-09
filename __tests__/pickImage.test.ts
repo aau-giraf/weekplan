@@ -14,9 +14,7 @@ describe("The pickImage function can find a picture from a ImageLibrary based on
       canceled: false,
       assets: [{ uri: "test-uri" }],
     };
-    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue(
-      mockResult
-    );
+    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue(mockResult);
 
     const result = await pickImage();
     expect(result).toBe("test-uri");
@@ -26,9 +24,7 @@ describe("The pickImage function can find a picture from a ImageLibrary based on
     const mockResult = {
       canceled: true,
     };
-    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue(
-      mockResult
-    );
+    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue(mockResult);
 
     const result = await pickImage();
     expect(result).toBeUndefined();

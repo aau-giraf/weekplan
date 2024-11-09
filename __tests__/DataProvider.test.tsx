@@ -17,9 +17,7 @@ describe("DateProvider and useDate", () => {
   });
 
   it("should throw an error if useDate is used outside DateProvider", () => {
-    const consoleErrorMock = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+    const consoleErrorMock = jest.spyOn(console, "error").mockImplementation(() => {});
     try {
       renderHook(() => useDate());
     } catch (error) {

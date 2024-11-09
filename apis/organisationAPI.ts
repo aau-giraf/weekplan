@@ -4,9 +4,7 @@ import { OrgDTO } from "../DTO/organisationDTO";
 
 export const fetchAllOrganisationsRequest = async (userId: string) => {
   if (userId === null) {
-    throw new Error(
-      "FATAL FEJL: Bruger-ID er ikke initialiseret korrekt i din session."
-    );
+    throw new Error("FATAL FEJL: Bruger-ID er ikke initialiseret korrekt i din session.");
   }
 
   const url = `${BASE_URL}/organizations/user/${userId}`;
@@ -39,10 +37,7 @@ export const createCitizenRequest = async (
   return res.json();
 };
 
-export const deleteCitizenRequest = async (
-  orgId: number,
-  citizenId: number
-) => {
+export const deleteCitizenRequest = async (orgId: number, citizenId: number) => {
   const url = `${BASE_URL}/organizations/${orgId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "DELETE",
@@ -51,10 +46,7 @@ export const deleteCitizenRequest = async (
   if (!res.ok) throw new Error("Kunne ikke slette organisationen");
 };
 
-export const createOrganisationsRequest = async (
-  userId: string,
-  orgName: string
-): Promise<OrgDTO> => {
+export const createOrganisationsRequest = async (userId: string, orgName: string): Promise<OrgDTO> => {
   const params = new URLSearchParams();
   params.append("id", userId);
   const url = `${BASE_URL}/organizations?${params.toString()}`;

@@ -13,9 +13,7 @@ const generateMember = (index: string, email: string): User => ({
 
 describe("MemberView Component", () => {
   it("renders the correct number of members when below MAX_DISPLAYED_MEMBERS", () => {
-    const members = Array.from({ length: 5 }, (_, i) =>
-      generateMember(i.toString(), i.toString() + "@mail")
-    );
+    const members = Array.from({ length: 5 }, (_, i) => generateMember(i.toString(), i.toString() + "@mail"));
     render(<CutoffList entries={members} onPress={() => {}} />);
 
     const queriedMembers = screen.queryAllByTestId("member");

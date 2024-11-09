@@ -41,8 +41,7 @@ const useOrganisationOverview = () => {
   });
 
   const createOrganisation = useMutation({
-    mutationFn: (orgName: string) =>
-      createOrganisationsRequest(userId!, orgName),
+    mutationFn: (orgName: string) => createOrganisationsRequest(userId!, orgName),
     onMutate: async (newOrgName) => {
       await queryClient.cancelQueries({ queryKey });
 
@@ -61,9 +60,7 @@ const useOrganisationOverview = () => {
     },
     onSuccess: (data, _variables, _context) => {
       queryClient.setQueryData<OrgOverviewDTO[]>(queryKey, (oldData) =>
-        (oldData || []).map((org) =>
-          org.id === -1 ? { ...org, id: data.id } : org
-        )
+        (oldData || []).map((org) => (org.id === -1 ? { ...org, id: data.id } : org))
       );
     },
   });

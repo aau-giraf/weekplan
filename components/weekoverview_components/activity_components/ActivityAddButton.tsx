@@ -16,11 +16,7 @@ const ActivityAddButton = () => {
   return (
     <IconButton onPress={handlePress} style={styles.button}>
       <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
-      <Ionicons
-        name={"add-outline"}
-        size={ScaleSize(36)}
-        style={styles.addIcon}
-      />
+      <Ionicons name={"add-outline"} size={ScaleSize(36)} style={styles.addIcon} />
     </IconButton>
   );
 };
