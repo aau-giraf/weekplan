@@ -1,6 +1,10 @@
 import { useAuthentication } from "../providers/AuthenticationProvider";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { acceptInvitationRequest, fetchInvitationByUserRequest } from "../apis/invitationAPI";
+import {
+  acceptInvitationRequest,
+  createInvitationRequest,
+  fetchInvitationByUserRequest,
+} from "../apis/invitationAPI";
 
 export default function useInvitation() {
   const { userId } = useAuthentication();
@@ -35,5 +39,22 @@ export default function useInvitation() {
     },
   });
 
-  return { fetchByUser, acceptInvitation, isSuccess: fetchByUser.isSuccess };
+  const createInvitation = useMutation({
+    mutationFn: async ({
+      orgId,
+      receiverEmail,
+      senderId,
+    }: {
+      orgId: number;
+      receiverEmail: string;
+      senderId: string;
+    }) => createInvitationRequest(orgId, receiverEmail, senderId),
+  });
+
+  return {
+    fetchByUser,
+    acceptInvitation,
+    createInvitation,
+    isSuccess: fetchByUser.isSuccess,
+  };
 }
