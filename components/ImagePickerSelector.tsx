@@ -22,10 +22,7 @@ const ImagePickerSelector = () => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Vælg et billede fra dit bibliotek"
-        onPress={handlePickImage}
-      />
+      <Button title="Vælg et billede fra dit bibliotek" onPress={handlePickImage} />
       {image && <Image source={{ uri: image }} style={styles.image} />}
     </View>
   );

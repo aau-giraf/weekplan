@@ -1,12 +1,7 @@
 import React from "react";
 import usePictogram from "../../../hooks/usePictogram";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import {
-  colors,
-  ScaleSize,
-  ScaleSizeH,
-  SharedStyles,
-} from "../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../utils/SharedStyles";
 
 type ActivityItemProps = {
   time: string;
@@ -28,12 +23,7 @@ type ActivityItemProps = {
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
  * @returns {JSX.Element} The rendered activity item component.
  */
-const ActivityItem: React.FC<ActivityItemProps> = ({
-  time,
-  isCompleted,
-  setImageUri,
-  setModalVisible,
-}) => {
+const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImageUri, setModalVisible }) => {
   const { useFetchPictograms } = usePictogram(27575);
   const { data, error, isLoading } = useFetchPictograms;
 

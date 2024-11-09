@@ -1,11 +1,6 @@
 import React from "react";
 import { StyleProp, StyleSheet, ViewStyle, Pressable } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from "react-native-reanimated";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type IconButtonsProps = {
@@ -15,12 +10,7 @@ type IconButtonsProps = {
   absolute?: boolean;
 };
 
-const IconButton = ({
-  onPress,
-  style,
-  children,
-  absolute = true,
-}: IconButtonsProps) => {
+const IconButton = ({ onPress, style, children, absolute = true }: IconButtonsProps) => {
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
 
@@ -48,16 +38,8 @@ const IconButton = ({
 
   return (
     <Animated.View
-      style={[
-        styles.button,
-        style,
-        opacityAnimation,
-        { position: absolute ? "absolute" : "relative" },
-      ]}>
-      <Pressable
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={onPress}>
+      style={[styles.button, style, opacityAnimation, { position: absolute ? "absolute" : "relative" }]}>
+      <Pressable onPressIn={handlePressIn} onPressOut={handlePressOut} onPress={onPress}>
         <Animated.View style={[animatedIcon]}>{children}</Animated.View>
       </Pressable>
     </Animated.View>
