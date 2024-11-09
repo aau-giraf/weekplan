@@ -6,6 +6,7 @@ node_modules/
 **/.idea
 
 # Expo
+.expo/*
 .expo/devices.json
 .expo/README.md
 dist/
