@@ -41,8 +41,9 @@ const Settings = () => {
       {
         icon: "person-outline",
         label: "Rediger profil",
-        onPress: () => {router.push("/auth/profile/editprofile")}
-        ,
+        onPress: () => {
+          router.push("/auth/profile/editprofile");
+        },
       },
     ],
     [logout]

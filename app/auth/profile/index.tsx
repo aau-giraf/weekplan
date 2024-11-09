@@ -102,7 +102,9 @@ const ProfilePage: React.FC = () => {
         <Ionicons name="add" size={ScaleSize(64)} />
       </IconButton>
       {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
-      <IconButton style={styles.weekoverview} onPress={() => router.push("/auth/profile/organisation/weekplanscreen")}>
+      <IconButton
+        style={styles.weekoverview}
+        onPress={() => router.push("/auth/profile/organisation/weekplanscreen")}>
         <Ionicons name="calendar-outline" size={ScaleSize(64)} />
       </IconButton>
       <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />

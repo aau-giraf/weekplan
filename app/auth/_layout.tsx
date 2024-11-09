@@ -12,9 +12,7 @@ For instance, it may require you to write router.push(".index"), instead of just
 const AuthRootLayout = () => {
   return (
     <ProviderWrapper>
-      <SafeAreaView
-        style={{ backgroundColor: colors.white, padding: ScaleSize(10) }}
-      />
+      <SafeAreaView style={{ backgroundColor: colors.white, padding: ScaleSize(10) }} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="register" />

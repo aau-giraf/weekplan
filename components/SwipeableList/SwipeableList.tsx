@@ -3,7 +3,14 @@ import { SwipeableItem } from "./SwipeableItem";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import Reanimated, { AnimatedStyle, LinearTransition } from "react-native-reanimated";
-import { FlatListProps, LayoutChangeEvent, ListRenderItem, Platform, StyleProp, ViewStyle } from "react-native";
+import {
+  FlatListProps,
+  LayoutChangeEvent,
+  ListRenderItem,
+  Platform,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 
 export type Action<T> = {
   icon: keyof typeof Ionicons.glyphMap;
