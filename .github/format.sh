@@ -10,7 +10,7 @@ CONFIG_PATH="${INPUT_CONFIG_PATH:-}"
 
 # Step 1: Install Prettier
 echo "Installing Prettier version $PRETTIER_VERSION..."
-npm install prettier@$PRETTIER_VERSION --no-save
+npm install --silent prettier@$PRETTIER_VERSION --no-save
 
 # Add the local node_modules/.bin to PATH
 export PATH="$(pwd)/node_modules/.bin:$PATH"
