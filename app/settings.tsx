@@ -1,16 +1,20 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList, Switch } from "react-native-gesture-handler";
-import { colors } from "../utils/SharedStyles";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { loadSettingValues, setSettingsValue, Setting } from "../utils/settingsUtils";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { useAuthentication } from "../providers/AuthenticationProvider";
-import { router } from "expo-router";
 import useInvitation from "../hooks/useInvitation";
+import useProfile from "../hooks/useProfile";
+import { ScaleSizeH } from "../utils/SharedStyles";
+import { ProfilePicture } from "../components/ProfilePicture";
+import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Settings = () => {
   const { logout } = useAuthentication();
+  const { data } = useProfile();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
 
   const { fetchByUser } = useInvitation();
@@ -65,24 +69,105 @@ const Settings = () => {
   };
 
   return (
-    <View>
-      <FlatList
-        data={settings}
-        scrollEnabled={false}
-        renderItem={({ item }) => (
-          <RenderSetting
-            item={item}
-            toggleStates={toggleStates}
-            handleToggleChange={handleToggleChange}
-            hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
+    <Fragment>
+      <SafeAreaView />
+      <ScrollView style={styles.container}>
+        <Pressable
+          style={{ position: "absolute", top: 0, left: 5, zIndex: 2, padding: 10 }}
+          onPress={() => router.back()}>
+          <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
+        </Pressable>
+
+        <View style={styles.profileSection}>
+          <View style={styles.profileContainer}>
+            <ProfilePicture
+              style={styles.mainProfilePicture}
+              label={`${data?.firstName} ${data?.lastName}`}
+            />
+            <View style={{ gap: 5 }}>
+              <Text style={{ fontSize: 30, fontWeight: "500" }}>{data?.firstName}</Text>
+              <Text style={{ fontSize: 25, fontWeight: "400" }}>{data?.lastName}</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.settingsContainer}>
+          <FlatList
+            data={settings}
+            scrollEnabled={false}
+            renderItem={({ item }) => (
+              <RenderSetting
+                item={item}
+                toggleStates={toggleStates}
+                handleToggleChange={handleToggleChange}
+                hasInvitations={item.label === "Invitations" && inviteData && inviteData.length > 0}
+              />
+            )}
+            keyExtractor={(item) => item.label}
+            ItemSeparatorComponent={() => <View style={styles.ItemSeparatorComponent}></View>}
           />
-        )}
-        keyExtractor={(item) => item.label}
-        ItemSeparatorComponent={() => <View style={styles.ItemSeparatorComponent}></View>}
-      />
-    </View>
+        </View>
+      </ScrollView>
+    </Fragment>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: "white",
+  },
+  profileSection: {
+    backgroundColor: "#f0f0f5",
+  },
+  profileContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 40,
+    gap: 20,
+  },
+  settingsContainer: {
+    backgroundColor: "white",
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+  settingItem: {
+    padding: 20,
+    paddingHorizontal: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  settingItemContainerSeparator: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+    position: "relative",
+  },
+  settingItemText: {
+    fontSize: 20,
+  },
+  ItemSeparatorComponent: {
+    borderWidth: 0.32,
+    borderColor: "black",
+  },
+  notificationBadge: {
+    top: -2,
+    right: -175,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: "red",
+  },
+  mainProfilePicture: {
+    maxHeight: ScaleSizeH(180),
+    maxWidth: ScaleSizeH(180),
+    aspectRatio: 1 / 1,
+    borderRadius: 10000,
+  },
+});
+
+export default Settings;
 
 type RenderSettingProps = {
   item: Setting;
@@ -109,7 +194,7 @@ const RenderSetting = ({ item, toggleStates, handleToggleChange, hasInvitations 
   };
 
   return (
-    <Animated.View style={[styles.settingItemContainer, opacityAnimation]}>
+    <Animated.View style={opacityAnimation}>
       <Pressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
@@ -120,49 +205,15 @@ const RenderSetting = ({ item, toggleStates, handleToggleChange, hasInvitations 
           <Text style={styles.settingItemText}>{item.label}</Text>
           {hasInvitations && <View style={styles.notificationBadge} />}
         </View>
-        {!item.onPress && (
+        {!item.onPress ? (
           <Switch
             value={toggleStates[item.label] || false}
             onValueChange={(value) => handleToggleChange(item.label, value)}
           />
+        ) : (
+          <Ionicons name="chevron-forward-outline" size={30} />
         )}
       </Pressable>
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  settingItemContainer: {
-    backgroundColor: colors.lightGray,
-  },
-  settingItem: {
-    padding: 20,
-    paddingHorizontal: 15,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  settingItemContainerSeparator: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-    position: "relative",
-  },
-  settingItemText: {
-    fontSize: 20,
-  },
-  ItemSeparatorComponent: {
-    borderWidth: 0.5,
-    borderColor: "black",
-  },
-  notificationBadge: {
-    top: -2,
-    right: -175,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: "red",
-  },
-});
-
-export default Settings;

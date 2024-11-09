@@ -1,23 +1,27 @@
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { SharedStyles, ScaleSize } from "../utils/SharedStyles";
-import { getContrastingTextColor, hashNameToColour } from "../utils/colourFunctions";
+import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
+import { hashNameToColour, getContrastingTextColor } from "../utils/profileColors";
 
 type ProfilePictureProps = {
-  firstName: string;
-  lastName: string;
+  label: string;
   style?: StyleProp<ViewStyle>;
-  textSize?: number;
 };
-
-export const ProfilePicture = ({ firstName, lastName, style, textSize }: ProfilePictureProps) => {
-  const colourFromName = hashNameToColour(firstName + " " + lastName);
+export const ProfilePicture = ({ label, style }: ProfilePictureProps) => {
+  const colourFromName = hashNameToColour(label);
   const colourTextContrast = getContrastingTextColor(colourFromName);
-  const fontSize = ScaleSize(textSize ?? 16);
 
+  const displayName = label
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
   return (
     <View style={[styles.ProfilePictureContainer, style, { backgroundColor: colourFromName }]}>
-      <Text style={[{ color: colourTextContrast, fontSize: fontSize }]}>
-        {firstName[0].toUpperCase() + lastName[0].toUpperCase()}
+      <Text
+        style={[styles.ProfilePictureText, { color: colourTextContrast }]}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}>
+        {displayName}
       </Text>
     </View>
   );
@@ -26,6 +30,13 @@ export const ProfilePicture = ({ firstName, lastName, style, textSize }: Profile
 const styles = StyleSheet.create({
   ProfilePictureContainer: {
     ...SharedStyles.trueCenter,
-    borderRadius: 20,
+    shadowRadius: 15,
+    shadowOpacity: 0.2,
+    padding: ScaleSize(15),
+  },
+  ProfilePictureText: {
+    textShadowColor: "black",
+    textShadowRadius: 0.5,
+    fontSize: ScaleSize(90),
   },
 });
