@@ -1,5 +1,13 @@
-import React, { useRef, useState } from "react";
-import { ActivityIndicator, Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { Fragment, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  Dimensions,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../components/ProfilePage";
 import IconButton from "../../../components/IconButton";
@@ -63,52 +71,55 @@ const ProfilePage: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Animated.FlatList
-        refreshing={orgIsLoading}
-        onTouchStart={() => bottomSheetRef.current?.close()}
-        itemLayoutAnimation={LinearTransition}
-        onRefresh={async () => await refetch()}
-        data={orgData}
-        renderItem={renderOrgContainer}
-        keyExtractor={(item, index) => index.toString() + item.name}
-        numColumns={calculateNumberOfColumns()}
-        columnWrapperStyle={styles.columnWrapper}
-        ListEmptyComponent={<Text>Ingen organisationer fundet</Text>}
-        ListHeaderComponent={
-          <View style={styles.headerContainer}>
-            <View style={styles.profileHeader}>
-              <ProfilePicture
-                style={styles.mainProfilePicture}
-                label={`${data.firstName} ${data.lastName}`}
-              />
-              <View style={styles.profileTextContainer}>
-                <Text style={SharedStyles.header}>{data.email}</Text>
-                <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
+    <Fragment>
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <View style={styles.container}>
+        <Animated.FlatList
+          refreshing={orgIsLoading}
+          onTouchStart={() => bottomSheetRef.current?.close()}
+          itemLayoutAnimation={LinearTransition}
+          onRefresh={async () => await refetch()}
+          data={orgData}
+          renderItem={renderOrgContainer}
+          keyExtractor={(item, index) => index.toString() + item.name}
+          numColumns={calculateNumberOfColumns()}
+          columnWrapperStyle={styles.columnWrapper}
+          ListEmptyComponent={<Text>Ingen organisationer fundet</Text>}
+          ListHeaderComponent={
+            <View style={styles.headerContainer}>
+              <View style={styles.profileHeader}>
+                <ProfilePicture
+                  style={styles.mainProfilePicture}
+                  label={`${data.firstName} ${data.lastName}`}
+                />
+                <View style={styles.profileTextContainer}>
+                  <Text style={SharedStyles.header}>{data.email}</Text>
+                  <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
+                </View>
+                <IconButton style={styles.settings} onPress={() => router.push("/auth/profile/settings")}>
+                  <Ionicons name="settings-outline" size={ScaleSize(64)} />
+                  {inviteData && inviteData.length > 0 && <View style={styles.notificationBadge} />}
+                </IconButton>
               </View>
-              <IconButton style={styles.settings} onPress={() => router.push("/auth/profile/settings")}>
-                <Ionicons name="settings-outline" size={ScaleSize(64)} />
-                {inviteData && inviteData.length > 0 && <View style={styles.notificationBadge} />}
-              </IconButton>
+              <View style={styles.organizationsContainer}>
+                <Text style={styles.organizationsText}>Dine organisationer</Text>
+              </View>
             </View>
-            <View style={styles.organizationsContainer}>
-              <Text style={styles.organizationsText}>Dine organisationer</Text>
-            </View>
-          </View>
-        }
-      />
+          }
+        />
 
-      <IconButton style={styles.iconAdd} onPress={() => bottomSheetRef.current?.expand()}>
-        <Ionicons name="add" size={ScaleSize(64)} />
-      </IconButton>
-      {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
-      <IconButton
-        style={styles.weekoverview}
-        onPress={() => router.push("/auth/profile/organisation/weekplanscreen")}>
-        <Ionicons name="calendar-outline" size={ScaleSize(64)} />
-      </IconButton>
-      <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
-    </View>
+        <IconButton style={styles.iconAdd} onPress={() => bottomSheetRef.current?.expand()}>
+          <Ionicons name="add" size={ScaleSize(64)} />
+        </IconButton>
+        {/* TODO REMOVE THIS WHEN ORGS ARE IMPLEMENTED */}
+        <IconButton
+          style={styles.weekoverview}
+          onPress={() => router.push("/auth/profile/organisation/weekplanscreen")}>
+          <Ionicons name="calendar-outline" size={ScaleSize(64)} />
+        </IconButton>
+        <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
+      </View>
+    </Fragment>
   );
 };
 

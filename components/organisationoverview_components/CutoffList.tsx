@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { ProfilePicture } from "../ProfilePicture";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
+import { ProfilePicture } from "../ProfilePage";
 
 // Base type to enforce required fields
 type CutoffViewPropsBase = {
@@ -52,12 +52,7 @@ export const CutoffList = <T extends CutoffViewPropsBase>({ entries, onPress }: 
 const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntryProps<T>) => {
   return (
     <View style={styles.memberImgContainer} testID={"member"}>
-      <ProfilePicture
-        firstName={user.firstName ?? "N/A"}
-        lastName={user.lastName ?? "A"}
-        style={styles.memberImg}
-        textSize={15}
-      />
+      <ProfilePicture label={`${user.firstName} ${user.lastName}`} style={styles.memberImg} />
     </View>
   );
 };
