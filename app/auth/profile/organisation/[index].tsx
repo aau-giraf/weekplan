@@ -6,12 +6,15 @@ import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
 import { Fragment } from "react";
+import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
+import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
 
   const { data, error, isLoading } = useOrganisation(parsedID);
+  const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedID);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -63,7 +66,12 @@ const ViewOrganisation = () => {
           onPress={() => router.push("/auth/profile/organisation/addcitizen")}
         />
         <Text style={styles.heading}>Klasser</Text>
-        {/* //TODO: Add and Implement Classes */}
+        <Text>{classError?.message}</Text>
+        <Text>{classLoading}</Text>
+        <ClassView classes={classData ?? []} />
+        <IconButton onPress={() => {}} absolute={false}>
+          <Ionicons name={"add-outline"} size={ScaleSize(30)} />
+        </IconButton>
       </View>
     </Fragment>
   );
