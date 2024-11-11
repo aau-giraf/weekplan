@@ -1,11 +1,19 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { Button, Modal, StyleSheet, View } from "react-native";
+=======
+import { View, StyleSheet, Modal, Button } from "react-native";
+>>>>>>> 5537a56 (Weekselection changes)
 import getWeekNumber from "../../utils/getWeekNumber";
 import getNumberOfWeeksInYear from "../../utils/getNumberOfWeeksInYear";
 import PickerColumn from "../PickerColumn";
 import { useDate } from "../../providers/DateProvider";
+<<<<<<< HEAD
 import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../../utils/SharedStyles";
 import getMonthsFromDates from "../../utils/getMonthsFromDate";
+=======
+import { colors } from "../../utils/colors";
+>>>>>>> 5537a56 (Weekselection changes)
 
 type WeekSelectionProps = {};
 
@@ -36,7 +44,11 @@ const getYears = () => {
  */
 const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const currentDate = new Date();
+<<<<<<< HEAD
   const { setWeekAndYear, weekNumber, weekDates } = useDate();
+=======
+  const { setWeekAndYear, weekNumber, calculateMonthLabelForWeek } = useDate();
+>>>>>>> 5537a56 (Weekselection changes)
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedWeek, setSelectedWeek] = useState(getWeekNumber(currentDate));
   const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
@@ -44,16 +56,38 @@ const WeekSelection: React.FC<WeekSelectionProps> = () => {
   const weeks = getWeeks(selectedYear);
   const years = getYears();
 
+<<<<<<< HEAD
   const monthString = getMonthsFromDates(weekDates[0], weekDates[6]);
+=======
+  const initialMonthLabel = calculateMonthLabelForWeek(
+    selectedWeek,
+    selectedYear,
+  );
+
+  const [monthLabel, setMonthLabel] = useState(initialMonthLabel);
+>>>>>>> 5537a56 (Weekselection changes)
 
   const handleWeekSelection = () => {
     setWeekAndYear(selectedWeek, selectedYear);
+
+    const newMonthLabel = calculateMonthLabelForWeek(
+      selectedWeek,
+      selectedYear,
+    );
+    setMonthLabel(newMonthLabel);
     setModalVisible(false);
   };
 
   return (
     <View style={styles.weekSelection}>
+<<<<<<< HEAD
       <Button title={`Uge ${weekNumber} \n ${monthString}`} onPress={() => setModalVisible(true)} />
+=======
+      <Button
+        title={`Uge ${weekNumber} - ${monthLabel}`}
+        onPress={() => setModalVisible(true)}
+      />
+>>>>>>> 5537a56 (Weekselection changes)
 
       {/* Modal for Week/Year Picker */}
       <Modal visible={modalVisible} animationType="slide" transparent={true}>

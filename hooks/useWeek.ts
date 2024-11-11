@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import getWeekDates from "../utils/getWeekDates";
 import getWeekNumber from "../utils/getWeekNumber";
+import getMonths from "../utils/getMonths";
 
 /**
  * UseHook for
@@ -37,10 +38,20 @@ const useWeek = (initialDate = new Date()) => {
     dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek; // Make Sunday (0) become 7
 
     // Subtract (dayOfWeek - 1) days to move back to the Monday of that week
+<<<<<<< HEAD
     const mondayWeekOne = new Date(jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS);
 
     // Calculate the selected date based on the week number
     const selectedDate = new Date(mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS);
+=======
+    const mondayWeekOne = new Date(
+      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS,
+    );
+
+    const selectedDate = new Date(
+      mondayWeekOne.getTime() + (weekNumber - 1) * 7 * DAY_IN_MILLISECONDS,
+    );
+>>>>>>> 5537a56 (Weekselection changes)
     setCurrentDate(selectedDate);
 
     // Get the current day of the week (1 = Monday, 7 = Sunday)
@@ -57,6 +68,27 @@ const useWeek = (initialDate = new Date()) => {
     setCurrentDate(adjustedDate);
   }, []);
 
+<<<<<<< HEAD
+=======
+  const calculateMonthLabelForWeek = (week: number, year: number) => {
+    const jan4th = new Date(Date.UTC(year, JANUARY, 4));
+    const dayOfWeek = jan4th.getUTCDay() === 0 ? 7 : jan4th.getUTCDay();
+    const mondayOfFirstWeek = new Date(
+      jan4th.getTime() - (dayOfWeek - 1) * DAY_IN_MILLISECONDS,
+    );
+    const weekStartDate = new Date(
+      mondayOfFirstWeek.getTime() + (week - 1) * 7 * DAY_IN_MILLISECONDS,
+    );
+    const weekEndDate = new Date(weekStartDate);
+    weekEndDate.setDate(weekStartDate.getDate() + 6);
+
+    const startMonth = getMonths(weekStartDate.getMonth());
+    const endMonth = getMonths(weekEndDate.getMonth());
+
+    return startMonth !== endMonth ? `${startMonth}/${endMonth}` : startMonth;
+  };
+
+>>>>>>> 5537a56 (Weekselection changes)
   const weekNumber = useMemo(() => getWeekNumber(currentDate), [currentDate]);
   const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);
 
@@ -68,6 +100,7 @@ const useWeek = (initialDate = new Date()) => {
     goToNextWeek,
     weekNumber,
     setWeekAndYear,
+    calculateMonthLabelForWeek,
   };
 };
 
