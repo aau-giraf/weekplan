@@ -3,8 +3,10 @@ import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
   createOrganisationsRequest,
   deleteOrganisationRequest,
+  fetchAllClassesInOrganisationRequest,
   fetchAllOrganisationsRequest,
 } from "../apis/organisationOverviewAPI";
+import { ClassDTO } from "../DTO/classDTO";
 
 export type OrgOverviewDTO = {
   id: number;
@@ -75,5 +77,18 @@ const useOrganisationOverview = () => {
     deleteOrganisation,
   };
 };
+
+export function useFetchClassesInOrganisations(organisationId: number) {
+  const useFetchClassesInOrg = useQuery<ClassDTO[]>({
+    queryFn: () => fetchAllClassesInOrganisationRequest(organisationId),
+    queryKey: [organisationId, "Classes"],
+  });
+
+  return {
+    classData: useFetchClassesInOrg.data,
+    classError: useFetchClassesInOrg.error,
+    classLoading: useFetchClassesInOrg.isLoading,
+  };
+}
 
 export default useOrganisationOverview;
