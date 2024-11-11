@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   copyActivitiesRequest,
-  createActivityRequest,
+  createActivityRequestForCitizen,
   deleteRequest,
   fetchActivityRequest,
-  fetchByDateRequest,
+  fetchByDateRequestForCitizen,
   toggleActivityStatusRequest,
   updateRequest,
 } from "../apis/activityAPI";
@@ -37,7 +37,7 @@ export default function useActivity({ date }: { date: Date }) {
   const { citizenId } = useCitizen();
 
   const useFetchActivities = useQuery<ActivityDTO[]>({
-    queryFn: async () => fetchByDateRequest(citizenId, date),
+    queryFn: async () => fetchByDateRequestForCitizen(citizenId, date),
     queryKey: queryKey,
   });
 
@@ -99,7 +99,7 @@ export default function useActivity({ date }: { date: Date }) {
 
   const useCreateActivity = useMutation({
     mutationFn: (variables: { citizenId: number; data: ActivityDTO }) =>
-      createActivityRequest(variables.data, variables.citizenId),
+      createActivityRequestForCitizen(variables.data, variables.citizenId),
 
     onMutate: async (variables) => {
       await queryClient.cancelQueries({ queryKey });
