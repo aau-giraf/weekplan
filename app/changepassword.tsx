@@ -15,17 +15,17 @@ import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles
 const schema = z
   .object({
     oldPassword: z.string().trim().min(8, "Indtast nuværende adgangskode"),
-    confirmOldPassword: z.string().trim().min(8, "Bekræft nuværende adgangskode"),
     newPassword: z.string().trim().regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
       message: "Adgangskode skal indeholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
     }),
+    confirmNewPassword: z.string().trim(),
   })
   .superRefine((data, ctx) => {
-    if (data.oldPassword !== data.confirmOldPassword) {
+    if (data.newPassword !== data.confirmNewPassword) {
       ctx.addIssue({
         code: "custom",
-        path: ["confirmOldPassword"],
-        message: "Nuværende adgangskoder stemmer ikke overens",
+        path: ["confirmNewPassword"],
+        message: "Ny adgangskode stemmer ikke overens",
       });
     }
     if (data.oldPassword === data.newPassword) {
@@ -76,14 +76,14 @@ const ChangePasswordScreen: React.FC = () => {
       />
       <FormField
         control={control}
-        name="confirmOldPassword"
-        placeholder="Bekræft nuværende adgangskode"
+        name="newPassword"
+        placeholder="Indtast ny adgangskode"
         secureText={true}
       />
       <FormField
         control={control}
-        name="newPassword"
-        placeholder="Indtast ny adgangskode"
+        name="confirmNewPassword"
+        placeholder="Bekræft ny adgangskode"
         secureText={true}
       />
       <SubmitButton
