@@ -1,26 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
 
-type Citizen = {
-  firstName: string;
-  lastName: string;
-  id: number;
-};
-
 const Viewcitizen = () => {
-  const [citizens, setCitizens] = useState<Citizen[]>([]);
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
 
   const { data, error, isLoading } = useOrganisation(parsedID);
-
-  useEffect(() => {
-    if (data?.citizens) {
-      setCitizens(data.citizens);
-    }
-  }, [data]);
 
   const handleDelete = (id: number) => {
     console.log("Delete citizen with id", id);
@@ -29,7 +16,7 @@ const Viewcitizen = () => {
 
   return (
     <ListView
-      data={citizens}
+      data={data?.citizens || []}
       loadingMessage="Henter borgere..."
       errorMessage="Fejl med at hente borgere"
       isLoading={isLoading}
