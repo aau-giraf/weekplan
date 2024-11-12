@@ -45,7 +45,7 @@ const ListView = <T extends ListItem>({
 
   const rightActions: Action<T>[] = [
     {
-      icon: "trash",
+      icon: "person-remove-outline",
       color: colors.crimson,
       onPress: (item) => handleDelete(item.id),
     },

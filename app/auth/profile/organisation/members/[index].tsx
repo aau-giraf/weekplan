@@ -6,12 +6,12 @@ import ListView from "../../../../../components/ListView";
 const Viewmembers = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
+  const { deleteMember } = useOrganisation(parsedID);
 
   const { data, error, isLoading } = useOrganisation(parsedID);
 
-  const handleDelete = (id: string) => {
-    console.log("Delete member with id", id);
-    // TODO: implement delete logic
+  const handleDelete = async (id: string) => {
+    await deleteMember.mutateAsync(id);
   };
 
   return (

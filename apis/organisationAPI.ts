@@ -32,3 +32,12 @@ export const deleteCitizenRequest = async (orgId: number, citizenId: number) => 
 
   if (!res.ok) throw new Error("Kunne ikke slette organisationen");
 };
+
+export const deleteMemberRequest = async (orgId: number, memberId: string) => {
+  const url = `${BASE_URL}/organizations/${orgId}/remove-user/${memberId}`;
+  const res = await fetch(url, {
+    method: "put",
+  });
+
+  if (!res.ok) throw new Error("Kunne ikke slette medlemmet");
+};
