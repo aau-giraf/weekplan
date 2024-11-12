@@ -7,7 +7,7 @@ import { BASE_URL } from "../utils/globals";
  * @param id {number} - ID of the citizen
  * @param date {Date} - The date for which the activities will be fetched
  */
-export const fetchByDateRequest = async (id: number, date: Date) => {
+export const fetchByDateRequestForCitizen = async (id: number, date: Date) => {
   const params = new URLSearchParams();
   params.append("date", formatQueryDate(date));
 
@@ -77,8 +77,8 @@ export const toggleActivityStatusRequest = async (id: number, isCompleted: boole
  * @param data {ActivityDTO} - Data for the Activity to be created
  * @param citizenId {number} - ID for the associated citizen
  */
-export const createActivityRequest = async (data: ActivityDTO, citizenId: number) => {
-  const res = await fetch(`${BASE_URL}/weekplan/${citizenId}`, {
+export const createActivityRequestForCitizen = async (data: ActivityDTO, citizenId: number) => {
+  const res = await fetch(`${BASE_URL}/weekplan/to-citizen/${citizenId}`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },

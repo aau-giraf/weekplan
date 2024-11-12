@@ -38,7 +38,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 jest.spyOn(queryClient, "invalidateQueries").mockImplementation(() => Promise.resolve());
 
 jest.mock("../apis/activityAPI", () => ({
-  fetchByDateRequest: jest.fn().mockImplementation((activityId: number, date) => {
+  fetchByDateRequestForCitizen: jest.fn().mockImplementation((activityId: number, date) => {
     return Promise.resolve([
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
@@ -53,7 +53,7 @@ jest.mock("../apis/activityAPI", () => ({
   toggleActivityStatusRequest: jest.fn().mockImplementation((activityId: number) => {
     return Promise.resolve({ activityId, isCompleted: true });
   }),
-  createActivityRequest: jest.fn().mockImplementation((activity: ActivityDTO) => {
+  createActivityRequestForCitizen: jest.fn().mockImplementation((activity: ActivityDTO) => {
     return Promise.resolve({ ...activity, activityId: 3 });
   }),
   fetchActivityRequest: jest.fn().mockImplementation((activityId: number) => {
