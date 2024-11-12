@@ -15,7 +15,7 @@ const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <CitizenContext.Provider
       value={{
-        citizenId: 38,
+        citizenId: 1,
       }}>
       {children}
     </CitizenContext.Provider>
