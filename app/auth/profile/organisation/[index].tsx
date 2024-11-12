@@ -31,9 +31,8 @@ const ViewOrganisation = () => {
     return <Text>Error loading organization data</Text>;
   }
 
-  //@ts-ignore
   const closeBS = () => bottomSheetRef.current?.close();
-  //@ts-ignore
+
   const openBS = () => bottomSheetRef.current?.expand();
 
   const handleLeaveOrganisation = () => {
