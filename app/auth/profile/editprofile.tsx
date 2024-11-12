@@ -4,13 +4,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { z } from "zod";
-import SubmitButton from "../components/Forms/SubmitButton";
-import FormField from "../components/Forms/TextInput";
-import useProfile from "../hooks/useProfile";
-import { useToast } from "../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
-import FormContainer from "../components/Forms/FormContainer";
-import FormHeader from "../components/Forms/FormHeader";
+import SubmitButton from "../../../components/Forms/SubmitButton";
+import FormField from "../../../components/Forms/TextInput";
+import useProfile from "../../../hooks/useProfile";
+import { useToast } from "../../../providers/ToastProvider";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
+import FormContainer from "../../../components/Forms/FormContainer";
+import FormHeader from "../../../components/Forms/FormHeader";
 
 const schema = z.object({
   firstName: z.string().trim().min(2, { message: "Fornavn er for kort" }),
