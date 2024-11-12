@@ -12,7 +12,7 @@ const ViewClass = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-  const { data, error, isLoading} = useClasses(parsedID);
+  const { data, error, isLoading } = useClasses(parsedID);
 
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text>Error loading class data</Text>;
@@ -51,9 +51,6 @@ const ViewClass = () => {
             </Text>
           ))}
         <View style={styles.ActionView}>
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
-          </IconButton>
           <IconButton
             onPress={() => {
               router.push({
@@ -62,6 +59,9 @@ const ViewClass = () => {
               });
             }}
             absolute={false}>
+            <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
+          </IconButton>
+          <IconButton onPress={() => {}} absolute={false}>
             <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
           </IconButton>
         </View>
