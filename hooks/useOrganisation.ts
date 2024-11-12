@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createCitizenRequest,
   deleteCitizenRequest,
+  deleteMemberRequest,
   fetchOrganisationRequest,
 } from "../apis/organisationAPI";
 import { Citizen, OrgDTO } from "../DTO/organisationDTO";
@@ -88,6 +89,29 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  const deleteMember = useMutation<void, Error, string>({
+    mutationFn: (memberId: string) => deleteMemberRequest(orgId, memberId),
+    onMutate: async (memberId) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
+      queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            users: oldData.users.filter((user) => user.id.toString() !== memberId.toString()),
+          };
+        }
+        return previousOrg;
+      });
+    },
+    onError: (_error, _memberId, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context);
+      }
+    },
+  });
+
   return {
     data: fetchOrganisation.data,
     isLoading: fetchOrganisation.isLoading,
@@ -95,6 +119,7 @@ const useOrganisation = (orgId: number) => {
     error: fetchOrganisation.error,
     createCitizen,
     deleteCitizen,
+    deleteMember,
   };
 };
 

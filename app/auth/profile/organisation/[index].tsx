@@ -43,7 +43,6 @@ const ViewOrganisation = () => {
             }
             absolute={false}>
             <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
-            {/* //TODO: Setup Invitations */}
           </IconButton>
           <IconButton
             onPress={() => {
@@ -59,11 +58,16 @@ const ViewOrganisation = () => {
           </IconButton>
         </View>
         <Text style={styles.heading}>Medlemmer</Text>
-        <CutoffList entries={data?.users ?? []} onPress={() => {}} />
+        <CutoffList
+          entries={data?.users ?? []}
+          onPress={() => {
+            router.push(`/auth/profile/organisation/members/${parsedID}`);
+          }}
+        />
         <Text style={styles.heading}>Borger</Text>
         <CutoffList
           entries={data?.citizens ?? []}
-          onPress={() => router.push("/auth/profile/organisation/addcitizen")}
+          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedID}`)}
         />
         <Text style={styles.heading}>Klasser</Text>
         <Text>{classError?.message}</Text>
