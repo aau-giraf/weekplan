@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { SharedStyles, ScaleSize } from "../utils/SharedStyles";
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../utils/colourFunctions";
 
 type ProfilePictureProps = {

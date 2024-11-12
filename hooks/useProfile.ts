@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthentication } from "../providers/AuthenticationProvider";
-import { fetchProfileRequest, updateProfileRequest, changePasswordRequest } from "../apis/profileAPI";
+import { changePasswordRequest, fetchProfileRequest, updateProfileRequest } from "../apis/profileAPI";
 
 export type ProfileDTO = {
   email: string;

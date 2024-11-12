@@ -98,7 +98,7 @@ describe("AuthenticationProvider and useAuthentication", () => {
     });
 
     await waitFor(() => {
-      expect(router.replace).toHaveBeenCalledWith("/login");
+      expect(router.replace).toHaveBeenCalledWith("/auth");
     });
 
     expect(addToast).not.toHaveBeenCalled();

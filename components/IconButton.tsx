@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleProp, StyleSheet, ViewStyle, Pressable } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from "react-native-reanimated";
+import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type IconButtonsProps = {
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     height: ScaleSize(100),
     backgroundColor: colors.lightGreen,
     borderRadius: 100,
+    zIndex: 100,
   },
 });
 

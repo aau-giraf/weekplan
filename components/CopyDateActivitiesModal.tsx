@@ -1,9 +1,9 @@
-import { Modal, TouchableOpacity, Button, View, Text, StyleSheet } from "react-native";
+import { Button, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
-import { colors, SharedStyles, ScaleSize } from "../utils/SharedStyles";
+import { colors, ScaleSize, SharedStyles } from "../utils/SharedStyles";
 
 type CopyDateActivitiesModalProps = {
   modalVisible: boolean;

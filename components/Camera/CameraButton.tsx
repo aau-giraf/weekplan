@@ -28,8 +28,8 @@ const CameraButton = () => {
 
 const styles = StyleSheet.create({
   button: {
-    bottom: 10,
-    left: 10,
+    bottom: ScaleSize(20),
+    left: ScaleSize(24),
     position: "absolute",
   },
 });

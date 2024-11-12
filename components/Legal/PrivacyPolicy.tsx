@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, ScrollView, TouchableOpacity, Linking, Button, Modal, View, StyleSheet } from "react-native";
+import { Button, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize } from "../../utils/SharedStyles";
 
 const PrivacyPolicy = () => {

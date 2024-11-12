@@ -1,4 +1,4 @@
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, { FadeInUp, FadeOutRight, LinearTransition } from "react-native-reanimated";
 import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";

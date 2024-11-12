@@ -1,7 +1,6 @@
-import { createContext, useContext, useState, useCallback } from "react";
-import { StyleSheet } from "react-native";
+import { createContext, useCallback, useContext, useState } from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
 import Toast, { ToastProps } from "../components/Toast";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ScaleSize } from "../utils/SharedStyles";
 
 type ToastProviderValues = {

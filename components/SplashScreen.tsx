@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Animated, StyleSheet } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import GirafIcon from "../assets/SVG/GirafIcon";
 import { colors, ScaleSizeH, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";
 

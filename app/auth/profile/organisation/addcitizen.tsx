@@ -1,16 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import { StyleSheet, Text, View } from "react-native";
+import React, { Fragment, useCallback, useState } from "react";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
-import SubmitButton from "../components/Forms/SubmitButton";
-import FormField from "../components/Forms/TextInput";
-import { ProfilePicture } from "../components/ProfilePage";
-import SwipeableList from "../components/SwipeableList/SwipeableList";
-import useOrganisation from "../hooks/useOrganisation";
-import { colors, ScaleSize } from "../utils/SharedStyles";
-import FormContainer from "../components/Forms/FormContainer";
-import FormHeader from "../components/Forms/FormHeader";
+import SwipeableList from "../../../../components/SwipeableList/SwipeableList";
+import { ProfilePicture } from "../../../../components/ProfilePage";
+import SubmitButton from "../../../../components/Forms/SubmitButton";
+import FormField from "../../../../components/Forms/TextInput";
+import useOrganisation from "../../../../hooks/useOrganisation";
+import { colors, ScaleSize } from "../../../../utils/SharedStyles";
+import FormContainer from "../../../../components/Forms/FormContainer";
+import FormHeader from "../../../../components/Forms/FormHeader";
+import { useForm } from "react-hook-form";
 
 const citizenSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
@@ -90,29 +90,32 @@ const AddCitizen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <SwipeableList
-        style={{ padding: 20 }}
-        items={citizens}
-        renderItem={({ item }) => renderCitizen(item)}
-        keyExtractor={(item) => item.id.toString()}
-        reanimatedSwipeableProps={(item) => ({
-          onSwipeableWillOpen: () => handleDelete(item.id),
-        })}
-        flatListProps={{
-          ListHeaderComponent: (
-            <>
-              <CitizenForm onSubmit={handleAddCitizen} />
-              <FormHeader
-                style={{ textAlign: "left", fontSize: ScaleSize(35), marginVertical: 20 }}
-                title={"List over nyligt tilføjede"}
-              />
-            </>
-          ),
-          ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
-        }}
-      />
-    </View>
+    <Fragment>
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <View style={styles.container}>
+        <SwipeableList
+          style={{ padding: 20 }}
+          items={citizens}
+          renderItem={({ item }) => renderCitizen(item)}
+          keyExtractor={(item) => item.id.toString()}
+          reanimatedSwipeableProps={(item) => ({
+            onSwipeableWillOpen: () => handleDelete(item.id),
+          })}
+          flatListProps={{
+            ListHeaderComponent: (
+              <>
+                <CitizenForm onSubmit={handleAddCitizen} />
+                <FormHeader
+                  style={{ textAlign: "left", fontSize: ScaleSize(35), marginVertical: 20 }}
+                  title={"List over nyligt tilføjede"}
+                />
+              </>
+            ),
+            ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
+          }}
+        />
+      </View>
+    </Fragment>
   );
 };
 
