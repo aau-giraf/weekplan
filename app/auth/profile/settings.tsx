@@ -46,9 +46,9 @@ const Settings = () => {
       },
       {
         icon: "key-outline",
-        label: "Change password",
+        label: "Skift adgangskode",
         onPress: () => {
-          router.push("./changepassword");
+          router.push("/auth/profile/changepassword");
         },
       },
       {
