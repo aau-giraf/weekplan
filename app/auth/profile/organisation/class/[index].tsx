@@ -1,19 +1,18 @@
+import { Ionicons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
+import { Fragment, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
-import { useState, Fragment } from "react";
-import { useLocalSearchParams, router } from "expo-router";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
-import useClasses from "../../../../../hooks/useClasses";
 import IconButton from "../../../../../components/IconButton";
 import { CitizenDTO } from "../../../../../DTO/citizenDTO";
+import useClasses from "../../../../../hooks/useClasses";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 
 const ViewClass = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-
-  const { data, error, isLoading } = useClasses(parsedID);
+  const { data, error, isLoading, addCitizenToClass } = useClasses(parsedID);
 
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text>Error loading class data</Text>;
@@ -24,19 +23,12 @@ const ViewClass = () => {
       <View style={{ alignItems: "center" }}>
         <Text style={styles.ClassName}>{data?.name ?? "Class"}</Text>
         <View style={styles.ActionView}>
-          {/*Edit Class stuff */}
           <IconButton onPress={() => {}} absolute={false}>
             <Ionicons name={"create-outline"} size={ScaleSize(30)} />
           </IconButton>
-          {/*Fælles ugeplan */}
           <IconButton onPress={() => {}} absolute={false}>
             <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
           </IconButton>
-          {/*Se lærer i klassen, måske ikke brugbart */}
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"person-outline"} size={ScaleSize(30)} />
-          </IconButton>
-          {/*Exit class */}
           <IconButton onPress={router.back} absolute={false}>
             <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
           </IconButton>
@@ -58,10 +50,14 @@ const ViewClass = () => {
               {citizen.firstName + " " + citizen.lastName}
             </Text>
           ))}
-        {/*Add citizen to class */}
-        <IconButton onPress={() => {}} absolute={false}>
-          <Ionicons name={"add-outline"} size={ScaleSize(30)} />
-        </IconButton>
+        <View style={styles.ActionView}>
+          <IconButton onPress={() => {}} absolute={false}>
+            <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
+          </IconButton>
+          <IconButton onPress={() => {}} absolute={false}>
+            <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
+          </IconButton>
+        </View>
       </View>
     </Fragment>
   );
@@ -90,6 +86,21 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(20),
     marginVertical: ScaleSize(5),
     textAlign: "center",
+  },
+  inputValid: {
+    paddingVertical: ScaleSizeH(16),
+    paddingHorizontal: ScaleSizeW(85),
+    borderWidth: 1,
+    fontSize: ScaleSize(24),
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
+    borderRadius: 5,
+    marginVertical: ScaleSizeH(10),
+  },
+  sheetContent: {
+    gap: ScaleSize(10),
+    padding: ScaleSize(90),
+    alignItems: "center",
   },
 });
 
