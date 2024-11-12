@@ -2,11 +2,7 @@ import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
-<<<<<<< HEAD
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../utils/SharedStyles";
-=======
-import { colors } from "../../utils/colors";
->>>>>>> 5537a56 (Weekselection changes)
 
 type WeekdayButtonProps = {
   date: Date;
@@ -40,8 +36,7 @@ const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
       onLongPress={() => {
         setModalVisible(true);
         setSelectedDate(date);
-      }}
-    >
+      }}>
       <View style={[styles.circle, isSelected && styles.selectedCircle]}>
         <Text style={[styles.dayText]}>{day.name}</Text>
       </View>

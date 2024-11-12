@@ -1,7 +1,7 @@
 import { CitizenDTO } from "./citizenDTO";
 
 export type ClassDTO = {
-  classId: number;
+  id: number;
   name: string;
   citizens: CitizenDTO[];
 };
