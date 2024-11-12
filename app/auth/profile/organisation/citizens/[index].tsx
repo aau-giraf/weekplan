@@ -6,12 +6,13 @@ import ListView from "../../../../../components/ListView";
 const Viewcitizen = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
+  const { deleteCitizen } = useOrganisation(parsedID);
 
   const { data, error, isLoading } = useOrganisation(parsedID);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     console.log("Delete citizen with id", id);
-    // TODO: implement delete logic
+    await deleteCitizen.mutateAsync(id);
   };
 
   return (

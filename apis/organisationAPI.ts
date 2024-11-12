@@ -25,7 +25,7 @@ export const createCitizenRequest = async (
 };
 
 export const deleteCitizenRequest = async (orgId: number, citizenId: number) => {
-  const url = `${BASE_URL}/organizations/${orgId}/remove-citizen/${citizenId}`;
+  const url = `${BASE_URL}/citizens/${orgId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "DELETE",
   });
