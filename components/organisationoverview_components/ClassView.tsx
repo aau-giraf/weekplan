@@ -33,7 +33,6 @@ const ClassViewEntry = ({ classData }: ClassViewEntryProps) => {
     <IconButton
       style={{ backgroundColor: nameColour }}
       onPress={() => {
-        console.log(classData.id);
         router.push(`/auth/profile/organisation/class/${classData.id}`);
       }}
       absolute={false}>

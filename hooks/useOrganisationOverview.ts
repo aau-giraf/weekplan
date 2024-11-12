@@ -7,6 +7,8 @@ import {
   fetchAllOrganisationsRequest,
 } from "../apis/organisationOverviewAPI";
 import { ClassDTO } from "../DTO/classDTO";
+import { OrgDTO } from "../DTO/organisationDTO";
+import { fetchOrganisationFromClassRequest } from "../apis/classAPI";
 
 export type OrgOverviewDTO = {
   id: number;
@@ -92,3 +94,16 @@ export function useFetchClassesInOrganisations(organisationId: number) {
 }
 
 export default useOrganisationOverview;
+
+export function useFetchOrganiasationFromClass(classId: number) {
+  const getOrganisationFromGrade = useQuery<OrgDTO>({
+    queryFn: async () => fetchOrganisationFromClassRequest(classId),
+    queryKey: [classId, "Organisation"],
+  });
+
+  return {
+    orgData: getOrganisationFromGrade.data,
+    orgError: getOrganisationFromGrade.error,
+    orgLoading: getOrganisationFromGrade.isLoading,
+  };
+}
