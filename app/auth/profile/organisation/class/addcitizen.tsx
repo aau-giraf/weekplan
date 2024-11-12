@@ -2,10 +2,9 @@ import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity } from "r
 import { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { CitizenDTO } from "../../../../../DTO/citizenDTO";
-import { ScaleSize, SharedStyles, colors } from "../../../../../utils/SharedStyles";
+import { ScaleSize, colors } from "../../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
 import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
-import useClasses from "../../../../../hooks/useClasses";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
 
 type Params = {
@@ -15,29 +14,32 @@ type Params = {
 const AddCitizen = () => {
   const [searchText, setSearchText] = useState("");
   const { classId } = useLocalSearchParams<Params>();
-  console.log(classId);
   const { orgData, orgError, orgLoading } = useFetchOrganiasationFromClass(Number(classId));
-  const citizens = orgData?.citizens ?? [];
-  console.log(citizens);
-  
   const [filteredOptions, setFilteredOptions] = useState(
-    citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+    orgData?.citizens?.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
   );
+  const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
 
   if (orgError) {
-    return <Text>Error loading class data</Text>;
+    return (
+      <View>
+        <Text>Error loading class data</Text>
+      </View>
+    );
   }
 
   if (orgLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
-
-  console.log(filteredOptions);
 
   const filterOptions = (text: string) => {
     setSearchText(text);
     setFilteredOptions(
-      citizens
+      orgData?.citizens
         .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
         .filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
     );
@@ -45,11 +47,17 @@ const AddCitizen = () => {
 
   const onOptionPress = (option: string) => {
     setSearchText(option);
-    setFilteredOptions(citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`));
+    setFilteredOptions(orgData?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`));
+    const foundCitizen = orgData?.citizens.find(
+      (citizen) => `${citizen.firstName} ${citizen.lastName}` === option
+    );
+    if (foundCitizen) {
+      setSelectedCitizen(foundCitizen);
+    }
   };
 
-  const onSubmit = (citizen: Omit<CitizenDTO, "activities">) => {
-    addCitizenToClassRequest(citizen.id, Number(classId));
+  const onSubmit = (citizenId: number) => {
+    addCitizenToClassRequest(citizenId, Number(classId));
   };
 
   return (
@@ -72,10 +80,7 @@ const AddCitizen = () => {
       />
       <SecondaryButton
         onPress={() => {
-          const selectedCitizen = citizens.find(
-            (citizen) => `${citizen.firstName} ${citizen.lastName}` === searchText
-          );
-          if (selectedCitizen) onSubmit(selectedCitizen);
+          if (selectedCitizen) onSubmit(selectedCitizen.id);
         }}
         label="Tilføj elev"
       />

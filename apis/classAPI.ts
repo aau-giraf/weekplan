@@ -11,9 +11,9 @@ export const fetchClassRequest = async (classId: number) => {
 };
 
 export const addCitizenToClassRequest = async (citizenId: number, classId: number) => {
-  const url = `${BASE_URL}/grades/${classId}/citizens/${citizenId}`;
+  const url = `${BASE_URL}/grades/${classId}/add-citizen/${citizenId}`;
   const res = await fetch(url, {
-    method: "POST",
+    method: "PUT",
   });
   if (!res.ok) throw new Error("Kunne ikke tilføje borger til klasse");
   return res.json();
@@ -27,7 +27,7 @@ export const fetchCitizenById = async (citizenId: number) => {
 };
 
 export const fetchOrganisationFromClassRequest = async (classId: number) => {
-  if(classId === null) {
+  if (classId === null) {
     throw new Error("FATAL FEJL: Klasse-ID er ikke korrekt initialiseret i din session.");
   }
 

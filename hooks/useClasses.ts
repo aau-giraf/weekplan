@@ -1,9 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addCitizenToClassRequest,
-  fetchCitizenById,
-  fetchClassRequest,
-} from "../apis/classAPI";
+import { addCitizenToClassRequest, fetchCitizenById, fetchClassRequest } from "../apis/classAPI";
 import { CitizenDTO } from "../DTO/citizenDTO";
 export default function useClasses(classId: number) {
   const queryClient = useQueryClient();
