@@ -41,8 +41,15 @@ const Settings = () => {
         label: "Two-factor authentication",
       },
       {
-        icon: "key-outline",
+        icon: "lock-open-outline",
         label: "Husk mig",
+      },
+      {
+        icon: "key-outline",
+        label: "Change password",
+        onPress: () => {
+          router.push("./changepassword");
+        },
       },
       {
         icon: "person-outline",

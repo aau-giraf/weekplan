@@ -63,11 +63,6 @@ const ProfileEdit: React.FC = () => {
       />
       <TouchableOpacity
         style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-        onPress={() => router.push("/changepassword")}>
-        <Text style={styles.buttonText}>Skift password</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.buttonValid, { backgroundColor: colors.blue }]}
         onPress={() => router.back()}>
         <Text style={styles.buttonText}>Annuller</Text>
       </TouchableOpacity>

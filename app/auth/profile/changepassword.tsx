@@ -4,13 +4,13 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import { z } from "zod";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import FormContainer from "../components/Forms/FormContainer";
-import FormHeader from "../components/Forms/FormHeader";
-import FormField from "../components/Forms/TextInput";
-import SubmitButton from "../components/Forms/SubmitButton";
-import useProfile from "../hooks/useProfile";
-import { useToast } from "../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
+import FormContainer from "../../../components/Forms/FormContainer";
+import FormHeader from "../../../components/Forms/FormHeader";
+import FormField from "../../../components/Forms/TextInput";
+import SubmitButton from "../../../components/Forms/SubmitButton";
+import useProfile from "../../../hooks/useProfile";
+import { useToast } from "../../../providers/ToastProvider";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
 
 const schema = z
   .object({
