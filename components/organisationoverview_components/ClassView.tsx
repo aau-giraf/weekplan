@@ -5,8 +5,6 @@ import { ClassDTO } from "../../DTO/classDTO";
 import IconButton from "../IconButton";
 import { router } from "expo-router";
 
-// TODO: Implement when supplied with relevant Endpoints
-
 type ClassViewProps = {
   classes: ClassDTO[];
 };
