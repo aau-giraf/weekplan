@@ -114,22 +114,23 @@ const useOrganisation = (orgId: number) => {
   });
 
   const updateCitizen = useMutation<void, Error, Citizen>({
-    mutationFn: (citizen: Citizen) => updateCitizenRequest(citizen.id, citizen.firstName, citizen.lastName),
+    mutationFn: (citizen) =>
+      updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName),
     onMutate: async (newCitizen) => {
-      await queryClient.cancelQueries({ queryKey });
-
+      newCitizen.id = Number(newCitizen.id);
+  
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
+      console.log("Previous data:", previousOrg);
+  
+      await queryClient.cancelQueries({ queryKey });
+  
       queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
         if (oldData) {
-          return {
-            ...oldData,
-            citizens: oldData.citizens.map((citizen) => {
-              if (citizen.id === newCitizen.id) {
-                return newCitizen;
-              }
-              return citizen;
-            }),
-          };
+          const updatedCitizens = oldData.citizens.map((citizen) =>
+            citizen.id === newCitizen.id ? newCitizen : citizen
+          );
+          console.log("Updated citizens:", updatedCitizens); // Log updated citizens list
+          return { ...oldData, citizens: updatedCitizens };
         }
         return previousOrg;
       });
@@ -139,6 +140,9 @@ const useOrganisation = (orgId: number) => {
         queryClient.setQueryData(queryKey, context);
       }
     },
+    onSuccess: (_data, _variables, _context) => {
+      queryClient.invalidateQueries({ queryKey });
+    }
   });
 
   return {
