@@ -17,6 +17,7 @@ type ListViewProps<T extends ListItem> = {
   isLoading: boolean;
   error: boolean;
   handleDelete: (id: T["id"]) => void;
+  handleUpdate?: (id: T["id"]) => void;
   getLabel: (item: T) => string;
   keyExtractor: (item: T) => string;
   onPress?: (item: T) => void;
@@ -29,6 +30,7 @@ const ListView = <T extends ListItem>({
   isLoading,
   error,
   handleDelete,
+  handleUpdate,
   getLabel,
   keyExtractor,
   onPress,
@@ -53,6 +55,14 @@ const ListView = <T extends ListItem>({
     },
   ];
 
+  const leftActions: Action<T>[] = [
+    {
+      icon: "pencil",
+      color: colors.blue,
+      onPress: (item) => handleUpdate?.(item.id),
+    },
+  ];
+
   const renderItem = (item: T) => (
     <Pressable style={styles.itemContainer} key={keyExtractor(item)} onPress={() => onPress && onPress(item)}>
       <ProfilePicture label={getLabel(item)} style={styles.profilePicture} />
@@ -74,6 +84,7 @@ const ListView = <T extends ListItem>({
             ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
           }}
           rightActions={rightActions}
+          leftActions={leftActions}
         />
       </View>
     </Fragment>

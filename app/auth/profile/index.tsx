@@ -13,7 +13,7 @@ import { ProfilePicture } from "../../../components/ProfilePage";
 import IconButton from "../../../components/IconButton";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import useProfile from "../../../hooks/useProfile";
-import useOrganisationOverview, { OrgOverviewDTO } from "../../../hooks/useOrganisationOverview";
+import useOrganisationOverview from "../../../hooks/useOrganisationOverview";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useToast } from "../../../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
@@ -21,6 +21,7 @@ import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../.
 import { router } from "expo-router";
 import SecondaryButton from "../../../components/Forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
+import { OrgOverviewDTO } from "../../../DTO/orgoverviewDTO";
 
 const screenWidth = Dimensions.get("window").width;
 
