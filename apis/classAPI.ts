@@ -46,7 +46,8 @@ export const removeCitizenFromClassRequest = async (citizenId: number, classId: 
   console.log("Api citizen ID" + citizenId + " classId " + classId);
   const url = `${BASE_URL}/grades/${classId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
-    method: "DELETE",
+    method: "PUT",
   });
-  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+  if (!res.ok) throw new Error("Kunne ikke fjerne borger til klasse");
+  return res.json();
 };
