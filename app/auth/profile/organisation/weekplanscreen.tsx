@@ -14,7 +14,7 @@ const WeekPlanScreen = () => {
     return () => {
       setSelectedDate(new Date());
     };
-  }, []);
+  }, [setSelectedDate]);
   return (
     <Fragment>
       <ActivityAddButton />
