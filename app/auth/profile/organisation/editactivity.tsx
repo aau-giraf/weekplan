@@ -12,18 +12,17 @@ type Params = {
 };
 
 const EditActivity = () => {
-  const { activityId} = useLocalSearchParams<Params>();
-  const { citizenId } = useCitizen()
+  const { activityId } = useLocalSearchParams<Params>();
+  const { citizenId } = useCitizen();
   const { selectedDate } = useDate();
   const queryClient = useQueryClient();
-  
 
   if (isNaN(parseInt(activityId))) {
     throw new Error("Ugyldigt aktivitet id");
   }
 
-  if (citizenId === null){
-    throw new Error("Citizen ID is null")
+  if (citizenId === null) {
+    throw new Error("Citizen ID is null");
   }
 
   const activities = queryClient.getQueryData<ActivityDTO[]>(dateToQueryKey(selectedDate, citizenId));

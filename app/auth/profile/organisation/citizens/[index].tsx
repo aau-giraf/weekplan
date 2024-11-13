@@ -41,8 +41,8 @@ const ViewCitizen = () => {
         getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
         keyExtractor={(citizen) => citizen.id.toString()}
         onPress={(item) => {
-          setCitizenId(item.id)
-          router.push("/auth/profile/organisation/weekplanscreen")
+          setCitizenId(item.id);
+          router.push("/auth/profile/organisation/weekplanscreen");
         }}
       />
     </SafeAreaView>

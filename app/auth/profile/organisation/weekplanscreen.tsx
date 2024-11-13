@@ -9,12 +9,12 @@ import { Fragment, useEffect } from "react";
 import { useDate } from "../../../../providers/DateProvider";
 
 const WeekPlanScreen = () => {
-  const {setSelectedDate} = useDate()
+  const { setSelectedDate } = useDate();
   useEffect(() => {
     return () => {
-      setSelectedDate(new Date)
-    }
-  },[])
+      setSelectedDate(new Date());
+    };
+  }, []);
   return (
     <Fragment>
       <ActivityAddButton />

@@ -19,7 +19,7 @@ type ListViewProps<T extends ListItem> = {
   handleDelete: (id: T["id"]) => void;
   getLabel: (item: T) => string;
   keyExtractor: (item: T) => string;
-  onPress? : (item: T) => void;
+  onPress?: (item: T) => void;
 };
 
 const ListView = <T extends ListItem>({
@@ -55,7 +55,7 @@ const ListView = <T extends ListItem>({
 
   const renderItem = (item: T) => (
     <Pressable style={styles.itemContainer} key={keyExtractor(item)} onPress={() => onPress && onPress(item)}>
-      <ProfilePicture label={getLabel(item)} style={styles.profilePicture}/>
+      <ProfilePicture label={getLabel(item)} style={styles.profilePicture} />
       <Text numberOfLines={3} style={{ flexShrink: 1 }}>
         {getLabel(item)}
       </Text>
