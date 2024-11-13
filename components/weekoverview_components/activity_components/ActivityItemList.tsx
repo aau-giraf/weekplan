@@ -5,7 +5,6 @@ import useActivity from "../../../hooks/useActivity";
 import { useDate } from "../../../providers/DateProvider";
 import { ActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
-import { useCitizen } from "../../../providers/CitizenProvider";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";
@@ -24,7 +23,6 @@ import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";
  */
 const ActivityItemList = () => {
   const { selectedDate } = useDate();
-  const { citizenId } = useCitizen();
   const { useFetchActivities, useDeleteActivity, useToggleActivityStatus } = useActivity({
     date: selectedDate,
   });

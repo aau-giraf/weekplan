@@ -6,7 +6,8 @@ import {
   fetchOrganisationRequest,
   updateCitizenRequest,
 } from "../apis/organisationAPI";
-import { Citizen, OrgDTO } from "../DTO/organisationDTO";
+import { OrgDTO } from "../DTO/organisationDTO";
+import { CitizenDTO } from "../DTO/citizenDTO";
 
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
@@ -17,8 +18,8 @@ const useOrganisation = (orgId: number) => {
     queryKey,
   });
 
-  const createCitizen = useMutation<number, Error, Omit<Citizen, "id">>({
-    mutationFn: (citizen: Omit<Citizen, "id">) =>
+  const createCitizen = useMutation<number, Error, Omit<CitizenDTO, "id">>({
+    mutationFn: (citizen: Omit<CitizenDTO, "id">) =>
       createCitizenRequest(citizen.firstName, citizen.lastName, orgId),
     onMutate: async (newCitizen) => {
       await queryClient.cancelQueries({ queryKey });

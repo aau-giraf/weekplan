@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
+import useSearch from "../../../../../hooks/useSearch";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { colors, ScaleSize } from "../../../../../utils/SharedStyles";
 import {
@@ -13,8 +14,11 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  SafeAreaView,
 } from "react-native";
+import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
+import { useToast } from "../../../../../providers/ToastProvider";
 
 type Citizen = {
   id: number | string;
@@ -22,11 +26,17 @@ type Citizen = {
   lastName: string;
 };
 
-const Viewcitizen = () => {
+const ViewCitizen = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
-  const { deleteCitizen, updateCitizen } = useOrganisation(parsedID);
-  const { data, error, isLoading } = useOrganisation(parsedID);
+  const { deleteCitizen, data, error, isLoading, updateCitizen } = useOrganisation(parsedID);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { addToast } = useToast();
+
+  const citizenSearchFn = (citizen: { firstName: string; lastName: string }) =>
+    `${citizen.firstName} ${citizen.lastName}`;
+
+  const filteredData = useSearch(data?.citizens || [], searchQuery, citizenSearchFn);
 
   const [selectedCitizenId, setSelectedCitizenId] = useState<string | number | null>(null);
   const [firstName, setFirstName] = useState("");
@@ -34,7 +44,9 @@ const Viewcitizen = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const handleDelete = async (id: number) => {
-    await deleteCitizen.mutateAsync(id);
+    await deleteCitizen.mutateAsync(id).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
   };
 
   const openBottomSheet = (citizen: Citizen) => {
@@ -53,9 +65,10 @@ const Viewcitizen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
       <ListView
-        data={data?.citizens || []}
+        data={filteredData}
         loadingMessage="Henter borgere..."
         errorMessage="Fejl med at hente borgere"
         isLoading={isLoading}
@@ -94,7 +107,7 @@ const Viewcitizen = () => {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-    </View>
+     </SafeAreaView>
   );
 };
 
@@ -103,6 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
+
   sheetContent: {
     gap: ScaleSize(10),
     padding: ScaleSize(20),
@@ -119,3 +133,4 @@ const styles = StyleSheet.create({
 });
 
 export default Viewcitizen;
+
