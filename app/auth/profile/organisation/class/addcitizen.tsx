@@ -17,7 +17,9 @@ const AddCitizen = () => {
   const { classId } = useLocalSearchParams<Params>();
   const { orgData, orgError, orgLoading } = useFetchOrganiasationFromClass(Number(classId));
   const [filteredOptions, setFilteredOptions] = useState(
-    orgData?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+    orgData?.citizens
+      .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+      .sort((a: string, b: string) => a.localeCompare(b))
   );
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
 
@@ -43,12 +45,17 @@ const AddCitizen = () => {
       orgData?.citizens
         .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
         .filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
+        .sort((a: string, b: string) => a.localeCompare(b))
     );
   };
 
   const onOptionPress = (option: string) => {
     setSearchText(option);
-    setFilteredOptions(orgData?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`));
+    setFilteredOptions(
+      orgData?.citizens
+        .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+        .sort((a: string, b: string) => a.localeCompare(b))
+    );
     const foundCitizen = orgData?.citizens.find(
       (citizen) => `${citizen.firstName} ${citizen.lastName}` === option
     );
@@ -70,7 +77,9 @@ const AddCitizen = () => {
         data={
           filteredOptions
             ? filteredOptions
-            : orgData?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+            : orgData?.citizens
+                .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+                .sort((a: string, b: string) => a.localeCompare(b))
         }
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (

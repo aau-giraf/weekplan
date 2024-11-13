@@ -62,7 +62,7 @@ const ViewClass = () => {
                   .startsWith(searchedCitizens.toLowerCase())
               )
               .sort(
-                (a: { firstName: string; lastName: string }, b: { firstName: any; lastName: any }) =>
+                (a: { firstName: string; lastName: string }, b: { firstName: string; lastName: string }) =>
                   a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName)
               )
               .map((citizen: CitizenDTO) => (
