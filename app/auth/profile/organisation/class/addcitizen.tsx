@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { CitizenDTO } from "../../../../../DTO/citizenDTO";
-import { ScaleSize, colors } from "../../../../../utils/SharedStyles";
+import { ScaleSize, ScaleSizeH, ScaleSizeW, colors } from "../../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
 import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
@@ -16,7 +16,7 @@ const AddCitizen = () => {
   const { classId } = useLocalSearchParams<Params>();
   const { orgData, orgError, orgLoading } = useFetchOrganiasationFromClass(Number(classId));
   const [filteredOptions, setFilteredOptions] = useState(
-    orgData?.citizens?.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+    orgData?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
   );
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
 
@@ -56,8 +56,9 @@ const AddCitizen = () => {
     }
   };
 
-  const onSubmit = (citizenId: number) => {
-    addCitizenToClassRequest(citizenId, Number(classId));
+  const onSubmit = async (citizenId: number) => {
+    await addCitizenToClassRequest(citizenId, Number(classId));
+    router.push(`/auth/profile/organisation/class/${classId}`);
   };
 
   return (
@@ -72,7 +73,13 @@ const AddCitizen = () => {
       <FlatList
         data={filteredOptions}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.option} onPress={() => onOptionPress(item)}>
+          <TouchableOpacity
+            style={
+              selectedCitizen?.firstName + " " + selectedCitizen?.lastName === item
+                ? styles.optionSelect
+                : styles.option
+            }
+            onPress={() => onOptionPress(item)}>
             <Text style={styles.optionText}>{item}</Text>
           </TouchableOpacity>
         )}
@@ -95,6 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: ScaleSize(20),
     alignItems: "center",
+    gap: ScaleSize(20),
   },
   heading: {
     fontSize: ScaleSize(25),
@@ -111,10 +119,20 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(18),
   },
   option: {
-    paddingVertical: ScaleSize(10),
-    paddingHorizontal: ScaleSize(15),
-    borderBottomWidth: 1,
-    borderBottomColor: colors.lightGray,
+    paddingVertical: ScaleSizeH(40),
+    paddingHorizontal: ScaleSizeW(100),
+    marginBottom: ScaleSizeH(10),
+    borderRadius: 15,
+    backgroundColor: colors.lightBlue,
+    width: "100%",
+    alignItems: "center",
+  },
+  optionSelect: {
+    paddingVertical: ScaleSizeH(40),
+    paddingHorizontal: ScaleSizeW(25),
+    marginBottom: ScaleSizeH(10),
+    borderRadius: 15,
+    backgroundColor: colors.green,
     width: "100%",
     alignItems: "center",
   },

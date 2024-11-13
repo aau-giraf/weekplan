@@ -100,7 +100,7 @@ export function useFetchOrganiasationFromClass(classId: number) {
     queryFn: async () => fetchOrganisationFromClassRequest(classId),
     queryKey: [classId, "Organisation"],
   });
-
+  console.log(getOrganisationFromGrade.isLoading);
   return {
     orgData: getOrganisationFromGrade.data,
     orgError: getOrganisationFromGrade.error,

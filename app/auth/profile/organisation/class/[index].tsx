@@ -45,6 +45,10 @@ const ViewClass = () => {
               .toLowerCase()
               .startsWith(searchedCitizens.toLowerCase())
           )
+          .sort(
+            (a: { firstName: string; lastName: string }, b: { firstName: string; lastName: string }) =>
+              a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName)
+          )
           .map((citizen: CitizenDTO) => (
             <Text key={citizen.id} style={styles.CitizenName}>
               {citizen.firstName + " " + citizen.lastName}
