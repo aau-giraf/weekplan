@@ -12,8 +12,14 @@ const CitizenContext = createContext<CitizenProviderValues | undefined>(undefine
  * @constructor
  * @return {ReactNode}
  */
-const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
-  const [citizenId, setCitizenId] = useState<number | null>(null);
+
+type CitizenProviderProps = {
+  children: React.ReactNode;
+  defaultValue?: null | number;
+};
+
+const CitizenProvider = ({ children, defaultValue = null }: CitizenProviderProps) => {
+  const [citizenId, setCitizenId] = useState<number | null>(defaultValue);
   return (
     <CitizenContext.Provider
       value={{
@@ -26,7 +32,6 @@ const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
 };
 /**
  * Hook to use the citizen context
- *
  */
 export const useCitizen = () => {
   const context = useContext(CitizenContext);
