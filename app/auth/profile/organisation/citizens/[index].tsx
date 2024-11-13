@@ -81,8 +81,8 @@ const ViewCitizen = () => {
     );
   }
 
-  if(error){
-    return <Text>{error.message}</Text>
+  if (error) {
+    return <Text>{error.message}</Text>;
   }
 
   return (
