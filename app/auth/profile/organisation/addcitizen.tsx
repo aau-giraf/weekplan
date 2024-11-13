@@ -11,6 +11,7 @@ import { colors, ScaleSize } from "../../../../utils/SharedStyles";
 import FormContainer from "../../../../components/Forms/FormContainer";
 import FormHeader from "../../../../components/Forms/FormHeader";
 import { useForm } from "react-hook-form";
+import { useLocalSearchParams } from "expo-router";
 
 const citizenSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
@@ -62,7 +63,8 @@ type Citizen = {
 
 const AddCitizen: React.FC = () => {
   const [citizens, setCitizens] = useState<Citizen[]>([]);
-  const { createCitizen, deleteCitizen } = useOrganisation(3);
+  const { orgId } = useLocalSearchParams();
+  const { createCitizen, deleteCitizen } = useOrganisation(Number(orgId));
 
   const handleAddCitizen = async ({ value }: { value: CitizenData }) => {
     const realId = await createCitizen.mutateAsync({
