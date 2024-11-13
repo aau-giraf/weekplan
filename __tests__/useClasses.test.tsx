@@ -54,7 +54,7 @@ jest.mock("../apis/classAPI", () => ({
 
 describe("useClasses", () => {
   beforeEach(() => {
-    queryClient.setQueryData([1, "Classes"], initialMockClass);
+    queryClient.setQueryData([1, "Class"], initialMockClass);
   });
 
   it("fetches class", async () => {
@@ -73,7 +73,7 @@ describe("useClasses", () => {
     });
 
     await waitFor(() => {
-      const updatedClass = queryClient.getQueryData([1, "Classes"]);
+      const updatedClass = queryClient.getQueryData([1, "Class"]);
       expect(updatedClass).toEqual({
         ...initialMockClass,
         citizens: [{ ...mockCitizen, id: -1 }],
@@ -83,7 +83,7 @@ describe("useClasses", () => {
   });
 
   it("removes citizen from class", async () => {
-    queryClient.setQueryData([1, "Classes"], {
+    queryClient.setQueryData([1, "Class"], {
       ...initialMockClass,
       citizens: [{ ...mockCitizen, id: 1 }],
     });
@@ -99,7 +99,7 @@ describe("useClasses", () => {
     });
 
     await waitFor(() => {
-      const updatedClass = queryClient.getQueryData([1, "Classes"]);
+      const updatedClass = queryClient.getQueryData([1, "Class"]);
       expect(updatedClass).toEqual({
         ...initialMockClass,
         citizens: [],
@@ -115,7 +115,26 @@ describe("useClasses", () => {
     });
 
     await waitFor(() => {
-      expect(queryClient.getQueryData([1, "Classes"])).toEqual(initialMockClass);
+      expect(queryClient.getQueryData([1, "Class"])).toEqual(initialMockClass);
+    });
+  });
+
+  it("finds organisation by class id", async () => {
+    const mockClass = {
+      id: 1,
+      name: "Test Class",
+      organisationId: 1,
+    };
+    const { result } = renderHook(() => useClasses(mockClass.id), {
+      wrapper,
+    });
+
+    await waitFor(() => {
+      expect(result.current.useFetchOrganiasationFromClass().isSuccess).toBe(true);
+    });
+
+    await waitFor(() => {
+      expect(result.current.orgData).toEqual(mockOrganisationOverview);
     });
   });
 });

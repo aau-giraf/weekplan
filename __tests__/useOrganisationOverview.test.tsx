@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import useOrganisationOverview, { useFetchOrganiasationFromClass } from "../hooks/useOrganisationOverview";
+import useOrganisationOverview from "../hooks/useOrganisationOverview";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -122,6 +122,9 @@ test("new organisation id is initially -1 and then sets the id from the promise"
   expect(result.current.data).toEqual([{ id: 3, name: "New Organisation" }]);
 });
 
+
+
+
 test("deletes organisation", async () => {
   const { result } = renderHook(() => useOrganisationOverview(), {
     wrapper,
@@ -140,23 +143,4 @@ test("deletes organisation", async () => {
   });
 
   expect(result.current.data).toEqual([{ ...mockOrganisationOverview, id: 2 }]);
-});
-
-test("finds organisation by class id", async () => {
-  const mockClass = {
-    id: 1,
-    name: "Test Class",
-    organisationId: 1,
-  };
-  const { result } = renderHook(() => useFetchOrganiasationFromClass(mockClass.id), {
-    wrapper,
-  });
-
-  await waitFor(() => {
-    expect(result.current.orgLoading).toBe(true);
-  });
-
-  await waitFor(() => {
-    expect(result.current.orgData).toEqual(mockOrganisationOverview);
-  });
 });
