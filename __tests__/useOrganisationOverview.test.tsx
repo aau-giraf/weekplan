@@ -122,9 +122,6 @@ test("new organisation id is initially -1 and then sets the id from the promise"
   expect(result.current.data).toEqual([{ id: 3, name: "New Organisation" }]);
 });
 
-
-
-
 test("deletes organisation", async () => {
   const { result } = renderHook(() => useOrganisationOverview(), {
     wrapper,
