@@ -47,12 +47,20 @@ const DeleteProfileScreen: React.FC = () => {
   });
 
   const onSubmit = () => {
-    {setModalVisible(true)};
+    {
+      setModalVisible(true);
+    }
   };
 
   return (
     <Fragment>
-      <ConfirmationModal modalVisible={modalVisible} setModalVisible={setModalVisible} addToast={addToast} deleteUser={deleteUser} logout={logout} />
+      <ConfirmationModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        addToast={addToast}
+        deleteUser={deleteUser}
+        logout={logout}
+      />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Slet profil" />
         <FormField
@@ -91,28 +99,31 @@ const ConfirmationModal = ({ modalVisible, setModalVisible, addToast, deleteUser
       transparent={true}
       onRequestClose={() => {
         setModalVisible(false);
-      }}
-    >
+      }}>
       <View style={styles.modalView}>
         <Text style={styles.modalText}>
           Er du sikker på at du vil slette din profil?{"\n"}
           Dette kan ikke fortrydes.
         </Text>
         <View style={styles.buttonContainer}>
-          <Pressable style={[styles.modalButton, styles.modalButtonNo]} onPress={() => {
-            setModalVisible(false);
+          <Pressable
+            style={[styles.modalButton, styles.modalButtonNo]}
+            onPress={() => {
+              setModalVisible(false);
             }}>
             <Text style={styles.modalButtonText}>Nej</Text>
           </Pressable>
-          <Pressable style={[styles.modalButton, styles.modalButtonDelete]} onPress={ async (formData: FormData) => {
-            try {
-              await deleteUser.mutateAsync({});
-              await logout();
-              addToast({ message: "Profilen er blevet slettet", type: "success" });
-            } catch (error: any) {
-              addToast({ message: error.message, type: "error" });
-            }
-            setModalVisible(false);
+          <Pressable
+            style={[styles.modalButton, styles.modalButtonDelete]}
+            onPress={async (formData: FormData) => {
+              try {
+                await deleteUser.mutateAsync({});
+                await logout();
+                addToast({ message: "Profilen er blevet slettet", type: "success" });
+              } catch (error: any) {
+                addToast({ message: error.message, type: "error" });
+              }
+              setModalVisible(false);
             }}>
             <Text style={styles.modalButtonText}>Slet</Text>
           </Pressable>
@@ -140,12 +151,12 @@ const styles = StyleSheet.create({
   modalView: {
     flex: 1,
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -155,12 +166,12 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 30,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 40,
   },
   modalButton: {
@@ -175,7 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.red,
   },
   modalButtonText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 30,
     color: colors.white,
   },

@@ -65,7 +65,6 @@ const Settings = () => {
         },
         label: "Slet profil",
       },
-
     ],
     [logout]
   );
