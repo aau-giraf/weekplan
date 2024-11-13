@@ -107,7 +107,7 @@ const ViewCitizen = () => {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-     </SafeAreaView>
+    </SafeAreaView>
   );
 };
 
@@ -133,4 +133,3 @@ const styles = StyleSheet.create({
 });
 
 export default Viewcitizen;
-

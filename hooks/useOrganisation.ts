@@ -115,16 +115,15 @@ const useOrganisation = (orgId: number) => {
   });
 
   const updateCitizen = useMutation<void, Error, Citizen>({
-    mutationFn: (citizen) =>
-      updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName),
+    mutationFn: (citizen) => updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName),
     onMutate: async (newCitizen) => {
       newCitizen.id = Number(newCitizen.id);
-  
+
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
       console.log("Previous data:", previousOrg);
-  
+
       await queryClient.cancelQueries({ queryKey });
-  
+
       queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
         if (oldData) {
           const updatedCitizens = oldData.citizens.map((citizen) =>
@@ -143,7 +142,7 @@ const useOrganisation = (orgId: number) => {
     },
     onSuccess: (_data, _variables, _context) => {
       queryClient.invalidateQueries({ queryKey });
-    }
+    },
   });
 
   return {
