@@ -15,6 +15,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
@@ -38,9 +39,11 @@ const ViewCitizen = () => {
 
   const filteredData = useSearch(data?.citizens || [], searchQuery, citizenSearchFn);
 
-  const [selectedCitizenId, setSelectedCitizenId] = useState<string | number | null>(null);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [citizenInfo, setCitizenInfo] = useState({
+    selectedCitizenId: null as number | string | null,
+    firstName: "",
+    lastName: "",
+  });
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const handleDelete = async (id: number) => {
@@ -50,19 +53,33 @@ const ViewCitizen = () => {
   };
 
   const openBottomSheet = (citizen: Citizen) => {
-    setSelectedCitizenId(citizen.id);
-    setFirstName(citizen.firstName);
-    setLastName(citizen.lastName);
+    setCitizenInfo({
+      selectedCitizenId: citizen.id,
+      firstName: citizen.firstName,
+      lastName: citizen.lastName,
+    });
     bottomSheetRef.current?.expand();
   };
 
   const handleUpdate = async (id: number) => {
-    if (selectedCitizenId) {
-      await updateCitizen.mutateAsync({ id: Number(selectedCitizenId), firstName, lastName });
+    if (citizenInfo.selectedCitizenId) {
+      await updateCitizen.mutateAsync({
+        id: Number(citizenInfo.selectedCitizenId),
+        firstName: citizenInfo.firstName,
+        lastName: citizenInfo.lastName,
+      });
       bottomSheetRef.current?.close();
-      setSelectedCitizenId(null);
+      setCitizenInfo({ selectedCitizenId: null, firstName: "", lastName: "" });
     }
   };
+
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator size={"large"} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -90,14 +107,22 @@ const ViewCitizen = () => {
             <BottomSheet ref={bottomSheetRef} index={-1} enablePanDownToClose keyboardBlurBehavior="restore">
               <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
                 <Text>First Name</Text>
-                <TextInput value={firstName} onChangeText={setFirstName} style={styles.input} />
+                <TextInput
+                  value={citizenInfo.firstName}
+                  onChangeText={(text) => setCitizenInfo({ ...citizenInfo, firstName: text })}
+                  style={styles.input}
+                />
                 <Text>Last Name</Text>
-                <TextInput value={lastName} onChangeText={setLastName} style={styles.input} />
+                <TextInput
+                  value={citizenInfo.lastName}
+                  onChangeText={(text) => setCitizenInfo({ ...citizenInfo, lastName: text })}
+                  style={styles.input}
+                />
                 <SecondaryButton
                   label="Update"
                   onPress={() => {
-                    if (typeof selectedCitizenId === "number") {
-                      handleUpdate(selectedCitizenId);
+                    if (typeof citizenInfo.selectedCitizenId === "number") {
+                      handleUpdate(citizenInfo.selectedCitizenId);
                     }
                     bottomSheetRef.current?.close();
                   }}
@@ -116,7 +141,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-
   sheetContent: {
     gap: ScaleSize(10),
     padding: ScaleSize(20),
