@@ -4,9 +4,11 @@ import {
   createNewClassRequest,
   fetchCitizenById,
   fetchClassRequest,
+  fetchOrganisationFromClassRequest,
   removeCitizenFromClassRequest,
 } from "../apis/classAPI";
-import { CitizenDTO } from "./useOrganisation";
+import { CitizenDTO, OrgDTO } from "./useOrganisation";
+import { fetchAllClassesInOrganisationRequest } from "../apis/organisationOverviewAPI";
 
 export type ClassDTO = {
   id: number;
@@ -15,12 +17,26 @@ export type ClassDTO = {
 };
 export default function useClasses(classId: number) {
   const queryClient = useQueryClient();
-  const queryKey = [classId, "Classes"];
+  const queryKey = [classId, "Class"];
+
+  function useFetchClassesInOrganisations(organisationId: number) {
+    return useQuery<ClassDTO[]>({
+      queryFn: () => fetchAllClassesInOrganisationRequest(organisationId),
+      queryKey: [organisationId, "Classes"],
+    });
+  }
 
   const fetchClass = useQuery<ClassDTO>({
     queryFn: async () => fetchClassRequest(classId),
     queryKey,
   });
+
+  function useFetchOrganiasationFromClass(classId: number) {
+    return useQuery<OrgDTO>({
+      queryFn: async () => fetchOrganisationFromClassRequest(classId),
+      queryKey: [classId, "Organisation"],
+    });
+  }
 
   const addCitizenToClass = useMutation({
     mutationFn: (citizenId: number) => addCitizenToClassRequest(citizenId, classId),
@@ -115,5 +131,7 @@ export default function useClasses(classId: number) {
     addCitizenToClass,
     removeCitizenFromClass,
     createNewClassRequest,
+    useFetchClassesInOrganisations,
+    useFetchOrganiasationFromClass,
   };
 }

@@ -12,7 +12,6 @@ import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorho
 import SecondaryButton from "../../../../components/Forms/SecondaryButton";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 import useClasses from "../../../../hooks/useClasses";
-import useOrganisationOverview from "../../../../hooks/useOrganisationOverview";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
@@ -23,12 +22,14 @@ const ViewOrganisation = () => {
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
-  const { useFetchClassesInOrganisations } = useOrganisationOverview();
+  const { useFetchClassesInOrganisations } = useClasses(parsedId);
   const {
     data: classData,
     error: classError,
     isLoading: classLoading,
   } = useFetchClassesInOrganisations(parsedId);
+
+  console.log(classData);
 
   const { createClass } = useClasses(parsedId);
 

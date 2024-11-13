@@ -3,13 +3,8 @@ import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
   createOrganisationsRequest,
   deleteOrganisationRequest,
-  fetchAllClassesInOrganisationRequest,
   fetchAllOrganisationsRequest,
 } from "../apis/organisationOverviewAPI";
-
-import { fetchOrganisationFromClassRequest } from "../apis/classAPI";
-import { ClassDTO } from "./useClasses";
-import { OrgDTO } from "./useOrganisation";
 
 export type OrgOverviewDTO = {
   id: number;
@@ -70,27 +65,12 @@ const useOrganisationOverview = () => {
     },
   });
 
-  function useFetchClassesInOrganisations(organisationId: number) {
-    return useQuery<ClassDTO[]>({
-      queryFn: () => fetchAllClassesInOrganisationRequest(organisationId),
-      queryKey: [organisationId, "Classes"],
-    });
-  }
-  function useFetchOrganiasationFromClass(classId: number) {
-    return useQuery<OrgDTO>({
-      queryFn: async () => fetchOrganisationFromClassRequest(classId),
-      queryKey: [classId, "Organisation"],
-    });
-  }
-
   return {
     data: fetchOrgOverview.data,
     isLoading: fetchOrgOverview.isLoading,
     isError: fetchOrgOverview.isError,
     isSuccess: fetchOrgOverview.isSuccess,
     refetch: fetchOrgOverview.refetch,
-    useFetchClassesInOrganisations,
-    useFetchOrganiasationFromClass,
     createOrganisation,
     deleteOrganisation,
   };

@@ -3,7 +3,6 @@ import { useState, useMemo } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
-import useOrganisationOverview from "../../../../../hooks/useOrganisationOverview";
 import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import { useToast } from "../../../../../providers/ToastProvider";
@@ -16,7 +15,7 @@ type Params = {
 const AddCitizen = () => {
   const { classId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { useFetchOrganiasationFromClass } = useOrganisationOverview();
+  const { useFetchOrganiasationFromClass } = useClasses(Number(classId));
   const {
     data: orgData,
     error: orgError,
