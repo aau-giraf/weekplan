@@ -27,7 +27,6 @@ export const fetchCitizenById = async (citizenId: number) => {
 };
 
 /**
- *
  * @param classId
  * @returns
  * an organisation object
