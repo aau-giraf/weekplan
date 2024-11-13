@@ -9,6 +9,7 @@ import FormHeader from "../../../components/Forms/FormHeader";
 import FormField from "../../../components/Forms/TextInput";
 import SubmitButton from "../../../components/Forms/SubmitButton";
 import useProfile from "../../../hooks/useProfile";
+import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useToast } from "../../../providers/ToastProvider";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
 
@@ -30,6 +31,7 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
+  const { logout } = useAuthentication();
   const { deleteUser } = useProfile();
   const { addToast } = useToast();
   const router = useRouter();
@@ -44,13 +46,13 @@ const DeleteProfileScreen: React.FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (formData: FormData) => {
-
+  const onSubmit = () => {
+    {setModalVisible(true)};
   };
 
   return (
     <Fragment>
-      <ConfirmationModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <ConfirmationModal modalVisible={modalVisible} setModalVisible={setModalVisible} addToast={addToast} deleteUser={deleteUser} logout={logout} />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Slet profil" />
         <FormField
@@ -73,7 +75,7 @@ const DeleteProfileScreen: React.FC = () => {
         />
         <TouchableOpacity
           style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-          onPress={() => {setModalVisible(true)}}>
+          onPress={() => router.back()}>
           <Text style={styles.buttonText}>Annuller</Text>
         </TouchableOpacity>
       </FormContainer>
@@ -81,7 +83,7 @@ const DeleteProfileScreen: React.FC = () => {
   );
 };
 
-const ConfirmationModal = ({ modalVisible, setModalVisible }) => {
+const ConfirmationModal = ({ modalVisible, setModalVisible, addToast, deleteUser, logout }) => {
   return (
     <Modal
       visible={modalVisible}
@@ -102,12 +104,11 @@ const ConfirmationModal = ({ modalVisible, setModalVisible }) => {
             }}>
             <Text style={styles.modalButtonText}>Nej</Text>
           </Pressable>
-          <Pressable style={[styles.modalButton, styles.modalButtonDelete]} onPress={() => {
+          <Pressable style={[styles.modalButton, styles.modalButtonDelete]} onPress={ async (formData: FormData) => {
             try {
-              await deleteUser.mutateAsync({
-                //Userid
-              });
+              await deleteUser.mutateAsync({});
               await logout();
+              addToast({ message: "Profilen er blevet slettet", type: "success" });
             } catch (error: any) {
               addToast({ message: error.message, type: "error" });
             }
@@ -168,15 +169,15 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   modalButtonNo: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.blue,
   },
   modalButtonDelete: {
-    backgroundColor: '#C60000',
+    backgroundColor: colors.red,
   },
   modalButtonText: {
     textAlign: 'center',
     fontSize: 30,
-    color: 'white',
+    color: colors.white,
   },
 });
 
