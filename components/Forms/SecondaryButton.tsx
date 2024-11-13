@@ -5,11 +5,12 @@ type SecondaryButtonProps = {
   onPress: () => void;
   label: string;
   style?: StyleProp<ViewStyle>;
+  testID?: string;
 };
 
-const SecondaryButton = ({ onPress, label, style }: SecondaryButtonProps) => {
+const SecondaryButton = ({ onPress, label, style, testID }: SecondaryButtonProps) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress} testID={testID}>
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );

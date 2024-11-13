@@ -24,6 +24,13 @@ export const createCitizenRequest = async (
   return res.json();
 };
 
+export const removeUserFromOrg = async (orgId: number, userId: string) => {
+  const url = `${BASE_URL}/organizations/${orgId}/remove-user/${userId}`;
+  const res = await fetch(url, { method: "PUT" });
+
+  if (!res.ok) throw new Error("Kunne ikke fjerne bruger", { cause: res.status });
+};
+
 export const deleteCitizenRequest = async (orgId: number, citizenId: number) => {
   const url = `${BASE_URL}/citizens/${orgId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
