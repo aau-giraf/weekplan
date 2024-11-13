@@ -3,7 +3,7 @@ import { useMemo } from "react";
 type SearchFunction<T> = (item: T) => string;
 
 const useSearch = <T>(items: T[], searchQuery: string, searchFn: SearchFunction<T>) => {
-  return useMemo(() => {
+  const filteredItems = useMemo(() => {
     if (!searchQuery) return items;
 
     const lowercasedTerm = searchQuery.toLowerCase();
@@ -13,6 +13,8 @@ const useSearch = <T>(items: T[], searchQuery: string, searchFn: SearchFunction<
       return searchableText.includes(lowercasedTerm);
     });
   }, [items, searchQuery, searchFn]);
+
+  return filteredItems;
 };
 
 export default useSearch;
