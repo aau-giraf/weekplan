@@ -26,11 +26,10 @@ export const fetchCitizenById = async (citizenId: number) => {
   return res.json();
 };
 
-
 /**
- * 
- * @param classId 
- * @returns 
+ *
+ * @param classId
+ * @returns
  * an organisation object
  */
 export const fetchOrganisationFromClassRequest = async (classId: number) => {
