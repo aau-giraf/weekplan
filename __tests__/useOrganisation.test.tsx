@@ -35,8 +35,8 @@ jest.mock("../providers/AuthenticationProvider", () => ({
 }));
 
 const mockCitizens = [
-  { id: "1", firstName: "Citizen 1", lastName: "CitizenTest1" },
-  { id: "2", firstName: "Citizen 2", lastName: "CitizenTest2" },
+  { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+  { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
 ];
 
 const mockOrganisation = {
@@ -84,8 +84,8 @@ test("delete citizen from organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.citizens).toEqual([
-      { id: "1", firstName: "Citizen 1", lastName: "CitizenTest1" },
-      { id: "2", firstName: "Citizen 2", lastName: "CitizenTest2" },
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
     ]);
   });
 
@@ -126,13 +126,17 @@ test("update citizen in organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.citizens).toEqual([
-      { id: "1", firstName: "Citizen 1", lastName: "CitizenTest1" },
-      { id: "2", firstName: "Citizen 2", lastName: "CitizenTest2" },
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
     ]);
   });
 
   await act(async () => {
-    await result.current.updateCitizen.mutateAsync({ id: 1, firstName: "Updated", lastName: "CitizenTest1" });
+    await result.current.updateCitizen.mutateAsync({
+      id: 1,
+      firstName: "Updated",
+      lastName: "CitizenTest1",
+    });
   });
 
   await waitFor(() => {
@@ -141,8 +145,8 @@ test("update citizen in organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.citizens).toEqual([
-      { id: "1", firstName: "Updated", lastName: "CitizenTest1" },
-      { id: "2", firstName: "Citizen 2", lastName: "CitizenTest2" },
+      { id: 1, firstName: "Updated", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
     ]);
   });
 });
