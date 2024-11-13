@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
@@ -7,10 +7,12 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import { colors } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { useToast } from "../../../../../providers/ToastProvider";
+import { useCitizen } from "../../../../../providers/CitizenProvider";
 
 const ViewCitizen = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
+  const { setCitizenId } = useCitizen();
   const { deleteCitizen, data, error, isLoading } = useOrganisation(parsedID);
   const [searchQuery, setSearchQuery] = useState("");
   const { addToast } = useToast();
@@ -38,6 +40,10 @@ const ViewCitizen = () => {
         handleDelete={handleDelete}
         getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
         keyExtractor={(citizen) => citizen.id.toString()}
+        onPress={(item) => {
+          setCitizenId(item.id)
+          router.push("/auth/profile/organisation/weekplanscreen")
+        }}
       />
     </SafeAreaView>
   );

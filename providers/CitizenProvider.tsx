@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 type CitizenProviderValues = {
   citizenId: number | null;
-  setCitizenId?: (citizenId: number) => void;
+  setCitizenId: (citizenId: number) => void;
 };
 const CitizenContext = createContext<CitizenProviderValues | undefined>(undefined);
 
