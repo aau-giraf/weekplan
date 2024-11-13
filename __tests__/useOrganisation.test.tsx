@@ -35,8 +35,8 @@ jest.mock("../providers/AuthenticationProvider", () => ({
 }));
 
 const mockCitizens = [
-  { id: "1", firstName: "Citizen 1", lastName: "CitizenTest1" },
-  { id: "2", firstName: "Citizen 2", lastName: "CitizenTest2" },
+  { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+  { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
 ];
 
 const mockOrganisation = {
@@ -58,6 +58,9 @@ jest.mock("../apis/organisationAPI", () => ({
   }),
   deleteMemberRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve();
+  }),
+  updateCitizenRequest: jest.fn().mockImplementation((updatedCitizen) => {
+    return Promise.resolve(updatedCitizen);
   }),
 }));
 
@@ -81,8 +84,8 @@ test("delete citizen from organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.citizens).toEqual([
-      { id: "1", firstName: "Citizen 1", lastName: "CitizenTest1" },
-      { id: "2", firstName: "Citizen 2", lastName: "CitizenTest2" },
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
     ]);
   });
 
@@ -115,5 +118,35 @@ test("remove user from organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.users).toEqual([{ id: "2", firstName: "User 2", lastName: "Test" }]);
+  });
+});
+
+test("update citizen in organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data?.citizens).toEqual([
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+    ]);
+  });
+
+  await act(async () => {
+    await result.current.updateCitizen.mutateAsync({
+      id: 1,
+      firstName: "Updated",
+      lastName: "CitizenTest1",
+    });
+  });
+
+  await waitFor(() => {
+    expect(result.current.updateCitizen.isSuccess).toBe(true);
+  });
+
+  await waitFor(() => {
+    expect(result.current.data?.citizens).toEqual([
+      { id: 1, firstName: "Updated", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+    ]);
   });
 });
