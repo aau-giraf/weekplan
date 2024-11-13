@@ -133,4 +133,3 @@ const styles = StyleSheet.create({
 });
 
 export default ViewCitizen;
-

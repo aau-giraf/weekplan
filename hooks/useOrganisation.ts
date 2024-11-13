@@ -115,8 +115,7 @@ const useOrganisation = (orgId: number) => {
   });
 
   const updateCitizen = useMutation<void, Error, CitizenDTO>({
-    mutationFn: (citizen) =>
-      updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName),
+    mutationFn: (citizen) => updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName),
     onMutate: async (newCitizen) => {
       newCitizen.id = Number(newCitizen.id);
 
