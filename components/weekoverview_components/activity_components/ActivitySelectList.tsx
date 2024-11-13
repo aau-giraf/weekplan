@@ -1,7 +1,7 @@
 import { FlatList } from "react-native-gesture-handler";
-import { ActivityDTO } from "../../../DTO/activityDTO";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
+import { ActivityDTO } from "../../../hooks/useActivity";
 
 type ActivitySelectListProps = {
   activities: ActivityDTO[];

@@ -8,8 +8,20 @@ import {
   toggleActivityStatusRequest,
   updateRequest,
 } from "../apis/activityAPI";
-import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
+
 import { useCitizen } from "../providers/CitizenProvider";
+
+export type ActivityDTO = Omit<FullActivityDTO, "citizenId">;
+export type FullActivityDTO = {
+  activityId: number;
+  citizenId: number;
+  date: string;
+  description: string;
+  endTime: string;
+  name: string;
+  startTime: string;
+  isCompleted: boolean;
+};
 
 export const dateToQueryKey = (date: Date) => {
   if (!(date instanceof Date)) {

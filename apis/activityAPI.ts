@@ -1,4 +1,4 @@
-import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
+import { FullActivityDTO, ActivityDTO } from "../hooks/useActivity";
 import formatQueryDate from "../utils/formatQueryDate";
 import { BASE_URL } from "../utils/globals";
 
