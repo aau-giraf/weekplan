@@ -2,12 +2,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Fragment, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
-import useClasses from "../../../../../hooks/useClasses";
+import useClasses, { ClassDTO } from "../../../../../hooks/useClasses";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
-import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
 
 const ViewClass = () => {
@@ -29,73 +28,69 @@ const ViewClass = () => {
       </View>
     );
 
+  const sortedCitizen = (data: ClassDTO) => {
+    return data.citizens
+      .filter((citizen) =>
+        `${citizen.firstName} ${citizen.lastName}`.toLowerCase().startsWith(searchedCitizens.toLowerCase())
+      )
+      .sort((a, b) => a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName));
+  };
+
   return (
     <Fragment>
       <SafeAreaView />
-      <ScrollView contentContainerStyle={styles.sheetContent}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.ClassName}>{data?.name ?? "Class"}</Text>
-          <View style={styles.ActionView}>
-            {/* Edit Class */}
-            <IconButton onPress={() => {}} absolute={false}>
-              <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            {/* Fælles Weekplan */}
-            <IconButton onPress={() => {}} absolute={false}>
-              <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            <IconButton
-              onPress={() => router.push(`/auth/profile/organisation/${orgData?.id}`)}
-              absolute={false}>
-              <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
-            </IconButton>
+      <FlatList
+        data={data ? sortedCitizen(data) : []}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.citizenview}
+        renderItem={({ item }) => (
+          <Text style={styles.CitizenName}>{item.firstName + " " + item.lastName}</Text>
+        )}
+        ListEmptyComponent={<Text>No citizens found</Text>}
+        ListHeaderComponent={
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.ClassName}>{data?.name ?? "Class"}</Text>
+            <View style={styles.ActionView}>
+              {/* Edit Class */}
+              <IconButton onPress={() => {}} absolute={false}>
+                <Ionicons name={"create-outline"} size={ScaleSize(30)} />
+              </IconButton>
+              {/* Fælles Weekplan */}
+              <IconButton onPress={() => {}} absolute={false}>
+                <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
+              </IconButton>
+              <IconButton
+                onPress={() => router.push(`/auth/profile/organisation/${orgData?.id}`)}
+                absolute={false}>
+                <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
+              </IconButton>
+            </View>
+            <View style={styles.ActionView}>
+              <IconButton
+                onPress={() => {
+                  router.push({
+                    pathname: "/auth/profile/organisation/class/addcitizen",
+                    params: { classId: index },
+                  });
+                }}
+                absolute={false}>
+                <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
+              </IconButton>
+              <IconButton
+                onPress={() => {
+                  router.push({
+                    pathname: "/auth/profile/organisation/class/removecitizen",
+                    params: { classId: index },
+                  });
+                }}
+                absolute={false}>
+                <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
+              </IconButton>
+            </View>
+            <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
           </View>
-          <View style={styles.ActionView}>
-            <IconButton
-              onPress={() => {
-                router.push({
-                  pathname: "/auth/profile/organisation/class/addcitizen",
-                  params: { classId: index },
-                });
-              }}
-              absolute={false}>
-              <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            <IconButton
-              onPress={() => {
-                router.push({
-                  pathname: "/auth/profile/organisation/class/removecitizen",
-                  params: { classId: index },
-                });
-              }}
-              absolute={false}>
-              <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
-            </IconButton>
-          </View>
-          <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
-          <View style={styles.citizenview}>
-            {data?.citizens ? (
-              data.citizens
-                .filter((citizen: CitizenDTO) =>
-                  `${citizen.firstName} ${citizen.lastName}`
-                    .toLowerCase()
-                    .startsWith(searchedCitizens.toLowerCase())
-                )
-                .sort(
-                  (a: { firstName: string; lastName: string }, b: { firstName: string; lastName: string }) =>
-                    a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName)
-                )
-                .map((citizen: CitizenDTO) => (
-                  <Text key={citizen.id} style={styles.CitizenName}>
-                    {citizen.firstName + " " + citizen.lastName}
-                  </Text>
-                ))
-            ) : (
-              <Text>No citizens available</Text>
-            )}
-          </View>
-        </View>
-      </ScrollView>
+        }
+      />
     </Fragment>
   );
 };

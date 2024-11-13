@@ -12,8 +12,7 @@ import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorho
 import SecondaryButton from "../../../../components/Forms/SecondaryButton";
 import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
-import { TextInput } from "react-native-gesture-handler";
-import { useClassCreate } from "../../../../hooks/useClasses";
+import useClasses from "../../../../hooks/useClasses";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
@@ -25,7 +24,7 @@ const ViewOrganisation = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
   const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedId);
-  const { createClass } = useClassCreate(parsedId);
+  const { createClass } = useClasses(parsedId);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -59,7 +58,7 @@ const ViewOrganisation = () => {
   };
 
   const handleCreateClass = async (className: string) => {
-    await createClass.mutateAsync(className).catch((error) => {
+    await createClass.mutateAsync(className).catch((error: Error) => {
       addToast({ message: error.message, type: "error" });
     });
     closeCreateBS();

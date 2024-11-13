@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
-import useClasses, { useClassCreate } from "../hooks/useClasses";
-import { fetchCitizenById } from "../apis/classAPI";
+import useClasses from "../hooks/useClasses";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,7 +79,7 @@ describe("useClasses", () => {
         citizens: [{ ...mockCitizen, id: -1 }],
       });
     });
-    expect(result.current.data.citizens).toEqual([{ ...mockCitizen, id: -1 }]);
+    expect(result.current.data?.citizens).toEqual([{ ...mockCitizen, id: -1 }]);
   });
 
   it("removes citizen from class", async () => {
@@ -92,7 +91,7 @@ describe("useClasses", () => {
     const { result } = renderHook(() => useClasses(1), { wrapper });
 
     await waitFor(() => {
-      expect(result.current.data.citizens).toEqual([{ ...mockCitizen, id: 1 }]);
+      expect(result.current.data?.citizens).toEqual([{ ...mockCitizen, id: 1 }]);
     });
 
     await act(async () => {
@@ -109,7 +108,7 @@ describe("useClasses", () => {
   });
 
   it("creates a new class", async () => {
-    const { result } = renderHook(() => useClassCreate(1), { wrapper });
+    const { result } = renderHook(() => useClasses(1), { wrapper });
 
     await act(async () => {
       await result.current.createClass.mutate("New Class");

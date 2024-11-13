@@ -17,7 +17,7 @@ export default function useClasses(classId: number) {
   const queryClient = useQueryClient();
   const queryKey = [classId, "Classes"];
 
-  const fetchClass = useQuery({
+  const fetchClass = useQuery<ClassDTO>({
     queryFn: async () => fetchClassRequest(classId),
     queryKey,
   });
@@ -70,49 +70,50 @@ export default function useClasses(classId: number) {
     },
   });
 
+  const useClassCreate = (orgId: number) => {
+    const queryClient = useQueryClient();
+    const queryKey = [orgId, "Classes"];
+    const createClass = useMutation({
+      mutationFn: async (className: string) => createNewClassRequest(className, orgId),
+      onMutate: async (className) => {
+        await queryClient.cancelQueries({ queryKey });
+
+        const previousClasses = queryClient.getQueryData<ClassDTO[]>(queryKey);
+        const newClassId = previousClasses ? previousClasses.length + 1 : 1;
+        const newClass: ClassDTO = {
+          id: newClassId,
+          name: className,
+          citizens: [],
+        };
+
+        queryClient.setQueryData<ClassDTO[]>(queryKey, (oldData) => {
+          if (oldData) {
+            return [...oldData, newClass];
+          }
+          return [newClass];
+        });
+
+        return { previousClasses };
+      },
+      onError: (_error, _className, context) => {
+        if (context?.previousClasses) {
+          queryClient.setQueryData(queryKey, context.previousClasses);
+        }
+      },
+    });
+
+    return {
+      createClass,
+    };
+  };
+
   return {
     data: fetchClass.data,
     error: fetchClass.error,
     isLoading: fetchClass.isLoading,
+    ...useClassCreate(classId),
     addCitizenToClass,
     removeCitizenFromClass,
     createNewClassRequest,
-  };
-}
-
-export function useClassCreate(orgId: number) {
-  const queryClient = useQueryClient();
-  const queryKey = [orgId, "Classes"];
-  const createClass = useMutation({
-    mutationFn: async (className: string) => createNewClassRequest(className, orgId),
-    onMutate: async (className) => {
-      await queryClient.cancelQueries({ queryKey });
-
-      const previousClasses = queryClient.getQueryData<ClassDTO[]>(queryKey);
-      const newClassId = previousClasses ? previousClasses.length + 1 : 1;
-      const newClass: ClassDTO = {
-        id: newClassId,
-        name: className,
-        citizens: [],
-      };
-
-      queryClient.setQueryData<ClassDTO[]>(queryKey, (oldData) => {
-        if (oldData) {
-          return [...oldData, newClass];
-        }
-        return [newClass];
-      });
-
-      return { previousClasses };
-    },
-    onError: (_error, _className, context) => {
-      if (context?.previousClasses) {
-        queryClient.setQueryData(queryKey, context.previousClasses);
-      }
-    },
-  });
-
-  return {
-    createClass,
   };
 }

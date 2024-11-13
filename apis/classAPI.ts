@@ -1,3 +1,4 @@
+import { ClassDTO } from "../hooks/useClasses";
 import { BASE_URL } from "../utils/globals";
 export const fetchClassRequest = async (classId: number) => {
   if (classId === null) {
@@ -10,7 +11,7 @@ export const fetchClassRequest = async (classId: number) => {
   return res.json();
 };
 
-export const addCitizenToClassRequest = async (citizenId: number, classId: number) => {
+export const addCitizenToClassRequest = async (citizenId: number, classId: number): Promise<ClassDTO> => {
   const url = `${BASE_URL}/grades/${classId}/add-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "PUT",
