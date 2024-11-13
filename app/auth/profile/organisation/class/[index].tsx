@@ -2,11 +2,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Fragment, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
 import { CitizenDTO } from "../../../../../DTO/citizenDTO";
 import useClasses from "../../../../../hooks/useClasses";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
+import SearchBar from "../../../../../components/SearchBar";
 
 const ViewClass = () => {
   const { index } = useLocalSearchParams();
@@ -52,12 +53,7 @@ const ViewClass = () => {
               <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
             </IconButton>
           </View>
-          <TextInput
-            style={styles.SearchInput}
-            placeholder="Søg efter elever"
-            value={searchedCitizens}
-            onChange={(event) => setSearchedCitizens(event.nativeEvent.text)}
-          />
+          <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
           <View style={styles.citizenview}>
             {data?.citizens
               .filter((citizen: CitizenDTO) =>
@@ -109,6 +105,7 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(20),
     textAlign: "center",
     paddingVertical: ScaleSizeH(25),
+    borderRadius: 15,
     backgroundColor: colors.lightBlue,
     width: ScaleSizeW(300),
     marginVertical: ScaleSizeH(5),

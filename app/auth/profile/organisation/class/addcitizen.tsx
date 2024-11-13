@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { CitizenDTO } from "../../../../../DTO/citizenDTO";
@@ -6,6 +6,7 @@ import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
 import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
+import SearchBar from "../../../../../components/SearchBar";
 
 type Params = {
   classId: string;
@@ -64,14 +65,13 @@ const AddCitizen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Tilføj elev til klasse</Text>
-      <TextInput
-        style={styles.input}
-        value={searchText}
-        onChangeText={filterOptions}
-        placeholder="Søg efter elev"
-      />
+      <SearchBar value={searchText} onChangeText={filterOptions} />
       <FlatList
-        data={filteredOptions}
+        data={
+          filteredOptions
+            ? filteredOptions
+            : orgData?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+        }
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
           <TouchableOpacity
