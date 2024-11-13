@@ -24,7 +24,7 @@ const ViewOrganisation = () => {
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedID);
+  const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedId);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
