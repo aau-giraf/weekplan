@@ -3,8 +3,9 @@ import { useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
-import { SafeAreaView, TextInput, View, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { colors } from "../../../../../utils/SharedStyles";
+import SearchBar from "../../../../../components/SearchBar";
 
 const ViewCitizen = () => {
   const { index } = useLocalSearchParams();
@@ -23,14 +24,7 @@ const ViewCitizen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Søg..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          style={styles.searchInput}
-        />
-      </View>
+      <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
       <ListView
         data={filteredData}
         loadingMessage="Henter borgere..."

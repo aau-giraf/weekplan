@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import { colors } from "../../../../../utils/SharedStyles";
+import SearchBar from "../../../../../components/SearchBar";
 
 const ViewMembers = () => {
   const { index } = useLocalSearchParams();
@@ -23,14 +24,7 @@ const ViewMembers = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Søg..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          style={styles.searchInput}
-        />
-      </View>
+      <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
       <ListView
         data={filteredData}
         loadingMessage="Henter medlemmer..."
@@ -50,19 +44,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-  searchContainer: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderBottomWidth: 1,
-    borderColor: colors.gray,
-  },
-  searchInput: {
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: colors.black,
-    backgroundColor: colors.white,
-  },
 });
-
 export default ViewMembers;
