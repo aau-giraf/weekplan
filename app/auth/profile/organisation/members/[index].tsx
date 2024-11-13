@@ -6,13 +6,16 @@ import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import { colors } from "../../../../../utils/SharedStyles";
 
-const Viewmembers = () => {
+const ViewMembers = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const { deleteMember, data, error, isLoading } = useOrganisation(parsedID);
-
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredData = useSearch(data?.users || [], searchQuery);
+
+  const memberSearchFn = (member: { firstName: string; lastName: string }) =>
+    `${member.firstName} ${member.lastName}`;
+
+  const filteredData = useSearch(data?.users || [], searchQuery, memberSearchFn);
 
   const handleDelete = async (id: string) => {
     await deleteMember.mutateAsync(id);
@@ -62,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Viewmembers;
+export default ViewMembers;

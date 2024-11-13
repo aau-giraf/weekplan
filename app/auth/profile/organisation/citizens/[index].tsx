@@ -6,16 +6,18 @@ import useSearch from "../../../../../hooks/useSearch";
 import { SafeAreaView, TextInput, View, StyleSheet } from "react-native";
 import { colors } from "../../../../../utils/SharedStyles";
 
-const Viewcitizen = () => {
+const ViewCitizen = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const { deleteCitizen, data, error, isLoading } = useOrganisation(parsedID);
-
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredData = useSearch(data?.citizens || [], searchQuery);
+
+  const citizenSearchFn = (citizen: { firstName: string; lastName: string }) =>
+    `${citizen.firstName} ${citizen.lastName}`;
+
+  const filteredData = useSearch(data?.citizens || [], searchQuery, citizenSearchFn);
 
   const handleDelete = async (id: number) => {
-    console.log("Delete citizen with id", id);
     await deleteCitizen.mutateAsync(id);
   };
 
@@ -63,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Viewcitizen;
+export default ViewCitizen;

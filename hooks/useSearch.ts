@@ -1,16 +1,18 @@
 import { useMemo } from "react";
 
-const useSearch = <T extends { firstName: string; lastName: string }>(items: T[], searchQuery: string) => {
+type SearchFunction<T> = (item: T) => string;
+
+const useSearch = <T>(items: T[], searchQuery: string, searchFn: SearchFunction<T>) => {
   return useMemo(() => {
     if (!searchQuery) return items;
 
     const lowercasedTerm = searchQuery.toLowerCase();
 
     return items.filter((item) => {
-      const fullName = `${item.firstName} ${item.lastName}`.toLowerCase();
-      return fullName.includes(lowercasedTerm);
+      const searchableText = searchFn(item).toLowerCase();
+      return searchableText.includes(lowercasedTerm);
     });
-  }, [items, searchQuery]);
+  }, [items, searchQuery, searchFn]);
 };
 
 export default useSearch;
