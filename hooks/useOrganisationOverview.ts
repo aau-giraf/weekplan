@@ -5,12 +5,7 @@ import {
   deleteOrganisationRequest,
   fetchAllOrganisationsRequest,
 } from "../apis/organisationOverviewAPI";
-
-export type OrgOverviewDTO = {
-  id: number;
-  name: string;
-};
-
+import { OrgOverviewDTO } from "../DTO/orgoverviewDTO";
 const useOrganisationOverview = () => {
   const { userId } = useAuthentication();
   const queryClient = useQueryClient();
