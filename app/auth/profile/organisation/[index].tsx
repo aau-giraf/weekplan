@@ -8,7 +8,7 @@ import IconButton from "../../../../components/IconButton";
 import React, { Fragment, useRef, useState } from "react";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import SecondaryButton from "../../../../components/Forms/SecondaryButton";
 import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
@@ -60,7 +60,7 @@ const ViewOrganisation = () => {
 
   const handleCreateClass = async (className: string) => {
     await createClass.mutateAsync(className);
-    
+
     closeCreateBS();
   };
 
@@ -108,18 +108,18 @@ const ViewOrganisation = () => {
           onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
         />
         <Text style={styles.heading}>Klasser</Text>
-        <ConfirmBottomSheet
-          bottomSheetRef={bottomSheetRef}
-          orgName={data!.name}
-          handleConfirm={handleLeaveOrganisation}
-        />
-        <CreateClassButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateClass} />
         <Text>{classError?.message}</Text>
         <Text>{classLoading}</Text>
         <ClassView classes={classData ?? []} />
         <IconButton onPress={openCreateBS} absolute={false}>
           <Ionicons name={"add-outline"} size={ScaleSize(30)} />
         </IconButton>
+        <ConfirmBottomSheet
+          bottomSheetRef={bottomSheetRef}
+          orgName={data!.name}
+          handleConfirm={handleLeaveOrganisation}
+        />
+        <CreateClassButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateClass} />
       </View>
     </Fragment>
   );
@@ -139,13 +139,14 @@ const CreateClassButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateClassBu
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
-      style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
+      style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
       <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
-        <TextInput
+        <BottomSheetTextInput
+          style={styles.inputValid}
+          placeholder="Navn på klasse"
           value={className}
-          placeholder="Klasse Navn"
-          onChangeText={(value) => setClassName(value)}
+          onChangeText={(value: string) => setClassName(value)}
         />
         <SecondaryButton
           label="Bekræft"
@@ -170,7 +171,7 @@ const ConfirmBottomSheet = ({ bottomSheetRef, orgName, handleConfirm }: BottomSh
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
-      style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
+      style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
       <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
         <Text style={SharedStyles.header}>{`Vil du forlade organisationen "${orgName}"?`}</Text>
         <SecondaryButton
@@ -209,10 +210,21 @@ const styles = StyleSheet.create({
     borderRadius: ScaleSize(50),
     marginBottom: ScaleSize(10),
   },
+  inputValid: {
+    paddingVertical: ScaleSizeH(16),
+    paddingHorizontal: ScaleSizeW(85),
+    borderWidth: 1,
+    fontSize: ScaleSize(24),
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
+    borderRadius: 5,
+    marginVertical: ScaleSizeH(10),
+  },
   sheetContent: {
     gap: ScaleSize(10),
     padding: ScaleSize(90),
     alignItems: "center",
+    zIndex: 101,
   },
 });
 
