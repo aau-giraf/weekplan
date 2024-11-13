@@ -5,15 +5,25 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
-import { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
+import { removeUserFromOrg } from "../../../../apis/organisationAPI";
+import { useAuthentication } from "../../../../providers/AuthenticationProvider";
+import { useToast } from "../../../../providers/ToastProvider";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import SecondaryButton from "../../../../components/Forms/SecondaryButton";
+import { useQueryClient } from "@tanstack/react-query";
 import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
-  const parsedID = Number(index);
+  const parsedId = Number(index);
 
-  const { data, error, isLoading } = useOrganisation(parsedID);
+  const { data, error, isLoading } = useOrganisation(parsedId);
+  const queryClient = useQueryClient();
+  const { userId } = useAuthentication();
+  const { addToast } = useToast();
+  const bottomSheetRef = useRef<BottomSheet>(null);
   const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedID);
 
   if (isLoading) {
@@ -24,10 +34,26 @@ const ViewOrganisation = () => {
     return <Text>Error loading organization data</Text>;
   }
 
+  const closeBS = () => bottomSheetRef.current?.close();
+
+  const openBS = () => bottomSheetRef.current?.expand();
+
+  const handleLeaveOrganisation = () => {
+    removeUserFromOrg(data?.id!, userId!)
+      .then(() => {
+        queryClient.invalidateQueries({ queryKey: [userId!, "OrganisationOverview"] });
+        closeBS();
+        router.back();
+      })
+      .catch((error: any) => {
+        addToast({ message: `${error.message} [${error.cause}]`, type: "error" });
+      });
+  };
+
   return (
     <Fragment>
-      <SafeAreaView />
-      <View style={{ alignItems: "center" }}>
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <View style={{ alignItems: "center", height: "100%" }}>
         <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
         <View style={styles.ActionView}>
           <IconButton onPress={() => {}} absolute={false}>
@@ -38,7 +64,7 @@ const ViewOrganisation = () => {
             onPress={() =>
               router.push({
                 pathname: "/create-invitation",
-                params: { orgId: parsedID },
+                params: { orgId: parsedId },
               })
             }
             absolute={false}>
@@ -46,30 +72,34 @@ const ViewOrganisation = () => {
           </IconButton>
           <IconButton
             onPress={() => {
-              router.push("/auth/profile/organisation/addcitizen");
+              router.push({ pathname: "/auth/profile/organisation/addcitizen", params: { orgId: parsedId } });
             }}
             absolute={false}>
             <Ionicons name={"person-outline"} size={ScaleSize(30)} />
-            {/* //TODO: Setup Invitations */}
           </IconButton>
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
-            {/* //TODO: Setup Leaving Org */}
+          <IconButton onPress={openBS} absolute={false}>
+            <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
           </IconButton>
         </View>
         <Text style={styles.heading}>Medlemmer</Text>
         <CutoffList
           entries={data?.users ?? []}
           onPress={() => {
-            router.push(`/auth/profile/organisation/members/${parsedID}`);
+            router.push(`/auth/profile/organisation/members/${parsedId}`);
           }}
         />
         <Text style={styles.heading}>Borger</Text>
         <CutoffList
           entries={data?.citizens ?? []}
-          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedID}`)}
+          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
         />
         <Text style={styles.heading}>Klasser</Text>
+        {/* //TODO: Add and Implement Classes */}
+        <ConfirmBottomSheet
+          bottomSheetRef={bottomSheetRef}
+          orgName={data!.name}
+          handleConfirm={handleLeaveOrganisation}
+        />
         <Text>{classError?.message}</Text>
         <Text>{classLoading}</Text>
         <ClassView classes={classData ?? []} />
@@ -78,6 +108,33 @@ const ViewOrganisation = () => {
         </IconButton>
       </View>
     </Fragment>
+  );
+};
+
+type BottomSheetProps = {
+  bottomSheetRef: React.RefObject<BottomSheet>;
+  handleConfirm: Function;
+  orgName: string;
+};
+
+const ConfirmBottomSheet = ({ bottomSheetRef, orgName, handleConfirm }: BottomSheetProps) => {
+  return (
+    <BottomSheet
+      ref={bottomSheetRef}
+      enablePanDownToClose={true}
+      keyboardBlurBehavior="restore"
+      index={-1}
+      style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
+      <BottomSheetView style={SharedStyles.trueCenter}>
+        <Text style={SharedStyles.header}>{`Vil du forlade organisationen "${orgName}"?`}</Text>
+        <SecondaryButton
+          label="Bekræft"
+          style={{ backgroundColor: colors.red, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
+          onPress={() => handleConfirm()}
+          testID={"confirm-leave-button"}
+        />
+      </BottomSheetView>
+    </BottomSheet>
   );
 };
 
@@ -99,13 +156,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
-  buttonValid: {
+  button: {
     ...SharedStyles.trueCenter,
     height: ScaleSize(50),
     width: ScaleSize(50),
     borderRadius: ScaleSize(50),
     marginBottom: ScaleSize(10),
-    backgroundColor: colors.green,
   },
 });
 
