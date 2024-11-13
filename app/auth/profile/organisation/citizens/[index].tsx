@@ -132,4 +132,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Viewcitizen;
+export default ViewCitizen;
+
