@@ -71,6 +71,11 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   });
 
   const onSubmit = async (formData: FormData) => {
+    if (citizenId === null) {
+      addToast({ message: "Fejl, prøvede at tilføje aktivitet uden at vælge en borger", type: "error" });
+      return;
+    }
+
     const startTimeHHMM = formatTimeHHMM(formData.startTime);
     const endTimeHHMM = formatTimeHHMM(formData.endTime);
     const data = {

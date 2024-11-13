@@ -36,6 +36,10 @@ export default function useActivity({ date }: { date: Date }) {
   const queryClient = useQueryClient();
   const { citizenId } = useCitizen();
 
+  if (citizenId === null) {
+    throw new Error("Citizen ID is null");
+  }
+
   const useFetchActivities = useQuery<ActivityDTO[]>({
     queryFn: async () => fetchByDateRequestForCitizen(citizenId, date),
     queryKey: queryKey,

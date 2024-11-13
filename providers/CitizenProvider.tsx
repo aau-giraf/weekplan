@@ -1,7 +1,8 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 type CitizenProviderValues = {
-  citizenId: number;
+  citizenId: number | null;
+  setCitizenId?: (citizenId: number) => void;
 };
 const CitizenContext = createContext<CitizenProviderValues | undefined>(undefined);
 
@@ -12,10 +13,12 @@ const CitizenContext = createContext<CitizenProviderValues | undefined>(undefine
  * @return {ReactNode}
  */
 const CitizenProvider = ({ children }: { children: React.ReactNode }) => {
+  const [citizenId, setCitizenId] = useState<number | null>(null);
   return (
     <CitizenContext.Provider
       value={{
-        citizenId: 1,
+        citizenId,
+        setCitizenId,
       }}>
       {children}
     </CitizenContext.Provider>
