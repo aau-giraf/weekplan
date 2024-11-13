@@ -17,7 +17,7 @@ export const deleteOrganisationRequest = async (organisationId: number) => {
   const res = await fetch(url, {
     method: "DELETE",
   });
-  if (!res.ok) throw new Error("Kunne ikke slette organisation");
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
 };
 
 export const createOrganisationsRequest = async (

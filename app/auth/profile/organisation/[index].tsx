@@ -6,19 +6,16 @@ import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
 import React, { Fragment, useRef } from "react";
-import { removeUserFromOrg } from "../../../../apis/organisationAPI";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SecondaryButton from "../../../../components/Forms/SecondaryButton";
-import { useQueryClient } from "@tanstack/react-query";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
   const parsedId = Number(index);
 
-  const { data, error, isLoading } = useOrganisation(parsedId);
-  const queryClient = useQueryClient();
+  const { deleteMember, data, error, isLoading } = useOrganisation(parsedId);
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -35,16 +32,19 @@ const ViewOrganisation = () => {
 
   const openBS = () => bottomSheetRef.current?.expand();
 
-  const handleLeaveOrganisation = () => {
-    removeUserFromOrg(data?.id!, userId!)
-      .then(() => {
-        queryClient.invalidateQueries({ queryKey: [userId!, "OrganisationOverview"] });
-        closeBS();
-        router.back();
-      })
-      .catch((error: any) => {
-        addToast({ message: `${error.message} [${error.cause}]`, type: "error" });
-      });
+  const handleLeaveOrganisation = async () => {
+    if (typeof userId === "string") {
+      await deleteMember
+        .mutateAsync(userId)
+        .then(() => {
+          addToast({ message: "Du har forladt organisationen", type: "success" });
+        })
+        .catch((error) => {
+          addToast({ message: error.message, type: "error" });
+        });
+    }
+    closeBS();
+    router.back();
   };
 
   return (
@@ -116,7 +116,7 @@ const ConfirmBottomSheet = ({ bottomSheetRef, orgName, handleConfirm }: BottomSh
       keyboardBlurBehavior="restore"
       index={-1}
       style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
-      <BottomSheetView style={SharedStyles.trueCenter}>
+      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
         <Text style={SharedStyles.header}>{`Vil du forlade organisationen "${orgName}"?`}</Text>
         <SecondaryButton
           label="Bekræft"
@@ -124,7 +124,7 @@ const ConfirmBottomSheet = ({ bottomSheetRef, orgName, handleConfirm }: BottomSh
           onPress={() => handleConfirm()}
           testID={"confirm-leave-button"}
         />
-      </BottomSheetView>
+      </BottomSheetScrollView>
     </BottomSheet>
   );
 };
@@ -153,6 +153,11 @@ const styles = StyleSheet.create({
     width: ScaleSize(50),
     borderRadius: ScaleSize(50),
     marginBottom: ScaleSize(10),
+  },
+  sheetContent: {
+    gap: ScaleSize(10),
+    padding: ScaleSize(90),
+    alignItems: "center",
   },
 });
 
