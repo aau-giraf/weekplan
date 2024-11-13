@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import useActivity, { dateToQueryKey, useSingleActivity } from "../hooks/useActivity";
-import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
+import useActivity, { ActivityDTO, dateToQueryKey, FullActivityDTO, useSingleActivity } from "../hooks/useActivity";
 import CitizenProvider from "../providers/CitizenProvider";
 
 const queryClient = new QueryClient({

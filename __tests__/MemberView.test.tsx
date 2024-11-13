@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react-native";
 import { CutoffList } from "../components/organisationoverview_components/CutoffList";
-import { UserDTO } from "../DTO/userDTO";
+import { UserDTO } from "../hooks/useOrganisation";
 
 const generateMember = (index: string, email: string): UserDTO => ({
   id: index,

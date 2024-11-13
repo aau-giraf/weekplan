@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { ActivityIndicator, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityItem from "./ActivityItem";
-import useActivity from "../../../hooks/useActivity";
+import useActivity, { ActivityDTO } from "../../../hooks/useActivity";
 import { useDate } from "../../../providers/DateProvider";
-import { ActivityDTO } from "../../../DTO/activityDTO";
 import { router } from "expo-router";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";

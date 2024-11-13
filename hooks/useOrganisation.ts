@@ -5,8 +5,29 @@ import {
   deleteMemberRequest,
   fetchOrganisationRequest,
 } from "../apis/organisationAPI";
-import { OrgDTO } from "../DTO/organisationDTO";
-import { CitizenDTO } from "../DTO/citizenDTO";
+
+import { ActivityDTO } from "./useActivity";
+
+export type UserDTO = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type CitizenDTO = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  activities: ActivityDTO[];
+};
+
+export type OrgDTO = {
+  id: number;
+  name: string;
+  users: UserDTO[];
+  citizens: CitizenDTO[];
+};
 
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
@@ -56,6 +77,7 @@ const useOrganisation = (orgId: number) => {
                   id: actualId,
                   firstName: citizen.firstName,
                   lastName: citizen.lastName,
+                  activities: citizen.activities,
                 };
               }
               return citizen;

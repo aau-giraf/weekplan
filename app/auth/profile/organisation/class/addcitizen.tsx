@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { CitizenDTO } from "../../../../../DTO/citizenDTO";
 import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
 import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
 import SearchBar from "../../../../../components/SearchBar";
+import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 
 type Params = {
   classId: string;

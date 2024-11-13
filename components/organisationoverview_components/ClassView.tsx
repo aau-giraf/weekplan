@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { getContrastingTextColor, hashNameToColour } from "../../utils/colourFunctions";
 import { SharedStyles } from "../../utils/SharedStyles";
-import { ClassDTO } from "../../DTO/classDTO";
 import IconButton from "../IconButton";
 import { router } from "expo-router";
+import { ClassDTO } from "../../hooks/useClasses";
 
 type ClassViewProps = {
   classes: ClassDTO[];

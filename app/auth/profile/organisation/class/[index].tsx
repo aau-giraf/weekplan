@@ -4,10 +4,10 @@ import { Fragment, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
-import { CitizenDTO } from "../../../../../DTO/citizenDTO";
 import useClasses from "../../../../../hooks/useClasses";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
+import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 
 const ViewClass = () => {
   const { index } = useLocalSearchParams();
