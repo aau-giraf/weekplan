@@ -16,8 +16,18 @@ const ViewClass = () => {
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
   const { data, error, isLoading } = useClasses(parsedID);
   const { orgData } = useFetchOrganiasationFromClass(parsedID);
-  if (isLoading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error loading class data</Text>;
+  if (isLoading)
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  if (error)
+    return (
+      <View>
+        <Text>Error loading class data</Text>
+      </View>
+    );
 
   return (
     <Fragment>
@@ -64,21 +74,25 @@ const ViewClass = () => {
           </View>
           <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
           <View style={styles.citizenview}>
-            {data?.citizens
-              .filter((citizen: CitizenDTO) =>
-                `${citizen.firstName} ${citizen.lastName}`
-                  .toLowerCase()
-                  .startsWith(searchedCitizens.toLowerCase())
-              )
-              .sort(
-                (a: { firstName: string; lastName: string }, b: { firstName: string; lastName: string }) =>
-                  a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName)
-              )
-              .map((citizen: CitizenDTO) => (
-                <Text key={citizen.id} style={styles.CitizenName}>
-                  {citizen.firstName + " " + citizen.lastName}
-                </Text>
-              ))}
+            {data?.citizens ? (
+              data.citizens
+                .filter((citizen: CitizenDTO) =>
+                  `${citizen.firstName} ${citizen.lastName}`
+                    .toLowerCase()
+                    .startsWith(searchedCitizens.toLowerCase())
+                )
+                .sort(
+                  (a: { firstName: string; lastName: string }, b: { firstName: string; lastName: string }) =>
+                    a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName)
+                )
+                .map((citizen: CitizenDTO) => (
+                  <Text key={citizen.id} style={styles.CitizenName}>
+                    {citizen.firstName + " " + citizen.lastName}
+                  </Text>
+                ))
+            ) : (
+              <Text>No citizens available</Text>
+            )}
           </View>
         </View>
       </ScrollView>

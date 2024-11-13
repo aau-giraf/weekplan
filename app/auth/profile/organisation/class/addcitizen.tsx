@@ -7,6 +7,7 @@ import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
 import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
+import { useToast } from "../../../../../providers/ToastProvider";
 
 type Params = {
   classId: string;
@@ -15,6 +16,7 @@ type Params = {
 const AddCitizen = () => {
   const [searchText, setSearchText] = useState("");
   const { classId } = useLocalSearchParams<Params>();
+  const { addToast } = useToast();
   const { orgData, orgError, orgLoading } = useFetchOrganiasationFromClass(Number(classId));
   const [filteredOptions, setFilteredOptions] = useState(
     orgData?.citizens
@@ -65,7 +67,9 @@ const AddCitizen = () => {
   };
 
   const onSubmit = async (citizenId: number) => {
-    await addCitizenToClassRequest(citizenId, Number(classId));
+    await addCitizenToClassRequest(citizenId, Number(classId)).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
     router.push(`/auth/profile/organisation/class/${classId}`);
   };
 

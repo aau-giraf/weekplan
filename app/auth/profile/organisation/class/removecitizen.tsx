@@ -15,8 +15,8 @@ type Params = {
 const RemoveCitizen = () => {
   const [searchText, setSearchText] = useState("");
   const { classId } = useLocalSearchParams<Params>();
-  const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(classId));
   const { addToast } = useToast();
+  const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(classId));
   const [filteredOptions, setFilteredOptions] = useState(
     data?.citizens
       .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
@@ -66,7 +66,9 @@ const RemoveCitizen = () => {
   };
 
   const onRemove = async (citizenId: number) => {
-    await removeCitizenFromClass.mutateAsync(citizenId);
+    await removeCitizenFromClass.mutateAsync(citizenId).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
     router.push(`/auth/profile/organisation/class/${classId}`);
   };
   return (

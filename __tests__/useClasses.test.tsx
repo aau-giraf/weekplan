@@ -80,16 +80,20 @@ describe("useClasses", () => {
         citizens: [{ ...mockCitizen, id: -1 }],
       });
     });
+    expect(result.current.data.citizens).toEqual([{ ...mockCitizen, id: -1 }]);
   });
 
   it("removes citizen from class", async () => {
-    // Set up initial state with a citizen already present
     queryClient.setQueryData([1, "Classes"], {
       ...initialMockClass,
       citizens: [{ ...mockCitizen, id: 1 }],
     });
 
     const { result } = renderHook(() => useClasses(1), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current.data.citizens).toEqual([{ ...mockCitizen, id: 1 }]);
+    });
 
     await act(async () => {
       await result.current.removeCitizenFromClass.mutateAsync(mockCitizen.id);

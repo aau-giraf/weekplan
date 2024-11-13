@@ -13,10 +13,10 @@ type ClassViewEntryProps = {
   classData: ClassDTO;
 };
 
-export const ClassView = ({ classes }: ClassViewProps) => {
+export const ClassView = ({ classes }: ClassViewProps) => { 
   return (
     <View style={styles.classView}>
-      {classes.map((member, index) => (
+      {(Array.isArray(classes) ? classes : []).map((member, index) => (
         <ClassViewEntry classData={member} key={index} />
       ))}
     </View>

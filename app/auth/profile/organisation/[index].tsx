@@ -59,8 +59,9 @@ const ViewOrganisation = () => {
   };
 
   const handleCreateClass = async (className: string) => {
-    await createClass.mutateAsync(className);
-
+    await createClass.mutateAsync(className).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
     closeCreateBS();
   };
 
