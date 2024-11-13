@@ -81,6 +81,10 @@ const ViewCitizen = () => {
     );
   }
 
+  if(error){
+    return <Text>{error.message}</Text>
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
