@@ -59,5 +59,5 @@ export const updateCitizenRequest = async (citizenId: number, firstName: string,
     body: JSON.stringify({ firstName, lastName }),
   });
 
-  if(!res.ok) throw new Error("Kunne ikke opdatere borger");
-}
+  if (!res.ok) throw new Error("Kunne ikke opdatere borger");
+};

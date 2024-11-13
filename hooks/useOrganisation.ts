@@ -114,8 +114,7 @@ const useOrganisation = (orgId: number) => {
   });
 
   const updateCitizen = useMutation<void, Error, Citizen>({
-    mutationFn: (citizen: Citizen) =>
-      updateCitizenRequest(citizen.id, citizen.firstName, citizen.lastName),
+    mutationFn: (citizen: Citizen) => updateCitizenRequest(citizen.id, citizen.firstName, citizen.lastName),
     onMutate: async (newCitizen) => {
       await queryClient.cancelQueries({ queryKey });
 
@@ -150,7 +149,7 @@ const useOrganisation = (orgId: number) => {
     createCitizen,
     deleteCitizen,
     deleteMember,
-    updateCitizen
+    updateCitizen,
   };
 };
 
