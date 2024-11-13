@@ -39,19 +39,19 @@ const LoginScreen: React.FC = () => {
 
   const onsSubmit = async (data: LoginForm) => {
     const { email, password } = data;
-    await login(email, password);
     if (rememberMe) {
       await SecureStore.setItemAsync("email", email);
       await SecureStore.setItemAsync("password", password);
-      await setSettingsValue("Remember me", true);
+      await setSettingsValue("Husk mig", true);
     }
+    await login(email, password);
   };
 
   useEffect(() => {
     const autoLogin = async () => {
       const savedEmail = await SecureStore.getItemAsync("email");
       const savedPassword = await SecureStore.getItemAsync("password");
-      const rememberMe = await getSettingsValue("Remember me", false);
+      const rememberMe = await getSettingsValue("Husk mig", false);
       if (savedEmail && savedPassword && rememberMe) {
         await login(savedEmail, savedPassword);
       }
