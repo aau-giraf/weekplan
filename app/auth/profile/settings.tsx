@@ -62,7 +62,6 @@ const Settings = () => {
         icon: "trash-outline",
         onPress: () => {
           router.push("/auth/profile/deleteprofile");
-          setModalVisible(true);
         },
         label: "Slet profil",
       },

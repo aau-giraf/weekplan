@@ -35,3 +35,13 @@ export const changePasswordRequest = async (userId: string | null, data: ChangeP
   });
   if (!res.ok) throw new Error("Kunne ikke opdatere adgangskode");
 };
+
+export const deleteUserRequest = async (userId: string | null) => {
+  if (userId === null) {
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
+  }
+  const res = await fetch(`${BASE_URL}/users/${userId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Kunne ikke slette brugeren");
+};

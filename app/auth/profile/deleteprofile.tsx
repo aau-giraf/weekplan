@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
@@ -14,25 +14,15 @@ import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/Shared
 
 const schema = z
   .object({
-    oldPassword: z.string().trim().min(8, "Indtast nuværende adgangskode"),
-    newPassword: z.string().trim().regex(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$"), {
-      message: "Adgangskode skal indeholde mindst 8 tegn, et stort bogstav, et lille bogstav og et tal",
-    }),
-    confirmNewPassword: z.string().trim(),
+    currentPassword: z.string().trim().min(8, "Indtast nuværende adgangskode"),
+    confirmPassword: z.string().trim(),
   })
   .superRefine((data, ctx) => {
-    if (data.newPassword !== data.confirmNewPassword) {
+    if (data.currentPassword !== data.confirmPassword) {
       ctx.addIssue({
         code: "custom",
-        path: ["confirmNewPassword"],
-        message: "Ny adgangskode stemmer ikke overens",
-      });
-    }
-    if (data.oldPassword === data.newPassword) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["newPassword"],
-        message: "Ny adgangskode må ikke være den samme som den nuværende",
+        path: ["confirmPassword"],
+        message: "Adgangskode stemmer ikke overens",
       });
     }
   });
@@ -40,7 +30,7 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
-  const { changePassword } = useProfile();
+  const { deleteUser } = useProfile();
   const { addToast } = useToast();
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
@@ -55,39 +45,24 @@ const DeleteProfileScreen: React.FC = () => {
   });
 
   const onSubmit = async (formData: FormData) => {
-    try {
 
-      await changePassword.mutateAsync({
-        oldPassword: formData.oldPassword,
-        newPassword: formData.newPassword,
-      });
-      router.back();
-    } catch (error: any) {
-      addToast({ message: error.message, type: "error" });
-    }
   };
 
   return (
-    <View>
-    <ConfirmationModal />
+    <Fragment>
+      <ConfirmationModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Slet profil" />
         <FormField
           control={control}
-          name="oldPassword"
+          name="currentPassword"
           placeholder="Indtast nuværende adgangskode"
           secureText={true}
         />
         <FormField
           control={control}
-          name="newPassword"
-          placeholder="Indtast ny adgangskode"
-          secureText={true}
-        />
-        <FormField
-          control={control}
-          name="confirmNewPassword"
-          placeholder="Bekræft ny adgangskode"
+          name="confirmPassword"
+          placeholder="Bekræft adgangskode"
           secureText={true}
         />
         <SubmitButton
@@ -98,15 +73,15 @@ const DeleteProfileScreen: React.FC = () => {
         />
         <TouchableOpacity
           style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-          onPress={() => router.back()}>
+          onPress={() => {setModalVisible(true)}}>
           <Text style={styles.buttonText}>Annuller</Text>
         </TouchableOpacity>
       </FormContainer>
-    </View>
+    </Fragment>
   );
 };
 
-const ConfirmationModal = () => {
+const ConfirmationModal = ({ modalVisible, setModalVisible }) => {
   return (
     <Modal
       visible={modalVisible}
@@ -128,7 +103,14 @@ const ConfirmationModal = () => {
             <Text style={styles.modalButtonText}>Nej</Text>
           </Pressable>
           <Pressable style={[styles.modalButton, styles.modalButtonDelete]} onPress={() => {
-            //Delete Code
+            try {
+              await deleteUser.mutateAsync({
+                //Userid
+              });
+              await logout();
+            } catch (error: any) {
+              addToast({ message: error.message, type: "error" });
+            }
             setModalVisible(false);
             }}>
             <Text style={styles.modalButtonText}>Slet</Text>
@@ -181,7 +163,7 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   modalButton: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 40,
     margin: 10,
   },
