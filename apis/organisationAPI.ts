@@ -24,20 +24,13 @@ export const createCitizenRequest = async (
   return res.json();
 };
 
-export const removeUserFromOrg = async (orgId: number, userId: string) => {
-  const url = `${BASE_URL}/organizations/${orgId}/remove-user/${userId}`;
-  const res = await fetch(url, { method: "PUT" });
-
-  if (!res.ok) throw new Error("Kunne ikke fjerne bruger", { cause: res.status });
-};
-
 export const deleteCitizenRequest = async (orgId: number, citizenId: number) => {
   const url = `${BASE_URL}/citizens/${orgId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "DELETE",
   });
 
-  if (!res.ok) throw new Error("Kunne ikke slette organisationen");
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
 };
 
 export const deleteMemberRequest = async (orgId: number, memberId: string) => {
@@ -46,5 +39,5 @@ export const deleteMemberRequest = async (orgId: number, memberId: string) => {
     method: "put",
   });
 
-  if (!res.ok) throw new Error("Kunne ikke slette medlemmet");
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
 };

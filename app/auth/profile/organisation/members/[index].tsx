@@ -6,12 +6,14 @@ import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import { colors } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
+import { useToast } from "../../../../../providers/ToastProvider";
 
 const ViewMembers = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const { deleteMember, data, error, isLoading } = useOrganisation(parsedID);
   const [searchQuery, setSearchQuery] = useState("");
+  const { addToast } = useToast();
 
   const memberSearchFn = (member: { firstName: string; lastName: string }) =>
     `${member.firstName} ${member.lastName}`;
@@ -19,7 +21,9 @@ const ViewMembers = () => {
   const filteredData = useSearch(data?.users || [], searchQuery, memberSearchFn);
 
   const handleDelete = async (id: string) => {
-    await deleteMember.mutateAsync(id);
+    await deleteMember.mutateAsync(id).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
   };
 
   return (
