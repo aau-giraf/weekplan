@@ -6,14 +6,11 @@ import {
   fetchAllClassesInOrganisationRequest,
   fetchAllOrganisationsRequest,
 } from "../apis/organisationOverviewAPI";
+
 import { ClassDTO } from "../DTO/classDTO";
 import { OrgDTO } from "../DTO/organisationDTO";
 import { fetchOrganisationFromClassRequest } from "../apis/classAPI";
-
-export type OrgOverviewDTO = {
-  id: number;
-  name: string;
-};
+import { OrgOverviewDTO } from "../DTO/orgoverviewDTO";
 
 const useOrganisationOverview = () => {
   const { userId } = useAuthentication();

@@ -1,17 +1,9 @@
-export type User = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-export type Citizen = {
-  id: number;
-  firstName: string;
-  lastName: string;
-};
+import { CitizenDTO } from "./citizenDTO";
+import { UserDTO } from "./userDTO";
+
 export type OrgDTO = {
   id: number;
   name: string;
-  users: User[];
-  citizens: Citizen[];
+  users: UserDTO[];
+  citizens: CitizenDTO[];
 };
