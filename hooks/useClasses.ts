@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addCitizenToClassRequest, fetchCitizenById, fetchClassRequest } from "../apis/classAPI";
+import {
+  addCitizenToClassRequest,
+  fetchCitizenById,
+  fetchClassRequest,
+  removeCitizenFromClassRequest,
+} from "../apis/classAPI";
 import { CitizenDTO } from "./useOrganisation";
 
 export type ClassDTO = {
@@ -41,10 +46,36 @@ export default function useClasses(classId: number) {
     },
   });
 
+  const removeCitizenFromClass = useMutation({
+    mutationFn: async (citizenId: number) => removeCitizenFromClassRequest(citizenId, classId),
+    onMutate: async (citizenId) => {
+      console.log("onMutate citizen iD", citizenId);
+      console.log("onMutate class iD", classId);
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousClass = queryClient.getQueryData<ClassDTO>(queryKey);
+      queryClient.setQueryData<ClassDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            citizens: oldData.citizens.filter((citizen) => citizen.id !== citizenId),
+          };
+        }
+        return previousClass;
+      });
+    },
+    onError: (_error, _citizenId, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context);
+      }
+    },
+  });
+
   return {
     data: fetchClass.data,
     error: fetchClass.error,
     isLoading: fetchClass.isLoading,
     addCitizenToClass,
+    removeCitizenFromClass,
   };
 }

@@ -41,3 +41,12 @@ export const fetchOrganisationFromClassRequest = async (classId: number) => {
   if (!res.ok) throw new Error("Kunne ikke hente organisation");
   return res.json();
 };
+
+export const removeCitizenFromClassRequest = async (citizenId: number, classId: number) => {
+  console.log("Api citizen ID" + citizenId + " classId " + classId);
+  const url = `${BASE_URL}/grades/${classId}/remove-citizen/${citizenId}`;
+  const res = await fetch(url, {
+    method: "DELETE",
+  });
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+};

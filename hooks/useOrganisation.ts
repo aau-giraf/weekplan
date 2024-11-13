@@ -89,7 +89,7 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
-  const deleteCitizen = useMutation<void, Error, number>({
+  const deleteCitizen = useMutation({
     mutationFn: (citizenId: number) => deleteCitizenRequest(orgId, citizenId),
     onMutate: async (citizenId) => {
       await queryClient.cancelQueries({ queryKey });
@@ -106,9 +106,13 @@ const useOrganisation = (orgId: number) => {
       });
     },
     onError: (_error, _citizenId, context) => {
+      console.log("error", _error);
       if (context) {
         queryClient.setQueryData(queryKey, context);
       }
+    },
+    onSuccess: () => {
+      console.log("success");
     },
   });
 
