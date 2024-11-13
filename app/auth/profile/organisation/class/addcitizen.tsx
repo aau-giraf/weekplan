@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity } from "r
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { CitizenDTO } from "../../../../../DTO/citizenDTO";
-import { ScaleSize, ScaleSizeH, ScaleSizeW, colors } from "../../../../../utils/SharedStyles";
+import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
 import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
@@ -22,7 +22,7 @@ const AddCitizen = () => {
 
   if (orgError) {
     return (
-      <View>
+      <View style={styles.centeredContainer}>
         <Text>Error loading class data</Text>
       </View>
     );
@@ -30,7 +30,7 @@ const AddCitizen = () => {
 
   if (orgLoading) {
     return (
-      <View>
+      <View style={styles.centeredContainer}>
         <Text>Loading...</Text>
       </View>
     );
@@ -72,6 +72,7 @@ const AddCitizen = () => {
       />
       <FlatList
         data={filteredOptions}
+        contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={
@@ -98,46 +99,60 @@ const AddCitizen = () => {
 export default AddCitizen;
 
 const styles = StyleSheet.create({
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
-    padding: ScaleSize(20),
+    paddingHorizontal: ScaleSize(20),
+    paddingVertical: ScaleSizeH(20),
     alignItems: "center",
-    gap: ScaleSize(20),
   },
   heading: {
-    fontSize: ScaleSize(25),
+    fontSize: ScaleSize(40),
     fontWeight: "bold",
-    marginBottom: ScaleSize(10),
+    marginVertical: ScaleSize(15),
   },
   input: {
-    width: "100%",
+    width: "90%",
     borderWidth: 1,
     borderColor: colors.gray,
     borderRadius: ScaleSize(8),
     padding: ScaleSize(10),
-    marginBottom: ScaleSize(15),
     fontSize: ScaleSize(18),
+    marginBottom: ScaleSize(15),
+  },
+  listContent: {
+    alignItems: "center",
+    height: "100%",
   },
   option: {
-    paddingVertical: ScaleSizeH(40),
-    paddingHorizontal: ScaleSizeW(100),
+    paddingVertical: ScaleSizeH(20),
     marginBottom: ScaleSizeH(10),
     borderRadius: 15,
+    borderWidth: 1,
+    borderColor: colors.lightBlue,
     backgroundColor: colors.lightBlue,
-    width: "100%",
+    width: "45%",
+    minWidth: "45%",
     alignItems: "center",
   },
   optionSelect: {
-    paddingVertical: ScaleSizeH(40),
-    paddingHorizontal: ScaleSizeW(25),
+    paddingVertical: ScaleSizeH(20),
     marginBottom: ScaleSizeH(10),
     borderRadius: 15,
-    backgroundColor: colors.green,
-    width: "100%",
+    borderWidth: 1,
+    borderColor: colors.green,
+    backgroundColor: colors.lightBlue,
+    width: "45%",
+    minWidth: "45%",
     alignItems: "center",
   },
   optionText: {
     fontSize: ScaleSize(18),
     color: colors.black,
+    textAlign: "center",
   },
 });

@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Fragment, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
 import { CitizenDTO } from "../../../../../DTO/citizenDTO";
 import useClasses from "../../../../../hooks/useClasses";
@@ -20,56 +20,63 @@ const ViewClass = () => {
   return (
     <Fragment>
       <SafeAreaView />
-      <View style={{ alignItems: "center" }}>
-        <Text style={styles.ClassName}>{data?.name ?? "Class"}</Text>
-        <View style={styles.ActionView}>
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-          </IconButton>
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
-          </IconButton>
-          <IconButton onPress={router.back} absolute={false}>
-            <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
-          </IconButton>
+      <ScrollView contentContainerStyle={styles.sheetContent}>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.ClassName}>{data?.name ?? "Class"}</Text>
+          <View style={styles.ActionView}>
+            {/* Edit Class */}
+            <IconButton onPress={() => {}} absolute={false}>
+              <Ionicons name={"create-outline"} size={ScaleSize(30)} />
+            </IconButton>
+            {/* Fælles Weekplan */}
+            <IconButton onPress={() => {}} absolute={false}>
+              <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
+            </IconButton>
+            <IconButton onPress={router.back} absolute={false}>
+              <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
+            </IconButton>
+          </View>
+          <View style={styles.ActionView}>
+            <IconButton
+              onPress={() => {
+                router.push({
+                  pathname: "/auth/profile/organisation/class/addcitizen",
+                  params: { classId: index },
+                });
+              }}
+              absolute={false}>
+              <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
+            </IconButton>
+            {/* Remove Citizen */}
+            <IconButton onPress={() => {}} absolute={false}>
+              <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
+            </IconButton>
+          </View>
+          <TextInput
+            style={styles.SearchInput}
+            placeholder="Søg efter elever"
+            value={searchedCitizens}
+            onChange={(event) => setSearchedCitizens(event.nativeEvent.text)}
+          />
+          <View style={styles.citizenview}>
+            {data?.citizens
+              .filter((citizen: CitizenDTO) =>
+                `${citizen.firstName} ${citizen.lastName}`
+                  .toLowerCase()
+                  .startsWith(searchedCitizens.toLowerCase())
+              )
+              .sort(
+                (a: { firstName: string; lastName: string }, b: { firstName: any; lastName: any }) =>
+                  a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName)
+              )
+              .map((citizen: CitizenDTO) => (
+                <Text key={citizen.id} style={styles.CitizenName}>
+                  {citizen.firstName + " " + citizen.lastName}
+                </Text>
+              ))}
+          </View>
         </View>
-        <TextInput
-          style={styles.SearchInput}
-          placeholder="Søg efter elever"
-          value={searchedCitizens}
-          onChange={(event) => setSearchedCitizens(event.nativeEvent.text)}
-        />
-        {data?.citizens
-          .filter((citizen: CitizenDTO) =>
-            `${citizen.firstName} ${citizen.lastName}`
-              .toLowerCase()
-              .startsWith(searchedCitizens.toLowerCase())
-          )
-          .sort(
-            (a: { firstName: string; lastName: string }, b: { firstName: string; lastName: string }) =>
-              a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName)
-          )
-          .map((citizen: CitizenDTO) => (
-            <Text key={citizen.id} style={styles.CitizenName}>
-              {citizen.firstName + " " + citizen.lastName}
-            </Text>
-          ))}
-        <View style={styles.ActionView}>
-          <IconButton
-            onPress={() => {
-              router.push({
-                pathname: "/auth/profile/organisation/class/addcitizen",
-                params: { classId: index },
-              });
-            }}
-            absolute={false}>
-            <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
-          </IconButton>
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
-          </IconButton>
-        </View>
-      </View>
+      </ScrollView>
     </Fragment>
   );
 };
@@ -91,27 +98,24 @@ const styles = StyleSheet.create({
     borderRadius: ScaleSize(8),
     padding: ScaleSize(10),
     marginVertical: ScaleSize(10),
-    width: "80%",
+    paddingHorizontal: ScaleSize(200),
+    width: "100%",
+  },
+  citizenview: {
+    width: "100%",
+    alignItems: "center",
   },
   CitizenName: {
     fontSize: ScaleSize(20),
-    marginVertical: ScaleSize(5),
     textAlign: "center",
-  },
-  inputValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(85),
-    borderWidth: 1,
-    fontSize: ScaleSize(24),
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-    borderRadius: 5,
-    marginVertical: ScaleSizeH(10),
+    paddingVertical: ScaleSizeH(25),
+    backgroundColor: colors.lightBlue,
+    width: ScaleSizeW(300),
+    marginVertical: ScaleSizeH(5),
   },
   sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(90),
     alignItems: "center",
+    paddingVertical: ScaleSize(20),
   },
 });
 
