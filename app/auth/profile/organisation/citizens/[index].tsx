@@ -6,12 +6,14 @@ import useSearch from "../../../../../hooks/useSearch";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { colors } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
+import { useToast } from "../../../../../providers/ToastProvider";
 
 const ViewCitizen = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const { deleteCitizen, data, error, isLoading } = useOrganisation(parsedID);
   const [searchQuery, setSearchQuery] = useState("");
+  const { addToast } = useToast();
 
   const citizenSearchFn = (citizen: { firstName: string; lastName: string }) =>
     `${citizen.firstName} ${citizen.lastName}`;
@@ -19,7 +21,9 @@ const ViewCitizen = () => {
   const filteredData = useSearch(data?.citizens || [], searchQuery, citizenSearchFn);
 
   const handleDelete = async (id: number) => {
-    await deleteCitizen.mutateAsync(id);
+    await deleteCitizen.mutateAsync(id).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
   };
 
   return (
