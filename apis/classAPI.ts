@@ -43,11 +43,23 @@ export const fetchOrganisationFromClassRequest = async (classId: number) => {
 };
 
 export const removeCitizenFromClassRequest = async (citizenId: number, classId: number) => {
-  console.log("Api citizen ID" + citizenId + " classId " + classId);
   const url = `${BASE_URL}/grades/${classId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "PUT",
   });
   if (!res.ok) throw new Error("Kunne ikke fjerne borger til klasse");
+  return res.json();
+};
+
+export const createNewClassRequest = async (className: string, orgId: number) => {
+  const url = `${BASE_URL}/grades?orgId=${orgId}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: className }),
+  });
+  if (!res.ok) throw new Error("Kunne ikke oprette klasse");
   return res.json();
 };

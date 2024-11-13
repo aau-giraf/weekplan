@@ -51,7 +51,6 @@ const ViewClass = () => {
               absolute={false}>
               <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
             </IconButton>
-            {/* Remove Citizen */}
             <IconButton
               onPress={() => {
                 router.push({

@@ -28,7 +28,6 @@ export type OrgDTO = {
   users: UserDTO[];
   citizens: CitizenDTO[];
 };
-
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
   const queryKey = [orgId, "Organisation"];
@@ -106,13 +105,9 @@ const useOrganisation = (orgId: number) => {
       });
     },
     onError: (_error, _citizenId, context) => {
-      console.log("error", _error);
       if (context) {
         queryClient.setQueryData(queryKey, context);
       }
-    },
-    onSuccess: () => {
-      console.log("success");
     },
   });
 

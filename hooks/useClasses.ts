@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addCitizenToClassRequest,
+  createNewClassRequest,
   fetchCitizenById,
   fetchClassRequest,
   removeCitizenFromClassRequest,
@@ -49,8 +50,6 @@ export default function useClasses(classId: number) {
   const removeCitizenFromClass = useMutation({
     mutationFn: async (citizenId: number) => removeCitizenFromClassRequest(citizenId, classId),
     onMutate: async (citizenId) => {
-      console.log("onMutate citizen iD", citizenId);
-      console.log("onMutate class iD", classId);
       await queryClient.cancelQueries({ queryKey });
 
       const previousClass = queryClient.getQueryData<ClassDTO>(queryKey);
@@ -77,5 +76,43 @@ export default function useClasses(classId: number) {
     isLoading: fetchClass.isLoading,
     addCitizenToClass,
     removeCitizenFromClass,
+    createNewClassRequest,
+  };
+}
+
+export function useClassCreate(orgId: number) {
+  const queryClient = useQueryClient();
+  const queryKey = [orgId, "Classes"];
+  const createClass = useMutation({
+    mutationFn: async (className: string) => createNewClassRequest(className, orgId),
+    onMutate: async (className) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousClasses = queryClient.getQueryData<ClassDTO[]>(queryKey);
+      const newClassId = previousClasses ? previousClasses.length + 1 : 1;
+      const newClass: ClassDTO = {
+        id: newClassId,
+        name: className,
+        citizens: [],
+      };
+
+      queryClient.setQueryData<ClassDTO[]>(queryKey, (oldData) => {
+        if (oldData) {
+          return [...oldData, newClass];
+        }
+        return [newClass];
+      });
+
+      return { previousClasses };
+    },
+    onError: (_error, _className, context) => {
+      if (context?.previousClasses) {
+        queryClient.setQueryData(queryKey, context.previousClasses);
+      }
+    },
+  });
+
+  return {
+    createClass,
   };
 }

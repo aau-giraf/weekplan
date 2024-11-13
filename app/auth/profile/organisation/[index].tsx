@@ -5,13 +5,15 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SecondaryButton from "../../../../components/Forms/SecondaryButton";
 import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
+import { TextInput } from "react-native-gesture-handler";
+import { useClassCreate } from "../../../../hooks/useClasses";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
@@ -21,7 +23,9 @@ const ViewOrganisation = () => {
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const createBottomSheetRef = useRef<BottomSheet>(null);
   const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedId);
+  const { createClass } = useClassCreate(parsedId);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -34,6 +38,10 @@ const ViewOrganisation = () => {
   const closeBS = () => bottomSheetRef.current?.close();
 
   const openBS = () => bottomSheetRef.current?.expand();
+
+  const openCreateBS = () => createBottomSheetRef.current?.expand();
+
+  const closeCreateBS = () => createBottomSheetRef.current?.close();
 
   const handleLeaveOrganisation = async () => {
     if (typeof userId === "string") {
@@ -48,6 +56,12 @@ const ViewOrganisation = () => {
     }
     closeBS();
     router.back();
+  };
+
+  const handleCreateClass = async (className: string) => {
+    await createClass.mutateAsync(className);
+    
+    closeCreateBS();
   };
 
   return (
@@ -94,20 +108,52 @@ const ViewOrganisation = () => {
           onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
         />
         <Text style={styles.heading}>Klasser</Text>
-        {/* //TODO: Add and Implement Classes */}
         <ConfirmBottomSheet
           bottomSheetRef={bottomSheetRef}
           orgName={data!.name}
           handleConfirm={handleLeaveOrganisation}
         />
+        <CreateClassButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateClass} />
         <Text>{classError?.message}</Text>
         <Text>{classLoading}</Text>
         <ClassView classes={classData ?? []} />
-        <IconButton onPress={() => {}} absolute={false}>
+        <IconButton onPress={openCreateBS} absolute={false}>
           <Ionicons name={"add-outline"} size={ScaleSize(30)} />
         </IconButton>
       </View>
     </Fragment>
+  );
+};
+
+type CreateClassButtomSheetProps = {
+  bottomSheetRef: React.RefObject<BottomSheet>;
+  handleConfirm: Function;
+};
+
+const CreateClassButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateClassButtomSheetProps) => {
+  const [className, setClassName] = useState("");
+
+  return (
+    <BottomSheet
+      ref={bottomSheetRef}
+      enablePanDownToClose={true}
+      keyboardBlurBehavior="restore"
+      index={-1}
+      style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
+      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+        <Text style={SharedStyles.header}>Tilføj en klasse</Text>
+        <TextInput
+          value={className}
+          placeholder="Klasse Navn"
+          onChangeText={(value) => setClassName(value)}
+        />
+        <SecondaryButton
+          label="Bekræft"
+          style={{ backgroundColor: colors.blue, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
+          onPress={() => handleConfirm(className)}
+        />
+      </BottomSheetScrollView>
+    </BottomSheet>
   );
 };
 

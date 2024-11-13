@@ -14,6 +14,7 @@ type ClassViewEntryProps = {
 };
 
 export const ClassView = ({ classes }: ClassViewProps) => {
+  console.log(classes);
   return (
     <View style={styles.classView}>
       {classes.map((member, index) => (

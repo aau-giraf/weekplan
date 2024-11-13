@@ -66,7 +66,6 @@ const RemoveCitizen = () => {
   };
 
   const onRemove = async (citizenId: number) => {
-    console.log("Removing citizen", citizenId);
     await removeCitizenFromClass.mutateAsync(citizenId);
     router.push(`/auth/profile/organisation/class/${classId}`);
   };
