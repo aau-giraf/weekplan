@@ -69,7 +69,7 @@ const RemoveCitizen = () => {
     await removeCitizenFromClass.mutateAsync(citizenId).catch((error) => {
       addToast({ message: error.message, type: "error" });
     });
-    router.push(`/auth/profile/organisation/class/${classId}`);
+    router.back();
   };
   return (
     <View style={styles.container}>

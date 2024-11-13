@@ -10,9 +10,9 @@ import { useAuthentication } from "../../../../providers/AuthenticationProvider"
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import SecondaryButton from "../../../../components/Forms/SecondaryButton";
-import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 import useClasses from "../../../../hooks/useClasses";
+import useOrganisationOverview from "../../../../hooks/useOrganisationOverview";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
@@ -23,7 +23,13 @@ const ViewOrganisation = () => {
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
-  const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedId);
+  const { useFetchClassesInOrganisations } = useOrganisationOverview();
+  const {
+    data: classData,
+    error: classError,
+    isLoading: classLoading,
+  } = useFetchClassesInOrganisations(parsedId);
+
   const { createClass } = useClasses(parsedId);
 
   if (isLoading) {

@@ -70,29 +70,31 @@ const useOrganisationOverview = () => {
     },
   });
 
+  function useFetchClassesInOrganisations(organisationId: number) {
+    return useQuery<ClassDTO[]>({
+      queryFn: () => fetchAllClassesInOrganisationRequest(organisationId),
+      queryKey: [organisationId, "Classes"],
+    });
+  }
+  function useFetchOrganiasationFromClass(classId: number) {
+    return useQuery<OrgDTO>({
+      queryFn: async () => fetchOrganisationFromClassRequest(classId),
+      queryKey: [classId, "Organisation"],
+    });
+  }
+
   return {
     data: fetchOrgOverview.data,
     isLoading: fetchOrgOverview.isLoading,
     isError: fetchOrgOverview.isError,
     isSuccess: fetchOrgOverview.isSuccess,
     refetch: fetchOrgOverview.refetch,
+    useFetchClassesInOrganisations,
+    useFetchOrganiasationFromClass,
     createOrganisation,
     deleteOrganisation,
   };
 };
-
-export function useFetchClassesInOrganisations(organisationId: number) {
-  const useFetchClassesInOrg = useQuery<ClassDTO[]>({
-    queryFn: () => fetchAllClassesInOrganisationRequest(organisationId),
-    queryKey: [organisationId, "Classes"],
-  });
-
-  return {
-    classData: useFetchClassesInOrg.data,
-    classError: useFetchClassesInOrg.error,
-    classLoading: useFetchClassesInOrg.isLoading,
-  };
-}
 
 export default useOrganisationOverview;
 
@@ -101,14 +103,3 @@ export default useOrganisationOverview;
  * @returns
  * an organisation object
  */
-export function useFetchOrganiasationFromClass(classId: number) {
-  const getOrganisationFromGrade = useQuery<OrgDTO>({
-    queryFn: async () => fetchOrganisationFromClassRequest(classId),
-    queryKey: [classId, "Organisation"],
-  });
-  return {
-    orgData: getOrganisationFromGrade.data,
-    orgError: getOrganisationFromGrade.error,
-    orgLoading: getOrganisationFromGrade.isLoading,
-  };
-}

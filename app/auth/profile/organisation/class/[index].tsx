@@ -7,14 +7,13 @@ import IconButton from "../../../../../components/IconButton";
 import useClasses, { ClassDTO } from "../../../../../hooks/useClasses";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
-import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
 
 const ViewClass = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
   const { data, error, isLoading } = useClasses(parsedID);
-  const { orgData } = useFetchOrganiasationFromClass(parsedID);
+
   if (isLoading)
     return (
       <View>
@@ -59,9 +58,7 @@ const ViewClass = () => {
               <IconButton onPress={() => {}} absolute={false}>
                 <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
               </IconButton>
-              <IconButton
-                onPress={() => router.push(`/auth/profile/organisation/${orgData?.id}`)}
-                absolute={false}>
+              <IconButton onPress={() => router.back()} absolute={false}>
                 <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
               </IconButton>
             </View>

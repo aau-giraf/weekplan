@@ -1,29 +1,68 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
-import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
-import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
+import useOrganisationOverview from "../../../../../hooks/useOrganisationOverview";
 import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import { useToast } from "../../../../../providers/ToastProvider";
+import useClasses from "../../../../../hooks/useClasses";
 
 type Params = {
   classId: string;
 };
 
 const AddCitizen = () => {
-  const [searchText, setSearchText] = useState("");
   const { classId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { orgData, orgError, orgLoading } = useFetchOrganiasationFromClass(Number(classId));
-  const [filteredOptions, setFilteredOptions] = useState(
-    orgData?.citizens
-      .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
-      .sort((a: string, b: string) => a.localeCompare(b))
-  );
+  const { useFetchOrganiasationFromClass } = useOrganisationOverview();
+  const {
+    data: orgData,
+    error: orgError,
+    isLoading: orgLoading,
+  } = useFetchOrganiasationFromClass(Number(classId));
+  const { addCitizenToClass } = useClasses(Number(classId));
+
+  const [searchText, setSearchText] = useState("");
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
+
+  const citizenNames = useMemo(
+    () =>
+      orgData?.citizens
+        .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+        .sort((a, b) => a.localeCompare(b)),
+    [orgData]
+  );
+
+  const filteredOptions = useMemo(
+    () =>
+      searchText
+        ? citizenNames?.filter((name) => name.toLowerCase().startsWith(searchText.toLowerCase()))
+        : citizenNames,
+    [searchText, citizenNames]
+  );
+
+  const handleSearch = (text: string) => setSearchText(text);
+
+  const handleOptionSelect = (option: string) => {
+    setSearchText(option);
+    const foundCitizen = orgData?.citizens.find(
+      (citizen) => `${citizen.firstName} ${citizen.lastName}` === option
+    );
+    if (foundCitizen) setSelectedCitizen(foundCitizen);
+  };
+
+  const handleAddCitizen = async () => {
+    if (selectedCitizen) {
+      try {
+        await addCitizenToClass.mutateAsync(selectedCitizen.id);
+        router.back();
+      } catch (error) {
+        addToast({ message: (error as Error).message, type: "error" });
+      }
+    }
+  };
 
   if (orgError) {
     return (
@@ -41,70 +80,26 @@ const AddCitizen = () => {
     );
   }
 
-  const filterOptions = (text: string) => {
-    setSearchText(text);
-    setFilteredOptions(
-      orgData?.citizens
-        .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
-        .filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
-        .sort((a: string, b: string) => a.localeCompare(b))
-    );
-  };
-
-  const onOptionPress = (option: string) => {
-    setSearchText(option);
-    setFilteredOptions(
-      orgData?.citizens
-        .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
-        .sort((a: string, b: string) => a.localeCompare(b))
-    );
-    const foundCitizen = orgData?.citizens.find(
-      (citizen) => `${citizen.firstName} ${citizen.lastName}` === option
-    );
-    if (foundCitizen) {
-      setSelectedCitizen(foundCitizen);
-    }
-  };
-
-  const onSubmit = async (citizenId: number) => {
-    await addCitizenToClassRequest(citizenId, Number(classId)).catch((error) => {
-      addToast({ message: error.message, type: "error" });
-    });
-    router.push(`/auth/profile/organisation/class/${classId}`);
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Tilføj elev til klasse</Text>
-      <SearchBar value={searchText} onChangeText={filterOptions} />
+      <SearchBar value={searchText} onChangeText={handleSearch} />
       <FlatList
-        data={
-          filteredOptions
-            ? filteredOptions
-            : orgData?.citizens
-                .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
-                .sort((a: string, b: string) => a.localeCompare(b))
-        }
+        data={filteredOptions}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={
-              selectedCitizen?.firstName + " " + selectedCitizen?.lastName === item
-                ? styles.optionSelect
-                : styles.option
-            }
-            onPress={() => onOptionPress(item)}>
+            style={[
+              styles.option,
+              item === `${selectedCitizen?.firstName} ${selectedCitizen?.lastName}` && styles.optionSelect,
+            ]}
+            onPress={() => handleOptionSelect(item)}>
             <Text style={styles.optionText}>{item}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item}
       />
-      <SecondaryButton
-        onPress={() => {
-          if (selectedCitizen) onSubmit(selectedCitizen.id);
-        }}
-        label="Tilføj elev"
-      />
+      <SecondaryButton onPress={handleAddCitizen} label="Tilføj elev" />
     </View>
   );
 };
@@ -128,15 +123,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: ScaleSize(15),
   },
-  input: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: colors.gray,
-    borderRadius: ScaleSize(8),
-    padding: ScaleSize(10),
-    fontSize: ScaleSize(18),
-    marginBottom: ScaleSize(15),
-  },
   listContent: {
     alignItems: "center",
     height: "100%",
@@ -153,15 +139,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   optionSelect: {
-    paddingVertical: ScaleSizeH(20),
-    marginBottom: ScaleSizeH(10),
-    borderRadius: 15,
-    borderWidth: 1,
     borderColor: colors.green,
-    backgroundColor: colors.lightBlue,
-    width: "45%",
-    minWidth: "45%",
-    alignItems: "center",
   },
   optionText: {
     fontSize: ScaleSize(18),
