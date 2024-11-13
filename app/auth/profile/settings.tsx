@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Pressable, StyleSheet, ScrollView, Modal, Button } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList, Switch } from "react-native-gesture-handler";
 import { Fragment, useEffect, useMemo, useState } from "react";
@@ -13,6 +13,7 @@ import { ScaleSizeH } from "../../../utils/SharedStyles";
 import { ProfilePicture } from "../../../components/ProfilePage";
 
 const Settings = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const { logout } = useAuthentication();
   const { data } = useProfile();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
@@ -58,6 +59,14 @@ const Settings = () => {
         },
         label: "Rediger profil",
       },
+      {
+        icon: "trash-outline",
+        onPress: () => {
+          setModalVisible(true);
+        },
+        label: "Slet profil",
+      },
+
     ],
     [logout]
   );
@@ -73,6 +82,36 @@ const Settings = () => {
   const handleToggleChange = async (label: string, value: boolean) => {
     setToggleStates((prevStates) => ({ ...prevStates, [label]: value }));
     await setSettingsValue(label, value);
+  };
+
+  const ConfirmationModal = () => {
+    return (
+      <Modal
+        visible={modalVisible}
+        animationStyle="slide"
+        transparent={true}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Er du sikker på at du vil slette din profil?</Text>
+          <View style={styles.buttonContainer}>
+            <Pressable style={[styles.modalButton, styles.modalButtonNo]} onPress={() => {
+              setModalVisible(false);
+              }}>
+              <Text style={styles.modalButtonText}>Nej</Text>
+            </Pressable>
+            <Pressable style={[styles.modalButton, styles.modalButtonDelete]} onPress={() => {
+              //Delete Code
+              setModalVisible(false);
+              }}>
+              <Text style={styles.modalButtonText}>Slet</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    );
   };
 
   return (
@@ -111,6 +150,7 @@ const Settings = () => {
             keyExtractor={(item) => item.label}
             ItemSeparatorComponent={() => <View style={styles.ItemSeparatorComponent}></View>}
           />
+          <ConfirmationModal />
         </View>
       </ScrollView>
     </Fragment>
@@ -226,6 +266,48 @@ const styles = StyleSheet.create({
     zIndex: 2,
     paddingHorizontal: 10,
     paddingBottom: 10,
+  },
+  modalView: {
+    flex: 1,
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    textAlign: 'center',
+    fontSize: 30,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 40,
+  },
+  modalButton: {
+    borderRadius: 20,
+    padding: 40,
+    margin: 10,
+  },
+  modalButtonNo: {
+    backgroundColor: '#2196F3',
+  },
+  modalButtonDelete: {
+    backgroundColor: '#C60000',
+  },
+  modalButtonText: {
+    textAlign: 'center',
+    fontSize: 30,
+    color: 'white',
   },
 });
 
