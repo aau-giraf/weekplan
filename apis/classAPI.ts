@@ -26,6 +26,13 @@ export const fetchCitizenById = async (citizenId: number) => {
   return res.json();
 };
 
+
+/**
+ * 
+ * @param classId 
+ * @returns 
+ * an organisation object
+ */
 export const fetchOrganisationFromClassRequest = async (classId: number) => {
   if (classId === null) {
     throw new Error("FATAL FEJL: Klasse-ID er ikke korrekt initialiseret i din session.");

@@ -95,6 +95,11 @@ export function useFetchClassesInOrganisations(organisationId: number) {
 
 export default useOrganisationOverview;
 
+/**
+ * @param classId
+ * @returns
+ * an organisation object
+ */
 export function useFetchOrganiasationFromClass(classId: number) {
   const getOrganisationFromGrade = useQuery<OrgDTO>({
     queryFn: async () => fetchOrganisationFromClassRequest(classId),
