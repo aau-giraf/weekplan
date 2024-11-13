@@ -120,7 +120,6 @@ const useOrganisation = (orgId: number) => {
       newCitizen.id = Number(newCitizen.id);
 
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
-      console.log("Previous data:", previousOrg);
 
       await queryClient.cancelQueries({ queryKey });
 
@@ -129,7 +128,6 @@ const useOrganisation = (orgId: number) => {
           const updatedCitizens = oldData.citizens.map((citizen) =>
             citizen.id === newCitizen.id ? newCitizen : citizen
           );
-          console.log("Updated citizens:", updatedCitizens); // Log updated citizens list
           return { ...oldData, citizens: updatedCitizens };
         }
         return previousOrg;
