@@ -16,7 +16,6 @@ export type OrgOverviewDTO = {
   name: string;
 };
 
-
 const useOrganisationOverview = () => {
   const { userId } = useAuthentication();
   const queryClient = useQueryClient();
