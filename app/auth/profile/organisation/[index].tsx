@@ -15,9 +15,9 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
-  const parsedID = Number(index);
+  const parsedId = Number(index);
 
-  const { data, error, isLoading } = useOrganisation(parsedID);
+  const { data, error, isLoading } = useOrganisation(parsedId);
   const queryClient = useQueryClient();
   const { userId } = useAuthentication();
   const { addToast } = useToast();
@@ -61,7 +61,7 @@ const ViewOrganisation = () => {
             onPress={() =>
               router.push({
                 pathname: "/create-invitation",
-                params: { orgId: parsedID },
+                params: { orgId: parsedId },
               })
             }
             absolute={false}>
@@ -69,7 +69,7 @@ const ViewOrganisation = () => {
           </IconButton>
           <IconButton
             onPress={() => {
-              router.push("/auth/profile/organisation/addcitizen");
+              router.push({ pathname: "/auth/profile/organisation/addcitizen", params: { orgId: parsedId } });
             }}
             absolute={false}>
             <Ionicons name={"person-outline"} size={ScaleSize(30)} />
@@ -82,13 +82,13 @@ const ViewOrganisation = () => {
         <CutoffList
           entries={data?.users ?? []}
           onPress={() => {
-            router.push(`/auth/profile/organisation/members/${parsedID}`);
+            router.push(`/auth/profile/organisation/members/${parsedId}`);
           }}
         />
         <Text style={styles.heading}>Borger</Text>
         <CutoffList
           entries={data?.citizens ?? []}
-          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedID}`)}
+          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
         />
         <Text style={styles.heading}>Klasser</Text>
         {/* //TODO: Add and Implement Classes */}
