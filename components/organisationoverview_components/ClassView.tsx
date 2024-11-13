@@ -1,13 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { getContrastingTextColor, hashNameToColour } from "../../utils/colourFunctions";
 import { SharedStyles } from "../../utils/SharedStyles";
-import { truncateText } from "../../utils/truncateText";
-
-// TODO: Implement when supplied with relevant Endpoints
-
-type ClassDTO = {
-  name: string;
-};
+import IconButton from "../IconButton";
+import { router } from "expo-router";
+import { ClassDTO } from "../../hooks/useClasses";
 
 type ClassViewProps = {
   classes: ClassDTO[];
@@ -32,9 +28,14 @@ const ClassViewEntry = ({ classData }: ClassViewEntryProps) => {
   const textColour = getContrastingTextColor(nameColour);
 
   return (
-    <View style={[styles.classContainer, { backgroundColor: nameColour }]}>
-      <Text style={{ color: textColour }}>{truncateText(classData.name, 18)}</Text>
-    </View>
+    <IconButton
+      style={{ backgroundColor: nameColour }}
+      onPress={() => {
+        router.push(`/auth/profile/organisation/class/${classData.id}`);
+      }}
+      absolute={false}>
+      <Text style={{ color: textColour }}>{classData.name}</Text>
+    </IconButton>
   );
 };
 
@@ -46,10 +47,5 @@ const styles = StyleSheet.create({
     rowGap: 5,
     columnGap: 5,
     flexWrap: "wrap",
-  },
-  classContainer: {
-    ...SharedStyles.trueCenter,
-    width: 100,
-    height: 50,
   },
 });

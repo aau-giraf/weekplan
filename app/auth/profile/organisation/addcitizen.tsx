@@ -70,6 +70,7 @@ const AddCitizen: React.FC = () => {
     const realId = await createCitizen.mutateAsync({
       firstName: value.firstName,
       lastName: value.lastName,
+      activities: [],
     });
     setCitizens((prev) => [{ ...value, id: realId }, ...prev]);
   };

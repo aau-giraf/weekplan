@@ -2,8 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import ActivityEdit from "../../../../components/weekoverview_components/activity_components/ActivityEdit";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDate } from "../../../../providers/DateProvider";
-import { dateToQueryKey } from "../../../../hooks/useActivity";
-import { ActivityDTO } from "../../../../DTO/activityDTO";
+import { ActivityDTO, dateToQueryKey } from "../../../../hooks/useActivity";
 import { Fragment } from "react";
 import { SafeAreaView } from "react-native";
 

@@ -3,9 +3,19 @@ import { useAuthentication } from "../providers/AuthenticationProvider";
 import {
   createOrganisationsRequest,
   deleteOrganisationRequest,
+  fetchAllClassesInOrganisationRequest,
   fetchAllOrganisationsRequest,
 } from "../apis/organisationOverviewAPI";
-import { OrgOverviewDTO } from "../DTO/orgoverviewDTO";
+
+import { fetchOrganisationFromClassRequest } from "../apis/classAPI";
+import { ClassDTO } from "./useClasses";
+import { OrgDTO } from "./useOrganisation";
+
+export type OrgOverviewDTO = {
+  id: number;
+  name: string;
+};
+
 const useOrganisationOverview = () => {
   const { userId } = useAuthentication();
   const queryClient = useQueryClient();
@@ -71,4 +81,34 @@ const useOrganisationOverview = () => {
   };
 };
 
+export function useFetchClassesInOrganisations(organisationId: number) {
+  const useFetchClassesInOrg = useQuery<ClassDTO[]>({
+    queryFn: () => fetchAllClassesInOrganisationRequest(organisationId),
+    queryKey: [organisationId, "Classes"],
+  });
+
+  return {
+    classData: useFetchClassesInOrg.data,
+    classError: useFetchClassesInOrg.error,
+    classLoading: useFetchClassesInOrg.isLoading,
+  };
+}
+
 export default useOrganisationOverview;
+
+/**
+ * @param classId
+ * @returns
+ * an organisation object
+ */
+export function useFetchOrganiasationFromClass(classId: number) {
+  const getOrganisationFromGrade = useQuery<OrgDTO>({
+    queryFn: async () => fetchOrganisationFromClassRequest(classId),
+    queryKey: [classId, "Organisation"],
+  });
+  return {
+    orgData: getOrganisationFromGrade.data,
+    orgError: getOrganisationFromGrade.error,
+    orgLoading: getOrganisationFromGrade.isLoading,
+  };
+}

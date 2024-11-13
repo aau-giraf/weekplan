@@ -10,6 +10,8 @@ import { useAuthentication } from "../../../../providers/AuthenticationProvider"
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SecondaryButton from "../../../../components/Forms/SecondaryButton";
+import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
+import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
@@ -19,6 +21,7 @@ const ViewOrganisation = () => {
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const { classData, classError, classLoading } = useFetchClassesInOrganisations(parsedId);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -97,6 +100,12 @@ const ViewOrganisation = () => {
           orgName={data!.name}
           handleConfirm={handleLeaveOrganisation}
         />
+        <Text>{classError?.message}</Text>
+        <Text>{classLoading}</Text>
+        <ClassView classes={classData ?? []} />
+        <IconButton onPress={() => {}} absolute={false}>
+          <Ionicons name={"add-outline"} size={ScaleSize(30)} />
+        </IconButton>
       </View>
     </Fragment>
   );

@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useActivity from "../../../hooks/useActivity";
+import useActivity, { ActivityDTO } from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import { useDate } from "../../../providers/DateProvider";
 import { useToast } from "../../../providers/ToastProvider";
@@ -13,7 +13,6 @@ import FormHeader from "../../Forms/FormHeader";
 import FormTimePicker from "../../Forms/FormTimePicker";
 import SubmitButton from "../../Forms/SubmitButton";
 import FormField from "../../Forms/TextInput";
-import { ActivityDTO } from "../../../DTO/activityDTO";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 
 const schema = z.object({
