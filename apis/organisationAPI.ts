@@ -48,3 +48,16 @@ export const deleteMemberRequest = async (orgId: number, memberId: string) => {
 
   if (!res.ok) throw new Error("Kunne ikke slette medlemmet");
 };
+
+export const updateCitizenRequest = async (citizenId: number, firstName: string, lastName: string) => {
+  const url = `${BASE_URL}/citizens/${citizenId}`;
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ firstName, lastName }),
+  });
+
+  if(!res.ok) throw new Error("Kunne ikke opdatere borger");
+}

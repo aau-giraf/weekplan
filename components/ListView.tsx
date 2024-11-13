@@ -17,6 +17,7 @@ type ListViewProps<T extends ListItem> = {
   isLoading: boolean;
   error: boolean;
   handleDelete: (id: T["id"]) => void;
+  handleUpdate?: (id: T["id"]) => void;
   getLabel: (item: T) => string;
   keyExtractor: (item: T) => string;
 };
@@ -28,6 +29,7 @@ const ListView = <T extends ListItem>({
   isLoading,
   error,
   handleDelete,
+  handleUpdate,
   getLabel,
   keyExtractor,
 }: ListViewProps<T>) => {
@@ -48,6 +50,14 @@ const ListView = <T extends ListItem>({
       icon: "person-remove-outline",
       color: colors.crimson,
       onPress: (item) => handleDelete(item.id),
+    },
+  ];
+
+  const leftActions: Action<T>[] = [
+    {
+      icon: "pencil",
+      color: colors.blue,
+      onPress: (item) => handleUpdate?.(item.id),
     },
   ];
 
@@ -72,6 +82,7 @@ const ListView = <T extends ListItem>({
             ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
           }}
           rightActions={rightActions}
+          leftActions={leftActions}
         />
       </View>
     </Fragment>

@@ -4,6 +4,7 @@ import {
   deleteCitizenRequest,
   deleteMemberRequest,
   fetchOrganisationRequest,
+  updateCitizenRequest,
 } from "../apis/organisationAPI";
 import { Citizen, OrgDTO } from "../DTO/organisationDTO";
 
@@ -112,6 +113,35 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  const updateCitizen = useMutation<void, Error, Citizen>({
+    mutationFn: (citizen: Citizen) =>
+      updateCitizenRequest(citizen.id, citizen.firstName, citizen.lastName),
+    onMutate: async (newCitizen) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
+      queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            citizens: oldData.citizens.map((citizen) => {
+              if (citizen.id === newCitizen.id) {
+                return newCitizen;
+              }
+              return citizen;
+            }),
+          };
+        }
+        return previousOrg;
+      });
+    },
+    onError: (_error, _newCitizen, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context);
+      }
+    },
+  });
+
   return {
     data: fetchOrganisation.data,
     isLoading: fetchOrganisation.isLoading,
@@ -120,6 +150,7 @@ const useOrganisation = (orgId: number) => {
     createCitizen,
     deleteCitizen,
     deleteMember,
+    updateCitizen
   };
 };
 
