@@ -5,9 +5,16 @@ import DaysContainer from "../../../../components/weekoverview_components/DaysCo
 import ActivityItemList from "../../../../components/weekoverview_components/activity_components/ActivityItemList";
 import CameraButton from "../../../../components/Camera/CameraButton";
 import { colors } from "../../../../utils/SharedStyles";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import { useDate } from "../../../../providers/DateProvider";
 
 const WeekPlanScreen = () => {
+  const { setSelectedDate } = useDate();
+  useEffect(() => {
+    return () => {
+      setSelectedDate(new Date());
+    };
+  }, [setSelectedDate]);
   return (
     <Fragment>
       <ActivityAddButton />

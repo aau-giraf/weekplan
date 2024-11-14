@@ -33,8 +33,10 @@ const mockActivity: FullActivityDTO = {
   isCompleted: false,
 };
 
+const mockCitizenId = 1;
+
 const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <CitizenProvider>
+  <CitizenProvider defaultValue={mockCitizenId}>
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   </CitizenProvider>
 );
@@ -81,13 +83,13 @@ afterEach(async () => {
 
 test("query key is correct", () => {
   const date = new Date("2024-10-01");
-  const key = dateToQueryKey(date);
-  expect(key).toEqual(["activity", "2024-10-01"]);
+  const key = dateToQueryKey(date, mockCitizenId);
+  expect(key).toEqual(["activity", "2024-10-01", 1]);
 });
 
 test("invalid date throws an error", () => {
   const date = "2024-10-01";
-  expect(() => dateToQueryKey(date as any)).toThrow();
+  expect(() => dateToQueryKey(date as any, mockCitizenId)).toThrow();
 });
 
 test("invalid date throws on error when used in useActivity", async () => {
@@ -110,7 +112,7 @@ test("deleteActivity removes the activity from the list", async () => {
 
   await waitFor(() => expect(result.current.useFetchActivities.isSuccess).toBe(true));
 
-  const key = dateToQueryKey(date);
+  const key = dateToQueryKey(date, mockCitizenId);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -136,7 +138,7 @@ test("updateActivity updates the activity in the list", async () => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
 
-  const key = dateToQueryKey(date);
+  const key = dateToQueryKey(date, mockCitizenId);
   const { citizenId, ...localMock } = mockActivity;
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -169,7 +171,7 @@ test("updateActivity removes activity when date differs", async () => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
 
-  const key = dateToQueryKey(date);
+  const key = dateToQueryKey(date, mockCitizenId);
   const { citizenId, ...localMock } = mockActivity;
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -214,7 +216,7 @@ test("createActivity adds a new activity to the list", async () => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
 
-  const key = dateToQueryKey(date);
+  const key = dateToQueryKey(date, mockCitizenId);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -248,7 +250,7 @@ test("toggleActivityStatus toggles the status of the activity", async () => {
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const key = dateToQueryKey(date);
+  const key = dateToQueryKey(date, mockCitizenId);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -277,7 +279,7 @@ test("toggleActivityStatus does not update the list if the activity is not found
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const key = dateToQueryKey(date);
+  const key = dateToQueryKey(date, mockCitizenId);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -308,7 +310,7 @@ test("toggleActivityStatus does not update data if the key differs from initial"
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const differentKey = dateToQueryKey(new Date("2024-10-02"));
+  const differentKey = dateToQueryKey(new Date("2024-10-02"), 2);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(differentKey, [{ ...mockActivity, activityId: 1 }]);
@@ -333,7 +335,7 @@ test("deleteActivity does not remove data if the key differs from initial", asyn
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const differentKey = dateToQueryKey(new Date("2024-10-02"));
+  const differentKey = dateToQueryKey(new Date("2024-10-02"), 2);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(differentKey, [{ ...mockActivity, activityId: 1 }]);
