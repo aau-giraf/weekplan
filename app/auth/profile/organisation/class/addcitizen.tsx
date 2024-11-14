@@ -22,8 +22,9 @@ const AddCitizen = () => {
   const citizenNames = useMemo(
     () =>
       data?.citizens
+        .filter((citizen) => !data?.grades.some((grade) => grade.citizens.some((c) => c.id === citizen.id)))
         .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
-        .sort((a, b) => a.localeCompare(b)),
+        .sort(),
     [data]
   );
 
