@@ -28,6 +28,7 @@ const schema = z
     if (data.currentPassword !== data.confirmPassword) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
+        path: ["confirmPassword"],
         message: "Adgangskode stemmer ikke overens",
       });
     }
@@ -39,18 +40,15 @@ const DeleteProfileScreen: React.FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { addToast } = useToast();
   const { logout } = useAuthentication();
+  const { userId } = useAuthentication();
   const { deleteUser } = useProfile();
 
-  const handlePresentModalOpen = useCallback(() => {
+  const handleModalOpen = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  const handlePresentModalClose = useCallback(() => {
+  const handleModalClose = useCallback(() => {
     bottomSheetModalRef.current?.dismiss();
-  }, []);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    //console.log('handleSheetChanges', index);
   }, []);
 
   const {
@@ -62,18 +60,14 @@ const DeleteProfileScreen: React.FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (formData: FormData) => {
-    try {
-      await handlePresentModalOpen();
-    } catch (error: any) {
-      addToast({ message: error.message, type: "error" });
-    }
+  const onSubmit = async () => {
+    handleModalOpen();
   };
 
   return (
     <View style={styles.container}>
       <FormContainer style={{ padding: 30 }}>
-        <FormHeader title="Slet Profil test" />
+        <FormHeader title="Slet Profil" />
         <FormField
           control={control}
           name="currentPassword"
@@ -99,13 +93,13 @@ const DeleteProfileScreen: React.FC = () => {
         </TouchableOpacity>
       </FormContainer>
       <ConfirmationModal
-        handleSheetChanges={handleSheetChanges}
-        handlePresentModalOpen={handlePresentModalOpen}
-        handlePresentModalClose={handlePresentModalClose}
+        handleModalOpen={handleModalOpen}
+        handleModalClose={handleModalClose}
         bottomSheetModalRef={bottomSheetModalRef}
         addToast={addToast}
         logout={logout}
         deleteUser={deleteUser}
+        userId={userId}
       />
     </View>
   );
@@ -113,16 +107,16 @@ const DeleteProfileScreen: React.FC = () => {
 
 const ConfirmationModal = ({
   bottomSheetModalRef,
-  handlePresentModalOpen,
-  handlePresentModalClose,
-  handleSheetChanges,
+  handleModalOpen,
+  handleModalClose,
   addToast,
   deleteUser,
   logout,
+  userId,
 }) => {
   return (
     <BottomSheetModalProvider>
-      <BottomSheetModal ref={bottomSheetModalRef} onChange={handleSheetChanges}>
+      <BottomSheetModal ref={bottomSheetModalRef}>
         <BottomSheetView style={styles.modalView}>
           <Text style={styles.modalText}>
             Er du sikker på at du vil slette din profil?{"\n"}
@@ -132,7 +126,7 @@ const ConfirmationModal = ({
             <Pressable
               style={[styles.modalButton, styles.modalButtonNo]}
               onPress={() => {
-                handlePresentModalClose();
+                handleModalClose();
               }}>
               <Text style={styles.modalButtonText}>Nej</Text>
             </Pressable>
@@ -140,13 +134,17 @@ const ConfirmationModal = ({
               style={[styles.modalButton, styles.modalButtonDelete]}
               onPress={async (formData: FormData) => {
                 try {
-                  await deleteUser.mutateAsync({});
+                  await deleteUser.mutateAsync({
+                    id: userId,
+                    password: formData.currentPassword,
+                  });
                   await logout();
                   addToast({ message: "Profilen er blevet slettet", type: "success" });
                 } catch (error: any) {
+                  console.log("Error")
                   addToast({ message: error.message, type: "error" });
                 }
-                handlePresentModalClose();
+                handleModalClose();
               }}>
               <Text style={styles.modalButtonText}>Slet</Text>
             </Pressable>
@@ -174,7 +172,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "grey",
   },
   modalView: {
     flex: 1,

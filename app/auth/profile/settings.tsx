@@ -59,7 +59,7 @@ const Settings = () => {
         label: "Rediger profil",
       },
       {
-        icon: "person-remove-outline",
+        icon: "trash-outline",
         onPress: () => {
           router.push("/auth/profile/deleteprofile");
         },

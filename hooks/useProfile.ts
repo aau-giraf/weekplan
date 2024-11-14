@@ -20,6 +20,11 @@ export type ChangePasswordDTO = {
   newPassword: string;
 };
 
+export type DeleteUserDTO = {
+  password: string;
+  id: string;
+};
+
 export default function useProfile() {
   const { userId } = useAuthentication();
   const queryClient = useQueryClient();
@@ -59,7 +64,7 @@ export default function useProfile() {
   });
 
   const deleteUser = useMutation({
-    mutationFn: async () => deleteUserRequest(userId),
+    mutationFn: async (data: DeleteUserDTO) => deleteUserRequest(userId, data),
   });
 
   return {
