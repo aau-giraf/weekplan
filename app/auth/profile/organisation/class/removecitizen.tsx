@@ -41,23 +41,20 @@ const RemoveCitizen = () => {
     );
   }
 
+  const mapAndSort = currentClass?.citizens
+    .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
+    .sort((a: string, b: string) => a.localeCompare(b));
+
   const filterOptions = (text: string) => {
     setSearchText(text);
     setFilteredOptions(
-      currentClass?.citizens
-        .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
-        .filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
-        .sort((a: string, b: string) => a.localeCompare(b))
+      mapAndSort?.filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
     );
   };
 
   const onOptionPress = (option: string) => {
     setSearchText(option);
-    setFilteredOptions(
-      currentClass?.citizens
-        .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
-        .sort((a: string, b: string) => a.localeCompare(b))
-    );
+    setFilteredOptions(mapAndSort);
     const foundCitizen = currentClass?.citizens.find(
       (citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}` === option
     );
@@ -77,13 +74,7 @@ const RemoveCitizen = () => {
       <Text style={styles.heading}>Fjern en elev til klasse</Text>
       <SearchBar value={searchText} onChangeText={filterOptions} />
       <FlatList
-        data={
-          filteredOptions
-            ? filteredOptions
-            : currentClass?.citizens
-                .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
-                .sort((a: string, b: string) => a.localeCompare(b))
-        }
+        data={filteredOptions ? filteredOptions : mapAndSort}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
           <TouchableOpacity
