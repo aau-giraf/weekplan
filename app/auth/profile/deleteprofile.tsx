@@ -1,9 +1,11 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useRef, useCallback, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { router } from "expo-router";
 import { z } from "zod";
-import { View, StyleSheet, Text, TouchableOpacity, Modal, Pressable } from "react-native";
+import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { View, StyleSheet, Text, TouchableOpacity, Modal, Pressable, Button } from "react-native";
 import FormContainer from "../../../components/Forms/FormContainer";
 import FormHeader from "../../../components/Forms/FormHeader";
 import FormField from "../../../components/Forms/TextInput";
@@ -21,8 +23,7 @@ const schema = z
   .superRefine((data, ctx) => {
     if (data.currentPassword !== data.confirmPassword) {
       ctx.addIssue({
-        code: "custom",
-        path: ["confirmPassword"],
+        code: z.ZodIssueCode.custom,
         message: "Adgangskode stemmer ikke overens",
       });
     }
@@ -31,11 +32,22 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const { addToast } = useToast();
   const { logout } = useAuthentication();
   const { deleteUser } = useProfile();
-  const { addToast } = useToast();
-  const router = useRouter();
-  const [modalVisible, setModalVisible] = useState(false);
+
+  const handlePresentModalOpen = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    //console.log('handleSheetChanges', index);
+  }, []);
 
   const {
     control,
@@ -46,23 +58,18 @@ const DeleteProfileScreen: React.FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = () => {
-    {
-      setModalVisible(true);
+  const onSubmit = async (formData: FormData) => {
+    try {
+      await handlePresentModalOpen();
+    } catch (error: any) {
+      addToast({ message: error.message, type: "error" });
     }
   };
 
   return (
-    <Fragment>
-      <ConfirmationModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        addToast={addToast}
-        deleteUser={deleteUser}
-        logout={logout}
-      />
+    <View style={styles.container}>
       <FormContainer style={{ padding: 30 }}>
-        <FormHeader title="Slet profil" />
+        <FormHeader title="Slet Profil test" />
         <FormField
           control={control}
           name="currentPassword"
@@ -87,51 +94,59 @@ const DeleteProfileScreen: React.FC = () => {
           <Text style={styles.buttonText}>Annuller</Text>
         </TouchableOpacity>
       </FormContainer>
-    </Fragment>
+      <ConfirmationModal
+      handleSheetChanges = {handleSheetChanges}
+      handlePresentModalOpen = {handlePresentModalOpen}
+      handlePresentModalClose = {handlePresentModalClose}
+      bottomSheetModalRef = {bottomSheetModalRef}
+      addToast = {addToast}
+      logout = {logout}
+      deleteUser = {deleteUser}
+      />
+    </View>
   );
 };
 
-const ConfirmationModal = ({ modalVisible, setModalVisible, addToast, deleteUser, logout }) => {
+const ConfirmationModal = ({bottomSheetModalRef, handlePresentModalOpen, handlePresentModalClose, handleSheetChanges, addToast, deleteUser, logout}) => {
   return (
-    <Modal
-      visible={modalVisible}
-      animationStyle="slide"
-      transparent={true}
-      onRequestClose={() => {
-        setModalVisible(false);
-      }}>
-      <View style={styles.modalView}>
-        <Text style={styles.modalText}>
-          Er du sikker på at du vil slette din profil?{"\n"}
-          Dette kan ikke fortrydes.
-        </Text>
-        <View style={styles.buttonContainer}>
-          <Pressable
-            style={[styles.modalButton, styles.modalButtonNo]}
-            onPress={() => {
-              setModalVisible(false);
-            }}>
-            <Text style={styles.modalButtonText}>Nej</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.modalButton, styles.modalButtonDelete]}
-            onPress={async (formData: FormData) => {
-              try {
-                await deleteUser.mutateAsync({});
-                await logout();
-                addToast({ message: "Profilen er blevet slettet", type: "success" });
-              } catch (error: any) {
-                addToast({ message: error.message, type: "error" });
-              }
-              setModalVisible(false);
-            }}>
-            <Text style={styles.modalButtonText}>Slet</Text>
-          </Pressable>
-        </View>
-      </View>
-    </Modal>
+    <BottomSheetModalProvider>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        onChange={handleSheetChanges}
+      >
+        <BottomSheetView style={styles.modalView}>
+          <Text style={styles.modalText}>
+              Er du sikker på at du vil slette din profil?{"\n"}
+              Dette kan ikke fortrydes.
+            </Text>
+            <View style={styles.buttonContainer}>
+              <Pressable
+                style={[styles.modalButton, styles.modalButtonNo]}
+                onPress={() => {
+                  handlePresentModalClose();
+                }}>
+                <Text style={styles.modalButtonText}>Nej</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.modalButton, styles.modalButtonDelete]}
+                onPress={async (formData: FormData) => {
+                  try {
+                    await deleteUser.mutateAsync({});
+                    await logout();
+                    addToast({ message: "Profilen er blevet slettet", type: "success" });
+                  } catch (error: any) {
+                    addToast({ message: error.message, type: "error" });
+                  }
+                  handlePresentModalClose();
+                }}>
+                <Text style={styles.modalButtonText}>Slet</Text>
+              </Pressable>
+            </View>
+        </BottomSheetView>
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
   );
-};
+}
 
 const styles = StyleSheet.create({
   buttonValid: {
@@ -148,22 +163,15 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(22),
     fontWeight: "500",
   },
+  container: {
+    flex: 1,
+    backgroundColor: 'grey',
+  },
   modalView: {
     flex: 1,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
     padding: 35,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   modalText: {
     textAlign: "center",
