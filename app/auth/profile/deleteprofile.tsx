@@ -60,7 +60,9 @@ const DeleteProfileScreen: React.FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (formData: FormData) => {
+    id = userId;
+    password = formData.currentPassword;
     handleModalOpen();
   };
 
@@ -132,16 +134,15 @@ const ConfirmationModal = ({
             </Pressable>
             <Pressable
               style={[styles.modalButton, styles.modalButtonDelete]}
-              onPress={async (formData: FormData) => {
+              onPress={async () => {
                 try {
                   await deleteUser.mutateAsync({
-                    id: userId,
-                    password: formData.currentPassword,
+                    id: id,
+                    password: password,
                   });
                   await logout();
                   addToast({ message: "Profilen er blevet slettet", type: "success" });
                 } catch (error: any) {
-                  console.log("Error")
                   addToast({ message: error.message, type: "error" });
                 }
                 handleModalClose();
