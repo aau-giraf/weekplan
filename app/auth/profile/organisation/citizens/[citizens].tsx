@@ -29,8 +29,8 @@ type Citizen = {
 };
 
 const ViewCitizen = () => {
-  const { index } = useLocalSearchParams();
-  const parsedID = Number(index);
+  const { citizens } = useLocalSearchParams();
+  const parsedID = Number(citizens);
 
   const { setCitizenId } = useCitizen();
   const { deleteCitizen, data, error, isLoading, updateCitizen } = useOrganisation(parsedID);

@@ -14,8 +14,8 @@ import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisatio
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 
 const ViewOrganisation = () => {
-  const { index } = useLocalSearchParams();
-  const parsedId = Number(index);
+  const { organisation } = useLocalSearchParams();
+  const parsedId = Number(organisation);
 
   const { deleteMember, data, error, isLoading } = useOrganisation(parsedId);
   const { userId } = useAuthentication();

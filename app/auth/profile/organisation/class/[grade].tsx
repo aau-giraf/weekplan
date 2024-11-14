@@ -10,8 +10,8 @@ import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 
 const ViewClass = () => {
-  const { index } = useLocalSearchParams();
-  const parsedID = Number(index);
+  const { grade } = useLocalSearchParams();
+  const parsedID = Number(grade);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
   const { data, error, isLoading } = useClasses(parsedID);
 
@@ -42,7 +42,7 @@ const ViewClass = () => {
               onPress={() => {
                 router.push({
                   pathname: "/auth/profile/organisation/class/addcitizen",
-                  params: { classId: index },
+                  params: { classId: grade },
                 });
               }}
               absolute={false}>
