@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import SwipeableList, { Action } from "./SwipeableList/SwipeableList";
 import { colors } from "../utils/SharedStyles";
 import { ProfilePicture } from "./ProfilePage";
@@ -20,6 +20,7 @@ type ListViewProps<T extends ListItem> = {
   handleUpdate?: (id: T["id"]) => void;
   getLabel: (item: T) => string;
   keyExtractor: (item: T) => string;
+  onPress?: (item: T) => void;
 };
 
 const ListView = <T extends ListItem>({
@@ -32,6 +33,7 @@ const ListView = <T extends ListItem>({
   handleUpdate,
   getLabel,
   keyExtractor,
+  onPress,
 }: ListViewProps<T>) => {
   if (isLoading) {
     return (
@@ -62,12 +64,12 @@ const ListView = <T extends ListItem>({
   ];
 
   const renderItem = (item: T) => (
-    <View style={styles.itemContainer} key={keyExtractor(item)}>
+    <Pressable style={styles.itemContainer} key={keyExtractor(item)} onPress={() => onPress && onPress(item)}>
       <ProfilePicture label={getLabel(item)} style={styles.profilePicture} />
       <Text numberOfLines={3} style={{ flexShrink: 1 }}>
         {getLabel(item)}
       </Text>
-    </View>
+    </Pressable>
   );
 
   return (

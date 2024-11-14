@@ -136,22 +136,22 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
-  const updateCitizen = useMutation<void, Error, CitizenDTO>({
+  const updateCitizen = useMutation<void, Error, Omit<CitizenDTO, "activities">>({
     mutationFn: (citizen) => updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName),
     onMutate: async (newCitizen) => {
       newCitizen.id = Number(newCitizen.id);
 
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
-
       await queryClient.cancelQueries({ queryKey });
 
       queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
         if (oldData) {
           const updatedCitizens = oldData.citizens.map((citizen) =>
-            citizen.id === newCitizen.id ? newCitizen : citizen
+            citizen.id === newCitizen.id ? { ...citizen, ...newCitizen } : citizen
           );
           return { ...oldData, citizens: updatedCitizens };
         }
+
         return previousOrg;
       });
     },

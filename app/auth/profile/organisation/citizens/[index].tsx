@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
@@ -20,6 +20,7 @@ import {
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
+import { useCitizen } from "../../../../../providers/CitizenProvider";
 
 type Citizen = {
   id: number | string;
@@ -30,6 +31,8 @@ type Citizen = {
 const ViewCitizen = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
+
+  const { setCitizenId } = useCitizen();
   const { deleteCitizen, data, error, isLoading, updateCitizen } = useOrganisation(parsedID);
   const [searchQuery, setSearchQuery] = useState("");
   const { addToast } = useToast();
@@ -103,6 +106,10 @@ const ViewCitizen = () => {
         }}
         getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
         keyExtractor={(citizen) => citizen.id.toString()}
+        onPress={(item) => {
+          setCitizenId(item.id);
+          router.push("/auth/profile/organisation/weekplanscreen");
+        }}
       />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
