@@ -10,10 +10,10 @@ import SearchBar from "../../../../../components/SearchBar";
 
 const ViewClass = () => {
   const { index } = useLocalSearchParams();
-  const parsedID = Number(index);
+  const parsedClassID = Number(index);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-  const { data, error, isLoading } = useClasses(parsedID);
-  const currentClass = data?.grades.find((grade) => grade.id === parsedID);
+  const { data, error, isLoading } = useClasses(parsedClassID);
+  const currentClass = data?.grades.find((grade) => grade.id === parsedClassID);
 
   if (isLoading)
     return (

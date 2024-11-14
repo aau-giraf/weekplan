@@ -15,15 +15,15 @@ import useClasses from "../../../../hooks/useClasses";
 
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
-  const parsedId = Number(index);
+  const parsedOrgId = Number(index);
 
-  const { deleteMember, data, error, isLoading } = useOrganisation(parsedId);
+  const { deleteMember, data, error, isLoading } = useOrganisation(parsedOrgId);
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
 
-  const { createClass } = useClasses(parsedId);
+  const { createClass } = useClasses(parsedOrgId);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -77,7 +77,7 @@ const ViewOrganisation = () => {
             onPress={() =>
               router.push({
                 pathname: "/create-invitation",
-                params: { orgId: parsedId },
+                params: { orgId: parsedOrgId },
               })
             }
             absolute={false}>
@@ -85,7 +85,10 @@ const ViewOrganisation = () => {
           </IconButton>
           <IconButton
             onPress={() => {
-              router.push({ pathname: "/auth/profile/organisation/addcitizen", params: { orgId: parsedId } });
+              router.push({
+                pathname: "/auth/profile/organisation/addcitizen",
+                params: { orgId: parsedOrgId },
+              });
             }}
             absolute={false}>
             <Ionicons name={"person-outline"} size={ScaleSize(30)} />
@@ -98,13 +101,13 @@ const ViewOrganisation = () => {
         <CutoffList
           entries={data?.users ?? []}
           onPress={() => {
-            router.push(`/auth/profile/organisation/members/${parsedId}`);
+            router.push(`/auth/profile/organisation/members/${parsedOrgId}`);
           }}
         />
         <Text style={styles.heading}>Borger</Text>
         <CutoffList
           entries={data?.citizens ?? []}
-          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
+          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedOrgId}`)}
         />
         <Text style={styles.heading}>Klasser</Text>
         <ClassView classes={data?.grades ?? []} />
