@@ -12,6 +12,15 @@ import { colors, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 import { ProfilePicture } from "../../components/ProfilePage";
 import CameraButton from "../../components/Camera/CameraButton";
 
+/**
+ * Regex
+ * @type {RegExp}
+ * @constant (?=.*[A-Z]) - At least one uppercase letter
+ * @constant (?=.*[a-z]) - At least one lowercase letter
+ * @constant (?=.*[0-9]) - At least one digit
+ * @constant .{8,} - At least 8 characters
+ */
+
 const schema = z
   .object({
     email: z.string().email("Indtast en gyldig e-mailadresse").trim(),
