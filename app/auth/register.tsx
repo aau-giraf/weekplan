@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: ScaleSizeH(30),
   },
   cameraButton: {
-    marginBottom: ScaleSizeH(30),
+    bottom: ScaleSizeH(200),
   },
 });
 

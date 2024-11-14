@@ -4,7 +4,7 @@ import WeekSelection from "../../../../components/weekoverview_components/WeekSe
 import DaysContainer from "../../../../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../../../../components/weekoverview_components/activity_components/ActivityItemList";
 import CameraButton from "../../../../components/Camera/CameraButton";
-import { colors } from "../../../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../../../utils/SharedStyles";
 import { Fragment, useEffect } from "react";
 import { useDate } from "../../../../providers/DateProvider";
 
@@ -18,7 +18,7 @@ const WeekPlanScreen = () => {
   return (
     <Fragment>
       <ActivityAddButton />
-      <CameraButton />
+      <CameraButton style={styles.button} />
       <SafeAreaView style={{ backgroundColor: colors.white }} />
       <View style={styles.container}>
         <View style={styles.header}>
@@ -37,6 +37,11 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: colors.white,
+  },
+  button: {
+    bottom: ScaleSize(20),
+    left: ScaleSize(24),
+    position: "absolute",
   },
 });
 
