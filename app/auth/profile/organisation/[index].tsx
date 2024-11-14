@@ -16,13 +16,11 @@ import useClasses from "../../../../hooks/useClasses";
 const ViewOrganisation = () => {
   const { index } = useLocalSearchParams();
   const parsedOrgId = Number(index);
-
   const { deleteMember, data, error, isLoading } = useOrganisation(parsedOrgId);
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
-
   const { createClass } = useClasses(parsedOrgId);
 
   if (isLoading) {

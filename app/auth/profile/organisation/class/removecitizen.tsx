@@ -18,11 +18,12 @@ const RemoveCitizen = () => {
   const { addToast } = useToast();
   const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(classId));
   const currentClass = data?.grades.find((grade) => grade.id === Number(classId));
-  const [filteredOptions, setFilteredOptions] = useState(
-    currentClass?.citizens
-      .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
-      .sort((a: string, b: string) => a.localeCompare(b))
-  );
+
+  const mapAndSort = currentClass?.citizens
+    .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
+    .sort((a: string, b: string) => a.localeCompare(b));
+
+  const [filteredOptions, setFilteredOptions] = useState(mapAndSort);
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
 
   if (error) {
@@ -41,14 +42,13 @@ const RemoveCitizen = () => {
     );
   }
 
-  const mapAndSort = currentClass?.citizens
-    .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
-    .sort((a: string, b: string) => a.localeCompare(b));
-
   const filterOptions = (text: string) => {
     setSearchText(text);
     setFilteredOptions(
-      mapAndSort?.filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
+      currentClass?.citizens
+        .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
+        .filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
+        .sort((a: string, b: string) => a.localeCompare(b))
     );
   };
 
