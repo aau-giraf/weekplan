@@ -141,7 +141,7 @@ const ConfirmationModal = ({
                   await logout();
                   addToast({ message: "Profilen er blevet slettet", type: "success" });
                 } catch (error: any) {
-                  console.log("Error")
+                  console.log("Error");
                   addToast({ message: error.message, type: "error" });
                 }
                 handleModalClose();
