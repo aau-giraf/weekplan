@@ -80,7 +80,7 @@ const LoginScreen: React.FC = () => {
           handleSubmit={handleSubmit(onsSubmit)}
           label="Login"
         />
-        <SecondaryButton onPress={() => router.replace("/auth/register")} label="Tilføj ny konto" />
+        <SecondaryButton onPress={() => router.push("/auth/register")} label="Tilføj ny konto" />
       </FormContainer>
     </Fragment>
   );
