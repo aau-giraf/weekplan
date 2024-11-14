@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.GIRAF_TOKEN }}
+          token: ${{ secrets.GIRAF_WEEKPLANNER_PRETTIER }}
 
       - name: Prettify code
         id: prettier
