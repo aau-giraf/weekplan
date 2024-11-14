@@ -1,16 +1,6 @@
 import { ClassDTO } from "../hooks/useClasses";
+import { CitizenDTO, FullOrgDTO } from "../hooks/useOrganisation";
 import { BASE_URL } from "../utils/globals";
-export const fetchClassRequest = async (classId: number) => {
-  if (classId === null) {
-    throw new Error("FATAL FEJL: Klasse-ID er ikke korrekt initialiseret i din session.");
-  }
-
-  const url = `${BASE_URL}/grades/${classId}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente klassen");
-  return res.json();
-};
-
 export const addCitizenToClassRequest = async (citizenId: number, classId: number): Promise<ClassDTO> => {
   const url = `${BASE_URL}/grades/${classId}/add-citizen/${citizenId}`;
   const res = await fetch(url, {
@@ -20,7 +10,7 @@ export const addCitizenToClassRequest = async (citizenId: number, classId: numbe
   return res.json();
 };
 
-export const fetchCitizenById = async (citizenId: number) => {
+export const fetchCitizenById = async (citizenId: number): Promise<CitizenDTO> => {
   const url = `${BASE_URL}/citizens/${citizenId}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error("Kunne ikke hente borger");
@@ -32,7 +22,7 @@ export const fetchCitizenById = async (citizenId: number) => {
  * @returns
  * an organisation object
  */
-export const fetchOrganisationFromClassRequest = async (classId: number) => {
+export const fetchOrganisationFromClassRequest = async (classId: number): Promise<FullOrgDTO> => {
   if (classId === null) {
     throw new Error("FATAL FEJL: Klasse-ID er ikke korrekt initialiseret i din session.");
   }
@@ -43,7 +33,10 @@ export const fetchOrganisationFromClassRequest = async (classId: number) => {
   return res.json();
 };
 
-export const removeCitizenFromClassRequest = async (citizenId: number, classId: number) => {
+export const removeCitizenFromClassRequest = async (
+  citizenId: number,
+  classId: number
+): Promise<ClassDTO> => {
   const url = `${BASE_URL}/grades/${classId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "PUT",
@@ -52,7 +45,7 @@ export const removeCitizenFromClassRequest = async (citizenId: number, classId: 
   return res.json();
 };
 
-export const createNewClassRequest = async (className: string, orgId: number) => {
+export const createNewClassRequest = async (className: string, orgId: number): Promise<ClassDTO> => {
   const url = `${BASE_URL}/grades?orgId=${orgId}`;
   const res = await fetch(url, {
     method: "POST",

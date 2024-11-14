@@ -57,7 +57,7 @@ export default function useClasses(classId: number) {
     onMutate: async (citizenId) => {
       await queryClient.cancelQueries({ queryKey });
 
-      const previousClass = queryClient.getQueryData<FullOrgDTO>(queryKey);
+      const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
       queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
         if (oldData) {
           return {
@@ -73,7 +73,7 @@ export default function useClasses(classId: number) {
             }),
           };
         }
-        return previousClass;
+        return previousOrg;
       });
     },
     onError: (_error, _citizenId, context) => {
@@ -92,7 +92,7 @@ export default function useClasses(classId: number) {
       onMutate: async (className) => {
         await queryClient.cancelQueries({ queryKey: orgQueryKey });
 
-        const previousClasses = queryClient.getQueryData<FullOrgDTO>(orgQueryKey);
+        const previousOrg = queryClient.getQueryData<FullOrgDTO>(orgQueryKey);
 
         const newClass: ClassDTO = {
           id: -1,
@@ -107,13 +107,13 @@ export default function useClasses(classId: number) {
               grades: [...oldData.grades, newClass],
             };
           }
-          return previousClasses;
+          return previousOrg;
         });
-        return { previousClasses };
+        return { previousOrg };
       },
       onError: (_error, _className, context) => {
-        if (context?.previousClasses) {
-          queryClient.setQueryData(orgQueryKey, context.previousClasses);
+        if (context?.previousOrg) {
+          queryClient.setQueryData(orgQueryKey, context.previousOrg);
         }
       },
     });
