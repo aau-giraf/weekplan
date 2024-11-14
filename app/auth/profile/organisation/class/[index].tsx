@@ -12,8 +12,7 @@ const ViewClass = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-  const { useFetchOrganiasationFromClass } = useClasses(parsedID);
-  const { data, error, isLoading } = useFetchOrganiasationFromClass(parsedID);
+  const { data, error, isLoading } = useClasses(parsedID);
   const currentClass = data?.grades.find((grade) => grade.id === parsedID);
 
   if (isLoading)
@@ -50,7 +49,7 @@ const ViewClass = () => {
         ListEmptyComponent={<Text>No citizens found</Text>}
         ListHeaderComponent={
           <View style={{ alignItems: "center" }}>
-            <Text style={styles.ClassName}>{data?.name ?? "Class"}</Text>
+            <Text style={styles.ClassName}>{currentClass?.name ?? "Class"}</Text>
             <View style={styles.ActionView}>
               {/* Edit Class */}
               <IconButton onPress={() => {}} absolute={false}>

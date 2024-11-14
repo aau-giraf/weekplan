@@ -16,8 +16,7 @@ const RemoveCitizen = () => {
   const [searchText, setSearchText] = useState("");
   const { classId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { useFetchOrganiasationFromClass, removeCitizenFromClass } = useClasses(Number(classId));
-  const { data, error, isLoading } = useFetchOrganiasationFromClass(Number(classId));
+  const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(classId));
   const currentClass = data?.grades.find((grade) => grade.id === Number(classId));
   const [filteredOptions, setFilteredOptions] = useState(
     currentClass?.citizens

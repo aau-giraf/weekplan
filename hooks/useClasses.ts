@@ -15,36 +15,40 @@ export type ClassDTO = {
 };
 export default function useClasses(classId: number) {
   const queryClient = useQueryClient();
-  const queryKey = [classId, "Organisation"];
-  function useFetchOrganiasationFromClass(classId: number) {
-    return useQuery<FullOrgDTO>({
-      queryFn: async () => fetchOrganisationFromClassRequest(classId),
-      queryKey: [classId, "Organisation"],
-    });
-  }
+  const queryKey = [classId, "Classes"];
+
+  const fetchOrganisationWithClass = useQuery<FullOrgDTO>({
+    queryFn: async () => fetchOrganisationFromClassRequest(classId),
+    queryKey,
+  });
 
   const addCitizenToClass = useMutation({
     mutationFn: (citizenId: number) => addCitizenToClassRequest(citizenId, classId),
     onMutate: async (citizenId: number) => {
-      const newCitizen: CitizenDTO = await fetchCitizenById(citizenId);
       await queryClient.cancelQueries({ queryKey });
 
-      const previousClass = queryClient.getQueryData(queryKey);
-      queryClient.setQueryData(queryKey, (oldData: { citizens: CitizenDTO[] }) => {
+      const previousClass = queryClient.getQueryData<FullOrgDTO>(queryKey);
+      const citizen = await fetchCitizenById(citizenId);
+
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
         if (oldData) {
           return {
             ...oldData,
-            citizens: [
-              {
-                ...newCitizen,
-                id: -1,
-              },
-              ...oldData.citizens,
-            ],
+            grades: oldData.grades.map((grade) => {
+              if (grade.id === classId) {
+                return {
+                  ...grade,
+                  citizens: [...grade.citizens, citizen],
+                };
+              }
+              return grade;
+            }),
           };
         }
         return previousClass;
       });
+
+      return { previousClass };
     },
   });
 
@@ -53,12 +57,20 @@ export default function useClasses(classId: number) {
     onMutate: async (citizenId) => {
       await queryClient.cancelQueries({ queryKey });
 
-      const previousClass = queryClient.getQueryData<ClassDTO>(queryKey);
-      queryClient.setQueryData<ClassDTO>(queryKey, (oldData) => {
+      const previousClass = queryClient.getQueryData<FullOrgDTO>(queryKey);
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
         if (oldData) {
           return {
             ...oldData,
-            citizens: oldData.citizens.filter((citizen) => citizen.id !== citizenId),
+            grades: oldData.grades.map((grade) => {
+              if (grade.id === classId) {
+                return {
+                  ...grade,
+                  citizens: grade.citizens.filter((citizen) => citizen.id !== citizenId),
+                };
+              }
+              return grade;
+            }),
           };
         }
         return previousClass;
@@ -73,32 +85,35 @@ export default function useClasses(classId: number) {
 
   const useClassCreate = (orgId: number) => {
     const queryClient = useQueryClient();
-    const queryKey = [orgId, "Classes"];
+    const orgQueryKey = [orgId, "Organisation"];
+
     const createClass = useMutation({
       mutationFn: async (className: string) => createNewClassRequest(className, orgId),
       onMutate: async (className) => {
-        await queryClient.cancelQueries({ queryKey });
+        await queryClient.cancelQueries({ queryKey: orgQueryKey });
 
-        const previousClasses = queryClient.getQueryData<ClassDTO[]>(queryKey);
-        const newClassId = previousClasses ? previousClasses.length + 1 : 1;
+        const previousClasses = queryClient.getQueryData<FullOrgDTO>(orgQueryKey);
+
         const newClass: ClassDTO = {
-          id: newClassId,
+          id: -1,
           name: className,
           citizens: [],
         };
 
-        queryClient.setQueryData<ClassDTO[]>(queryKey, (oldData) => {
+        queryClient.setQueryData<FullOrgDTO>(orgQueryKey, (oldData) => {
           if (oldData) {
-            return [...oldData, newClass];
+            return {
+              ...oldData,
+              grades: [...oldData.grades, newClass],
+            };
           }
-          return [newClass];
+          return previousClasses;
         });
-
         return { previousClasses };
       },
       onError: (_error, _className, context) => {
         if (context?.previousClasses) {
-          queryClient.setQueryData(queryKey, context.previousClasses);
+          queryClient.setQueryData(orgQueryKey, context.previousClasses);
         }
       },
     });
@@ -113,6 +128,8 @@ export default function useClasses(classId: number) {
     addCitizenToClass,
     removeCitizenFromClass,
     createNewClassRequest,
-    useFetchOrganiasationFromClass,
+    data: fetchOrganisationWithClass.data,
+    error: fetchOrganisationWithClass.error,
+    isLoading: fetchOrganisationWithClass.isLoading,
   };
 }

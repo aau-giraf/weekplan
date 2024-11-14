@@ -15,8 +15,7 @@ type Params = {
 const AddCitizen = () => {
   const { classId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { useFetchOrganiasationFromClass, addCitizenToClass } = useClasses(Number(classId));
-  const { data, error, isLoading } = useFetchOrganiasationFromClass(Number(classId));
+  const { data, error, isLoading, addCitizenToClass } = useClasses(Number(classId));
   const [searchText, setSearchText] = useState("");
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
 
