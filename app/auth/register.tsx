@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/Forms/TextInput";
 import ProgressSteps from "../../components/ProgressSteps";
@@ -40,6 +40,7 @@ export type RegisterForm = z.infer<typeof schema>;
 const RegisterScreen: React.FC = () => {
   const { register } = useAuthentication();
   const [label, setLabel] = useState<string>("");
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
   const {
     control,
@@ -69,9 +70,9 @@ const RegisterScreen: React.FC = () => {
     </View>,
     <View key="step2" style={styles.stepContainer}>
       <View style={styles.profileContainer}>
-        <ProfilePicture style={styles.mainProfilePicture} label={label} />
+        <ProfilePicture style={styles.mainProfilePicture} label={label} imageUri={imageUri} />
       </View>
-      <CameraButton style={styles.cameraButton} />
+      <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
       <PrivacyPolicy />
     </View>,
   ];
