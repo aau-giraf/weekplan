@@ -7,6 +7,7 @@ import {
 } from "../apis/organisationAPI";
 
 import { ActivityDTO } from "./useActivity";
+import { ClassDTO } from "./useClasses";
 
 export type UserDTO = {
   id: string;
@@ -28,11 +29,19 @@ export type OrgDTO = {
   users: UserDTO[];
   citizens: CitizenDTO[];
 };
+
+export type FullOrgDTO = {
+  id: number;
+  name: string;
+  users: UserDTO[];
+  citizens: CitizenDTO[];
+  grades: ClassDTO[];
+};
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
   const queryKey = [orgId, "Organisation"];
 
-  const fetchOrganisation = useQuery<OrgDTO>({
+  const fetchOrganisation = useQuery<FullOrgDTO>({
     queryFn: async () => fetchOrganisationRequest(orgId),
     queryKey,
   });

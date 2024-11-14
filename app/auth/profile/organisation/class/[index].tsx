@@ -12,7 +12,9 @@ const ViewClass = () => {
   const { index } = useLocalSearchParams();
   const parsedID = Number(index);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-  const { data, error, isLoading } = useClasses(parsedID);
+  const { useFetchOrganiasationFromClass } = useClasses(parsedID);
+  const { data, error, isLoading } = useFetchOrganiasationFromClass(parsedID);
+  const currentClass = data?.grades.find((grade) => grade.id === parsedID);
 
   if (isLoading)
     return (
@@ -39,7 +41,7 @@ const ViewClass = () => {
     <Fragment>
       <SafeAreaView />
       <FlatList
-        data={data ? sortedCitizen(data) : []}
+        data={currentClass ? sortedCitizen(currentClass) : []}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.citizenview}
         renderItem={({ item }) => (

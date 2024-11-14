@@ -15,23 +15,17 @@ type Params = {
 const AddCitizen = () => {
   const { classId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { useFetchOrganiasationFromClass } = useClasses(Number(classId));
-  const {
-    data: orgData,
-    error: orgError,
-    isLoading: orgLoading,
-  } = useFetchOrganiasationFromClass(Number(classId));
-  const { addCitizenToClass } = useClasses(Number(classId));
-
+  const { useFetchOrganiasationFromClass, addCitizenToClass } = useClasses(Number(classId));
+  const { data, error, isLoading } = useFetchOrganiasationFromClass(Number(classId));
   const [searchText, setSearchText] = useState("");
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
 
   const citizenNames = useMemo(
     () =>
-      orgData?.citizens
+      data?.citizens
         .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
         .sort((a, b) => a.localeCompare(b)),
-    [orgData]
+    [data]
   );
 
   const filteredOptions = useMemo(
@@ -46,7 +40,7 @@ const AddCitizen = () => {
 
   const handleOptionSelect = (option: string) => {
     setSearchText(option);
-    const foundCitizen = orgData?.citizens.find(
+    const foundCitizen = data?.citizens.find(
       (citizen) => `${citizen.firstName} ${citizen.lastName}` === option
     );
     if (foundCitizen) setSelectedCitizen(foundCitizen);
@@ -63,7 +57,7 @@ const AddCitizen = () => {
     }
   };
 
-  if (orgError) {
+  if (error) {
     return (
       <View style={styles.centeredContainer}>
         <Text>Error loading class data</Text>
@@ -71,7 +65,7 @@ const AddCitizen = () => {
     );
   }
 
-  if (orgLoading) {
+  if (isLoading) {
     return (
       <View style={styles.centeredContainer}>
         <Text>Loading...</Text>

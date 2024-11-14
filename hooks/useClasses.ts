@@ -3,12 +3,10 @@ import {
   addCitizenToClassRequest,
   createNewClassRequest,
   fetchCitizenById,
-  fetchClassRequest,
   fetchOrganisationFromClassRequest,
   removeCitizenFromClassRequest,
 } from "../apis/classAPI";
-import { CitizenDTO, OrgDTO } from "./useOrganisation";
-import { fetchAllClassesInOrganisationRequest } from "../apis/organisationOverviewAPI";
+import { CitizenDTO, FullOrgDTO } from "./useOrganisation";
 
 export type ClassDTO = {
   id: number;
@@ -17,22 +15,9 @@ export type ClassDTO = {
 };
 export default function useClasses(classId: number) {
   const queryClient = useQueryClient();
-  const queryKey = [classId, "Class"];
-
-  function useFetchClassesInOrganisations(organisationId: number) {
-    return useQuery<ClassDTO[]>({
-      queryFn: () => fetchAllClassesInOrganisationRequest(organisationId),
-      queryKey: [organisationId, "Classes"],
-    });
-  }
-
-  const fetchClass = useQuery<ClassDTO>({
-    queryFn: async () => fetchClassRequest(classId),
-    queryKey,
-  });
-
+  const queryKey = [classId, "Organisation"];
   function useFetchOrganiasationFromClass(classId: number) {
-    return useQuery<OrgDTO>({
+    return useQuery<FullOrgDTO>({
       queryFn: async () => fetchOrganisationFromClassRequest(classId),
       queryKey: [classId, "Organisation"],
     });
@@ -124,14 +109,10 @@ export default function useClasses(classId: number) {
   };
 
   return {
-    data: fetchClass.data,
-    error: fetchClass.error,
-    isLoading: fetchClass.isLoading,
     ...useClassCreate(classId),
     addCitizenToClass,
     removeCitizenFromClass,
     createNewClassRequest,
-    useFetchClassesInOrganisations,
     useFetchOrganiasationFromClass,
   };
 }

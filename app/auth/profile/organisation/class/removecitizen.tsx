@@ -16,9 +16,11 @@ const RemoveCitizen = () => {
   const [searchText, setSearchText] = useState("");
   const { classId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(classId));
+  const { useFetchOrganiasationFromClass, removeCitizenFromClass } = useClasses(Number(classId));
+  const { data, error, isLoading } = useFetchOrganiasationFromClass(Number(classId));
+  const currentClass = data?.grades.find((grade) => grade.id === Number(classId));
   const [filteredOptions, setFilteredOptions] = useState(
-    data?.citizens
+    currentClass?.citizens
       .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
       .sort((a: string, b: string) => a.localeCompare(b))
   );
@@ -43,7 +45,7 @@ const RemoveCitizen = () => {
   const filterOptions = (text: string) => {
     setSearchText(text);
     setFilteredOptions(
-      data?.citizens
+      currentClass?.citizens
         .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
         .filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
         .sort((a: string, b: string) => a.localeCompare(b))
@@ -53,11 +55,11 @@ const RemoveCitizen = () => {
   const onOptionPress = (option: string) => {
     setSearchText(option);
     setFilteredOptions(
-      data?.citizens
+      currentClass?.citizens
         .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
         .sort((a: string, b: string) => a.localeCompare(b))
     );
-    const foundCitizen = data?.citizens.find(
+    const foundCitizen = currentClass?.citizens.find(
       (citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}` === option
     );
     if (foundCitizen) {
@@ -79,7 +81,7 @@ const RemoveCitizen = () => {
         data={
           filteredOptions
             ? filteredOptions
-            : data?.citizens
+            : currentClass?.citizens
                 .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
                 .sort((a: string, b: string) => a.localeCompare(b))
         }

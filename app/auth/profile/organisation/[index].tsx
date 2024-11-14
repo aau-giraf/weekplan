@@ -22,14 +22,6 @@ const ViewOrganisation = () => {
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
-  const { useFetchClassesInOrganisations } = useClasses(parsedId);
-  const {
-    data: classData,
-    error: classError,
-    isLoading: classLoading,
-  } = useFetchClassesInOrganisations(parsedId);
-
-  console.log(classData);
 
   const { createClass } = useClasses(parsedId);
 
@@ -115,9 +107,7 @@ const ViewOrganisation = () => {
           onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
         />
         <Text style={styles.heading}>Klasser</Text>
-        <Text>{classError?.message}</Text>
-        <Text>{classLoading}</Text>
-        <ClassView classes={classData ?? []} />
+        <ClassView classes={data?.grades ?? []} />
         <IconButton onPress={openCreateBS} absolute={false}>
           <Ionicons name={"add-outline"} size={ScaleSize(30)} />
         </IconButton>
