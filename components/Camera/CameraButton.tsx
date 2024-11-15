@@ -13,10 +13,10 @@ type CameraButtonProps = {
 
 const CameraButton: React.FC<CameraButtonProps> = ({ style, onImageSelect }) => {
   const handlePress = async () => {
-    Alert.alert("Choose Image Source", "Would you like to take a photo or select one from your library?", [
-      { text: "Camera", onPress: handleTakePhoto },
-      { text: "Library", onPress: handlePickImage },
-      { text: "Cancel", style: "cancel" },
+    Alert.alert("Vælg billede-kilde", "Vil du tage et billede eller vælge et fra dit bibliotek?", [
+      { text: "Kamera", onPress: handleTakePhoto },
+      { text: "Bibliotek", onPress: handlePickImage },
+      { text: "Annuller", style: "cancel" },
     ]);
   };
 
