@@ -32,7 +32,7 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState("");
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { addToast } = useToast();
   const { logout } = useAuthentication();
