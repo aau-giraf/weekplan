@@ -1,4 +1,4 @@
-import { takePhoto } from "../components/Camera/Camera";
+import { getImage } from "../utils/getImage";
 import * as ImagePicker from "expo-image-picker";
 
 jest.mock("expo-image-picker", () => ({
@@ -17,7 +17,7 @@ describe("takePhoto", () => {
       granted: true,
     });
 
-    await takePhoto();
+    await getImage("camera");
 
     expect(ImagePicker.requestCameraPermissionsAsync).toHaveBeenCalled();
   });
@@ -27,7 +27,7 @@ describe("takePhoto", () => {
       granted: false,
     });
     global.alert = jest.fn();
-    await takePhoto();
+    await getImage("camera");
 
     expect(global.alert).toHaveBeenCalledWith("Camera access is required to take a photo!");
   });
@@ -43,7 +43,7 @@ describe("takePhoto", () => {
     };
     (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue(mockCameraResult);
 
-    const uri = await takePhoto();
+    const uri = await getImage("camera");
 
     expect(ImagePicker.launchCameraAsync).toHaveBeenCalled();
     expect(uri).toBe("mockImageUri");

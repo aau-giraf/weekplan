@@ -3,8 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Alert } from "react-native";
 import { colors, ScaleSize } from "../../utils/SharedStyles";
 import IconButton from "../IconButton";
-import { takePhoto } from "./Camera";
-import pickImage from "../../utils/pickImage";
+import { getImage } from "../../utils/getImage";
+import * as ImageManipulator from "expo-image-manipulator";
 
 type CameraButtonProps = {
   style?: object;
@@ -21,17 +21,26 @@ const CameraButton: React.FC<CameraButtonProps> = ({ style, onImageSelect }) => 
   };
 
   const handleTakePhoto = async () => {
-    const imageUri = await takePhoto();
+    const imageUri = await getImage("camera");
     if (imageUri) {
-      onImageSelect(imageUri);
+      await ImageCompressor(imageUri.assets[0].uri);
+      onImageSelect(imageUri.assets[0].uri);
     }
   };
 
   const handlePickImage = async () => {
-    const imageUri = await pickImage();
+    const imageUri = await getImage("photoAlbum");
     if (imageUri) {
-      onImageSelect(imageUri);
+      await ImageCompressor(imageUri.assets[0].uri);
+      onImageSelect(imageUri.assets[0].uri);
     }
+  };
+
+  const ImageCompressor = async (imageUri: string) => {
+    ImageManipulator.manipulateAsync(imageUri, [{ resize: { width: 800 } }], {
+      compress: 0.8,
+      format: ImageManipulator.SaveFormat.JPEG,
+    });
   };
 
   return (
