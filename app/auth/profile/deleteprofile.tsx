@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
 import { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { View, StyleSheet, Text, TouchableOpacity, Modal, Pressable, Button } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Modal, Pressable, Button, Keyboard } from "react-native";
 import FormContainer from "../../../components/Forms/FormContainer";
 import FormHeader from "../../../components/Forms/FormHeader";
 import FormField from "../../../components/Forms/TextInput";
@@ -32,6 +32,7 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
+  const [password, setPassword] = useState('')
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { addToast } = useToast();
   const { logout } = useAuthentication();
@@ -56,9 +57,11 @@ const DeleteProfileScreen: React.FC = () => {
   });
 
   const onSubmit = async (formData: FormData) => {
-    const id = userId;
-    const password = formData.currentPassword;
-    handleModalOpen();
+    Keyboard.dismiss();
+    setPassword(formData.currentPassword);
+    setTimeout(() => {
+      handleModalOpen();
+    }, 200);
   };
 
   return (
@@ -95,6 +98,8 @@ const DeleteProfileScreen: React.FC = () => {
         addToast={addToast}
         logout={logout}
         deleteUser={deleteUser}
+        userId={userId}
+        password={password}
       />
     </View>
   );
@@ -106,8 +111,8 @@ const ConfirmationModal = ({
   addToast,
   deleteUser,
   logout,
+  userId,
   password,
-  id,
 }: any) => {
   return (
     <BottomSheetModalProvider>
@@ -130,7 +135,7 @@ const ConfirmationModal = ({
               onPress={async () => {
                 try {
                   await deleteUser.mutateAsync({
-                    id: id,
+                    id: userId,
                     password: password,
                   });
                   await logout();
@@ -169,7 +174,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     flex: 1,
-    padding: 35,
+    padding: ScaleSize(35),
     alignItems: "center",
     justifyContent: "center",
   },
@@ -180,12 +185,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 40,
+    padding: ScaleSize(20),
   },
   modalButton: {
-    borderRadius: 10,
-    padding: 40,
-    margin: 10,
+    borderRadius: 8,
+    padding: ScaleSize(40),
+    margin: ScaleSize(30),
+    marginLeft: ScaleSize(50),
+    marginRight: ScaleSize(50),
   },
   modalButtonNo: {
     backgroundColor: colors.blue,
