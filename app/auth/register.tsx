@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import FormField from "../../components/Forms/TextInput";
+import FormField from "../../components/forms/TextInput";
 import ProgressSteps from "../../components/ProgressSteps";
-import PrivacyPolicy from "../../components/Legal/PrivacyPolicy";
+import PrivacyPolicy from "../../components/legal/PrivacyPolicy";
 import { useForm } from "react-hook-form";
 import { useAuthentication } from "../../providers/AuthenticationProvider";
 import GirafIcon from "../../assets/SVG/GirafIcon";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 import { ProfilePicture } from "../../components/ProfilePage";
-import CameraButton from "../../components/Camera/CameraButton";
+import CameraButton from "../../components/CameraButton";
 
 /**
  * Regex

@@ -3,7 +3,7 @@ import ActivityAddButton from "../../../../components/weekoverview_components/ac
 import WeekSelection from "../../../../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../../../../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../../../../components/weekoverview_components/activity_components/ActivityItemList";
-import CameraButton from "../../../../components/Camera/CameraButton";
+import CameraButton from "../../../../components/CameraButton";
 import { colors, ScaleSize } from "../../../../utils/SharedStyles";
 import { Fragment, useEffect } from "react";
 import { useDate } from "../../../../providers/DateProvider";

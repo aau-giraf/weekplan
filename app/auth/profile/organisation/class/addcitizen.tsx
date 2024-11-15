@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
-import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
+import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { addCitizenToClassRequest } from "../../../../../apis/classAPI";
 import { useFetchOrganiasationFromClass } from "../../../../../hooks/useOrganisationOverview";
 import SearchBar from "../../../../../components/SearchBar";

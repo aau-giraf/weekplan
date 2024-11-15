@@ -19,7 +19,7 @@ import { useToast } from "../../../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { router } from "expo-router";
-import SecondaryButton from "../../../components/Forms/SecondaryButton";
+import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
 
 const screenWidth = Dimensions.get("window").width;
