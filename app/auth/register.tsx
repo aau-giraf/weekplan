@@ -1,5 +1,5 @@
-import React, { Fragment, useRef, useState } from "react";
-import { SafeAreaView, View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useRef, useState } from "react";
+import { SafeAreaView, View, StyleSheet } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/forms/TextInput";
@@ -77,7 +77,7 @@ const RegisterScreen: React.FC = () => {
   const handleSubmitPicture = async () => {
     await uploadProfileImageRequest(userId, imageUri)
       .then(() => {
-        router.navigate("/auth");
+        router.replace("/auth/login");
       })
       .catch((error) => {
         addToast({ message: "Der skete en fejl under upload af billede", type: "error" });
@@ -113,7 +113,7 @@ const RegisterScreen: React.FC = () => {
             disabled={!imageUri}
             onPress={handleSubmitPicture}
           />
-          <SecondaryButton label="Spring over" onPress={() => router.navigate("/auth")} />
+          <SecondaryButton label="Spring over" onPress={() => router.replace("/auth/login")} />
         </View>
       </ProgressSteps>
       <View style={styles.navigationButtons}></View>
