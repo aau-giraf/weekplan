@@ -78,7 +78,6 @@ export const toggleActivityStatusRequest = async (id: number, isCompleted: boole
  * @param citizenId {number} - ID for the associated citizen
  */
 export const createActivityRequestForCitizen = async (data: ActivityDTO, citizenId: number) => {
-  console.log(data, citizenId);
   const res = await fetch(`${BASE_URL}/weekplan/to-citizen/${citizenId}`, {
     method: "POST",
     body: JSON.stringify(data),

@@ -23,13 +23,13 @@ const WeekPlanScreen = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <Pressable style={styles.container} onPress={() => bottomSheetRef.current?.close()}>
+      <View style={styles.container}>
         <View style={styles.header}>
           <WeekSelection />
           <DaysContainer bottomSheetRef={bottomSheetRef} />
         </View>
         <ActivityItemList />
-      </Pressable>
+      </View>
       <ActivityAddButton />
       <CameraButton />
       <CopyDateActivitiesBottomSheet bottomSheetRef={bottomSheetRef} />

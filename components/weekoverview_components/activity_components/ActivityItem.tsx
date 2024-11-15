@@ -49,7 +49,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImage
         {data ? (
           <Pressable onPress={() => handleImagePress(data)}>
             <Image
-              source={{ uri: data }}
+              source={{ uri: data, cache: "force-cache" }}
               style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
               resizeMode="contain"
             />
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityItem;
+export default React.memo(ActivityItem);

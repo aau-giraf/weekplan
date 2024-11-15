@@ -101,6 +101,7 @@ const ActivityItemList = () => {
       onPress: (item) => handleDeleteActivity(item.activityId),
     },
   ];
+
   return (
     <>
       <SwipeableList
@@ -115,24 +116,26 @@ const ActivityItemList = () => {
         rightActions={rightActions}
         leftActions={leftActions}
       />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Image
-              source={{ uri: imageUri }}
-              style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
-              resizeMode="contain"
-            />
-            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Luk</Text>
-            </TouchableOpacity>
+      {modalVisible && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Image
+                source={{ uri: imageUri }}
+                style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
+                resizeMode="contain"
+              />
+              <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.closeButtonText}>Luk</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 };
