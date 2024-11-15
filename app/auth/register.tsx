@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { SafeAreaView, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/forms/TextInput";
-import ProgressSteps from "../../components/ProgressSteps";
+import ProgressSteps, { ProgressStepsMethods } from "../../components/ProgressSteps";
 import PrivacyPolicy from "../../components/legal/PrivacyPolicy";
 import SecondaryButton from "../../components/forms/SecondaryButton";
 import SubmitButton from "../../components/forms/SubmitButton";
@@ -15,6 +15,7 @@ import { ProfilePicture } from "../../components/ProfilePage";
 import CameraButton from "../../components/CameraButton";
 import { router } from "expo-router";
 import { uploadProfileImageRequest } from "../../apis/profileAPI";
+import { useToast } from "../../providers/ToastProvider";
 
 const schema = z
   .object({
@@ -43,10 +44,11 @@ export type RegisterForm = z.infer<typeof schema>;
 
 const RegisterScreen: React.FC = () => {
   const { register } = useAuthentication();
+  const { addToast } = useToast();
   const [label, setLabel] = useState<string>("");
   const [userId, setUserId] = useState<string | null>("");
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState(0);
+  const progressRef = useRef<ProgressStepsMethods>(null);
 
   const {
     control,
@@ -57,66 +59,64 @@ const RegisterScreen: React.FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async () => {
-    await uploadProfileImageRequest(userId, imageUri);
+  const handleRegister = () => {
+    register(getValues())
+      .then((userId) => {
+        setUserId(userId);
+        setLabel(`${getValues().firstName} ${getValues().lastName}`);
+
+        if (userId) {
+          progressRef.current?.nextStep();
+        }
+      })
+      .catch((error) => {
+        addToast({ message: "Der skete en fejl under oprettelse af bruger", type: "error" });
+      });
   };
 
-  const handleNextStep = async () => {
-    if (currentStep === 0) {
-      const userId = await register(getValues());
-      setUserId(userId);
-      setLabel(`${getValues("firstName")[0]} ${getValues("lastName")[0]}`);
-    } else {
-      await onSubmit();
-    }
-
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    }
+  const handleSubmitPicture = async () => {
+    await uploadProfileImageRequest(userId, imageUri)
+      .then(() => {
+        router.navigate("/auth");
+      })
+      .catch((error) => {
+        addToast({ message: "Der skete en fejl under upload af billede", type: "error" });
+      });
   };
-
-  const steps = [
-    <View key="step1" style={styles.stepContainer}>
-      <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
-      <FormField control={control} name="firstName" placeholder="Fornavn" />
-      <FormField control={control} name="lastName" placeholder="Efternavn" />
-      <FormField control={control} name="email" placeholder="E-mail" />
-      <FormField control={control} name="password" placeholder="Adgangskode" secureText />
-      <FormField control={control} name="confirmPassword" placeholder="Bekræft adgangskode" secureText />
-      <PrivacyPolicy />
-    </View>,
-    <View key="step2" style={styles.stepContainer}>
-      <View style={styles.profileContainer}>
-        <ProfilePicture style={styles.mainProfilePicture} label={label} imageUri={imageUri} />
-      </View>
-      <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
-    </View>,
-  ];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-      <ProgressSteps steps={steps} currentStep={currentStep} />
-      <View style={styles.navigationButtons}>
-        {currentStep < steps.length - 1 && (
-          <TouchableOpacity
-            style={[styles.button, styles.nextButton, !isValid || isSubmitting ? styles.disabledButton : {}]}
-            onPress={handleNextStep}
-            disabled={!isValid || isSubmitting}>
-            <Text style={styles.buttonText}>{currentStep === 0 ? "Næste" : "Tilføj konto"}</Text>
-          </TouchableOpacity>
-        )}
-        {currentStep === 1 && (
-          <Fragment>
-            <SubmitButton
-              isValid={isValid}
-              isSubmitting={isSubmitting}
-              handleSubmit={onSubmit}
-              label={"Tilføj billede"}
-            />
-            <SecondaryButton label={"Gå til login"} onPress={() => router.replace("/auth")} />
-          </Fragment>
-        )}
-      </View>
+      <ProgressSteps ref={progressRef}>
+        <View key="step1" style={styles.stepContainer}>
+          <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
+          <FormField control={control} name="firstName" placeholder="Fornavn" />
+          <FormField control={control} name="lastName" placeholder="Efternavn" />
+          <FormField control={control} name="email" placeholder="E-mail" />
+          <FormField control={control} name="password" placeholder="Adgangskode" secureText />
+          <FormField control={control} name="confirmPassword" placeholder="Bekræft adgangskode" secureText />
+          <PrivacyPolicy />
+          <SubmitButton
+            label="Opret bruger"
+            isValid={isValid}
+            isSubmitting={isSubmitting}
+            handleSubmit={handleRegister}
+          />
+        </View>
+        <View key="step2" style={styles.stepContainer}>
+          <View style={styles.profileContainer}>
+            <ProfilePicture style={styles.mainProfilePicture} label={label} imageUri={imageUri} />
+          </View>
+          <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
+          <SecondaryButton
+            style={{ backgroundColor: colors.green }}
+            label="Upload billede"
+            disabled={!imageUri}
+            onPress={handleSubmitPicture}
+          />
+          <SecondaryButton label="Spring over" onPress={() => router.navigate("/auth")} />
+        </View>
+      </ProgressSteps>
+      <View style={styles.navigationButtons}></View>
     </SafeAreaView>
   );
 };
@@ -137,13 +137,13 @@ const styles = StyleSheet.create({
   },
   mainProfilePicture: {
     width: "100%",
-    maxHeight: ScaleSizeH(250),
+    maxHeight: ScaleSizeH(360),
     aspectRatio: 1,
     borderRadius: 10000,
-    marginBottom: ScaleSizeH(30),
+    marginBottom: ScaleSizeH(140),
   },
   cameraButton: {
-    bottom: ScaleSizeH(125),
+    bottom: ScaleSizeH(230),
   },
   button: {
     backgroundColor: colors.green,

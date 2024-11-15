@@ -1,12 +1,39 @@
-import React, { ReactNode } from "react";
+import React, { forwardRef, ReactNode, useImperativeHandle, useState } from "react";
 import { View, StyleSheet } from "react-native";
 
 type ProgressStepsProps = {
-  steps: ReactNode[];
-  currentStep: number;
+  children: ReactNode;
 };
 
-const ProgressSteps: React.FC<ProgressStepsProps> = ({ steps, currentStep }) => {
+export type ProgressStepsMethods = {
+  nextStep: () => void;
+  previousStep: () => void;
+};
+
+const ProgressSteps = forwardRef<ProgressStepsMethods, ProgressStepsProps>((props, ref) => {
+  const { children } = props;
+  const steps = React.Children.toArray(children);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  useImperativeHandle(ref, () => {
+    const nextStep = () => {
+      if (currentStep < steps.length - 1) {
+        setCurrentStep(currentStep + 1);
+      }
+    };
+
+    const previousStep = () => {
+      if (currentStep > 0) {
+        setCurrentStep(currentStep - 1);
+      }
+    };
+
+    return {
+      nextStep,
+      previousStep,
+    };
+  }, [currentStep, steps.length]);
+
   return (
     <View style={styles.container}>
       <View style={styles.stepIndicator}>
@@ -20,7 +47,7 @@ const ProgressSteps: React.FC<ProgressStepsProps> = ({ steps, currentStep }) => 
       <View style={styles.stepContainer}>{steps[currentStep]}</View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -50,3 +77,4 @@ const styles = StyleSheet.create({
 });
 
 export default ProgressSteps;
+ProgressSteps.displayName = "ProgressSteps";
