@@ -1,10 +1,10 @@
-import React, { useState, Fragment, useRef, useCallback, useMemo } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
 import { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { View, StyleSheet, Text, TouchableOpacity, Modal, Pressable, Button, Keyboard } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Pressable, Keyboard } from "react-native";
 import FormContainer from "../../../components/Forms/FormContainer";
 import FormHeader from "../../../components/Forms/FormHeader";
 import FormField from "../../../components/Forms/TextInput";
@@ -123,14 +123,14 @@ const ConfirmationModal = ({
             Dette kan ikke fortrydes.
           </Text>
           <View style={styles.buttonContainer}>
-            <Pressable
+            <TouchableOpacity
               style={[styles.modalButton, styles.modalButtonNo]}
               onPress={() => {
                 handleModalClose();
               }}>
               <Text style={styles.modalButtonText}>Nej</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
               style={[styles.modalButton, styles.modalButtonDelete]}
               onPress={async () => {
                 try {
@@ -146,7 +146,7 @@ const ConfirmationModal = ({
                 handleModalClose();
               }}>
               <Text style={styles.modalButtonText}>Slet</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </BottomSheetView>
       </BottomSheetModal>
