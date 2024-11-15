@@ -1,25 +1,19 @@
-import React, { useState } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import React, { Fragment, useState } from "react";
+import { SafeAreaView, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/forms/TextInput";
 import ProgressSteps from "../../components/ProgressSteps";
 import PrivacyPolicy from "../../components/legal/PrivacyPolicy";
+import SecondaryButton from "../../components/forms/SecondaryButton";
+import SubmitButton from "../../components/forms/SubmitButton";
 import { useForm } from "react-hook-form";
 import { useAuthentication } from "../../providers/AuthenticationProvider";
 import GirafIcon from "../../assets/SVG/GirafIcon";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 import { ProfilePicture } from "../../components/ProfilePage";
 import CameraButton from "../../components/CameraButton";
-
-/**
- * Regex
- * @type {RegExp}
- * @constant (?=.*[A-Z]) - At least one uppercase letter
- * @constant (?=.*[a-z]) - At least one lowercase letter
- * @constant (?=.*[0-9]) - At least one digit
- * @constant .{8,} - At least 8 characters
- */
+import { router } from "expo-router";
 
 const schema = z
   .object({
@@ -47,9 +41,10 @@ const schema = z
 export type RegisterForm = z.infer<typeof schema>;
 
 const RegisterScreen: React.FC = () => {
-  const { register } = useAuthentication();
+  const { register, userId } = useAuthentication();
   const [label, setLabel] = useState<string>("");
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
 
   const {
     control,
@@ -61,11 +56,21 @@ const RegisterScreen: React.FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = handleSubmit(register);
+  const onSubmit = () => {
+    console.log("Submitting form");
+  };
 
-  const handleNextStep = () => {
-    const { firstName, lastName } = getValues();
-    setLabel(`${firstName} ${lastName}`);
+  const handleNextStep = async () => {
+    if (currentStep === 0) {
+      await handleSubmit(register)();
+      setLabel(`${getValues("firstName")[0]} ${getValues("lastName")[0]}`);
+    } else {
+      await onSubmit();
+    }
+
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
   const steps = [
@@ -76,25 +81,40 @@ const RegisterScreen: React.FC = () => {
       <FormField control={control} name="email" placeholder="E-mail" />
       <FormField control={control} name="password" placeholder="Adgangskode" secureText />
       <FormField control={control} name="confirmPassword" placeholder="Bekræft adgangskode" secureText />
+      <PrivacyPolicy />
     </View>,
     <View key="step2" style={styles.stepContainer}>
       <View style={styles.profileContainer}>
         <ProfilePicture style={styles.mainProfilePicture} label={label} imageUri={imageUri} />
       </View>
       <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
-      <PrivacyPolicy />
     </View>,
   ];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-      <ProgressSteps
-        steps={steps}
-        onSubmit={onSubmit}
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        onNext={handleNextStep}
-      />
+      <ProgressSteps steps={steps} currentStep={currentStep} />
+      <View style={styles.navigationButtons}>
+        {currentStep < steps.length - 1 && (
+          <TouchableOpacity
+            style={[styles.button, styles.nextButton, !isValid || isSubmitting ? styles.disabledButton : {}]}
+            onPress={handleNextStep}
+            disabled={!isValid || isSubmitting}>
+            <Text style={styles.buttonText}>{currentStep === 0 ? "Næste" : "Tilføj konto"}</Text>
+          </TouchableOpacity>
+        )}
+        {currentStep === 1 && (
+          <Fragment>
+            <SubmitButton
+              isValid={isValid}
+              isSubmitting={isSubmitting}
+              handleSubmit={onSubmit}
+              label={"Tilføj billede"}
+            />
+            <SecondaryButton label={"Gå til login"} onPress={() => router.replace("/auth")} />
+          </Fragment>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -121,7 +141,30 @@ const styles = StyleSheet.create({
     marginBottom: ScaleSizeH(30),
   },
   cameraButton: {
-    bottom: ScaleSizeH(200),
+    bottom: ScaleSizeH(125),
+  },
+  button: {
+    backgroundColor: "#4CAF50",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  nextButton: {
+    marginLeft: 10,
+  },
+  disabledButton: {
+    backgroundColor: "#A9A9A9",
+  },
+  navigationButtons: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    marginTop: 20,
   },
 });
 

@@ -1,26 +1,12 @@
-import React, { ReactNode, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { ReactNode } from "react";
+import { View, StyleSheet } from "react-native";
 
 type ProgressStepsProps = {
   steps: ReactNode[];
-  onSubmit: () => void;
-  isValid: boolean;
-  isSubmitting: boolean;
-  onNext: () => void;
+  currentStep: number;
 };
 
-const ProgressSteps: React.FC<ProgressStepsProps> = ({ steps, onSubmit, isValid, isSubmitting, onNext }) => {
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const nextStep = () => {
-    onNext();
-    if (currentStep < steps.length - 1) setCurrentStep(currentStep + 1);
-  };
-
-  const prevStep = () => {
-    if (currentStep > 0) setCurrentStep(currentStep - 1);
-  };
-
+const ProgressSteps: React.FC<ProgressStepsProps> = ({ steps, currentStep }) => {
   return (
     <View style={styles.container}>
       <View style={styles.stepIndicator}>
@@ -32,27 +18,6 @@ const ProgressSteps: React.FC<ProgressStepsProps> = ({ steps, onSubmit, isValid,
         ))}
       </View>
       <View style={styles.stepContainer}>{steps[currentStep]}</View>
-      <View style={styles.navigationButtons}>
-        {currentStep > 0 ? (
-          <TouchableOpacity style={styles.button} onPress={prevStep}>
-            <Text style={styles.buttonText}>Forrige</Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={{ flex: 1 }} />
-        )}
-        {currentStep < steps.length - 1 ? (
-          <TouchableOpacity style={[styles.button, styles.nextButton]} onPress={nextStep}>
-            <Text style={styles.buttonText}>Næste</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={[styles.button, styles.nextButton, !isValid || isSubmitting ? styles.disabledButton : {}]}
-            onPress={onSubmit}
-            disabled={!isValid || isSubmitting}>
-            <Text style={styles.buttonText}>Tilføj konto</Text>
-          </TouchableOpacity>
-        )}
-      </View>
     </View>
   );
 };
@@ -81,28 +46,6 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     flex: 1,
-  },
-  navigationButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  button: {
-    backgroundColor: "#4CAF50",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  nextButton: {
-    marginLeft: 10,
-  },
-  disabledButton: {
-    backgroundColor: "#A9A9A9",
   },
 });
 
