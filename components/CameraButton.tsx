@@ -23,22 +23,22 @@ const CameraButton: React.FC<CameraButtonProps> = ({ style, onImageSelect }) => 
   const handleTakePhoto = async () => {
     const imageUri = await getImage("camera");
     if (imageUri) {
-      await ImageCompressor(imageUri.assets[0].uri);
-      onImageSelect(imageUri.assets[0].uri);
+      const compressedImage = await ImageCompressor(imageUri.assets[0].uri);
+      onImageSelect(compressedImage.uri);
     }
   };
 
   const handlePickImage = async () => {
     const imageUri = await getImage("photoAlbum");
     if (imageUri) {
-      await ImageCompressor(imageUri.assets[0].uri);
-      onImageSelect(imageUri.assets[0].uri);
+      const compressedImage = await ImageCompressor(imageUri.assets[0].uri);
+      onImageSelect(compressedImage.uri);
     }
   };
 
   const ImageCompressor = async (imageUri: string) => {
-    await ImageManipulator.manipulateAsync(imageUri, [{ resize: { width: 800 } }], {
-      compress: 0.8,
+    return await ImageManipulator.manipulateAsync(imageUri, [{ resize: { width: 400 } }], {
+      compress: 0.5,
       format: ImageManipulator.SaveFormat.JPEG,
     });
   };
