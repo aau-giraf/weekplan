@@ -38,7 +38,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
     async (form: RegisterForm) => {
       try {
         await createUserRequest(form);
-        router.replace("/auth");
+        router.replace("/auth/login");
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });
       }
@@ -53,7 +53,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
         if (res.token) {
           setJwt(res.token);
           setUserId(getUserIdFromToken(res.token));
-          router.replace("/auth/profile");
+          router.replace("/auth/profile/profilepage");
         } else {
           addToast({ message: "Toast not received", type: "error" });
         }
@@ -71,7 +71,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
     await setSettingsValue("Remember me", false);
     setJwt(null);
     setUserId(null);
-    router.replace("/auth");
+    router.replace("/auth/login");
   }, []);
 
   return (

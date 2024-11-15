@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { colors } from "../utils/SharedStyles";
-import useInvitation from "../hooks/useInvitation";
+import { colors } from "../../../../utils/SharedStyles";
+import useInvitation from "../../../../hooks/useInvitation";
 import { useLocalSearchParams } from "expo-router";
-import { useAuthentication } from "../providers/AuthenticationProvider";
-import { useToast } from "../providers/ToastProvider";
-import FormContainer from "../components/Forms/FormContainer";
-import FormHeader from "../components/Forms/FormHeader";
-import FormField from "../components/Forms/TextInput";
-import SubmitButton from "../components/Forms/SubmitButton";
+import { useAuthentication } from "../../../../providers/AuthenticationProvider";
+import { useToast } from "../../../../providers/ToastProvider";
+import FormContainer from "../../../../components/Forms/FormContainer";
+import FormHeader from "../../../../components/Forms/FormHeader";
+import FormField from "../../../../components/Forms/TextInput";
+import SubmitButton from "../../../../components/Forms/SubmitButton";
 import { Fragment } from "react";
 import { SafeAreaView } from "react-native";
 
