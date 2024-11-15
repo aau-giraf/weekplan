@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     width: ScaleSize(200),
     height: ScaleSize(200),
     borderRadius: 150,
+    marginVertical: ScaleSize(10),
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
