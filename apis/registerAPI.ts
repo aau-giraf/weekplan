@@ -16,7 +16,7 @@ type CreateUserResponseProps = {
   email: string;
   firstName: string;
   lastName: string;
-  userId: string;
+  id: string;
 };
 
 export const createUserRequest = async (

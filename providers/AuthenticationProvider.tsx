@@ -12,7 +12,7 @@ type AuthenticationProviderValues = {
   jwt: string | null;
   userId: string | null;
   isAuthenticated: () => boolean;
-  register: (form: RegisterForm) => Promise<string | undefined>;
+  register: (form: RegisterForm) => Promise<string | null>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -38,9 +38,10 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
     async (form: RegisterForm) => {
       try {
         const res = await createUserRequest(form);
-        return res.userId;
+        return res.id;
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });
+        return null;
       }
     },
     [addToast]

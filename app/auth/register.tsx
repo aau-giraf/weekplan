@@ -14,6 +14,7 @@ import { colors, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 import { ProfilePicture } from "../../components/ProfilePage";
 import CameraButton from "../../components/CameraButton";
 import { router } from "expo-router";
+import { uploadProfileImageRequest } from "../../apis/profileAPI";
 
 const schema = z
   .object({
@@ -41,14 +42,14 @@ const schema = z
 export type RegisterForm = z.infer<typeof schema>;
 
 const RegisterScreen: React.FC = () => {
-  const { register, userId } = useAuthentication();
+  const { register } = useAuthentication();
   const [label, setLabel] = useState<string>("");
+  const [userId, setUserId] = useState<string | null>("");
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
 
   const {
     control,
-    handleSubmit,
     formState: { isSubmitting, isValid },
     getValues,
   } = useForm<RegisterForm>({
@@ -56,13 +57,14 @@ const RegisterScreen: React.FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = () => {
-    console.log("Submitting form");
+  const onSubmit = async () => {
+    await uploadProfileImageRequest(userId, imageUri);
   };
 
   const handleNextStep = async () => {
     if (currentStep === 0) {
-      await handleSubmit(register)();
+      const userId = await register(getValues());
+      setUserId(userId);
       setLabel(`${getValues("firstName")[0]} ${getValues("lastName")[0]}`);
     } else {
       await onSubmit();

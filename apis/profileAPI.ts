@@ -35,3 +35,30 @@ export const changePasswordRequest = async (userId: string | null, data: ChangeP
   });
   if (!res.ok) throw new Error("Kunne ikke opdatere adgangskode");
 };
+
+export const uploadProfileImageRequest = async (userId: string | null, imageUri: string | null) => {
+  if (userId === null) {
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
+  }
+
+  if (imageUri === null) {
+    throw new Error("FATAL FEJL: Billede er ikke korrekt initialiseret.");
+  }
+
+  const imageData = {
+    uri: imageUri,
+    type: "image/jpeg",
+    name: "profile.jpg",
+  };
+
+  const formData = new FormData();
+
+  //TypeScript doesn't this format, so we need to typecast it
+  formData.append("image", imageData as unknown as Blob);
+
+  const res = await fetch(`${BASE_URL}/users/setProfilePicture?userId=${userId}`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!res.ok) throw new Error("Kunne ikke uploade profilbillede");
+};
