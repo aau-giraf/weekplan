@@ -3,11 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
-import {
-  BottomSheetView,
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { View, StyleSheet, Text, TouchableOpacity, Modal, Pressable, Button } from "react-native";
 import FormContainer from "../../../components/Forms/FormContainer";
 import FormHeader from "../../../components/Forms/FormHeader";
