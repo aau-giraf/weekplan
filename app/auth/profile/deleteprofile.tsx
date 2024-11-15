@@ -1,10 +1,9 @@
 import React, { useState, Fragment, useRef, useCallback, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { z } from "zod";
-import BottomSheet, {
+import {
   BottomSheetView,
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -61,8 +60,8 @@ const DeleteProfileScreen: React.FC = () => {
   });
 
   const onSubmit = async (formData: FormData) => {
-    id = userId;
-    password = formData.currentPassword;
+    const id = userId;
+    const password = formData.currentPassword;
     handleModalOpen();
   };
 
@@ -95,13 +94,11 @@ const DeleteProfileScreen: React.FC = () => {
         </TouchableOpacity>
       </FormContainer>
       <ConfirmationModal
-        handleModalOpen={handleModalOpen}
         handleModalClose={handleModalClose}
         bottomSheetModalRef={bottomSheetModalRef}
         addToast={addToast}
         logout={logout}
         deleteUser={deleteUser}
-        userId={userId}
       />
     </View>
   );
@@ -109,13 +106,13 @@ const DeleteProfileScreen: React.FC = () => {
 
 const ConfirmationModal = ({
   bottomSheetModalRef,
-  handleModalOpen,
   handleModalClose,
   addToast,
   deleteUser,
   logout,
-  userId,
-}) => {
+  password,
+  id,
+}: any) => {
   return (
     <BottomSheetModalProvider>
       <BottomSheetModal ref={bottomSheetModalRef}>
