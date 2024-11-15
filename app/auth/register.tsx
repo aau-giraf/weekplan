@@ -146,20 +146,20 @@ const styles = StyleSheet.create({
     bottom: ScaleSizeH(125),
   },
   button: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: colors.green,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   buttonText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 16,
   },
   nextButton: {
     marginLeft: 10,
   },
   disabledButton: {
-    backgroundColor: "#A9A9A9",
+    backgroundColor: colors.gray,
   },
   navigationButtons: {
     flexDirection: "column",

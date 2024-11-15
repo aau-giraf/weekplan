@@ -21,6 +21,8 @@ import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../.
 import { router } from "expo-router";
 import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
+import { BASE_URL } from "../../../utils/globals";
+import { useAuthentication } from "../../../providers/AuthenticationProvider";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -32,6 +34,7 @@ const calculateNumberOfColumns = () => {
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const { userId } = useAuthentication();
   const { data, isLoading, isError } = useProfile();
   const { data: orgData, isLoading: orgIsLoading, createOrganisation, refetch } = useOrganisationOverview();
   const { fetchByUser } = useInvitation();
@@ -59,7 +62,9 @@ const ProfilePage: React.FC = () => {
       onPress={() => {
         router.push(`/auth/profile/organisation/${item.id}`);
       }}>
-      <ProfilePicture label={item.name} style={styles.profilePicture} />
+      <View style={styles.profileContainer}>
+        <ProfilePicture label={item.name} style={styles.mainProfilePicture} />
+      </View>
       <Text
         adjustsFontSizeToFit={true}
         style={styles.itemText}
@@ -91,6 +96,7 @@ const ProfilePage: React.FC = () => {
                 <ProfilePicture
                   style={styles.mainProfilePicture}
                   label={`${data.firstName} ${data.lastName}`}
+                  imageUri={`${BASE_URL}/images/users/${userId}.jpeg`}
                 />
                 <View style={styles.profileTextContainer}>
                   <Text style={SharedStyles.header}>{data.email}</Text>
@@ -189,7 +195,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profileHeader: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     width: "100%",
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
@@ -232,7 +238,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: "red",
+    backgroundColor: colors.red,
   },
   iconAdd: {
     bottom: ScaleSize(30),
@@ -265,7 +271,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green,
   },
   buttonText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: ScaleSize(24),
     fontWeight: "bold",
   },
@@ -273,6 +279,12 @@ const styles = StyleSheet.create({
     gap: ScaleSize(10),
     padding: ScaleSize(90),
     alignItems: "center",
+  },
+  profileContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: ScaleSizeH(20),
   },
 });
 
