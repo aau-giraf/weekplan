@@ -17,8 +17,6 @@ const WeekPlanScreen = () => {
   }, [setSelectedDate]);
   return (
     <Fragment>
-      <ActivityAddButton />
-      <CameraButton />
       <SafeAreaView style={{ backgroundColor: colors.white }} />
       <View style={styles.container}>
         <View style={styles.header}>
@@ -27,6 +25,8 @@ const WeekPlanScreen = () => {
         </View>
         <ActivityItemList />
       </View>
+      <ActivityAddButton />
+      <CameraButton />
     </Fragment>
   );
 };
