@@ -49,7 +49,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImage
         {data ? (
           <Pressable onPress={() => handleImagePress(data)}>
             <Image
-              source={{ uri: data, cache: "force-cache" }}
+              source={{ uri: data }}
               style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
               resizeMode="contain"
             />

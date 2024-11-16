@@ -51,7 +51,7 @@ const ActivityItemList = () => {
 
   const handleEditTask = useCallback((item: ActivityDTO) => {
     router.push({
-      pathname: "./editactivity",
+      pathname: "/auth/profile/organisation/editactivity",
       params: { activityId: item.activityId.toString() },
     });
   }, []);
