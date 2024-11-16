@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
 import { View, StyleSheet, Text, TouchableOpacity, Keyboard, Alert } from "react-native";
-import FormContainer from "../../../components/Forms/FormContainer";
-import FormHeader from "../../../components/Forms/FormHeader";
-import FormField from "../../../components/Forms/TextInput";
-import SubmitButton from "../../../components/Forms/SubmitButton";
+import FormContainer from "../../../components/forms/FormContainer";
+import FormHeader from "../../../components/forms/FormHeader";
+import FormField from "../../../components/forms/TextInput";
+import SubmitButton from "../../../components/forms/SubmitButton";
 import useProfile from "../../../hooks/useProfile";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useToast } from "../../../providers/ToastProvider";
@@ -38,15 +38,19 @@ const DeleteProfileScreen: React.FC = () => {
   const { deleteUser } = useProfile();
 
   const deleteUserMethod = async () => {
-    try {
-      await deleteUser.mutateAsync({
-        id: userId!,
-        password: password,
-      });
-      await logout();
-      addToast({ message: "Profilen er blevet slettet", type: "success" });
-    } catch (error: any) {
-      addToast({ message: error.message, type: "error" });
+    if (typeof userId === "string") {
+      await deleteUser
+        .mutateAsync({
+          id: userId,
+          password: password,
+        })
+        .then(() => {
+          logout();
+          addToast({ message: "Profilen er blevet slettet", type: "success" });
+        })
+        .catch((error) => {
+          addToast({ message: error.message, type: "error" });
+        });
     }
   };
 
@@ -54,8 +58,7 @@ const DeleteProfileScreen: React.FC = () => {
     Alert.alert(
       "Bekræft Sletning",
       "Er du sikker på at du vil slette din profil? Dette kan ikke fortrydes.",
-      [
-        {
+      [{
           text: "Nej",
           onPress: () => "",
           style: "cancel",
@@ -65,8 +68,7 @@ const DeleteProfileScreen: React.FC = () => {
           onPress: () => deleteUserMethod(),
           style: "destructive",
         },
-      ]
-    );
+    ]);
 
   const {
     control,
