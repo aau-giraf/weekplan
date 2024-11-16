@@ -46,7 +46,7 @@ const DeleteProfileScreen: React.FC = () => {
         })
         .then(() => {
           logout();
-          addToast({ message: "Profilen er blevet slettet", type: "success" });
+          addToast({ message: "Profilen er blevet slettet.", type: "success" });
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
