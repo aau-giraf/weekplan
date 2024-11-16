@@ -5,7 +5,7 @@ import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";
 import ActivitySelectList from "./weekoverview_components/activity_components/ActivitySelectList";
 import { ScaleSize } from "../utils/SharedStyles";
-import SubmitButton from "./Forms/SubmitButton";
+import SubmitButton from "./forms/SubmitButton";
 
 type CopyDateActivitiesBottomSheetProps = {
   bottomSheetRef: React.RefObject<BottomSheet>;
