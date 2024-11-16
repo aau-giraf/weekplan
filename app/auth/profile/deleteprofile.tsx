@@ -40,7 +40,7 @@ const DeleteProfileScreen: React.FC = () => {
   const deleteUserMethod = async () => {
     try {
       await deleteUser.mutateAsync({
-        id: userId,
+        id: userId!,
         password: password,
       });
       await logout();
