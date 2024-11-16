@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import useOrganisationOverview from "../hooks/useOrganisationOverview";
+import useOrganisation from "../hooks/useOrganisation";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,22 +34,35 @@ jest.mock("../providers/AuthenticationProvider", () => ({
   }),
 }));
 
-jest.mock("../apis/organisationOverviewAPI", () => ({
-  fetchAllOrganisationsRequest: jest.fn().mockImplementation(() => {
-    return Promise.resolve([mockOrganisation, { ...mockOrganisation, id: 2 }]);
-  }),
-  createOrganisationsRequest: jest.fn().mockImplementation((orgName: string) => {
-    return new Promise((resolve) => setTimeout(() => resolve({ id: 3, name: orgName }), 50));
-  }),
-  deleteOrganisationRequest: jest.fn().mockImplementation(() => {
-    return Promise.resolve({ ...mockOrganisation, id: 3 });
-  }),
-}));
+const mockCitizens = [
+  { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+  { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+];
 
 const mockOrganisation = {
-  name: "Test Organisation",
   id: 1,
+  name: "Test Organisation",
+  users: [
+    { id: "1", firstName: "User 1", lastName: "Test" },
+    { id: "2", firstName: "User 2", lastName: "Test" },
+  ],
+  citizens: mockCitizens,
 };
+
+jest.mock("../apis/organisationAPI", () => ({
+  fetchOrganisationRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve(mockOrganisation);
+  }),
+  deleteCitizenRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
+  }),
+  deleteMemberRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
+  }),
+  updateCitizenRequest: jest.fn().mockImplementation((updatedCitizen) => {
+    return Promise.resolve(updatedCitizen);
+  }),
+}));
 
 afterEach(async () => {
   await act(async () => {
@@ -58,80 +71,82 @@ afterEach(async () => {
   });
 });
 
-test("fetches organisations", async () => {
-  const { result } = renderHook(() => useOrganisationOverview(), {
-    wrapper,
-  });
+test("fetches organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
 
   await waitFor(() => {
-    expect(result.current.isSuccess).toBe(true);
+    expect(result.current.data).toEqual(mockOrganisation);
   });
-
-  expect(result.current.data).toEqual([mockOrganisation, { ...mockOrganisation, id: 2 }]);
 });
 
-test("creates organisation", async () => {
-  const { result } = renderHook(() => useOrganisationOverview(), {
-    wrapper,
-  });
+test("delete citizen from organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
 
   await waitFor(() => {
-    expect(result.current.isSuccess).toBe(true);
-  });
-
-  await act(async () => {
-    await result.current.createOrganisation.mutateAsync("New Organisation");
-  });
-
-  await waitFor(() => {
-    expect(result.current.createOrganisation.isSuccess).toBe(true);
-  });
-
-  expect(result.current.data).toEqual([
-    mockOrganisation,
-    { ...mockOrganisation, id: 2 },
-    { ...mockOrganisation, id: 3, name: "New Organisation" },
-  ]);
-});
-
-test("new organisation id is initially -1 and then sets the id from the promise", async () => {
-  const { result } = renderHook(() => useOrganisationOverview(), {
-    wrapper,
-  });
-
-  await act(async () => {
-    result.current.createOrganisation.mutateAsync("New Organisation");
-  });
-
-  await waitFor(() => {
-    expect(queryClient.getQueryData(["mockUserId", "OrganisationOverview"])).toEqual([
-      { id: -1, name: "New Organisation" },
+    expect(result.current.data?.citizens).toEqual([
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
     ]);
   });
 
-  await waitFor(() => {
-    expect(result.current.createOrganisation.isSuccess).toBe(true);
+  await act(async () => {
+    await result.current.deleteCitizen.mutateAsync(1);
   });
 
-  expect(result.current.data).toEqual([{ id: 3, name: "New Organisation" }]);
+  await waitFor(() => {
+    expect(result.current.deleteCitizen.isSuccess).toBe(true);
+  });
 });
 
-test("deletes organisation", async () => {
-  const { result } = renderHook(() => useOrganisationOverview(), {
-    wrapper,
-  });
+test("remove user from organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
 
   await waitFor(() => {
-    expect(result.current.isSuccess).toBe(true);
+    expect(result.current.data?.users).toEqual([
+      { id: "1", firstName: "User 1", lastName: "Test" },
+      { id: "2", firstName: "User 2", lastName: "Test" },
+    ]);
   });
 
   await act(async () => {
-    await result.current.deleteOrganisation.mutateAsync(1);
+    await result.current.deleteMember.mutateAsync("1");
   });
 
   await waitFor(() => {
-    expect(result.current.deleteOrganisation.isSuccess).toBe(true);
+    expect(result.current.deleteMember.isSuccess).toBe(true);
   });
 
-  expect(result.current.data).toEqual([{ ...mockOrganisation, id: 2 }]);
+  await waitFor(() => {
+    expect(result.current.data?.users).toEqual([{ id: "2", firstName: "User 2", lastName: "Test" }]);
+  });
+});
+
+test("update citizen in organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data?.citizens).toEqual([
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+    ]);
+  });
+
+  await act(async () => {
+    await result.current.updateCitizen.mutateAsync({
+      id: 1,
+      firstName: "Updated",
+      lastName: "CitizenTest1",
+    });
+  });
+
+  await waitFor(() => {
+    expect(result.current.updateCitizen.isSuccess).toBe(true);
+  });
+
+  await waitFor(() => {
+    expect(result.current.data?.citizens).toEqual([
+      { id: 1, firstName: "Updated", lastName: "CitizenTest1" },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+    ]);
+  });
 });

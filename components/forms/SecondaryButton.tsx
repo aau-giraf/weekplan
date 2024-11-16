@@ -5,11 +5,17 @@ type SecondaryButtonProps = {
   onPress: () => void;
   label: string;
   style?: StyleProp<ViewStyle>;
+  disabled?: boolean;
+  testID?: string;
 };
 
-const SecondaryButton = ({ onPress, label, style }: SecondaryButtonProps) => {
+const SecondaryButton = ({ onPress, label, style, disabled, testID }: SecondaryButtonProps) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button, style, disabled ? styles.buttonDisabled : null]}
+      disabled={disabled}
+      onPress={onPress}
+      testID={testID}>
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
@@ -31,5 +37,8 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: ScaleSize(22),
     fontWeight: "500",
+  },
+  buttonDisabled: {
+    backgroundColor: colors.gray,
   },
 });

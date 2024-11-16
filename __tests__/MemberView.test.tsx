@@ -1,10 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react-native";
 import { CutoffList } from "../components/organisationoverview_components/CutoffList";
+import { UserDTO } from "../hooks/useOrganisation";
 
-import { User } from "../DTO/organisationDTO";
-
-const generateMember = (index: string, email: string): User => ({
+const generateMember = (index: string, email: string): UserDTO => ({
   id: index,
   email: email,
   firstName: `Member${index}`,

@@ -17,7 +17,7 @@ export const deleteOrganisationRequest = async (organisationId: number) => {
   const res = await fetch(url, {
     method: "DELETE",
   });
-  if (!res.ok) throw new Error("Kunne ikke slette organisation");
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
 };
 
 export const createOrganisationsRequest = async (
@@ -33,5 +33,12 @@ export const createOrganisationsRequest = async (
     body: JSON.stringify({ name: orgName }),
   });
   if (!res.ok) throw new Error("Kunne ikke oprette organisation");
+  return res.json();
+};
+
+export const fetchAllClassesInOrganisationRequest = async (organisationId: number) => {
+  const url = `${BASE_URL}/grades/org/${organisationId}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Kunne ikke hente klasse");
   return res.json();
 };

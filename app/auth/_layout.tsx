@@ -1,4 +1,7 @@
 import { Stack } from "expo-router";
+import DateProvider from "../../providers/DateProvider";
+import CitizenProvider from "../../providers/CitizenProvider";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 /*
 The paths will be updated automatically updated within the .expo/types/router.d.ts everytime expo runs.
@@ -8,20 +11,31 @@ For instance, it may require you to write router.push(".index"), instead of just
 
 const AuthRootLayout = () => {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="register" />
-      <Stack.Screen name="profile/index" />
-      <Stack.Screen name="profile/settings" />
-      <Stack.Screen name="profile/editprofile" />
-      <Stack.Screen name="profile/viewinvitation" />
-      <Stack.Screen name="profile/changepassword" />
-      <Stack.Screen name="profile/organisation/[index]" />
-      <Stack.Screen name="profile/organisation/addactivity" />
-      <Stack.Screen name="profile/organisation/addcitizen" />
-      <Stack.Screen name="profile/organisation/editactivity" />
-      <Stack.Screen name="profile/organisation/weekplanscreen" />
-    </Stack>
+    <GestureHandlerRootView>
+      <CitizenProvider>
+        <DateProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="login" />
+            <Stack.Screen name="register" />
+            <Stack.Screen name="profile/profilepage" />
+            <Stack.Screen name="profile/settings" />
+            <Stack.Screen name="profile/editprofile" />
+            <Stack.Screen name="profile/viewinvitation" />
+            <Stack.Screen name="profile/changepassword" />
+            <Stack.Screen name="profile/organisation/[organisation]" />
+            <Stack.Screen name="profile/organisation/addactivity" />
+            <Stack.Screen name="profile/organisation/addcitizen" />
+            <Stack.Screen name="profile/organisation/editactivity" />
+            <Stack.Screen name="profile/organisation/weekplanscreen" />
+            <Stack.Screen name="profile/organisation/create-invitation" />
+            <Stack.Screen name="profile/organisation/members/[members]" />
+            <Stack.Screen name="profile/organisation/citizens/[citizens]" />
+            <Stack.Screen name="profile/organisation/class/[grade]" />
+            <Stack.Screen name="profile/organisation/class/addcitizen" />
+          </Stack>
+        </DateProvider>
+      </CitizenProvider>
+    </GestureHandlerRootView>
   );
 };
 

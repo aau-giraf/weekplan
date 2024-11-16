@@ -7,10 +7,10 @@ import { Switch } from "react-native-gesture-handler";
 import GirafIcon from "../../assets/SVG/GirafIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import FormContainer from "../../components/Forms/FormContainer";
-import SecondaryButton from "../../components/Forms/SecondaryButton";
-import SubmitButton from "../../components/Forms/SubmitButton";
-import FormField from "../../components/Forms/TextInput";
+import FormContainer from "../../components/forms/FormContainer";
+import SecondaryButton from "../../components/forms/SecondaryButton";
+import SubmitButton from "../../components/forms/SubmitButton";
+import FormField from "../../components/forms/TextInput";
 import { useAuthentication } from "../../providers/AuthenticationProvider";
 import { getSettingsValue, setSettingsValue } from "../../utils/settingsUtils";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
@@ -39,19 +39,19 @@ const LoginScreen: React.FC = () => {
 
   const onsSubmit = async (data: LoginForm) => {
     const { email, password } = data;
-    await login(email, password);
     if (rememberMe) {
       await SecureStore.setItemAsync("email", email);
       await SecureStore.setItemAsync("password", password);
-      await setSettingsValue("Remember me", true);
+      await setSettingsValue("Husk mig", true);
     }
+    await login(email, password);
   };
 
   useEffect(() => {
     const autoLogin = async () => {
       const savedEmail = await SecureStore.getItemAsync("email");
       const savedPassword = await SecureStore.getItemAsync("password");
-      const rememberMe = await getSettingsValue("Remember me", false);
+      const rememberMe = await getSettingsValue("Husk mig", false);
       if (savedEmail && savedPassword && rememberMe) {
         await login(savedEmail, savedPassword);
       }
@@ -80,7 +80,7 @@ const LoginScreen: React.FC = () => {
           handleSubmit={handleSubmit(onsSubmit)}
           label="Login"
         />
-        <SecondaryButton onPress={() => router.replace("/auth/register")} label="Tilføj ny konto" />
+        <SecondaryButton onPress={() => router.push("/auth/register")} label="Tilføj ny konto" />
       </FormContainer>
     </Fragment>
   );

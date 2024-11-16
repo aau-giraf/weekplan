@@ -4,12 +4,12 @@ import React, { Fragment } from "react";
 import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback } from "react-native";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import FormContainer from "../../../../components/Forms/FormContainer";
-import FormHeader from "../../../../components/Forms/FormHeader";
-import FormTimePicker from "../../../../components/Forms/FormTimePicker";
-import SecondaryButton from "../../../../components/Forms/SecondaryButton";
-import SubmitButton from "../../../../components/Forms/SubmitButton";
-import FormField from "../../../../components/Forms/TextInput";
+import FormContainer from "../../../../components/forms/FormContainer";
+import FormHeader from "../../../../components/forms/FormHeader";
+import FormTimePicker from "../../../../components/forms/FormTimePicker";
+import SecondaryButton from "../../../../components/forms/SecondaryButton";
+import SubmitButton from "../../../../components/forms/SubmitButton";
+import FormField from "../../../../components/forms/TextInput";
 import useActivity from "../../../../hooks/useActivity";
 import { useCitizen } from "../../../../providers/CitizenProvider";
 import { useDate } from "../../../../providers/DateProvider";
@@ -56,6 +56,10 @@ const AddActivity = () => {
   });
 
   const onSubmit = async (formData: FormData) => {
+    if (citizenId === null) {
+      addToast({ message: "Fejl, prøvede at tilføje aktivitet uden at vælge en borger", type: "error" });
+      return;
+    }
     const { title, description, startTime, endTime } = formData;
 
     const formattedStartTime = formatTimeHHMM(startTime);
