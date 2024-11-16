@@ -1,10 +1,9 @@
-import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import ActivityAddButton from "../../../../components/weekoverview_components/activity_components/ActivityAddButton";
 import WeekSelection from "../../../../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../../../../components/weekoverview_components/DaysContainer";
 import ActivityItemList from "../../../../components/weekoverview_components/activity_components/ActivityItemList";
-import CameraButton from "../../../../components/Camera/CameraButton";
-import { colors } from "../../../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../../../utils/SharedStyles";
 import { Fragment, useEffect, useRef } from "react";
 import { useDate } from "../../../../providers/DateProvider";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -31,7 +30,6 @@ const WeekPlanScreen = () => {
         <ActivityItemList />
       </View>
       <ActivityAddButton />
-      <CameraButton />
       <CopyDateActivitiesBottomSheet bottomSheetRef={bottomSheetRef} />
     </Fragment>
   );
@@ -43,6 +41,11 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: colors.white,
+  },
+  button: {
+    bottom: ScaleSize(20),
+    left: ScaleSize(24),
+    position: "absolute",
   },
 });
 

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import SwipeableList, { Action } from "./SwipeableList/SwipeableList";
+import SwipeableList, { Action } from "./swipeablelist/SwipeableList";
 import { colors } from "../utils/SharedStyles";
 import { ProfilePicture } from "./ProfilePage";
 

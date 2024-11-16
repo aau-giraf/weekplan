@@ -9,7 +9,7 @@ import React, { Fragment, useRef } from "react";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import SecondaryButton from "../../../../components/Forms/SecondaryButton";
+import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import { useFetchClassesInOrganisations } from "../../../../hooks/useOrganisationOverview";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 
@@ -63,7 +63,7 @@ const ViewOrganisation = () => {
           <IconButton
             onPress={() =>
               router.push({
-                pathname: "/create-invitation",
+                pathname: "/auth/profile/organisation/create-invitation",
                 params: { orgId: parsedId },
               })
             }

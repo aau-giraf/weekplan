@@ -6,7 +6,7 @@ import { useDate } from "../../../providers/DateProvider";
 import { router } from "expo-router";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
-import SwipeableList, { Action } from "../../SwipeableList/SwipeableList";
+import SwipeableList, { Action } from "../../swipeablelist/SwipeableList";
 
 /**
  * Component that renders a list of activities for a selected date.

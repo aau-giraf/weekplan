@@ -36,13 +36,13 @@ function isWithinRange(number: number, target: number, range: number) {
 }
 
 /**
- * `SwipeableList` is a reusable component that displays a list of items with swipeable actions.
+ * `swipeablelist` is a reusable component that displays a list of items with swipeable actions.
  * Each item in the list can reveal actions when swiped left or right, such as edit or delete options.
  * @example
  * ```tsx *
  * const MyComponent = () => {
  *   return (
- *     <SwipeableList
+ *     <swipeablelist
  *       items={mockData}
  *       renderItem={renderItem}
  *       keyExtractor={(item) => item.id}

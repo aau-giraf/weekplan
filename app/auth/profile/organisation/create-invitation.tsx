@@ -6,10 +6,10 @@ import useInvitation from "../../../../hooks/useInvitation";
 import { useLocalSearchParams } from "expo-router";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
-import FormContainer from "../../../../components/Forms/FormContainer";
-import FormHeader from "../../../../components/Forms/FormHeader";
-import FormField from "../../../../components/Forms/TextInput";
-import SubmitButton from "../../../../components/Forms/SubmitButton";
+import FormContainer from "../../../../components/forms/FormContainer";
+import FormHeader from "../../../../components/forms/FormHeader";
+import FormField from "../../../../components/forms/TextInput";
+import SubmitButton from "../../../../components/forms/SubmitButton";
 import { Fragment } from "react";
 import { SafeAreaView } from "react-native";
 
