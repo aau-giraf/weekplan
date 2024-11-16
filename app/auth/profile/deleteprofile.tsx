@@ -1,10 +1,9 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
-import { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { View, StyleSheet, Text, TouchableOpacity, Pressable, Keyboard } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Keyboard, Alert } from "react-native";
 import FormContainer from "../../../components/Forms/FormContainer";
 import FormHeader from "../../../components/Forms/FormHeader";
 import FormField from "../../../components/Forms/TextInput";
@@ -33,19 +32,41 @@ type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
   const [password, setPassword] = useState("");
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { addToast } = useToast();
   const { logout } = useAuthentication();
   const { userId } = useAuthentication();
   const { deleteUser } = useProfile();
 
-  const handleModalOpen = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
+  const deleteUserMethod = async () => {
+    try {
+      await deleteUser.mutateAsync({
+        id: userId,
+        password: password,
+      });
+      await logout();
+      addToast({ message: "Profilen er blevet slettet", type: "success" });
+    } catch (error: any) {
+      addToast({ message: error.message, type: "error" });
+    }
+  };
 
-  const handleModalClose = useCallback(() => {
-    bottomSheetModalRef.current?.dismiss();
-  }, []);
+  const confirmationAlert = () =>
+    Alert.alert(
+      "Bekræft Sletning",
+      "Er du sikker på at du vil slette din profil? Dette kan ikke fortrydes.",
+      [
+        {
+          text: "Nej",
+          onPress: () => "",
+          style: "cancel",
+        },
+        {
+          text: "Ja",
+          onPress: () => deleteUserMethod(),
+          style: "destructive",
+        },
+      ]
+    );
 
   const {
     control,
@@ -60,7 +81,7 @@ const DeleteProfileScreen: React.FC = () => {
     Keyboard.dismiss();
     setPassword(formData.currentPassword);
     setTimeout(() => {
-      handleModalOpen();
+      confirmationAlert();
     }, 200);
   };
 
@@ -92,65 +113,7 @@ const DeleteProfileScreen: React.FC = () => {
           <Text style={styles.buttonText}>Annuller</Text>
         </TouchableOpacity>
       </FormContainer>
-      <ConfirmationModal
-        handleModalClose={handleModalClose}
-        bottomSheetModalRef={bottomSheetModalRef}
-        addToast={addToast}
-        logout={logout}
-        deleteUser={deleteUser}
-        userId={userId}
-        password={password}
-      />
     </View>
-  );
-};
-
-const ConfirmationModal = ({
-  bottomSheetModalRef,
-  handleModalClose,
-  addToast,
-  deleteUser,
-  logout,
-  userId,
-  password,
-}: any) => {
-  return (
-    <BottomSheetModalProvider>
-      <BottomSheetModal ref={bottomSheetModalRef}>
-        <BottomSheetView style={styles.modalView}>
-          <Text style={styles.modalText}>
-            Er du sikker på at du vil slette din profil?{"\n"}
-            Dette kan ikke fortrydes.
-          </Text>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={[styles.modalButton, styles.modalButtonNo]}
-              onPress={() => {
-                handleModalClose();
-              }}>
-              <Text style={styles.modalButtonText}>Nej</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.modalButton, styles.modalButtonDelete]}
-              onPress={async () => {
-                try {
-                  await deleteUser.mutateAsync({
-                    id: userId,
-                    password: password,
-                  });
-                  await logout();
-                  addToast({ message: "Profilen er blevet slettet", type: "success" });
-                } catch (error: any) {
-                  addToast({ message: error.message, type: "error" });
-                }
-                handleModalClose();
-              }}>
-              <Text style={styles.modalButtonText}>Slet</Text>
-            </TouchableOpacity>
-          </View>
-        </BottomSheetView>
-      </BottomSheetModal>
-    </BottomSheetModalProvider>
   );
 };
 
@@ -171,39 +134,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  },
-  modalView: {
-    flex: 1,
-    padding: ScaleSize(35),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalText: {
-    textAlign: "center",
-    fontSize: 30,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: ScaleSize(20),
-  },
-  modalButton: {
-    borderRadius: 8,
-    padding: ScaleSize(40),
-    margin: ScaleSize(30),
-    marginLeft: ScaleSize(50),
-    marginRight: ScaleSize(50),
-  },
-  modalButtonNo: {
-    backgroundColor: colors.blue,
-  },
-  modalButtonDelete: {
-    backgroundColor: colors.red,
-  },
-  modalButtonText: {
-    textAlign: "center",
-    fontSize: 30,
-    color: colors.white,
   },
 });
 
