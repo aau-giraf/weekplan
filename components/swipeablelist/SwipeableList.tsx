@@ -11,6 +11,7 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
+import React from "react";
 
 export type Action<T> = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -29,6 +30,10 @@ type SwipeableListProps<T> = {
   rightActions?: Action<T>[];
   style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
 };
+
+function isWithinRange(number: number, target: number, range: number) {
+  return Math.abs(number - target) <= range;
+}
 
 /**
  * `swipeablelist` is a reusable component that displays a list of items with swipeable actions.
@@ -70,11 +75,20 @@ const SwipeableList = <T,>({
   rightActions,
   style,
 }: SwipeableListProps<T>) => {
-  const [itemDimensions, setItemHeight] = useState<number>(50);
+  const [itemDimensions, setItemHeight] = useState<number>(2);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
-    if (height !== itemDimensions) setItemHeight(height);
+
+    /*
+    I admit this is iffy, but it's the best I could come up with.
+    I noticed a big performance decrease with larger lists. 
+    After some testing, I narrowed the issue to a small unnoticeeable difference in height between items.
+    This caused a rerender for every item in the list, which was very slow. 🤮🎪🤡🐡
+    */
+    if (!isWithinRange(height, itemDimensions, 1)) {
+      setItemHeight(height);
+    }
   };
 
   return (
@@ -103,4 +117,4 @@ const SwipeableList = <T,>({
   );
 };
 
-export default SwipeableList;
+export default React.memo(SwipeableList) as typeof SwipeableList;

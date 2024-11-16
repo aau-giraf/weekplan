@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ActivityIndicator, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityItem from "./ActivityItem";
 import useActivity, { ActivityDTO } from "../../../hooks/useActivity";
@@ -30,6 +30,44 @@ const ActivityItemList = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState<string>();
 
+  const renderActivityItem = useCallback(
+    (item: ActivityDTO) => (
+      <ActivityItem
+        isCompleted={item.isCompleted}
+        time={`${item.startTime}\n${item.endTime}`}
+        setImageUri={setImageUri}
+        setModalVisible={setModalVisible}
+      />
+    ),
+    [setImageUri, setModalVisible]
+  );
+
+  const handleDeleteActivity = useCallback(
+    async (id: number) => {
+      await useDeleteActivity.mutateAsync(id);
+    },
+    [useDeleteActivity]
+  );
+
+  const handleEditTask = useCallback((item: ActivityDTO) => {
+    router.push({
+      pathname: "/auth/profile/organisation/editactivity",
+      params: { activityId: item.activityId.toString() },
+    });
+  }, []);
+
+  const handleCheckActivity = useCallback(
+    (id: number, isCompleted: boolean) => {
+      useToggleActivityStatus
+        .mutateAsync({
+          id,
+          isCompleted: !isCompleted,
+        })
+        .catch((error) => addToast({ message: (error as any).message, type: "error" }));
+    },
+    [useToggleActivityStatus, addToast]
+  );
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
@@ -41,35 +79,6 @@ const ActivityItemList = () => {
   if (error || !data) {
     return <Text>Fejl med at hente aktiviteter {error?.message}</Text>;
   }
-
-  const renderActivityItem = (item: ActivityDTO) => (
-    <ActivityItem
-      isCompleted={item.isCompleted}
-      time={`${item.startTime}\n${item.endTime}`}
-      setImageUri={setImageUri}
-      setModalVisible={setModalVisible}
-    />
-  );
-
-  const handleDeleteActivity = async (id: number) => {
-    await useDeleteActivity.mutateAsync(id);
-  };
-
-  const handleEditTask = (item: ActivityDTO) => {
-    router.push({
-      pathname: "./editactivity",
-      params: { activityId: item.activityId.toString() },
-    });
-  };
-
-  const handleCheckActivity = (id: number, isCompleted: boolean) => {
-    useToggleActivityStatus
-      .mutateAsync({
-        id,
-        isCompleted: !isCompleted,
-      })
-      .catch((error) => addToast({ message: (error as any).message, type: "error" }));
-  };
 
   const rightActions: Action<ActivityDTO>[] = [
     {
@@ -92,6 +101,7 @@ const ActivityItemList = () => {
       onPress: (item) => handleDeleteActivity(item.activityId),
     },
   ];
+
   return (
     <>
       <SwipeableList
@@ -102,29 +112,30 @@ const ActivityItemList = () => {
           ListEmptyComponent: <Text>Ingen aktiviteter fundet</Text>,
           refreshing: isLoading,
           onRefresh: async () => await refetch(),
-          ItemSeparatorComponent: () => <View style={{ height: ScaleSizeH(10) }} />,
         }}
         rightActions={rightActions}
         leftActions={leftActions}
       />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Image
-              source={{ uri: imageUri }}
-              style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
-              resizeMode="contain"
-            />
-            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Luk</Text>
-            </TouchableOpacity>
+      {modalVisible && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Image
+                source={{ uri: imageUri }}
+                style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
+                resizeMode="contain"
+              />
+              <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.closeButtonText}>Luk</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 };
