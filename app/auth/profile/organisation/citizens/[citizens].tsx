@@ -18,7 +18,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import SearchBar from "../../../../../components/SearchBar";
-import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
+import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
 import { useCitizen } from "../../../../../providers/CitizenProvider";
 

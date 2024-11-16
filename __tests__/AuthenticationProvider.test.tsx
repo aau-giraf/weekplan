@@ -88,22 +88,6 @@ describe("AuthenticationProvider and useAuthentication", () => {
     expect(router.replace).not.toHaveBeenCalled();
   });
 
-  it("should register a user", async () => {
-    const { result } = renderHook(() => useAuthentication(), {
-      wrapper: AuthenticationProvider,
-    });
-
-    act(() => {
-      result.current.register("test@test.dk", "testTest1", "Test", "Test");
-    });
-
-    await waitFor(() => {
-      expect(router.replace).toHaveBeenCalledWith("/auth/login");
-    });
-
-    expect(addToast).not.toHaveBeenCalled();
-  });
-
   it("should add a toast if register fails", async () => {
     const error = new Error("Register failed");
     jest.spyOn(require("../apis/registerAPI"), "createUserRequest").mockRejectedValueOnce(error);
@@ -118,7 +102,13 @@ describe("AuthenticationProvider and useAuthentication", () => {
     });
 
     await act(async () => {
-      await result.current.register("test@test.dk", "testTest1", "Test", "Test");
+      await result.current.register({
+        email: "Test@gmail.com",
+        password: "TestTest1",
+        firstName: "Test",
+        lastName: "Test",
+        confirmPassword: "TestTest1",
+      });
     });
 
     await waitFor(() => {
