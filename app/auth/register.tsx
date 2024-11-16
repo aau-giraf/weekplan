@@ -16,6 +16,7 @@ import CameraButton from "../../components/CameraButton";
 import { router } from "expo-router";
 import { uploadProfileImageRequest } from "../../apis/profileAPI";
 import { useToast } from "../../providers/ToastProvider";
+import FormContainer from "../../components/forms/FormContainer";
 
 const schema = z
   .object({
@@ -87,7 +88,7 @@ const RegisterScreen: React.FC = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
       <ProgressSteps ref={progressRef}>
-        <View key="step1" style={styles.stepContainer}>
+        <FormContainer style={styles.stepContainer}>
           <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
           <FormField control={control} name="firstName" placeholder="Fornavn" />
           <FormField control={control} name="lastName" placeholder="Efternavn" />
@@ -101,8 +102,8 @@ const RegisterScreen: React.FC = () => {
             isSubmitting={isSubmitting}
             handleSubmit={handleRegister}
           />
-        </View>
-        <View key="step2" style={styles.stepContainer}>
+        </FormContainer>
+        <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>
             <ProfilePicture style={styles.mainProfilePicture} label={label} imageUri={imageUri} />
           </View>
@@ -114,7 +115,7 @@ const RegisterScreen: React.FC = () => {
             onPress={handleSubmitPicture}
           />
           <SecondaryButton label="Spring over" onPress={() => router.replace("/auth/login")} />
-        </View>
+        </FormContainer>
       </ProgressSteps>
       <View style={styles.navigationButtons}></View>
     </SafeAreaView>
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: ScaleSizeH(30),
     marginBottom: ScaleSizeH(20),
   },
   profileContainer: {
@@ -144,22 +145,6 @@ const styles = StyleSheet.create({
   },
   cameraButton: {
     bottom: ScaleSizeH(230),
-  },
-  button: {
-    backgroundColor: colors.green,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: 16,
-  },
-  nextButton: {
-    marginLeft: 10,
-  },
-  disabledButton: {
-    backgroundColor: colors.gray,
   },
   navigationButtons: {
     flexDirection: "column",

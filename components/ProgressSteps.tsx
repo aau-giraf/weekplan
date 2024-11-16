@@ -1,5 +1,6 @@
 import React, { forwardRef, ReactNode, useImperativeHandle, useState } from "react";
 import { View, StyleSheet } from "react-native";
+import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type ProgressStepsProps = {
   children: ReactNode;
@@ -60,16 +61,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   stepCircle: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: ScaleSize(20),
+    height: ScaleSize(20),
+    borderRadius: 10,
     marginHorizontal: 5,
   },
   activeStep: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: colors.green,
   },
   inactiveStep: {
-    backgroundColor: "#D3D3D3",
+    backgroundColor: colors.lightGray,
   },
   stepContainer: {
     flex: 1,
