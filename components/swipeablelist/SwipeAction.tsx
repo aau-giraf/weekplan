@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
-import { SwipeableMethods } from "../ReanimatedSwipeable";
 import { Action } from "./SwipeableList";
 import Reanimated, { SharedValue, useAnimatedStyle } from "react-native-reanimated";
+import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
 
 export function SwipeAction<T>(
   drag: SharedValue<number>,
