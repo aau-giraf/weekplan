@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     height: ScaleSize(100),
     backgroundColor: colors.lightGreen,
     borderRadius: 100,
-    zIndex: 100,
   },
 });
 

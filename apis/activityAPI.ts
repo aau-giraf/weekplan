@@ -1,4 +1,4 @@
-import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
+import { FullActivityDTO, ActivityDTO } from "../hooks/useActivity";
 import formatQueryDate from "../utils/formatQueryDate";
 import { BASE_URL } from "../utils/globals";
 
@@ -42,7 +42,7 @@ export const deleteRequest = async (id: number) => {
   const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
     method: "DELETE",
   });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke slette aktivitet");
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
 };
 
 /**

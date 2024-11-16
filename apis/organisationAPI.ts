@@ -25,10 +25,32 @@ export const createCitizenRequest = async (
 };
 
 export const deleteCitizenRequest = async (orgId: number, citizenId: number) => {
-  const url = `${BASE_URL}/organizations/${orgId}/remove-citizen/${citizenId}`;
+  const url = `${BASE_URL}/citizens/${orgId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "DELETE",
   });
 
-  if (!res.ok) throw new Error("Kunne ikke slette organisationen");
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+};
+
+export const deleteMemberRequest = async (orgId: number, memberId: string) => {
+  const url = `${BASE_URL}/organizations/${orgId}/remove-user/${memberId}`;
+  const res = await fetch(url, {
+    method: "put",
+  });
+
+  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+};
+
+export const updateCitizenRequest = async (citizenId: number, firstName: string, lastName: string) => {
+  const url = `${BASE_URL}/citizens/${citizenId}`;
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ firstName, lastName }),
+  });
+
+  if (!res.ok) throw new Error("Kunne ikke opdatere borger");
 };

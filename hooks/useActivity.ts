@@ -8,14 +8,26 @@ import {
   toggleActivityStatusRequest,
   updateRequest,
 } from "../apis/activityAPI";
-import { ActivityDTO, FullActivityDTO } from "../DTO/activityDTO";
+
 import { useCitizen } from "../providers/CitizenProvider";
 
-export const dateToQueryKey = (date: Date) => {
+export type ActivityDTO = Omit<FullActivityDTO, "citizenId">;
+export type FullActivityDTO = {
+  activityId: number;
+  citizenId: number;
+  date: string;
+  description: string;
+  endTime: string;
+  name: string;
+  startTime: string;
+  isCompleted: boolean;
+};
+
+export const dateToQueryKey = (date: Date, citizenId: number) => {
   if (!(date instanceof Date)) {
     throw new Error("Invalid date");
   }
-  return ["activity", date.toISOString().split("T")[0]];
+  return ["activity", date.toISOString().split("T")[0], citizenId];
 };
 
 /* It's highly recommended to read the docs at https://tanstack.com/query/latest
@@ -32,9 +44,14 @@ export const dateToQueryKey = (date: Date) => {
  */
 
 export default function useActivity({ date }: { date: Date }) {
-  const queryKey = dateToQueryKey(date);
   const queryClient = useQueryClient();
   const { citizenId } = useCitizen();
+
+  if (citizenId === null) {
+    throw new Error("Citizen ID is null");
+  }
+
+  const queryKey = dateToQueryKey(date, citizenId);
 
   const useFetchActivities = useQuery<ActivityDTO[]>({
     queryFn: async () => fetchByDateRequestForCitizen(citizenId, date),

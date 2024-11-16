@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
 
 type SubmitButtonProps = {
@@ -6,12 +6,13 @@ type SubmitButtonProps = {
   isSubmitting: boolean;
   handleSubmit: () => void;
   label: string;
+  style?: StyleProp<ViewStyle>;
 };
 
-const SubmitButton = ({ isValid, isSubmitting, handleSubmit, label }: SubmitButtonProps) => {
+const SubmitButton = ({ isValid, isSubmitting, handleSubmit, label, style }: SubmitButtonProps) => {
   return (
     <TouchableOpacity
-      style={isValid ? styles.buttonValid : styles.buttonDisabled}
+      style={[isValid ? styles.buttonValid : styles.buttonDisabled, style]}
       disabled={!isValid || isSubmitting}
       onPress={handleSubmit}>
       <Text style={styles.buttonText}>{isSubmitting ? "..." : label}</Text>

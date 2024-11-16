@@ -2,15 +2,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { Fragment, useCallback, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
-import SwipeableList from "../../../../components/SwipeableList/SwipeableList";
+import SwipeableList from "../../../../components/swipeablelist/SwipeableList";
 import { ProfilePicture } from "../../../../components/ProfilePage";
-import SubmitButton from "../../../../components/Forms/SubmitButton";
-import FormField from "../../../../components/Forms/TextInput";
+import SubmitButton from "../../../../components/forms/SubmitButton";
+import FormField from "../../../../components/forms/TextInput";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import { colors, ScaleSize } from "../../../../utils/SharedStyles";
-import FormContainer from "../../../../components/Forms/FormContainer";
-import FormHeader from "../../../../components/Forms/FormHeader";
+import FormContainer from "../../../../components/forms/FormContainer";
+import FormHeader from "../../../../components/forms/FormHeader";
 import { useForm } from "react-hook-form";
+import { useLocalSearchParams } from "expo-router";
 
 const citizenSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
@@ -62,12 +63,14 @@ type Citizen = {
 
 const AddCitizen: React.FC = () => {
   const [citizens, setCitizens] = useState<Citizen[]>([]);
-  const { createCitizen, deleteCitizen } = useOrganisation(3);
+  const { orgId } = useLocalSearchParams();
+  const { createCitizen, deleteCitizen } = useOrganisation(Number(orgId));
 
   const handleAddCitizen = async ({ value }: { value: CitizenData }) => {
     const realId = await createCitizen.mutateAsync({
       firstName: value.firstName,
       lastName: value.lastName,
+      activities: [],
     });
     setCitizens((prev) => [{ ...value, id: realId }, ...prev]);
   };

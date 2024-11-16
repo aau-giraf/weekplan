@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import SwipeableList, { Action } from "../components/SwipeableList/SwipeableList";
+import SwipeableList, { Action } from "../components/swipeablelist/SwipeableList";
 import { Text, View } from "react-native";
 
 describe("SwipeableList", () => {

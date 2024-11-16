@@ -1,4 +1,3 @@
-// FormField.tsx
 import React from "react";
 import { StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
 import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";

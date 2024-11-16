@@ -12,7 +12,7 @@ type AuthenticationProviderValues = {
   jwt: string | null;
   userId: string | null;
   isAuthenticated: () => boolean;
-  register: (form: RegisterForm) => Promise<void>;
+  register: (form: RegisterForm) => Promise<string | null>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -37,10 +37,11 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
   const register = useCallback(
     async (form: RegisterForm) => {
       try {
-        await createUserRequest(form);
-        router.replace("/auth");
+        const res = await createUserRequest(form);
+        return res.id;
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });
+        return null;
       }
     },
     [addToast]
@@ -53,7 +54,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
         if (res.token) {
           setJwt(res.token);
           setUserId(getUserIdFromToken(res.token));
-          router.replace("/auth/profile");
+          router.replace("/auth/profile/profilepage");
         } else {
           addToast({ message: "Toast not received", type: "error" });
         }
@@ -71,7 +72,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
     await setSettingsValue("Remember me", false);
     setJwt(null);
     setUserId(null);
-    router.replace("/auth");
+    router.replace("/auth/login");
   }, []);
 
   return (

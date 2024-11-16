@@ -5,9 +5,8 @@ import { DAYS_OF_WEEK } from "../../constants/daysOfWeek";
 import WeekdayButton from "./WeekdayButton";
 import useSwipeGesture from "../../hooks/useSwipeGesture";
 import { useDate } from "../../providers/DateProvider";
-import { useState } from "react";
-import CopyDateActivitiesModal from "../CopyDateActivitiesModal";
 import { ScaleSizeH } from "../../utils/SharedStyles";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 /**
  * DaysContainer component renders a container for displaying the days of the week.
@@ -16,9 +15,8 @@ import { ScaleSizeH } from "../../utils/SharedStyles";
  * @component
  * @returns {JSX.Element} The rendered DaysContainer component.
  */
-const DaysContainer = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const { weekDates, goToPreviousWeek, goToNextWeek, selectedDate } = useDate();
+const DaysContainer = ({ bottomSheetRef }: { bottomSheetRef: React.RefObject<BottomSheet> }): JSX.Element => {
+  const { weekDates, goToPreviousWeek, goToNextWeek } = useDate();
   const { swipeGesture, boxAnimatedStyles } = useSwipeGesture(goToPreviousWeek, goToNextWeek);
 
   return (
@@ -26,15 +24,10 @@ const DaysContainer = () => {
       <GestureDetector gesture={swipeGesture}>
         <Animated.View style={[styles.daysContainer, boxAnimatedStyles]}>
           {DAYS_OF_WEEK.map((day, index) => (
-            <WeekdayButton key={day.id} date={weekDates[index]} day={day} setModalVisible={setModalVisible} />
+            <WeekdayButton key={day.id} date={weekDates[index]} day={day} bottomSheetRef={bottomSheetRef} />
           ))}
         </Animated.View>
       </GestureDetector>
-      <CopyDateActivitiesModal
-        key={selectedDate.toDateString()}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
     </View>
   );
 };

@@ -3,11 +3,12 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-nati
 import { DayOfWeek } from "../../constants/daysOfWeek";
 import { useDate } from "../../providers/DateProvider";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../utils/SharedStyles";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 type WeekdayButtonProps = {
   date: Date;
   day: DayOfWeek;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  bottomSheetRef: React.RefObject<BottomSheet>;
 };
 
 const formattedDate = (date: Date) => {
@@ -25,7 +26,7 @@ const formattedDate = (date: Date) => {
  *
  * @returns {JSX.Element} The rendered WeekdayButton component.
  */
-const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
+const WeekdayButton = ({ date, day, bottomSheetRef }: WeekdayButtonProps) => {
   const { selectedDate, setSelectedDate } = useDate();
   const isSelected = selectedDate.toDateString() === date.toDateString();
 
@@ -34,8 +35,8 @@ const WeekdayButton = ({ date, day, setModalVisible }: WeekdayButtonProps) => {
       style={styles.dayButton}
       onPress={() => setSelectedDate(date)}
       onLongPress={() => {
-        setModalVisible(true);
         setSelectedDate(date);
+        bottomSheetRef.current?.expand();
       }}>
       <View style={[styles.circle, isSelected && styles.selectedCircle]}>
         <Text style={[styles.dayText]}>{day.name}</Text>

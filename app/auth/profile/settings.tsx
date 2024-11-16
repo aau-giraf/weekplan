@@ -37,10 +37,6 @@ const Settings = () => {
         },
       },
       {
-        icon: "lock-closed-outline",
-        label: "Two-factor authentication",
-      },
-      {
         icon: "lock-open-outline",
         label: "Husk mig",
       },

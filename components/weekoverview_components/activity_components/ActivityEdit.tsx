@@ -3,17 +3,16 @@ import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useActivity from "../../../hooks/useActivity";
+import useActivity, { ActivityDTO } from "../../../hooks/useActivity";
 import { useCitizen } from "../../../providers/CitizenProvider";
 import { useDate } from "../../../providers/DateProvider";
 import { useToast } from "../../../providers/ToastProvider";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
-import FormContainer from "../../Forms/FormContainer";
-import FormHeader from "../../Forms/FormHeader";
-import FormTimePicker from "../../Forms/FormTimePicker";
-import SubmitButton from "../../Forms/SubmitButton";
-import FormField from "../../Forms/TextInput";
-import { ActivityDTO } from "../../../DTO/activityDTO";
+import FormContainer from "../../forms/FormContainer";
+import FormHeader from "../../forms/FormHeader";
+import FormTimePicker from "../../forms/FormTimePicker";
+import SubmitButton from "../../forms/SubmitButton";
+import FormField from "../../forms/TextInput";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 
 const schema = z.object({
@@ -71,6 +70,11 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   });
 
   const onSubmit = async (formData: FormData) => {
+    if (citizenId === null) {
+      addToast({ message: "Fejl, prøvede at tilføje aktivitet uden at vælge en borger", type: "error" });
+      return;
+    }
+
     const startTimeHHMM = formatTimeHHMM(formData.startTime);
     const endTimeHHMM = formatTimeHHMM(formData.endTime);
     const data = {

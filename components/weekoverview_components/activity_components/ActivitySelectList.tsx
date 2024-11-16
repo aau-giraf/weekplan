@@ -1,7 +1,7 @@
 import { FlatList } from "react-native-gesture-handler";
-import { ActivityDTO } from "../../../DTO/activityDTO";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
+import { ActivityDTO } from "../../../hooks/useActivity";
 
 type ActivitySelectListProps = {
   activities: ActivityDTO[];
@@ -24,8 +24,11 @@ const ActivitySelectList = ({ activities, toggleCheck, selectedIds }: ActivitySe
     return (
       <TouchableOpacity
         onPress={() => toggleCheck(item.activityId)}
-        style={[styles.activityEntry, { borderLeftWidth: selectedIds.includes(item.activityId) ? 1 : 0 }]}>
-        <Text style={{ fontSize: 18 }}>{item.name}</Text>
+        style={[styles.activityEntry, { borderLeftWidth: selectedIds.includes(item.activityId) ? 5 : 0 }]}>
+        <Text style={{ fontSize: 23, marginLeft: 5 }}>{item.name}</Text>
+        <Text style={{ fontSize: 23, marginRight: 10 }}>
+          {item.startTime}-{item.endTime}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -36,6 +39,7 @@ const ActivitySelectList = ({ activities, toggleCheck, selectedIds }: ActivitySe
         data={activities}
         renderItem={renderItem}
         keyExtractor={(item) => item.activityId.toString()}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
     </View>
   );
@@ -45,14 +49,15 @@ export default ActivitySelectList;
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: "50%",
+    flex: 1,
+    padding: ScaleSize(10),
   },
   activityEntry: {
     ...SharedStyles.flexRow,
     marginBottom: 2,
     alignItems: "center",
+    justifyContent: "space-between",
     borderStyle: "solid",
-    borderWidth: 0,
     borderColor: colors.blue,
     padding: ScaleSize(5),
     paddingLeft: ScaleSizeW(10),
