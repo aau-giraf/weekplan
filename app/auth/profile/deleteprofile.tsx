@@ -58,7 +58,8 @@ const DeleteProfileScreen: React.FC = () => {
     Alert.alert(
       "Bekræft Sletning",
       "Er du sikker på at du vil slette din profil? Dette kan ikke fortrydes.",
-      [{
+      [
+        {
           text: "Nej",
           onPress: () => "",
           style: "cancel",
@@ -68,7 +69,8 @@ const DeleteProfileScreen: React.FC = () => {
           onPress: () => deleteUserMethod(),
           style: "destructive",
         },
-    ]);
+      ]
+    );
 
   const {
     control,
