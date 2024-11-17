@@ -49,9 +49,6 @@ const WeekSelection = () => {
     setModalVisible(false);
   };
 
-  console.log(weeks);
-  console.log(years);
-
   return (
     <View style={styles.weekSelection}>
       <Button title={`Uge ${weekNumber} \n ${monthString}`} onPress={() => setModalVisible(true)} />
