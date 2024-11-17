@@ -1,6 +1,6 @@
 import { SwipeableItem } from "./SwipeableItem";
 import { Ionicons } from "@expo/vector-icons";
-import { useLayoutEffect, useState } from "react";
+import { useState } from "react";
 import Reanimated, {
   AnimatedStyle,
   FlatListPropsWithLayout,
