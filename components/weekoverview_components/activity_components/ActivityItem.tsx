@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    fontSize: ScaleSize(0),
+    fontSize: ScaleSize(30),
     color: colors.backgroundBlack,
   },
 });

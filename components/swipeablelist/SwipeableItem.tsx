@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { SwipeAction } from "./SwipeAction";
 import { Action } from "./SwipeableList";
 import { LayoutChangeEvent, ListRenderItem, ListRenderItemInfo, View } from "react-native";
-import Swipeable, {
+import ReanimatedSwipeable, {
   SwipeableMethods,
   SwipeableProps,
 } from "react-native-gesture-handler/ReanimatedSwipeable";
@@ -29,7 +29,7 @@ export const SwipeableItem = <T,>({
   const swipeableRef = useRef<SwipeableMethods>(null);
 
   return (
-    <Swipeable
+    <ReanimatedSwipeable
       ref={swipeableRef}
       {...swipeableProps}
       friction={1.5}
@@ -45,6 +45,6 @@ export const SwipeableItem = <T,>({
           SwipeAction(drag, itemDimensions, rightActions, "right", info.item, swipeableRef),
       })}>
       <View onLayout={handleLayout}>{renderItem(info)}</View>
-    </Swipeable>
+    </ReanimatedSwipeable>
   );
 };
