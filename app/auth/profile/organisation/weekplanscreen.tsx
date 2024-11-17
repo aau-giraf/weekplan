@@ -21,15 +21,16 @@ const WeekPlanScreen = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <WeekSelection />
-          <DaysContainer bottomSheetRef={bottomSheetRef} />
+      <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <WeekSelection />
+            <DaysContainer bottomSheetRef={bottomSheetRef} />
+          </View>
+          <ActivityItemList />
         </View>
-        <ActivityItemList />
-      </View>
-      <ActivityAddButton />
+        <ActivityAddButton />
+      </SafeAreaView>
       <CopyDateActivitiesBottomSheet bottomSheetRef={bottomSheetRef} />
     </Fragment>
   );

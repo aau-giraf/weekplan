@@ -77,48 +77,48 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <View style={styles.container}>
-        <Animated.FlatList
-          refreshing={orgIsLoading}
-          onTouchStart={() => bottomSheetRef.current?.close()}
-          itemLayoutAnimation={LinearTransition}
-          onRefresh={async () => await refetch()}
-          data={orgData}
-          renderItem={renderOrgContainer}
-          keyExtractor={(item, index) => index.toString() + item.name}
-          numColumns={calculateNumberOfColumns()}
-          columnWrapperStyle={styles.columnWrapper}
-          ListEmptyComponent={<Text>Ingen organisationer fundet</Text>}
-          ListHeaderComponent={
-            <View style={styles.headerContainer}>
-              <View style={styles.profileHeader}>
-                <ProfilePicture
-                  style={styles.mainProfilePicture}
-                  label={`${data.firstName} ${data.lastName}`}
-                  imageUri={`${BASE_URL}/images/users/${userId}.jpeg`}
-                />
-                <View style={styles.profileTextContainer}>
-                  <Text style={SharedStyles.header}>{data.email}</Text>
-                  <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
+      <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+        <View style={styles.container}>
+          <Animated.FlatList
+            refreshing={orgIsLoading}
+            onTouchStart={() => bottomSheetRef.current?.close()}
+            itemLayoutAnimation={LinearTransition}
+            onRefresh={async () => await refetch()}
+            data={orgData}
+            renderItem={renderOrgContainer}
+            keyExtractor={(item, index) => index.toString() + item.name}
+            numColumns={calculateNumberOfColumns()}
+            columnWrapperStyle={styles.columnWrapper}
+            ListEmptyComponent={<Text>Ingen organisationer fundet</Text>}
+            ListHeaderComponent={
+              <View style={styles.headerContainer}>
+                <View style={styles.profileHeader}>
+                  <ProfilePicture
+                    style={styles.mainProfilePicture}
+                    label={`${data.firstName} ${data.lastName}`}
+                    imageUri={`${BASE_URL}/images/users/${userId}.jpeg`}
+                  />
+                  <View style={styles.profileTextContainer}>
+                    <Text style={SharedStyles.header}>{data.email}</Text>
+                    <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
+                  </View>
+                  <IconButton style={styles.settings} onPress={() => router.push("/auth/profile/settings")}>
+                    <Ionicons name="settings-outline" size={ScaleSize(64)} />
+                    {inviteData && inviteData.length > 0 && <View style={styles.notificationBadge} />}
+                  </IconButton>
                 </View>
-                <IconButton style={styles.settings} onPress={() => router.push("/auth/profile/settings")}>
-                  <Ionicons name="settings-outline" size={ScaleSize(64)} />
-                  {inviteData && inviteData.length > 0 && <View style={styles.notificationBadge} />}
-                </IconButton>
+                <View style={styles.organizationsContainer}>
+                  <Text style={styles.organizationsText}>Dine organisationer</Text>
+                </View>
               </View>
-              <View style={styles.organizationsContainer}>
-                <Text style={styles.organizationsText}>Dine organisationer</Text>
-              </View>
-            </View>
-          }
-        />
-
-        <IconButton style={styles.iconAdd} onPress={() => bottomSheetRef.current?.expand()}>
-          <Ionicons name="add" size={ScaleSize(64)} />
-        </IconButton>
-        <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
-      </View>
+            }
+          />
+        </View>
+      </SafeAreaView>
+      <IconButton style={styles.iconAdd} onPress={() => bottomSheetRef.current?.expand()}>
+        <Ionicons name="add" size={ScaleSize(64)} />
+      </IconButton>
+      <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
     </Fragment>
   );
 };

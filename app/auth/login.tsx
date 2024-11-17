@@ -62,7 +62,7 @@ const LoginScreen: React.FC = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <FormContainer style={{ padding: 30 }}>
         <View style={styles.iconContainer}>
           <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
@@ -86,7 +86,7 @@ const LoginScreen: React.FC = () => {
           handleSubmit={handleSubmit(onsSubmit)}
           label="Login"
         />
-        <SecondaryButton onPress={() => router.push("/auth/register")} label="Tilføj ny konto" />
+        <SecondaryButton onPress={() => router.replace("/auth/register")} label="Tilføj ny konto" />
       </FormContainer>
     </Fragment>
   );

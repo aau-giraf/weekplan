@@ -114,6 +114,7 @@ const RegisterScreen: React.FC = () => {
             isSubmitting={isSubmitting}
             handleSubmit={handleRegister}
           />
+          <SecondaryButton onPress={() => router.replace("/auth/login")} label="Tilbage til Log ind" />
         </FormContainer>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>

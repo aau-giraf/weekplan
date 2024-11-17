@@ -16,6 +16,7 @@ import { useDate } from "../../../../providers/DateProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import formatTimeHHMM from "../../../../utils/formatTimeHHMM";
 import { prettyDate } from "../../../../utils/prettyDate";
+import { colors } from "../../../../utils/SharedStyles";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -86,7 +87,7 @@ const AddActivity = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <FormContainer style={{ padding: 30 }}>
