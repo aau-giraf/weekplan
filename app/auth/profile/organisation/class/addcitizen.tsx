@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native
 import { useState, useMemo } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
-import SecondaryButton from "../../../../../components/Forms/SecondaryButton";
 import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import { useToast } from "../../../../../providers/ToastProvider";
 import useClasses from "../../../../../hooks/useClasses";
+import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 
 type Params = {
   classId: string;

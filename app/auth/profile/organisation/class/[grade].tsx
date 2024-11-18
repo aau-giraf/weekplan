@@ -12,8 +12,8 @@ const ViewClass = () => {
   const { grade } = useLocalSearchParams();
   const parsedID = Number(grade);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-  const { data, error, isLoading } = useClasses(parsedClassID);
-  const currentClass = data?.grades.find((grade) => grade.id === parsedClassID);
+  const { data, error, isLoading } = useClasses(parsedID);
+  const currentClass = data?.grades.find((grade) => grade.id === parsedID);
 
   if (isLoading)
     return (
@@ -68,7 +68,7 @@ const ViewClass = () => {
                 onPress={() => {
                   router.push({
                     pathname: "/auth/profile/organisation/class/addcitizen",
-                    params: { classId: index },
+                    params: { classId: grade },
                   });
                 }}
                 absolute={false}>
@@ -78,7 +78,7 @@ const ViewClass = () => {
                 onPress={() => {
                   router.push({
                     pathname: "/auth/profile/organisation/class/removecitizen",
-                    params: { classId: index },
+                    params: { classId: grade },
                   });
                 }}
                 absolute={false}>

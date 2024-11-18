@@ -9,9 +9,9 @@ import React, { Fragment, useRef, useState } from "react";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import SecondaryButton from "../../../../components/Forms/SecondaryButton";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
 import useClasses from "../../../../hooks/useClasses";
+import SecondaryButton from "../../../../components/forms/SecondaryButton";
 
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
@@ -22,7 +22,7 @@ const ViewOrganisation = () => {
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
-  const { createClass } = useClasses(parsedOrgId);
+  const { createClass } = useClasses(parsedId);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -111,8 +111,8 @@ const ViewOrganisation = () => {
           <Text style={styles.heading}>Klasser</Text>
           {/* //TODO: Add and Implement Classes */}
 
-          <Text>{classError?.message}</Text>
-          <Text>{classLoading}</Text>
+          <Text>{error}</Text>
+          <Text>{isLoading}</Text>
           <ClassView classes={data?.grades ?? []} />
           <IconButton onPress={openCreateBS} absolute={false}>
             <Ionicons name={"add-outline"} size={ScaleSize(30)} />
@@ -124,6 +124,7 @@ const ViewOrganisation = () => {
         orgName={data!.name}
         handleConfirm={handleLeaveOrganisation}
       />
+      <CreateClassButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateClass} />
     </Fragment>
   );
 };
