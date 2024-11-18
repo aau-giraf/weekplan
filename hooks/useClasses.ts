@@ -83,48 +83,7 @@ export default function useClasses(classId: number) {
     },
   });
 
-  const useClassCreate = (orgId: number) => {
-    const queryClient = useQueryClient();
-    const orgQueryKey = [orgId, "Organisation"];
-
-    const createClass = useMutation({
-      mutationFn: async (className: string) => createNewClassRequest(className, orgId),
-      onMutate: async (className) => {
-        await queryClient.cancelQueries({ queryKey: orgQueryKey });
-
-        const previousOrg = queryClient.getQueryData<FullOrgDTO>(orgQueryKey);
-
-        const newClass: ClassDTO = {
-          id: -1,
-          name: className,
-          citizens: [],
-        };
-
-        queryClient.setQueryData<FullOrgDTO>(orgQueryKey, (oldData) => {
-          if (oldData) {
-            return {
-              ...oldData,
-              grades: [...oldData.grades, newClass],
-            };
-          }
-          return previousOrg;
-        });
-        return { previousOrg };
-      },
-      onError: (_error, _className, context) => {
-        if (context?.previousOrg) {
-          queryClient.setQueryData(orgQueryKey, context.previousOrg);
-        }
-      },
-    });
-
-    return {
-      createClass,
-    };
-  };
-
   return {
-    ...useClassCreate(classId),
     addCitizenToClass,
     removeCitizenFromClass,
     createNewClassRequest,

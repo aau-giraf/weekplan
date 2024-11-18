@@ -5,24 +5,22 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
-import React, { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
-import useClasses from "../../../../hooks/useClasses";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
 
-  const { deleteMember, data, error, isLoading } = useOrganisation(parsedId);
+  const { deleteMember, data, error, isLoading, createClass } = useOrganisation(parsedId);
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
-  const { createClass } = useClasses(parsedId);
 
   if (isLoading) {
     return <Text>Loading...</Text>;

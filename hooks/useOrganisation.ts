@@ -9,6 +9,7 @@ import {
 
 import { ActivityDTO } from "./useActivity";
 import { ClassDTO } from "./useClasses";
+import { createNewClassRequest } from "../apis/classAPI";
 
 export type UserDTO = {
   id: string;
@@ -173,6 +174,40 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  const createClass = useMutation({
+    mutationFn: async (className: string) => createNewClassRequest(className, orgId),
+    onMutate: async (className) => {
+      await queryClient.cancelQueries({ queryKey: queryKey });
+
+      const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
+
+      const newClass: ClassDTO = {
+        id: -1,
+        name: className,
+        citizens: [],
+      };
+
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            grades: [...oldData.grades, newClass],
+          };
+        }
+        return previousOrg;
+      });
+      return { previousOrg };
+    },
+    onError: (_error, _className, context) => {
+      if (context?.previousOrg) {
+        queryClient.setQueryData(queryKey, context.previousOrg);
+      }
+    },
+    onSuccess: (_data, _variables, _context) => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   return {
     data: fetchOrganisation.data,
     isLoading: fetchOrganisation.isLoading,
@@ -182,6 +217,7 @@ const useOrganisation = (orgId: number) => {
     deleteCitizen,
     deleteMember,
     updateCitizen,
+    createClass,
   };
 };
 
