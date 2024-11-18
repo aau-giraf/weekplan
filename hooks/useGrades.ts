@@ -1,33 +1,33 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  addCitizenToClassRequest,
-  createNewClassRequest,
+  addCitizenToGradeRequest,
+  createNewGradeRequest,
   fetchCitizenById,
-  fetchOrganisationFromClassRequest,
-  removeCitizenFromClassRequest,
-} from "../apis/classAPI";
+  fetchOrganisationFromGradeRequest,
+  removeCitizenFromGradeRequest,
+} from "../apis/gradeAPI";
 import { CitizenDTO, FullOrgDTO } from "./useOrganisation";
 
-export type ClassDTO = {
+export type GradeDTO = {
   id: number;
   name: string;
   citizens: CitizenDTO[];
 };
-export default function useClasses(classId: number) {
+export default function useGrades(gradeId: number) {
   const queryClient = useQueryClient();
-  const queryKey = [classId, "Classes"];
+  const queryKey = [gradeId, "Classes"];
 
-  const fetchOrganisationWithClass = useQuery<FullOrgDTO>({
-    queryFn: async () => fetchOrganisationFromClassRequest(classId),
+  const fetchOrganisationWithGrade = useQuery<FullOrgDTO>({
+    queryFn: async () => fetchOrganisationFromGradeRequest(gradeId),
     queryKey,
   });
 
-  const addCitizenToClass = useMutation({
-    mutationFn: (citizenId: number) => addCitizenToClassRequest(citizenId, classId),
+  const addCitizenToGrade = useMutation({
+    mutationFn: (citizenId: number) => addCitizenToGradeRequest(citizenId, gradeId),
     onMutate: async (citizenId: number) => {
       await queryClient.cancelQueries({ queryKey });
 
-      const previousClass = queryClient.getQueryData<FullOrgDTO>(queryKey);
+      const previousGrade = queryClient.getQueryData<FullOrgDTO>(queryKey);
       const citizen = await fetchCitizenById(citizenId);
 
       queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
@@ -35,7 +35,7 @@ export default function useClasses(classId: number) {
           return {
             ...oldData,
             grades: oldData.grades.map((grade) => {
-              if (grade.id === classId) {
+              if (grade.id === gradeId) {
                 return {
                   ...grade,
                   citizens: [...grade.citizens, citizen],
@@ -45,15 +45,15 @@ export default function useClasses(classId: number) {
             }),
           };
         }
-        return previousClass;
+        return previousGrade;
       });
 
-      return { previousClass };
+      return { previousGrade };
     },
   });
 
-  const removeCitizenFromClass = useMutation({
-    mutationFn: async (citizenId: number) => removeCitizenFromClassRequest(citizenId, classId),
+  const removeCitizenFromGrade = useMutation({
+    mutationFn: async (citizenId: number) => removeCitizenFromGradeRequest(citizenId, gradeId),
     onMutate: async (citizenId) => {
       await queryClient.cancelQueries({ queryKey });
 
@@ -63,7 +63,7 @@ export default function useClasses(classId: number) {
           return {
             ...oldData,
             grades: oldData.grades.map((grade) => {
-              if (grade.id === classId) {
+              if (grade.id === gradeId) {
                 return {
                   ...grade,
                   citizens: grade.citizens.filter((citizen) => citizen.id !== citizenId),
@@ -84,11 +84,11 @@ export default function useClasses(classId: number) {
   });
 
   return {
-    addCitizenToClass,
-    removeCitizenFromClass,
-    createNewClassRequest,
-    data: fetchOrganisationWithClass.data,
-    error: fetchOrganisationWithClass.error,
-    isLoading: fetchOrganisationWithClass.isLoading,
+    addCitizenToGrade,
+    removeCitizenFromGrade,
+    createNewGradeRequest: createNewGradeRequest,
+    data: fetchOrganisationWithGrade.data,
+    error: fetchOrganisationWithGrade.error,
+    isLoading: fetchOrganisationWithGrade.isLoading,
   };
 }

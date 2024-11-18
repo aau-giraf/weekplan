@@ -51,8 +51,8 @@ jest.mock("../apis/organisationOverviewAPI", () => ({
   }),
 }));
 
-jest.mock("../apis/classAPI", () => ({
-  fetchOrganisationFromClassRequest: jest.fn().mockImplementation(() => {
+jest.mock("../apis/gradeAPI", () => ({
+  fetchOrganisationFromGradeRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve(mockOrganisationOverview);
   }),
 }));

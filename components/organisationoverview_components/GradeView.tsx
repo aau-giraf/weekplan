@@ -3,44 +3,44 @@ import { getContrastingTextColor, hashNameToColour } from "../../utils/colourFun
 import { SharedStyles } from "../../utils/SharedStyles";
 import IconButton from "../IconButton";
 import { router } from "expo-router";
-import { ClassDTO } from "../../hooks/useClasses";
+import { GradeDTO } from "../../hooks/useGrades";
 
-type ClassViewProps = {
-  classes: ClassDTO[];
+type GradeViewProps = {
+  grades: GradeDTO[];
 };
 
-type ClassViewEntryProps = {
-  classData: ClassDTO;
+type GradeViewEntryProps = {
+  gradeData: GradeDTO;
 };
 
-export const ClassView = ({ classes }: ClassViewProps) => {
+export const GradeView = ({ grades }: GradeViewProps) => {
   return (
-    <View style={styles.classView}>
-      {(Array.isArray(classes) ? classes : []).map((member, index) => (
-        <ClassViewEntry classData={member} key={index} />
+    <View style={styles.gradeView}>
+      {(Array.isArray(grades) ? grades : []).map((member, index) => (
+        <GradeViewEntry gradeData={member} key={index} />
       ))}
     </View>
   );
 };
 
-const ClassViewEntry = ({ classData }: ClassViewEntryProps) => {
-  const nameColour = hashNameToColour(classData.name);
+const GradeViewEntry = ({ gradeData }: GradeViewEntryProps) => {
+  const nameColour = hashNameToColour(gradeData.name);
   const textColour = getContrastingTextColor(nameColour);
 
   return (
     <IconButton
       style={{ backgroundColor: nameColour }}
       onPress={() => {
-        router.push(`/auth/profile/organisation/grade/${classData.id}`);
+        router.push(`/auth/profile/organisation/grade/${gradeData.id}`);
       }}
       absolute={false}>
-      <Text style={{ color: textColour }}>{classData.name}</Text>
+      <Text style={{ color: textColour }}>{gradeData.name}</Text>
     </IconButton>
   );
 };
 
 const styles = StyleSheet.create({
-  classView: {
+  gradeView: {
     ...SharedStyles.flexRow,
     justifyContent: "center",
     width: "100%",

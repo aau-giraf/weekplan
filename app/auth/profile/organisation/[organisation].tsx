@@ -9,7 +9,7 @@ import { Fragment, useRef, useState } from "react";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { ClassView } from "../../../../components/organisationoverview_components/ClassView";
+import { GradeView } from "../../../../components/organisationoverview_components/GradeView";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 
 const ViewOrganisation = () => {
@@ -92,30 +92,30 @@ const ViewOrganisation = () => {
             }}
           />
           <View style={styles.alignHeader}>
-          <Text style={styles.heading}>Borger</Text>
-          <IconButton
-            onPress={() => {
-              router.push({
-                pathname: "/auth/profile/organisation/addcitizen",
-                params: { orgId: parsedId },
-              });
-            }}
-            absolute={false} style={styles.iconButton}>
-            <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
-          </IconButton>
+            <Text style={styles.heading}>Borger</Text>
+            <IconButton
+              onPress={() => {
+                router.push({
+                  pathname: "/auth/profile/organisation/addcitizen",
+                  params: { orgId: parsedId },
+                });
+              }}
+              absolute={false}
+              style={styles.iconButton}>
+              <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
+            </IconButton>
           </View>
           <CutoffList
             entries={data?.citizens ?? []}
             onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
           />
           <View style={[styles.alignHeader]}>
-          <Text style={styles.heading}>Klasser</Text>
-          <IconButton onPress={openCreateBS} absolute={false} style={styles.iconButton}>
-            <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
-          </IconButton>
+            <Text style={styles.heading}>Klasser</Text>
+            <IconButton onPress={openCreateBS} absolute={false} style={styles.iconButton}>
+              <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
+            </IconButton>
           </View>
-          <ClassView classes={data?.grades ?? []} />
-
+          <GradeView grades={data?.grades ?? []} />
         </View>
       </SafeAreaView>
       <ConfirmBottomSheet
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   alignHeader: {
     ...SharedStyles.flexRow,
     gap: ScaleSizeW(10),
-    alignItems: "center"
+    alignItems: "center",
   },
   heading: {
     fontSize: ScaleSize(25),

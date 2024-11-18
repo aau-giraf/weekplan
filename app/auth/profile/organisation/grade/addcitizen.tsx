@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
 import { useState, useMemo, Fragment } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
+import { ScaleSize, ScaleSizeH, colors, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import { useToast } from "../../../../../providers/ToastProvider";
-import useClasses from "../../../../../hooks/useClasses";
+import useGrades from "../../../../../hooks/useGrades";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 
 type Params = {
@@ -15,7 +15,7 @@ type Params = {
 const AddCitizen = () => {
   const { gradeId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { data, error, isLoading, addCitizenToClass } = useClasses(Number(gradeId));
+  const { data, error, isLoading, addCitizenToGrade } = useGrades(Number(gradeId));
   const [searchInput, setSearchInput] = useState("");
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
 
@@ -47,10 +47,10 @@ const AddCitizen = () => {
 
   const handleAddCitizen = async () => {
     if (selectedCitizen) {
-      await addCitizenToClass
+      await addCitizenToGrade
         .mutateAsync(selectedCitizen.id)
         .then(() => {
-          addToast({ message: "Elev tilføjet", type: "success" });
+          addToast({ message: "Elev tilføjet", type: "success" }, 1500);
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
@@ -90,12 +90,13 @@ const AddCitizen = () => {
                 style={[
                   styles.option,
                   item === `${selectedCitizen?.firstName} ${selectedCitizen?.lastName}` &&
-                    styles.optionSelect,
+                    styles.citizenSelected,
                 ]}
                 onPress={() => handleSelectedCitizen(item)}>
-                <Text style={styles.optionText}>{item}</Text>
+                <Text style={styles.citizenText}>{item}</Text>
               </TouchableOpacity>
             )}
+            ListEmptyComponent={<Text>Ingen elever fundet</Text>}
             keyExtractor={(item) => item}
           />
         </View>
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
   option: {
     paddingVertical: ScaleSizeH(20),
     marginBottom: ScaleSizeH(10),
+    marginHorizontal: ScaleSizeW(5),
     borderRadius: 15,
     borderWidth: 1,
     borderColor: colors.lightBlue,
@@ -155,10 +157,11 @@ const styles = StyleSheet.create({
     minWidth: "45%",
     alignItems: "center",
   },
-  optionSelect: {
+  citizenSelected: {
     borderColor: colors.green,
+    borderWidth: 1.5,
   },
-  optionText: {
+  citizenText: {
     fontSize: ScaleSize(18),
     color: colors.black,
     textAlign: "center",

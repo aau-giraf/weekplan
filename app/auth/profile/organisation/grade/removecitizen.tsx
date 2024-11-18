@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
-import useClasses from "../../../../../hooks/useClasses";
+import useGrades from "../../../../../hooks/useGrades";
 import { useToast } from "../../../../../providers/ToastProvider";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 
@@ -13,18 +13,53 @@ type Params = {
 };
 
 const RemoveCitizen = () => {
-  const [searchText, setSearchText] = useState("");
   const { gradeId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(gradeId));
-  const currentClass = data?.grades.find((grade) => grade.id === Number(gradeId));
-
-  const mapAndSort = currentClass?.citizens
-    .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
-    .sort((a: string, b: string) => a.localeCompare(b));
-
-  const [filteredOptions, setFilteredOptions] = useState(mapAndSort);
+  const { data, error, isLoading, removeCitizenFromGrade } = useGrades(Number(gradeId));
+  const [searchInput, setSearchInput] = useState("");
+  const currentGrade = data?.grades.find((grade) => grade.id === Number(gradeId));
   const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
+
+  const filterAssignedCitizens = useMemo(
+    () =>
+      data?.grades
+        .find((grade) => grade.id === Number(gradeId))
+        ?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
+        .sort((a, b) => a.localeCompare(b)),
+    [data, gradeId]
+  );
+
+  const searchAssignedCitizens = useMemo(
+    () =>
+      searchInput
+        ? filterAssignedCitizens?.filter((name) => name.toLowerCase().startsWith(searchInput.toLowerCase()))
+        : filterAssignedCitizens,
+    [searchInput, filterAssignedCitizens]
+  );
+
+  const handleSearch = (text: string) => setSearchInput(text);
+
+  const handleSelectedCitizen = (selected: string) => {
+    const selectedCitizen = currentGrade?.citizens.find(
+      (citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}` === selected
+    );
+    if (selectedCitizen) {
+      setSelectedCitizen(selectedCitizen);
+    }
+  };
+
+  const handleRemoveCitizen = async () => {
+    if (selectedCitizen) {
+      await removeCitizenFromGrade
+        .mutateAsync(selectedCitizen.id)
+        .then(() => {
+          addToast({ message: "Elev fjernet", type: "success" }, 1500);
+        })
+        .catch((error) => {
+          addToast({ message: error.message, type: "error" });
+        });
+    }
+  };
 
   if (error) {
     return (
@@ -42,62 +77,29 @@ const RemoveCitizen = () => {
     );
   }
 
-  const filterAssignedCitizens = (text: string) => {
-    setFilteredOptions(
-      currentClass?.citizens
-        .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
-        .filter((option: string) => option.toLowerCase().startsWith(text.toLowerCase()))
-        .sort((a: string, b: string) => a.localeCompare(b))
-    );
-  };
-
-  const handleSelectedCitizen = (option: string) => {
-    setSearchText(option);
-    setFilteredOptions(mapAndSort);
-    const foundCitizen = currentClass?.citizens.find(
-      (citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}` === option
-    );
-    if (foundCitizen) {
-      setSelectedCitizen(foundCitizen);
-    }
-  };
-
-  const handleRemoveCitizen = async () => {
-    if (selectedCitizen) {
-      await removeCitizenFromClass
-        .mutateAsync(selectedCitizen.id)
-        .then(() => {
-          addToast({ message: "Elev fjernet", type: "success" });
-        })
-        .catch((error) => {
-          addToast({ message: error.message, type: "error" });
-        });
-    }
-  };
-
   return (
     <Fragment>
       <SafeAreaView />
       <View style={styles.container}>
         <Text style={styles.heading}>Fjern elever fra klasse</Text>
         <View style={styles.searchbar}>
-          <SearchBar value={searchText} onChangeText={filterAssignedCitizens} />
+          <SearchBar value={searchInput} onChangeText={handleSearch} />
           <FlatList
-            style={styles.flatListStyle}
-            data={filteredOptions ? filteredOptions : mapAndSort}
+            data={searchAssignedCitizens}
             contentContainerStyle={styles.listContent}
             numColumns={2}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={
-                  selectedCitizen?.firstName + " " + selectedCitizen?.lastName === item
-                    ? styles.optionSelect
-                    : styles.option
-                }
+                style={[
+                  styles.selection,
+                  item === `${selectedCitizen?.firstName} ${selectedCitizen?.lastName}` &&
+                    styles.citizenSelected,
+                ]}
                 onPress={() => handleSelectedCitizen(item)}>
-                <Text style={styles.optionText}>{item}</Text>
+                <Text style={styles.citizenText}>{item}</Text>
               </TouchableOpacity>
             )}
+            ListEmptyComponent={<Text>Ingen elever fundet</Text>}
             keyExtractor={(item) => item}
           />
         </View>
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
     width: "90%",
     minWidth: "90%",
   },
-  option: {
+  selection: {
     paddingVertical: ScaleSizeH(20),
     marginBottom: ScaleSizeH(10),
     borderRadius: 15,
@@ -156,10 +158,10 @@ const styles = StyleSheet.create({
     minWidth: "45%",
     alignItems: "center",
   },
-  optionSelect: {
-    borderColor: colors.green,
+  citizenSelected: {
+    borderColor: colors.red,
   },
-  optionText: {
+  citizenText: {
     fontSize: ScaleSize(18),
     color: colors.black,
     textAlign: "center",

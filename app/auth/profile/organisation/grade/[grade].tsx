@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
-import useClasses, { ClassDTO } from "../../../../../hooks/useClasses";
+import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 
@@ -12,7 +12,7 @@ const ViewGrade = () => {
   const { grade } = useLocalSearchParams();
   const parsedID = Number(grade);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-  const { data, error, isLoading } = useClasses(parsedID);
+  const { data, error, isLoading } = useGrades(parsedID);
   const currentGrade = data?.grades.find((grade) => grade.id === parsedID);
 
   if (isLoading)
@@ -29,7 +29,7 @@ const ViewGrade = () => {
     );
 
   //Sorts citizens alphabetically
-  const sortedCitizen = (data: ClassDTO) => {
+  const sortedCitizen = (data: GradeDTO) => {
     return data.citizens
       .filter((citizen) =>
         `${citizen.firstName} ${citizen.lastName}`.toLowerCase().startsWith(searchedCitizens.toLowerCase())
@@ -39,6 +39,7 @@ const ViewGrade = () => {
 
   return (
     <Fragment>
+      <SafeAreaView />
       <FlatList
         data={currentGrade ? sortedCitizen(currentGrade) : []}
         keyExtractor={(item) => item.id.toString()}
@@ -47,7 +48,7 @@ const ViewGrade = () => {
         renderItem={({ item }) => (
           <Text style={styles.citizenName}>{item.firstName + " " + item.lastName}</Text>
         )}
-        ListEmptyComponent={<Text>Ingen elever tilføjet til denne klasse</Text>}
+        ListEmptyComponent={<Text>Ingen elever fundet</Text>}
         ListHeaderComponent={
           <View style={styles.searchbarStyle}>
             <View style={{ alignItems: "center" }}>

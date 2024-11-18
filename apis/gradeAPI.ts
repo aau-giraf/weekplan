@@ -1,7 +1,7 @@
-import { ClassDTO } from "../hooks/useClasses";
+import { GradeDTO } from "../hooks/useGrades";
 import { CitizenDTO, FullOrgDTO } from "../hooks/useOrganisation";
 import { BASE_URL } from "../utils/globals";
-export const addCitizenToClassRequest = async (citizenId: number, classId: number): Promise<ClassDTO> => {
+export const addCitizenToGradeRequest = async (citizenId: number, classId: number): Promise<GradeDTO> => {
   const url = `${BASE_URL}/grades/${classId}/add-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "PUT",
@@ -18,25 +18,25 @@ export const fetchCitizenById = async (citizenId: number): Promise<CitizenDTO> =
 };
 
 /**
- * @param classId
+ * @param gradeId
  * @returns
  * an organisation object
  */
-export const fetchOrganisationFromClassRequest = async (classId: number): Promise<FullOrgDTO> => {
-  if (classId === null) {
+export const fetchOrganisationFromGradeRequest = async (gradeId: number): Promise<FullOrgDTO> => {
+  if (gradeId === null) {
     throw new Error("FATAL FEJL: Klasse-ID er ikke korrekt initialiseret i din session.");
   }
 
-  const url = `${BASE_URL}/organizations/grades/${classId}`;
+  const url = `${BASE_URL}/organizations/grades/${gradeId}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error("Kunne ikke hente organisation");
   return res.json();
 };
 
-export const removeCitizenFromClassRequest = async (
+export const removeCitizenFromGradeRequest = async (
   citizenId: number,
   classId: number
-): Promise<ClassDTO> => {
+): Promise<GradeDTO> => {
   const url = `${BASE_URL}/grades/${classId}/remove-citizen/${citizenId}`;
   const res = await fetch(url, {
     method: "PUT",
@@ -45,7 +45,7 @@ export const removeCitizenFromClassRequest = async (
   return res.json();
 };
 
-export const createNewClassRequest = async (className: string, orgId: number): Promise<ClassDTO> => {
+export const createNewGradeRequest = async (className: string, orgId: number): Promise<GradeDTO> => {
   const url = `${BASE_URL}/grades?orgId=${orgId}`;
   const res = await fetch(url, {
     method: "POST",

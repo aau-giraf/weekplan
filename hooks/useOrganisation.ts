@@ -8,8 +8,8 @@ import {
 } from "../apis/organisationAPI";
 
 import { ActivityDTO } from "./useActivity";
-import { ClassDTO } from "./useClasses";
-import { createNewClassRequest } from "../apis/classAPI";
+import { GradeDTO } from "./useGrades";
+import { createNewGradeRequest } from "../apis/gradeAPI";
 
 export type UserDTO = {
   id: string;
@@ -37,7 +37,7 @@ export type FullOrgDTO = {
   name: string;
   users: UserDTO[];
   citizens: CitizenDTO[];
-  grades: ClassDTO[];
+  grades: GradeDTO[];
 };
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
@@ -174,14 +174,14 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
-  const createClass = useMutation({
-    mutationFn: async (className: string) => createNewClassRequest(className, orgId),
+  const createGrade = useMutation({
+    mutationFn: async (className: string) => createNewGradeRequest(className, orgId),
     onMutate: async (className) => {
       await queryClient.cancelQueries({ queryKey: queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
 
-      const newClass: ClassDTO = {
+      const newClass: GradeDTO = {
         id: -1,
         name: className,
         citizens: [],
@@ -217,7 +217,7 @@ const useOrganisation = (orgId: number) => {
     deleteCitizen,
     deleteMember,
     updateCitizen,
-    createClass,
+    createGrade,
   };
 };
 
