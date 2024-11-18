@@ -17,7 +17,7 @@ const AddCitizen = () => {
   const { addToast } = useToast();
   const { data, error, isLoading, addCitizenToGrade } = useGrades(Number(gradeId));
   const [searchInput, setSearchInput] = useState("");
-  const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
+  const [selectedCitizens, setSelectedCitizens] = useState<Omit<CitizenDTO, "activities">[]>([]);
 
   const filterUnassignedCitizens = useMemo(
     () =>
@@ -38,19 +38,26 @@ const AddCitizen = () => {
 
   const handleSearch = (text: string) => setSearchInput(text);
 
-  const handleSelectedCitizen = (option: string) => {
+  const toggleCitizenSelection = (selection: string) => {
     const selectedCitizen = data?.citizens.find(
-      (citizen) => `${citizen.firstName} ${citizen.lastName}` === option
+      (citizen) => `${citizen.firstName} ${citizen.lastName}` === selection
     );
-    if (selectedCitizen) setSelectedCitizen(selectedCitizen);
+    if (!selectedCitizen) return;
+
+    setSelectedCitizens((prev) => {
+      const alreadySelected = prev.some((c) => c.id === selectedCitizen.id);
+      return alreadySelected ? prev.filter((c) => c.id !== selectedCitizen.id) : [...prev, selectedCitizen];
+    });
   };
 
-  const handleAddCitizen = async () => {
-    if (selectedCitizen) {
+  const handleAddCitizens = async () => {
+    if (selectedCitizens.length > 0) {
+      const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await addCitizenToGrade
-        .mutateAsync(selectedCitizen.id)
+        .mutateAsync(citizenIds)
         .then(() => {
-          addToast({ message: "Elev tilføjet", type: "success" }, 1500);
+          addToast({ message: "Elever tilføjet", type: "success" }, 1500);
+          setSelectedCitizens([]);
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
@@ -88,11 +95,11 @@ const AddCitizen = () => {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={[
-                  styles.option,
-                  item === `${selectedCitizen?.firstName} ${selectedCitizen?.lastName}` &&
+                  styles.selection,
+                  selectedCitizens.some((citizen) => `${citizen.firstName} ${citizen.lastName}` === item) &&
                     styles.citizenSelected,
                 ]}
-                onPress={() => handleSelectedCitizen(item)}>
+                onPress={() => toggleCitizenSelection(item)}>
                 <Text style={styles.citizenText}>{item}</Text>
               </TouchableOpacity>
             )}
@@ -101,7 +108,7 @@ const AddCitizen = () => {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <SecondaryButton onPress={handleAddCitizen} label="Tilføj elev" />
+          <SecondaryButton onPress={handleAddCitizens} label="Tilføj elev" />
           <SecondaryButton onPress={() => router.back()} label="Gå tilbage til oversigt" />
         </View>
       </View>
@@ -145,7 +152,7 @@ const styles = StyleSheet.create({
     width: "90%",
     minWidth: "90%",
   },
-  option: {
+  selection: {
     paddingVertical: ScaleSizeH(20),
     marginBottom: ScaleSizeH(10),
     marginHorizontal: ScaleSizeW(5),

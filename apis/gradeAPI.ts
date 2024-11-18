@@ -1,10 +1,14 @@
 import { GradeDTO } from "../hooks/useGrades";
 import { CitizenDTO, FullOrgDTO } from "../hooks/useOrganisation";
 import { BASE_URL } from "../utils/globals";
-export const addCitizenToGradeRequest = async (citizenId: number, classId: number): Promise<GradeDTO> => {
-  const url = `${BASE_URL}/grades/${classId}/add-citizen/${citizenId}`;
+export const addCitizenToGradeRequest = async (citizenIds: number[], gradeId: number): Promise<GradeDTO> => {
+  const url = `${BASE_URL}/grades/${gradeId}/add-citizens`;
   const res = await fetch(url, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(citizenIds),
   });
   if (!res.ok) throw new Error("Kunne ikke tilføje borger til klasse");
   return res.json();
@@ -34,14 +38,18 @@ export const fetchOrganisationFromGradeRequest = async (gradeId: number): Promis
 };
 
 export const removeCitizenFromGradeRequest = async (
-  citizenId: number,
-  classId: number
+  citizenIds: number[],
+  gradeId: number
 ): Promise<GradeDTO> => {
-  const url = `${BASE_URL}/grades/${classId}/remove-citizen/${citizenId}`;
+  const url = `${BASE_URL}/grades/${gradeId}/remove-citizens`;
   const res = await fetch(url, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(citizenIds),
   });
-  if (!res.ok) throw new Error("Kunne ikke fjerne borger til klasse");
+  if (!res.ok) throw new Error("Kunne ikke fjerne borger fra klasse");
   return res.json();
 };
 

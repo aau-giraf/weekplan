@@ -15,7 +15,7 @@ export type GradeDTO = {
 };
 export default function useGrades(gradeId: number) {
   const queryClient = useQueryClient();
-  const queryKey = [gradeId, "Classes"];
+  const queryKey = [gradeId, "Grades"];
 
   const fetchOrganisationWithGrade = useQuery<FullOrgDTO>({
     queryFn: async () => fetchOrganisationFromGradeRequest(gradeId),
@@ -23,12 +23,12 @@ export default function useGrades(gradeId: number) {
   });
 
   const addCitizenToGrade = useMutation({
-    mutationFn: (citizenId: number) => addCitizenToGradeRequest(citizenId, gradeId),
-    onMutate: async (citizenId: number) => {
+    mutationFn: (citizenIds: number[]) => addCitizenToGradeRequest(citizenIds, gradeId),
+    onMutate: async (citizenIds: number[]) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousGrade = queryClient.getQueryData<FullOrgDTO>(queryKey);
-      const citizen = await fetchCitizenById(citizenId);
+      const citizens = await Promise.all(citizenIds.map((id) => fetchCitizenById(id)));
 
       queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
         if (oldData) {
@@ -38,7 +38,7 @@ export default function useGrades(gradeId: number) {
               if (grade.id === gradeId) {
                 return {
                   ...grade,
-                  citizens: [...grade.citizens, citizen],
+                  citizens: [...grade.citizens, ...citizens],
                 };
               }
               return grade;
@@ -50,14 +50,23 @@ export default function useGrades(gradeId: number) {
 
       return { previousGrade };
     },
+    onError: (_error, _citizenIds, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context.previousGrade);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
   });
 
   const removeCitizenFromGrade = useMutation({
-    mutationFn: async (citizenId: number) => removeCitizenFromGradeRequest(citizenId, gradeId),
-    onMutate: async (citizenId) => {
+    mutationFn: async (citizenIds: number[]) => removeCitizenFromGradeRequest(citizenIds, gradeId),
+    onMutate: async (citizenIds: number[]) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
+
       queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
         if (oldData) {
           return {
@@ -66,7 +75,7 @@ export default function useGrades(gradeId: number) {
               if (grade.id === gradeId) {
                 return {
                   ...grade,
-                  citizens: grade.citizens.filter((citizen) => citizen.id !== citizenId),
+                  citizens: grade.citizens.filter((citizen) => !citizenIds.includes(citizen.id)),
                 };
               }
               return grade;
@@ -75,11 +84,16 @@ export default function useGrades(gradeId: number) {
         }
         return previousOrg;
       });
+
+      return { previousOrg };
     },
-    onError: (_error, _citizenId, context) => {
+    onError: (_error, _citizenIds, context) => {
       if (context) {
-        queryClient.setQueryData(queryKey, context);
+        queryClient.setQueryData(queryKey, context.previousOrg);
       }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 

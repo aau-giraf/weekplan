@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
 import React, { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
+import { ScaleSize, ScaleSizeH, colors, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import useGrades from "../../../../../hooks/useGrades";
@@ -17,8 +17,7 @@ const RemoveCitizen = () => {
   const { addToast } = useToast();
   const { data, error, isLoading, removeCitizenFromGrade } = useGrades(Number(gradeId));
   const [searchInput, setSearchInput] = useState("");
-  const currentGrade = data?.grades.find((grade) => grade.id === Number(gradeId));
-  const [selectedCitizen, setSelectedCitizen] = useState<Omit<CitizenDTO, "activities"> | null>(null);
+  const [selectedCitizens, setSelectedCitizens] = useState<Omit<CitizenDTO, "activities">[]>([]);
 
   const filterAssignedCitizens = useMemo(
     () =>
@@ -39,21 +38,26 @@ const RemoveCitizen = () => {
 
   const handleSearch = (text: string) => setSearchInput(text);
 
-  const handleSelectedCitizen = (selected: string) => {
-    const selectedCitizen = currentGrade?.citizens.find(
-      (citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}` === selected
+  const toggleCitizenSelection = (selection: string) => {
+    const selectedCitizen = data?.citizens.find(
+      (citizen) => `${citizen.firstName} ${citizen.lastName}` === selection
     );
-    if (selectedCitizen) {
-      setSelectedCitizen(selectedCitizen);
-    }
+    if (!selectedCitizen) return;
+
+    setSelectedCitizens((prev) => {
+      const alreadySelected = prev.some((c) => c.id === selectedCitizen.id);
+      return alreadySelected ? prev.filter((c) => c.id !== selectedCitizen.id) : [...prev, selectedCitizen];
+    });
   };
 
   const handleRemoveCitizen = async () => {
-    if (selectedCitizen) {
+    if (selectedCitizens.length > 0) {
+      const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await removeCitizenFromGrade
-        .mutateAsync(selectedCitizen.id)
+        .mutateAsync(citizenIds)
         .then(() => {
-          addToast({ message: "Elev fjernet", type: "success" }, 1500);
+          addToast({ message: "Elever fjernet", type: "success" }, 1500);
+          setSelectedCitizens([]);
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
@@ -92,10 +96,10 @@ const RemoveCitizen = () => {
               <TouchableOpacity
                 style={[
                   styles.selection,
-                  item === `${selectedCitizen?.firstName} ${selectedCitizen?.lastName}` &&
+                  selectedCitizens.some((citizen) => `${citizen.firstName} ${citizen.lastName}` === item) &&
                     styles.citizenSelected,
                 ]}
-                onPress={() => handleSelectedCitizen(item)}>
+                onPress={() => toggleCitizenSelection(item)}>
                 <Text style={styles.citizenText}>{item}</Text>
               </TouchableOpacity>
             )}
@@ -150,6 +154,7 @@ const styles = StyleSheet.create({
   selection: {
     paddingVertical: ScaleSizeH(20),
     marginBottom: ScaleSizeH(10),
+    marginHorizontal: ScaleSizeW(5),
     borderRadius: 15,
     borderWidth: 1,
     borderColor: colors.lightBlue,
