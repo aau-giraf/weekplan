@@ -29,6 +29,13 @@ const useCopyDayData = () => {
   const { data } = useFetchActivities;
 
   useEffect(() => {
+    setDates({
+      sourceDate: new Date(selectedDate.getTime() - DAY_IN_MILLISECONDS),
+      destinationDate: new Date(selectedDate),
+    });
+  }, [selectedDate]);
+
+  useEffect(() => {
     if (!data || data.length === 0) {
       setError("Ingen aktiviteter på den valgte dag");
       setSelectedActivityIds([]);

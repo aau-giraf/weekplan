@@ -4,18 +4,19 @@ import React, { Fragment } from "react";
 import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback } from "react-native";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import FormContainer from "../../../../components/Forms/FormContainer";
-import FormHeader from "../../../../components/Forms/FormHeader";
-import FormTimePicker from "../../../../components/Forms/FormTimePicker";
-import SecondaryButton from "../../../../components/Forms/SecondaryButton";
-import SubmitButton from "../../../../components/Forms/SubmitButton";
-import FormField from "../../../../components/Forms/TextInput";
+import FormContainer from "../../../../components/forms/FormContainer";
+import FormHeader from "../../../../components/forms/FormHeader";
+import FormTimePicker from "../../../../components/forms/FormTimePicker";
+import SecondaryButton from "../../../../components/forms/SecondaryButton";
+import SubmitButton from "../../../../components/forms/SubmitButton";
+import FormField from "../../../../components/forms/TextInput";
 import useActivity from "../../../../hooks/useActivity";
 import { useCitizen } from "../../../../providers/CitizenProvider";
 import { useDate } from "../../../../providers/DateProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import formatTimeHHMM from "../../../../utils/formatTimeHHMM";
 import { prettyDate } from "../../../../utils/prettyDate";
+import { colors } from "../../../../utils/SharedStyles";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -86,7 +87,7 @@ const AddActivity = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <FormContainer style={{ padding: 30 }}>

@@ -9,8 +9,8 @@ import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../.
 import SearchBar from "../../../../../components/SearchBar";
 
 const ViewClass = () => {
-  const { index } = useLocalSearchParams();
-  const parsedClassID = Number(index);
+  const { grade } = useLocalSearchParams();
+  const parsedID = Number(grade);
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
   const { data, error, isLoading } = useClasses(parsedClassID);
   const currentClass = data?.grades.find((grade) => grade.id === parsedClassID);

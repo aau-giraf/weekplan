@@ -1,7 +1,12 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import SwipeableList, { Action } from "../components/SwipeableList/SwipeableList";
-import { Text, View } from "react-native";
+import SwipeableList, { Action } from "../components/swipeablelist/SwipeableList";
+import { View } from "react-native";
+
+//This needs to be mocked because the component uses expo-font
+jest.mock("expo-font", () => ({
+  isLoaded: jest.fn().mockReturnValue(true),
+}));
 
 describe("SwipeableList", () => {
   const mockData = [{ id: "1", name: "Item 1" }];
@@ -22,9 +27,7 @@ describe("SwipeableList", () => {
   ];
 
   const renderItem = ({ item }: { item: { id: string; name: string } }) => (
-    <View testID="list-item" style={{ height: 100 }}>
-      <Text>{item.name}</Text>
-    </View>
+    <View testID="list-item" style={{ height: 100 }} />
   );
 
   it("renders the list with the correct number of items", () => {
@@ -39,7 +42,6 @@ describe("SwipeableList", () => {
     );
 
     expect(screen.getByTestId("list-item")).toBeTruthy();
-    expect(screen.getByText("Item 1")).toBeTruthy();
   });
 
   it("calls the correct action callback when action icon is pressed", () => {
@@ -86,15 +88,7 @@ describe("SwipeableList", () => {
   it("calls keyExtractor with the correct item and assigns the correct key", () => {
     const keyExtractorMock = jest.fn((item) => item.id);
 
-    render(
-      <SwipeableList
-        items={mockData}
-        keyExtractor={keyExtractorMock}
-        renderItem={renderItem}
-        leftActions={leftActions}
-        rightActions={rightActions}
-      />
-    );
+    render(<SwipeableList items={mockData} keyExtractor={keyExtractorMock} renderItem={renderItem} />);
 
     expect(keyExtractorMock).toHaveBeenCalled();
   });

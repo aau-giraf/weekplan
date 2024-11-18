@@ -68,7 +68,7 @@ const ViewInvitation = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <View style={styles.container}>
         <Text style={SharedStyles.header}>Invitations</Text>
         <FlatList

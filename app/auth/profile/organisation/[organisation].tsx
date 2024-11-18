@@ -14,9 +14,10 @@ import { ClassView } from "../../../../components/organisationoverview_component
 import useClasses from "../../../../hooks/useClasses";
 
 const ViewOrganisation = () => {
-  const { index } = useLocalSearchParams();
-  const parsedOrgId = Number(index);
-  const { deleteMember, data, error, isLoading } = useOrganisation(parsedOrgId);
+  const { organisation } = useLocalSearchParams();
+  const parsedId = Number(organisation);
+
+  const { deleteMember, data, error, isLoading } = useOrganisation(parsedId);
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -63,62 +64,66 @@ const ViewOrganisation = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <View style={{ alignItems: "center", height: "100%" }}>
-        <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
-        <View style={styles.ActionView}>
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-            {/* //TODO: Setup Editing Org */}
-          </IconButton>
-          <IconButton
-            onPress={() =>
-              router.push({
-                pathname: "/create-invitation",
-                params: { orgId: parsedOrgId },
-              })
-            }
-            absolute={false}>
-            <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
-          </IconButton>
-          <IconButton
+      <SafeAreaView style={{ backgroundColor: colors.white }}>
+        <View style={{ alignItems: "center", height: "100%" }}>
+          <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
+          <View style={styles.ActionView}>
+            <IconButton onPress={() => {}} absolute={false}>
+              <Ionicons name={"create-outline"} size={ScaleSize(30)} />
+              {/* //TODO: Setup Editing Org */}
+            </IconButton>
+            <IconButton
+              onPress={() =>
+                router.push({
+                  pathname: "/auth/profile/organisation/create-invitation",
+                  params: { orgId: parsedId },
+                })
+              }
+              absolute={false}>
+              <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
+            </IconButton>
+            <IconButton
+              onPress={() => {
+                router.push({
+                  pathname: "/auth/profile/organisation/addcitizen",
+                  params: { orgId: parsedId },
+                });
+              }}
+              absolute={false}>
+              <Ionicons name={"person-outline"} size={ScaleSize(30)} />
+            </IconButton>
+            <IconButton onPress={openBS} absolute={false}>
+              <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
+            </IconButton>
+          </View>
+          <Text style={styles.heading}>Medlemmer</Text>
+          <CutoffList
+            entries={data?.users ?? []}
             onPress={() => {
-              router.push({
-                pathname: "/auth/profile/organisation/addcitizen",
-                params: { orgId: parsedOrgId },
-              });
+              router.push(`/auth/profile/organisation/members/${parsedId}`);
             }}
-            absolute={false}>
-            <Ionicons name={"person-outline"} size={ScaleSize(30)} />
-          </IconButton>
-          <IconButton onPress={openBS} absolute={false}>
-            <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
+          />
+          <Text style={styles.heading}>Borger</Text>
+          <CutoffList
+            entries={data?.citizens ?? []}
+            onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
+          />
+          <Text style={styles.heading}>Klasser</Text>
+          {/* //TODO: Add and Implement Classes */}
+
+          <Text>{classError?.message}</Text>
+          <Text>{classLoading}</Text>
+          <ClassView classes={data?.grades ?? []} />
+          <IconButton onPress={openCreateBS} absolute={false}>
+            <Ionicons name={"add-outline"} size={ScaleSize(30)} />
           </IconButton>
         </View>
-        <Text style={styles.heading}>Medlemmer</Text>
-        <CutoffList
-          entries={data?.users ?? []}
-          onPress={() => {
-            router.push(`/auth/profile/organisation/members/${parsedOrgId}`);
-          }}
-        />
-        <Text style={styles.heading}>Borger</Text>
-        <CutoffList
-          entries={data?.citizens ?? []}
-          onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedOrgId}`)}
-        />
-        <Text style={styles.heading}>Klasser</Text>
-        <ClassView classes={data?.grades ?? []} />
-        <IconButton onPress={openCreateBS} absolute={false}>
-          <Ionicons name={"add-outline"} size={ScaleSize(30)} />
-        </IconButton>
-        <ConfirmBottomSheet
-          bottomSheetRef={bottomSheetRef}
-          orgName={data!.name}
-          handleConfirm={handleLeaveOrganisation}
-        />
-        <CreateClassButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateClass} />
-      </View>
+      </SafeAreaView>
+      <ConfirmBottomSheet
+        bottomSheetRef={bottomSheetRef}
+        orgName={data!.name}
+        handleConfirm={handleLeaveOrganisation}
+      />
     </Fragment>
   );
 };

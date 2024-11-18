@@ -14,22 +14,22 @@ const deviceHeight = Dimensions.get("window").height;
 
 const ScaleSizeW = (originalSize: number) => {
   if (deviceWidth >= 820) {
-    return originalSize;
+    return Math.round(originalSize);
   }
   if (deviceWidth <= 320) {
-    return originalSize / 2;
+    return Math.round(originalSize / 2);
   }
-  return (originalSize / 820) * deviceWidth;
+  return Math.round((originalSize / 820) * deviceWidth);
 };
 
 const ScaleSizeH = (originalSize: number) => {
   if (deviceHeight >= 1180) {
-    return originalSize;
+    return Math.round(originalSize);
   }
   if (deviceHeight <= 480) {
-    return originalSize / 2;
+    return Math.round(originalSize / 2);
   }
-  return (originalSize / 1180) * deviceHeight;
+  return Math.round((originalSize / 1180) * deviceHeight);
 };
 
 /**
@@ -43,12 +43,12 @@ const ScaleSizeH = (originalSize: number) => {
  */
 const ScaleSize = (originalSize: number) => {
   if (deviceHeight >= 1180) {
-    return originalSize;
+    return Math.round(originalSize);
   }
   if (deviceHeight <= 480) {
-    return originalSize / 2;
+    return Math.round(originalSize / 2);
   }
-  return (originalSize / 1180) * deviceHeight;
+  return Math.round((originalSize / 1180) * deviceHeight);
 };
 
 /**

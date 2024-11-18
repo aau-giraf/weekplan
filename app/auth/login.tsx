@@ -7,10 +7,10 @@ import { Switch } from "react-native-gesture-handler";
 import GirafIcon from "../../assets/SVG/GirafIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import FormContainer from "../../components/Forms/FormContainer";
-import SecondaryButton from "../../components/Forms/SecondaryButton";
-import SubmitButton from "../../components/Forms/SubmitButton";
-import FormField from "../../components/Forms/TextInput";
+import FormContainer from "../../components/forms/FormContainer";
+import SecondaryButton from "../../components/forms/SecondaryButton";
+import SubmitButton from "../../components/forms/SubmitButton";
+import FormField from "../../components/forms/TextInput";
 import { useAuthentication } from "../../providers/AuthenticationProvider";
 import { getSettingsValue, setSettingsValue } from "../../utils/settingsUtils";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
@@ -62,13 +62,19 @@ const LoginScreen: React.FC = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <FormContainer style={{ padding: 30 }}>
         <View style={styles.iconContainer}>
           <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
         </View>
-        <FormField control={control} name="email" placeholder="Email" />
-        <FormField control={control} name="password" placeholder="Kodeord" secureText={true} />
+        <FormField control={control} name="email" placeholder="Email" textContentType="emailAddress" />
+        <FormField
+          control={control}
+          name="password"
+          placeholder="Kodeord"
+          secureTextEntry
+          textContentType="password"
+        />
 
         <View style={styles.checkboxContainer}>
           <Switch value={rememberMe} onValueChange={(value) => setRememberMe(value)} />

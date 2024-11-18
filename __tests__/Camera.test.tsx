@@ -1,4 +1,4 @@
-import { takePhoto } from "../components/Camera/Camera";
+import { getImage } from "../utils/getImage";
 import * as ImagePicker from "expo-image-picker";
 
 jest.mock("expo-image-picker", () => ({
@@ -7,45 +7,48 @@ jest.mock("expo-image-picker", () => ({
   MediaTypeOptions: { Images: "Images" },
 }));
 
-describe("takePhoto", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+const mockCameraResult = {
+  canceled: false,
+  assets: [{ uri: "mockImageUri" }],
+};
 
-  it("should request camera permissions", async () => {
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+describe("takePhoto", () => {
+  test("should request for permission to access camera", async () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
       granted: true,
     });
 
-    await takePhoto();
+    (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue(mockCameraResult);
+
+    await getImage("camera");
 
     expect(ImagePicker.requestCameraPermissionsAsync).toHaveBeenCalled();
   });
 
-  it("should alert if permission is denied", async () => {
+  test("should alert if permission is denied", async () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
       granted: false,
     });
     global.alert = jest.fn();
-    await takePhoto();
+    await getImage("camera");
 
     expect(global.alert).toHaveBeenCalledWith("Camera access is required to take a photo!");
   });
 
-  it("should launch camera if permission is granted", async () => {
+  test("should launch camera if permission is granted", async () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
       granted: true,
     });
 
-    const mockCameraResult = {
-      canceled: false,
-      assets: [{ uri: "mockImageUri" }],
-    };
     (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue(mockCameraResult);
 
-    const uri = await takePhoto();
+    const uri = await getImage("camera");
 
     expect(ImagePicker.launchCameraAsync).toHaveBeenCalled();
-    expect(uri).toBe("mockImageUri");
+    expect(uri).toBe(mockCameraResult);
   });
 });

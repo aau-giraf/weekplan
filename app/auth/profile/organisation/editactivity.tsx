@@ -6,6 +6,7 @@ import { ActivityDTO, dateToQueryKey } from "../../../../hooks/useActivity";
 import { Fragment } from "react";
 import { SafeAreaView } from "react-native";
 import { useCitizen } from "../../../../providers/CitizenProvider";
+import { colors } from "../../../../utils/SharedStyles";
 
 type Params = {
   activityId: string;
@@ -34,7 +35,7 @@ const EditActivity = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <ActivityEdit activity={activity} />
     </Fragment>
   );

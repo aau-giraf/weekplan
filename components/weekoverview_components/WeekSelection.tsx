@@ -7,8 +7,6 @@ import { useDate } from "../../providers/DateProvider";
 import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../../utils/SharedStyles";
 import getMonthsFromDates from "../../utils/getMonthsFromDate";
 
-type WeekSelectionProps = {};
-
 const getWeeks = (year: number) => {
   const weeks = [];
   for (let i = 1; i <= getNumberOfWeeksInYear(year); i++) {
@@ -34,7 +32,7 @@ const getYears = () => {
  * @property {number} selectedYear - State to store the selected year.
  * @returns {JSX.Element} The WeekSelection component.
  */
-const WeekSelection: React.FC<WeekSelectionProps> = () => {
+const WeekSelection = () => {
   const currentDate = new Date();
   const { setWeekAndYear, weekNumber, weekDates } = useDate();
   const [modalVisible, setModalVisible] = useState(false);

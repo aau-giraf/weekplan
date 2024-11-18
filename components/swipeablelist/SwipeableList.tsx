@@ -1,16 +1,13 @@
-import { SwipeableMethods, SwipeableProps } from "../ReanimatedSwipeable";
 import { SwipeableItem } from "./SwipeableItem";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import Reanimated, { AnimatedStyle, LinearTransition } from "react-native-reanimated";
-import {
-  FlatListProps,
-  LayoutChangeEvent,
-  ListRenderItem,
-  Platform,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import Reanimated, {
+  AnimatedStyle,
+  FlatListPropsWithLayout,
+  LinearTransition,
+} from "react-native-reanimated";
+import { LayoutChangeEvent, ListRenderItem, Platform, StyleProp, ViewStyle } from "react-native";
+import { SwipeableMethods, SwipeableProps } from "react-native-gesture-handler/ReanimatedSwipeable";
 
 export type Action<T> = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -24,20 +21,24 @@ type SwipeableListProps<T> = {
   keyExtractor: (item: T) => string;
   renderItem: ListRenderItem<T>;
   reanimatedSwipeableProps?: (item: T) => SwipeableProps & React.RefAttributes<SwipeableMethods>;
-  flatListProps?: Omit<FlatListProps<T>, "data" | "renderItem" | "style">;
+  flatListProps?: Omit<FlatListPropsWithLayout<T>, "data" | "renderItem" | "style">;
   leftActions?: Action<T>[];
   rightActions?: Action<T>[];
   style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
 };
 
+function isWithinRange(number: number, target: number, range: number) {
+  return Math.abs(number - target) <= range;
+}
+
 /**
- * `SwipeableList` is a reusable component that displays a list of items with swipeable actions.
+ * `swipeablelist` is a reusable component that displays a list of items with swipeable actions.
  * Each item in the list can reveal actions when swiped left or right, such as edit or delete options.
  * @example
  * ```tsx *
  * const MyComponent = () => {
  *   return (
- *     <SwipeableList
+ *     <swipeablelist
  *       items={mockData}
  *       renderItem={renderItem}
  *       keyExtractor={(item) => item.id}
@@ -70,11 +71,20 @@ const SwipeableList = <T,>({
   rightActions,
   style,
 }: SwipeableListProps<T>) => {
-  const [itemDimensions, setItemHeight] = useState<number>(50);
+  const [itemDimensions, setItemHeight] = useState<number>(2);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
-    if (height !== itemDimensions) setItemHeight(height);
+
+    /*
+    I admit this is iffy, but it's the best I could come up with.
+    I noticed a big performance decrease with larger lists. 
+    After some testing, I narrowed the issue to a small unnoticeeable difference in height between items.
+    This caused a rerender for every item in the list, which was very slow. 🤮🎪🤡🐡
+    */
+    if (!isWithinRange(height, itemDimensions, 1)) {
+      setItemHeight(height);
+    }
   };
 
   return (
@@ -86,7 +96,6 @@ const SwipeableList = <T,>({
       itemLayoutAnimation={Platform.OS === "android" ? undefined : LinearTransition}
       renderItem={(info) => {
         const swipeableProps = reanimatedSwipeableProps?.(info.item);
-
         return (
           <SwipeableItem
             renderItem={renderItem}

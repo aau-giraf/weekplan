@@ -9,8 +9,8 @@ import SearchBar from "../../../../../components/SearchBar";
 import { useToast } from "../../../../../providers/ToastProvider";
 
 const ViewMembers = () => {
-  const { index } = useLocalSearchParams();
-  const parsedID = Number(index);
+  const { members } = useLocalSearchParams();
+  const parsedID = Number(members);
   const { deleteMember, data, error, isLoading } = useOrganisation(parsedID);
   const [searchQuery, setSearchQuery] = useState("");
   const { addToast } = useToast();

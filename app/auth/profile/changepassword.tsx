@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import { z } from "zod";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import FormContainer from "../../../components/Forms/FormContainer";
-import FormHeader from "../../../components/Forms/FormHeader";
-import FormField from "../../../components/Forms/TextInput";
-import SubmitButton from "../../../components/Forms/SubmitButton";
+import FormContainer from "../../../components/forms/FormContainer";
+import FormHeader from "../../../components/forms/FormHeader";
+import FormField from "../../../components/forms/TextInput";
+import SubmitButton from "../../../components/forms/SubmitButton";
 import useProfile from "../../../hooks/useProfile";
 import { useToast } from "../../../providers/ToastProvider";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
@@ -72,19 +72,14 @@ const ChangePasswordScreen: React.FC = () => {
         control={control}
         name="oldPassword"
         placeholder="Indtast nuværende adgangskode"
-        secureText={true}
+        secureTextEntry
       />
-      <FormField
-        control={control}
-        name="newPassword"
-        placeholder="Indtast ny adgangskode"
-        secureText={true}
-      />
+      <FormField control={control} name="newPassword" placeholder="Indtast ny adgangskode" secureTextEntry />
       <FormField
         control={control}
         name="confirmNewPassword"
         placeholder="Bekræft ny adgangskode"
-        secureText={true}
+        secureTextEntry
       />
       <SubmitButton
         isValid={isValid}
