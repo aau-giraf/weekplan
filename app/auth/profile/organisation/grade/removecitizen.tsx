@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
+import React, { Fragment, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
@@ -9,15 +9,15 @@ import { useToast } from "../../../../../providers/ToastProvider";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 
 type Params = {
-  classId: string;
+  gradeId: string;
 };
 
 const RemoveCitizen = () => {
   const [searchText, setSearchText] = useState("");
-  const { classId } = useLocalSearchParams<Params>();
+  const { gradeId } = useLocalSearchParams<Params>();
   const { addToast } = useToast();
-  const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(classId));
-  const currentClass = data?.grades.find((grade) => grade.id === Number(classId));
+  const { data, error, isLoading, removeCitizenFromClass } = useClasses(Number(gradeId));
+  const currentClass = data?.grades.find((grade) => grade.id === Number(gradeId));
 
   const mapAndSort = currentClass?.citizens
     .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
@@ -42,8 +42,7 @@ const RemoveCitizen = () => {
     );
   }
 
-  const filterOptions = (text: string) => {
-    setSearchText(text);
+  const filterAssignedCitizens = (text: string) => {
     setFilteredOptions(
       currentClass?.citizens
         .map((citizen: CitizenDTO) => `${citizen.firstName} ${citizen.lastName}`)
@@ -52,7 +51,7 @@ const RemoveCitizen = () => {
     );
   };
 
-  const onOptionPress = (option: string) => {
+  const handleSelectedCitizen = (option: string) => {
     setSearchText(option);
     setFilteredOptions(mapAndSort);
     const foundCitizen = currentClass?.citizens.find(
@@ -63,39 +62,51 @@ const RemoveCitizen = () => {
     }
   };
 
-  const onRemove = async (citizenId: number) => {
-    await removeCitizenFromClass.mutateAsync(citizenId).catch((error) => {
-      addToast({ message: error.message, type: "error" });
-    });
-    router.back();
+  const handleRemoveCitizen = async () => {
+    if (selectedCitizen) {
+      await removeCitizenFromClass
+        .mutateAsync(selectedCitizen.id)
+        .then(() => {
+          addToast({ message: "Elev fjernet", type: "success" });
+        })
+        .catch((error) => {
+          addToast({ message: error.message, type: "error" });
+        });
+    }
   };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Fjern en elev til klasse</Text>
-      <SearchBar value={searchText} onChangeText={filterOptions} />
-      <FlatList
-        data={filteredOptions ? filteredOptions : mapAndSort}
-        contentContainerStyle={styles.listContent}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={
-              selectedCitizen?.firstName + " " + selectedCitizen?.lastName === item
-                ? styles.optionSelect
-                : styles.option
-            }
-            onPress={() => onOptionPress(item)}>
-            <Text style={styles.optionText}>{item}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item}
-      />
-      <SecondaryButton
-        onPress={() => {
-          if (selectedCitizen) onRemove(selectedCitizen.id);
-        }}
-        label="Fjern elev fra klassen"
-      />
-    </View>
+    <Fragment>
+      <SafeAreaView />
+      <View style={styles.container}>
+        <Text style={styles.heading}>Fjern elever fra klasse</Text>
+        <View style={styles.searchbar}>
+          <SearchBar value={searchText} onChangeText={filterAssignedCitizens} />
+          <FlatList
+            style={styles.flatListStyle}
+            data={filteredOptions ? filteredOptions : mapAndSort}
+            contentContainerStyle={styles.listContent}
+            numColumns={2}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={
+                  selectedCitizen?.firstName + " " + selectedCitizen?.lastName === item
+                    ? styles.optionSelect
+                    : styles.option
+                }
+                onPress={() => handleSelectedCitizen(item)}>
+                <Text style={styles.optionText}>{item}</Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <SecondaryButton onPress={handleRemoveCitizen} label="Fjern elev" />
+          <SecondaryButton onPress={() => router.back()} label="Gå tilbage til oversigt" />
+        </View>
+      </View>
+    </Fragment>
   );
 };
 
@@ -118,18 +129,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: ScaleSize(15),
   },
-  input: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: colors.gray,
-    borderRadius: ScaleSize(8),
-    padding: ScaleSize(10),
-    fontSize: ScaleSize(18),
-    marginBottom: ScaleSize(15),
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
   },
   listContent: {
     alignItems: "center",
-    height: "100%",
+    height: "70%",
+  },
+  searchbar: {
+    width: "90%",
+    minWidth: "90%",
+  },
+  flatListStyle: {
+    width: "90%",
+    minWidth: "90%",
   },
   option: {
     paddingVertical: ScaleSizeH(20),
@@ -143,15 +157,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   optionSelect: {
-    paddingVertical: ScaleSizeH(20),
-    marginBottom: ScaleSizeH(10),
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: colors.red,
-    backgroundColor: colors.lightBlue,
-    width: "45%",
-    minWidth: "45%",
-    alignItems: "center",
+    borderColor: colors.green,
   },
   optionText: {
     fontSize: ScaleSize(18),

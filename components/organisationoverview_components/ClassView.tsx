@@ -31,7 +31,7 @@ const ClassViewEntry = ({ classData }: ClassViewEntryProps) => {
     <IconButton
       style={{ backgroundColor: nameColour }}
       onPress={() => {
-        router.push(`/auth/profile/organisation/class/${classData.id}`);
+        router.push(`/auth/profile/organisation/grade/${classData.id}`);
       }}
       absolute={false}>
       <Text style={{ color: textColour }}>{classData.name}</Text>
