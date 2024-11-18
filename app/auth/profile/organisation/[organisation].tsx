@@ -80,16 +80,6 @@ const ViewOrganisation = () => {
               absolute={false}>
               <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
             </IconButton>
-            <IconButton
-              onPress={() => {
-                router.push({
-                  pathname: "/auth/profile/organisation/addcitizen",
-                  params: { orgId: parsedId },
-                });
-              }}
-              absolute={false}>
-              <Ionicons name={"person-outline"} size={ScaleSize(30)} />
-            </IconButton>
             <IconButton onPress={openBS} absolute={false}>
               <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
             </IconButton>
@@ -101,20 +91,31 @@ const ViewOrganisation = () => {
               router.push(`/auth/profile/organisation/members/${parsedId}`);
             }}
           />
+          <View style={styles.alignHeader}>
           <Text style={styles.heading}>Borger</Text>
+          <IconButton
+            onPress={() => {
+              router.push({
+                pathname: "/auth/profile/organisation/addcitizen",
+                params: { orgId: parsedId },
+              });
+            }}
+            absolute={false} style={styles.iconButton}>
+            <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
+          </IconButton>
+          </View>
           <CutoffList
             entries={data?.citizens ?? []}
             onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
           />
+          <View style={[styles.alignHeader]}>
           <Text style={styles.heading}>Klasser</Text>
-          {/* //TODO: Add and Implement Classes */}
-
-          <Text>{error}</Text>
-          <Text>{isLoading}</Text>
-          <ClassView classes={data?.grades ?? []} />
-          <IconButton onPress={openCreateBS} absolute={false}>
-            <Ionicons name={"add-outline"} size={ScaleSize(30)} />
+          <IconButton onPress={openCreateBS} absolute={false} style={styles.iconButton}>
+            <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
           </IconButton>
+          </View>
+          <ClassView classes={data?.grades ?? []} />
+
         </View>
       </SafeAreaView>
       <ConfirmBottomSheet
@@ -198,6 +199,11 @@ const styles = StyleSheet.create({
     ...SharedStyles.flexRow,
     gap: ScaleSizeW(10),
   },
+  alignHeader: {
+    ...SharedStyles.flexRow,
+    gap: ScaleSizeW(10),
+    alignItems: "center"
+  },
   heading: {
     fontSize: ScaleSize(25),
     marginTop: ScaleSize(10),
@@ -221,6 +227,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 5,
     marginVertical: ScaleSizeH(10),
+  },
+  iconButton: {
+    height: ScaleSize(30),
+    width: ScaleSize(30),
   },
   sheetContent: {
     gap: ScaleSize(10),
