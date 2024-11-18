@@ -72,19 +72,14 @@ const ChangePasswordScreen: React.FC = () => {
         control={control}
         name="oldPassword"
         placeholder="Indtast nuværende adgangskode"
-        secureText={true}
+        secureTextEntry
       />
-      <FormField
-        control={control}
-        name="newPassword"
-        placeholder="Indtast ny adgangskode"
-        secureText={true}
-      />
+      <FormField control={control} name="newPassword" placeholder="Indtast ny adgangskode" secureTextEntry />
       <FormField
         control={control}
         name="confirmNewPassword"
         placeholder="Bekræft ny adgangskode"
-        secureText={true}
+        secureTextEntry
       />
       <SubmitButton
         isValid={isValid}

@@ -1,24 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, TextStyle, View } from "react-native";
+import { StyleSheet, Text, TextInput, TextInputProps, TextStyle, View } from "react-native";
 import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";
 
 type FormFieldProps<T extends FieldValues> = {
   control: Control<T>;
   name: FieldPath<T>;
-  placeholder: string;
-  inputStyle?: TextStyle;
   errorStyle?: TextStyle;
-  secureText?: boolean;
-};
+} & TextInputProps;
 
-function FormField<T extends FieldValues>({
-  control,
-  name,
-  placeholder,
-  inputStyle,
-  errorStyle,
-  secureText = false,
-}: FormFieldProps<T>) {
+function FormField<T extends FieldValues>({ control, name, errorStyle, ...inputProps }: FormFieldProps<T>) {
   const { errors } = useFormState({ control });
 
   return (
@@ -29,10 +19,9 @@ function FormField<T extends FieldValues>({
         <View style={{ width: "100%" }}>
           <TextInput
             value={value}
-            placeholder={placeholder}
-            style={[styles.inputBase, errors[name] ? styles.inputError : styles.inputValid, inputStyle]}
+            style={[styles.inputBase, errors[name] ? styles.inputError : styles.inputValid, inputProps.style]}
             onChangeText={onChange}
-            secureTextEntry={secureText}
+            {...inputProps}
           />
           {errors[name] && (
             <Text style={[styles.errorText, errorStyle]}>

@@ -1,17 +1,13 @@
-import { SwipeableMethods, SwipeableProps } from "../ReanimatedSwipeable";
 import { SwipeableItem } from "./SwipeableItem";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import Reanimated, { AnimatedStyle, LinearTransition } from "react-native-reanimated";
-import {
-  FlatListProps,
-  LayoutChangeEvent,
-  ListRenderItem,
-  Platform,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
-import React from "react";
+import Reanimated, {
+  AnimatedStyle,
+  FlatListPropsWithLayout,
+  LinearTransition,
+} from "react-native-reanimated";
+import { LayoutChangeEvent, ListRenderItem, Platform, StyleProp, ViewStyle } from "react-native";
+import { SwipeableMethods, SwipeableProps } from "react-native-gesture-handler/ReanimatedSwipeable";
 
 export type Action<T> = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -25,7 +21,7 @@ type SwipeableListProps<T> = {
   keyExtractor: (item: T) => string;
   renderItem: ListRenderItem<T>;
   reanimatedSwipeableProps?: (item: T) => SwipeableProps & React.RefAttributes<SwipeableMethods>;
-  flatListProps?: Omit<FlatListProps<T>, "data" | "renderItem" | "style">;
+  flatListProps?: Omit<FlatListPropsWithLayout<T>, "data" | "renderItem" | "style">;
   leftActions?: Action<T>[];
   rightActions?: Action<T>[];
   style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
@@ -100,7 +96,6 @@ const SwipeableList = <T,>({
       itemLayoutAnimation={Platform.OS === "android" ? undefined : LinearTransition}
       renderItem={(info) => {
         const swipeableProps = reanimatedSwipeableProps?.(info.item);
-
         return (
           <SwipeableItem
             renderItem={renderItem}
@@ -117,4 +112,4 @@ const SwipeableList = <T,>({
   );
 };
 
-export default React.memo(SwipeableList) as typeof SwipeableList;
+export default SwipeableList;

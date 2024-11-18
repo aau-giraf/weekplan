@@ -32,10 +32,6 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImage
     setModalVisible(true);
   };
 
-  if (!isLoading && error) {
-    throw new Error("Fejl kunne ikke hente piktogramerne");
-  }
-
   return (
     <View
       style={[
@@ -82,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.orange,
   },
   iconPlaceholderText: {
-    fontSize: ScaleSize(0),
+    fontSize: ScaleSize(30),
     color: colors.backgroundBlack,
   },
 });

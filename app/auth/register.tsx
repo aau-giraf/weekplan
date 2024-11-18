@@ -90,11 +90,23 @@ const RegisterScreen: React.FC = () => {
       <ProgressSteps ref={progressRef}>
         <FormContainer style={styles.stepContainer}>
           <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
-          <FormField control={control} name="firstName" placeholder="Fornavn" />
-          <FormField control={control} name="lastName" placeholder="Efternavn" />
-          <FormField control={control} name="email" placeholder="E-mail" />
-          <FormField control={control} name="password" placeholder="Adgangskode" secureText />
-          <FormField control={control} name="confirmPassword" placeholder="Bekræft adgangskode" secureText />
+          <FormField control={control} name="firstName" placeholder="Fornavn" textContentType="givenName" />
+          <FormField control={control} name="lastName" placeholder="Efternavn" textContentType="familyName" />
+          <FormField control={control} name="email" placeholder="E-mail" textContentType={"emailAddress"} />
+          <FormField
+            control={control}
+            name="password"
+            placeholder="Adgangskode"
+            secureTextEntry
+            textContentType="oneTimeCode"
+          />
+          <FormField
+            control={control}
+            name="confirmPassword"
+            placeholder="Bekræft adgangskode"
+            secureTextEntry
+            textContentType="oneTimeCode"
+          />
           <PrivacyPolicy />
           <SubmitButton
             label="Opret bruger"
@@ -102,6 +114,7 @@ const RegisterScreen: React.FC = () => {
             isSubmitting={isSubmitting}
             handleSubmit={handleRegister}
           />
+          <SecondaryButton onPress={() => router.replace("/auth/login")} label="Tilbage til Log ind" />
         </FormContainer>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>

@@ -62,13 +62,19 @@ const LoginScreen: React.FC = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <FormContainer style={{ padding: 30 }}>
         <View style={styles.iconContainer}>
           <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
         </View>
-        <FormField control={control} name="email" placeholder="Email" />
-        <FormField control={control} name="password" placeholder="Kodeord" secureText={true} />
+        <FormField control={control} name="email" placeholder="Email" textContentType="emailAddress" />
+        <FormField
+          control={control}
+          name="password"
+          placeholder="Kodeord"
+          secureTextEntry
+          textContentType="password"
+        />
 
         <View style={styles.checkboxContainer}>
           <Switch value={rememberMe} onValueChange={(value) => setRememberMe(value)} />
@@ -80,7 +86,7 @@ const LoginScreen: React.FC = () => {
           handleSubmit={handleSubmit(onsSubmit)}
           label="Login"
         />
-        <SecondaryButton onPress={() => router.push("/auth/register")} label="Tilføj ny konto" />
+        <SecondaryButton onPress={() => router.replace("/auth/register")} label="Tilføj ny konto" />
       </FormContainer>
     </Fragment>
   );

@@ -4,6 +4,10 @@ import { ToastProps } from "../components/Toast";
 
 jest.useFakeTimers();
 
+jest.mock("expo-font", () => ({
+  isLoaded: jest.fn().mockReturnValue(true),
+}));
+
 afterEach(() => {
   jest.clearAllTimers();
 });
