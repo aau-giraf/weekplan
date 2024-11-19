@@ -1,14 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
 import { ProfilePicture } from "../ProfilePage";
+import { BASE_URL } from "../../utils/globals";
 
-// Base type to enforce required fields
 type CutoffViewPropsBase = {
+  id?: string | number;
   firstName: string;
   lastName: string;
 };
 
-// Generic type for the component props
 type CutoffViewProps<T extends CutoffViewPropsBase> = {
   entries: T[];
   onPress: () => void;
@@ -50,9 +50,20 @@ export const CutoffList = <T extends CutoffViewPropsBase>({ entries, onPress }: 
 };
 
 const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntryProps<T>) => {
+  if (typeof user.id === "number") {
+    return (
+      <View style={styles.memberImgContainer} testID={"citizen"}>
+        <ProfilePicture label={`${user.firstName} ${user.lastName}`} style={styles.memberImg} />
+      </View>
+    );
+  }
   return (
-    <View style={styles.memberImgContainer} testID={"member"}>
-      <ProfilePicture label={`${user.firstName} ${user.lastName}`} style={styles.memberImg} />
+    <View style={styles.memberImgContainer} testID={"members"}>
+      <ProfilePicture
+        label={`${user.firstName} ${user.lastName}`}
+        style={styles.memberImg}
+        imageUri={`${BASE_URL}/images/users/${user.id}.jpeg`}
+      />
     </View>
   );
 };

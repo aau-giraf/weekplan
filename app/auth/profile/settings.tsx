@@ -11,10 +11,12 @@ import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
 import { ScaleSizeH } from "../../../utils/SharedStyles";
 import { ProfilePicture } from "../../../components/ProfilePage";
+import { BASE_URL } from "../../../utils/globals";
 
 const Settings = () => {
   const { logout } = useAuthentication();
   const { data } = useProfile();
+  const { userId } = useAuthentication();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
 
   const { fetchByUser } = useInvitation();
@@ -84,6 +86,7 @@ const Settings = () => {
             <ProfilePicture
               style={styles.mainProfilePicture}
               label={`${data?.firstName} ${data?.lastName}`}
+              imageUri={`${BASE_URL}/images/users/${userId}.jpeg`}
             />
             <View style={{ gap: 5 }}>
               <Text style={{ fontSize: 30, fontWeight: "500" }}>{data?.firstName}</Text>
@@ -210,9 +213,9 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
   },
   mainProfilePicture: {
-    maxHeight: ScaleSizeH(180),
-    maxWidth: ScaleSizeH(180),
-    aspectRatio: 1 / 1,
+    width: "50%",
+    maxHeight: ScaleSizeH(250),
+    aspectRatio: 1,
     borderRadius: 10000,
   },
   backButton: {
