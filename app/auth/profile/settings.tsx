@@ -55,6 +55,13 @@ const Settings = () => {
         },
         label: "Rediger profil",
       },
+      {
+        icon: "camera-outline",
+        label: "Skift profilbillede",
+        onPress: () => {
+          router.push("/auth/profile/changeprofilepicture");
+        },
+      },
     ],
     [logout]
   );
