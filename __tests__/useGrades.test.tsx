@@ -28,12 +28,28 @@ const mockCitizens = [
     firstName: "Citizen 2",
     lastName: "CitizenTest2",
   },
+  {
+    id: 3,
+    firstName: "Citizen 3",
+    lastName: "CitizenTest3",
+  },
 ];
 
 const mockGrade = {
   id: 1,
   name: "Grade 1",
-  citizens: [{ id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" }],
+  citizens: [
+    {
+      id: 1,
+      firstName: "Citizen 1",
+      lastName: "CitizenTest1",
+    },
+    {
+      id: 2,
+      firstName: "Citizen 2",
+      lastName: "CitizenTest2",
+    },
+  ],
 };
 
 const mockOrganisation = {
@@ -43,10 +59,7 @@ const mockOrganisation = {
     { id: "1", firstName: "User 1", lastName: "Test" },
     { id: "2", firstName: "User 2", lastName: "Test" },
   ],
-  citizens: [
-    { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
-    { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
-  ],
+  citizens: mockCitizens,
   grades: [mockGrade],
 };
 
@@ -62,19 +75,20 @@ jest.mock("../apis/gradeAPI", () => ({
       id: 1,
       name: "Grade 1",
       citizens: [
-        { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
-        { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+        mockCitizens[citizenIds[0] - 1],
+        mockCitizens[citizenIds[1] - 1],
+        mockCitizens[citizenIds[2] - 1],
       ],
     });
   }),
-  removeCitizenFromGradeRequest: jest.fn().mockImplementation((citizenIds: number[], gradeId: number) => {
-    return Promise.resolve({ id: 1, name: "Grade 1", citizens: [] });
+  removeCitizenFromGradeRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
   }),
-  fetchOrganisationFromGradeRequest: jest.fn().mockImplementation((gradeId: number) => {
+  fetchOrganisationFromGradeRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve(mockOrganisation);
   }),
   fetchCitizenById: jest.fn().mockImplementation((citizenId: number) => {
-    return Promise.resolve({ id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" });
+    return Promise.resolve(mockCitizens[citizenId - 1]);
   }),
 }));
 
@@ -100,13 +114,30 @@ test("should add citizen to grade", async () => {
   });
 
   await act(async () => {
-    await result.current.addCitizenToGrade.mutateAsync([2]);
+    await result.current.addCitizenToGrade.mutateAsync([3]);
   });
 
   await waitFor(() => {
     expect(result.current.data?.grades[0].citizens).toEqual(mockCitizens);
   });
 });
+
+test("should not change anything when adding an invalid citizen to grade", async () => {
+  const { result } = renderHook(() => useGrades(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.addCitizenToGrade.mutateAsync([4]);
+  });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+});
+
 test("should remove citizen from grade", async () => {
   const { result } = renderHook(() => useGrades(1), { wrapper });
 
@@ -115,10 +146,26 @@ test("should remove citizen from grade", async () => {
   });
 
   await act(async () => {
-    await result.current.removeCitizenFromGrade.mutateAsync([1]);
+    await result.current.removeCitizenFromGrade.mutateAsync([1, 2]);
   });
 
   await waitFor(() => {
     expect(result.current.data?.grades[0].citizens).toEqual([]);
+  });
+});
+
+test("should not change anything when removing", async () => {
+  const { result } = renderHook(() => useGrades(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.removeCitizenFromGrade.mutateAsync([3]);
+  });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
   });
 });
