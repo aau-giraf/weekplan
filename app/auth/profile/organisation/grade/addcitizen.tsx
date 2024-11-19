@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
-import { useState, useMemo, Fragment } from "react";
+import React, { useState, useMemo, Fragment } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
-import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import { useToast } from "../../../../../providers/ToastProvider";
 import useGrades from "../../../../../hooks/useGrades";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
+import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
 
 type Params = {
   gradeId: string;
@@ -18,12 +18,12 @@ const AddCitizen = () => {
   const { addToast } = useToast();
   const { data, error, isLoading, addCitizenToGrade } = useGrades(Number(gradeId));
   const [searchInput, setSearchInput] = useState("");
-  const [selectedCitizens, setSelectedCitizens] = useState<Omit<CitizenDTO, "activities">[]>([]);
+  const { selectedCitizens, toggleCitizenSelection } = useCitizenSelection(data?.citizens || []);
 
   const filterUnassignedCitizens = useMemo(
     () =>
       data?.citizens
-        .filter((citizen) => !data?.grades.some((grade) => grade.citizens.some((c) => c.id === citizen.id))) // Filter by ID
+        .filter((citizen) => !data?.grades.some((grade) => grade.citizens.some((c) => c.id === citizen.id)))
         .sort((a, b) => a.firstName.localeCompare(b.firstName)),
     [data]
   );
@@ -38,16 +38,6 @@ const AddCitizen = () => {
 
   const handleSearch = (text: string) => setSearchInput(text);
 
-  const toggleCitizenSelection = (id: number) => {
-    const selectedCitizen = data?.citizens.find((citizen) => citizen.id === id);
-    if (!selectedCitizen) return;
-
-    setSelectedCitizens((prev) => {
-      const alreadySelected = prev.some((c) => c.id === selectedCitizen.id);
-      return alreadySelected ? prev.filter((c) => c.id !== selectedCitizen.id) : [...prev, selectedCitizen];
-    });
-  };
-
   const handleAddCitizens = async () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
@@ -55,7 +45,7 @@ const AddCitizen = () => {
         .mutateAsync(citizenIds)
         .then(() => {
           addToast({ message: "Elever tilføjet", type: "success" }, 1500);
-          setSelectedCitizens([]);
+          toggleCitizenSelection(null);
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
@@ -83,27 +73,29 @@ const AddCitizen = () => {
     <Fragment>
       <SafeAreaView />
       <View style={styles.container}>
-        <Text style={styles.heading}>Tilføj elev til klasse</Text>
-        <View style={styles.searchbar}>
-          <SearchBar value={searchInput} onChangeText={handleSearch} />
-          <FlatList
-            data={searchUnassignedCitizens}
-            contentContainerStyle={styles.listContent}
-            numColumns={2}
-            renderItem={({ item }) => {
-              const isSelected = selectedCitizens.some((citizen) => citizen.id === item.id);
-              return (
-                <TouchableOpacity
-                  style={[styles.selection, isSelected && styles.citizenSelected]}
-                  onPress={() => toggleCitizenSelection(item.id)}>
-                  <Text style={styles.citizenText}>{`${item.firstName} ${item.lastName}`}</Text>
-                </TouchableOpacity>
-              );
-            }}
-            ListEmptyComponent={<Text>Ingen elever fundet</Text>}
-            keyExtractor={(item) => item.id.toString()} // Use ID as the key
-          />
+        <View>
+          <Text style={styles.heading}>Tilføj elever til klasse</Text>
+          <View style={styles.searchbar}>
+            <SearchBar value={searchInput} onChangeText={handleSearch} />
+          </View>
         </View>
+        <FlatList
+          data={searchUnassignedCitizens}
+          contentContainerStyle={styles.citizenList}
+          numColumns={2}
+          renderItem={({ item }) => {
+            const isSelected = selectedCitizens.some((citizen) => citizen.id === item.id);
+            return (
+              <TouchableOpacity
+                style={[styles.selection, isSelected && styles.citizenSelected]}
+                onPress={() => toggleCitizenSelection(item.id)}>
+                <Text style={styles.citizenText}>{`${item.firstName} ${item.lastName}`}</Text>
+              </TouchableOpacity>
+            );
+          }}
+          ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+          keyExtractor={(item) => item.id.toString()}
+        />
         <View style={styles.buttonContainer}>
           <SubmitButton
             isValid={selectedCitizens.length > 0}
@@ -130,25 +122,21 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: ScaleSize(20),
     paddingVertical: ScaleSizeH(20),
-    alignItems: "center",
     width: "100%",
   },
   heading: {
     fontSize: ScaleSize(40),
     fontWeight: "bold",
-    marginVertical: ScaleSize(15),
+    textAlign: "center",
   },
-  buttonContainer: {
+  citizenList: {
+    alignItems: "center",
+    flexGrow: 1,
     width: "100%",
-    alignItems: "center",
-  },
-  listContent: {
-    alignItems: "center",
-    height: "65%",
   },
   searchbar: {
-    width: "90%",
-    minWidth: "90%",
+    width: "100%",
+    minWidth: "100%",
   },
   selection: {
     paddingVertical: ScaleSizeH(20),
@@ -164,11 +152,16 @@ const styles = StyleSheet.create({
   },
   citizenSelected: {
     borderColor: colors.green,
-    borderWidth: 1.5,
   },
   citizenText: {
     fontSize: ScaleSize(18),
     color: colors.black,
     textAlign: "center",
+  },
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: ScaleSizeH(20),
+    paddingBottom: ScaleSizeH(20),
   },
 });

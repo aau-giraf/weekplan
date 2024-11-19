@@ -3,11 +3,11 @@ import React, { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
-import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import useGrades from "../../../../../hooks/useGrades";
 import { useToast } from "../../../../../providers/ToastProvider";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
+import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
 
 type Params = {
   gradeId: string;
@@ -18,38 +18,27 @@ const RemoveCitizen = () => {
   const { addToast } = useToast();
   const { data, error, isLoading, removeCitizenFromGrade } = useGrades(Number(gradeId));
   const [searchInput, setSearchInput] = useState("");
-  const [selectedCitizens, setSelectedCitizens] = useState<Omit<CitizenDTO, "activities">[]>([]);
+  const { selectedCitizens, toggleCitizenSelection } = useCitizenSelection(data?.citizens || []);
 
   const filterAssignedCitizens = useMemo(
     () =>
       data?.grades
         .find((grade) => grade.id === Number(gradeId))
-        ?.citizens.map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
-        .sort((a, b) => a.localeCompare(b)),
+        ?.citizens.sort((a, b) => a.firstName.localeCompare(b.firstName)),
     [data, gradeId]
   );
 
   const searchAssignedCitizens = useMemo(
     () =>
       searchInput
-        ? filterAssignedCitizens?.filter((name) => name.toLowerCase().startsWith(searchInput.toLowerCase()))
+        ? filterAssignedCitizens?.filter((citizen) =>
+            `${citizen.firstName} ${citizen.lastName}`.toLowerCase().includes(searchInput.toLowerCase())
+          )
         : filterAssignedCitizens,
     [searchInput, filterAssignedCitizens]
   );
 
   const handleSearch = (text: string) => setSearchInput(text);
-
-  const toggleCitizenSelection = (selection: string) => {
-    const selectedCitizen = data?.citizens.find(
-      (citizen) => `${citizen.firstName} ${citizen.lastName}` === selection
-    );
-    if (!selectedCitizen) return;
-
-    setSelectedCitizens((prev) => {
-      const alreadySelected = prev.some((c) => c.id === selectedCitizen.id);
-      return alreadySelected ? prev.filter((c) => c.id !== selectedCitizen.id) : [...prev, selectedCitizen];
-    });
-  };
 
   const handleRemoveCitizen = async () => {
     if (selectedCitizens.length > 0) {
@@ -58,7 +47,7 @@ const RemoveCitizen = () => {
         .mutateAsync(citizenIds)
         .then(() => {
           addToast({ message: "Elever fjernet", type: "success" }, 1500);
-          setSelectedCitizens([]);
+          toggleCitizenSelection(null);
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
@@ -86,28 +75,29 @@ const RemoveCitizen = () => {
     <Fragment>
       <SafeAreaView />
       <View style={styles.container}>
-        <Text style={styles.heading}>Fjern elever fra klasse</Text>
-        <View style={styles.searchbar}>
-          <SearchBar value={searchInput} onChangeText={handleSearch} />
-          <FlatList
-            data={searchAssignedCitizens}
-            contentContainerStyle={styles.listContent}
-            numColumns={2}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[
-                  styles.selection,
-                  selectedCitizens.some((citizen) => `${citizen.firstName} ${citizen.lastName}` === item) &&
-                    styles.citizenSelected,
-                ]}
-                onPress={() => toggleCitizenSelection(item)}>
-                <Text style={styles.citizenText}>{item}</Text>
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={<Text>Ingen elever fundet</Text>}
-            keyExtractor={(item) => item}
-          />
+        <View style={styles.headerContainer}>
+          <Text style={styles.heading}>Fjern elever fra klasse</Text>
+          <View style={styles.searchbar}>
+            <SearchBar value={searchInput} onChangeText={handleSearch} />
+          </View>
         </View>
+        <FlatList
+          data={searchAssignedCitizens}
+          contentContainerStyle={styles.citizenList}
+          numColumns={2}
+          renderItem={({ item }) => {
+            const isSelected = selectedCitizens.some((citizen) => citizen.id === item.id);
+            return (
+              <TouchableOpacity
+                style={[styles.selection, isSelected && styles.citizenSelected]}
+                onPress={() => toggleCitizenSelection(item.id)}>
+                <Text style={styles.citizenText}>{`${item.firstName} ${item.lastName}`}</Text>
+              </TouchableOpacity>
+            );
+          }}
+          ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+          keyExtractor={(item) => item.id.toString()} // Use ID as the key to avoid duplicates
+        />
         <View style={styles.buttonContainer}>
           <SubmitButton
             isValid={selectedCitizens.length > 0}
@@ -134,28 +124,24 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: ScaleSize(20),
     paddingVertical: ScaleSizeH(20),
-    alignItems: "center",
+    width: "100%",
   },
   heading: {
     fontSize: ScaleSize(40),
     fontWeight: "bold",
-    marginVertical: ScaleSize(15),
+    textAlign: "center",
   },
-  buttonContainer: {
+  headerContainer: {
+    marginBottom: ScaleSizeH(10),
+  },
+  citizenList: {
+    alignItems: "center",
+    flexGrow: 1,
     width: "100%",
-    alignItems: "center",
-  },
-  listContent: {
-    alignItems: "center",
-    height: "70%",
   },
   searchbar: {
-    width: "90%",
-    minWidth: "90%",
-  },
-  flatListStyle: {
-    width: "90%",
-    minWidth: "90%",
+    width: "100%",
+    minWidth: "100%",
   },
   selection: {
     paddingVertical: ScaleSizeH(20),
@@ -176,5 +162,11 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(18),
     color: colors.black,
     textAlign: "center",
+  },
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: ScaleSizeH(20),
+    paddingBottom: ScaleSizeH(20),
   },
 });
