@@ -1,15 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   copyActivitiesRequest,
-  createActivityRequestForCitizen,
+  createActivityCitizen,
+  createActivityGrade,
   deleteRequest,
   fetchActivityRequest,
-  fetchByDateRequestForCitizen,
+  fetchByDateCitizen,
+  fetchByDateGrade,
   toggleActivityStatusRequest,
   updateRequest,
 } from "../apis/activityAPI";
+import { useWeekplan } from "../providers/WeekplanProvider";
 
-import { useCitizen } from "../providers/CitizenProvider";
+/* It's highly recommended to read the docs at https://tanstack.com/query/latest
+ * to understand how to use react-query. This hook utilises optimistic updates
+ * and caching to provide a good user experience.
+ */
 
 export type ActivityDTO = Omit<FullActivityDTO, "citizenId">;
 export type FullActivityDTO = {
@@ -23,17 +29,13 @@ export type FullActivityDTO = {
   isCompleted: boolean;
 };
 
-export const dateToQueryKey = (date: Date, citizenId: number) => {
+export const dateToQueryKey = (date: Date, isCitizen: boolean, id: number) => {
   if (!(date instanceof Date)) {
     throw new Error("Invalid date");
   }
-  return ["activity", date.toISOString().split("T")[0], citizenId];
+  return ["activity", isCitizen ? "citizen" : "grade", date.toISOString().split("T")[0], id];
 };
 
-/* It's highly recommended to read the docs at https://tanstack.com/query/latest
- * to understand how to use react-query. This hook utilises optimistic updates
- * and caching to provide a good user experience.
- */
 /**
  * Hook to fetch activities for a specific date
  * @param date
@@ -42,19 +44,16 @@ export const dateToQueryKey = (date: Date, citizenId: number) => {
  * @return {invalidateQueries, data}
  * @return {useFetchActivity}
  */
-
 export default function useActivity({ date }: { date: Date }) {
   const queryClient = useQueryClient();
-  const { citizenId } = useCitizen();
+  const { id, isCitizen } = useWeekplan();
 
-  if (citizenId === null) {
-    throw new Error("Citizen ID is null");
-  }
+  if (id === null) throw new Error("Citizen ID is null");
 
-  const queryKey = dateToQueryKey(date, citizenId);
+  const queryKey = dateToQueryKey(date, isCitizen, id);
 
   const useFetchActivities = useQuery<ActivityDTO[]>({
-    queryFn: async () => fetchByDateRequestForCitizen(citizenId, date),
+    queryFn: async () => (isCitizen ? fetchByDateCitizen(id, date) : fetchByDateGrade(id, date)),
     queryKey: queryKey,
   });
 
@@ -115,8 +114,10 @@ export default function useActivity({ date }: { date: Date }) {
   });
 
   const useCreateActivity = useMutation({
-    mutationFn: (variables: { citizenId: number; data: ActivityDTO }) =>
-      createActivityRequestForCitizen(variables.data, variables.citizenId),
+    mutationFn: (variables: { id: number; data: ActivityDTO }) =>
+      isCitizen
+        ? createActivityCitizen(variables.data, variables.id)
+        : createActivityGrade(variables.data, variables.id),
 
     onMutate: async (variables) => {
       await queryClient.cancelQueries({ queryKey });
@@ -148,12 +149,7 @@ export default function useActivity({ date }: { date: Date }) {
 
   const copyActivities = useMutation({
     mutationFn: (variables: { activityIds: number[]; sourceDate: Date; destinationDate: Date }) =>
-      copyActivitiesRequest(
-        citizenId,
-        variables.activityIds,
-        variables.sourceDate,
-        variables.destinationDate
-      ),
+      copyActivitiesRequest(id, variables.activityIds, variables.sourceDate, variables.destinationDate),
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
@@ -189,9 +185,9 @@ export default function useActivity({ date }: { date: Date }) {
     useFetchActivities,
     useDeleteActivity,
     updateActivity,
-    useToggleActivityStatus,
     useCreateActivity,
     copyActivities,
+    useToggleActivityStatus,
   };
 }
 

@@ -7,11 +7,24 @@ import { BASE_URL } from "../utils/globals";
  * @param id {number} - ID of the citizen
  * @param date {Date} - The date for which the activities will be fetched
  */
-export const fetchByDateRequestForCitizen = async (id: number, date: Date) => {
+export const fetchByDateCitizen = async (id: number, date: Date) => {
   const params = new URLSearchParams();
   params.append("date", formatQueryDate(date));
 
   const res = await fetch(`${BASE_URL}/weekplan/${id}?${params.toString()}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente aktiviteter");
+  return await res.json();
+};
+
+export const fetchByDateGrade = async (id: number, date: Date) => {
+  const params = new URLSearchParams();
+  params.append("date", formatQueryDate(date));
+
+  const res = await fetch(`${BASE_URL}/weekplan/grade/${id}?${params.toString()}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -77,8 +90,18 @@ export const toggleActivityStatusRequest = async (id: number, isCompleted: boole
  * @param data {ActivityDTO} - Data for the Activity to be created
  * @param citizenId {number} - ID for the associated citizen
  */
-export const createActivityRequestForCitizen = async (data: ActivityDTO, citizenId: number) => {
+export const createActivityCitizen = async (data: ActivityDTO, citizenId: number) => {
   const res = await fetch(`${BASE_URL}/weekplan/to-citizen/${citizenId}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette aktivitet");
+  return await res.json();
+};
+
+export const createActivityGrade = async (data: ActivityDTO, gradeId: number) => {
+  const res = await fetch(`${BASE_URL}/weekplan/to-grade/${gradeId}`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
