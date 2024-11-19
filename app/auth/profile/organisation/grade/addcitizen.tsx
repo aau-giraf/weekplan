@@ -89,7 +89,7 @@ const AddCitizen = () => {
               <TouchableOpacity
                 style={[styles.selection, isSelected && styles.citizenSelected]}
                 onPress={() => toggleCitizenSelection(item.id)}>
-                <Text style={styles.citizenText}>{`${item.firstName} ${item.lastName}`}</Text>
+                <Text>{`${item.firstName} ${item.lastName}`}</Text>
               </TouchableOpacity>
             );
           }}
@@ -120,14 +120,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: ScaleSize(20),
-    paddingVertical: ScaleSizeH(20),
+    gap: ScaleSize(10),
     width: "100%",
   },
   heading: {
     fontSize: ScaleSize(40),
     fontWeight: "bold",
     textAlign: "center",
+    paddingVertical: ScaleSizeH(10),
   },
   citizenList: {
     alignItems: "center",
@@ -137,13 +137,17 @@ const styles = StyleSheet.create({
   searchbar: {
     width: "100%",
     minWidth: "100%",
+    paddingVertical: ScaleSize(15),
   },
   selection: {
-    paddingVertical: ScaleSizeH(20),
+    paddingVertical: ScaleSizeH(15),
+    paddingHorizontal: ScaleSizeW(15),
     marginBottom: ScaleSizeH(10),
     marginHorizontal: ScaleSizeW(5),
+    textAlign: "center",
+    textAlignVertical: "center",
     borderRadius: 15,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: colors.lightBlue,
     backgroundColor: colors.lightBlue,
     width: "45%",
