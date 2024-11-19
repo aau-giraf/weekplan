@@ -1,14 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
-import { ProfilePicture } from "../ProfilePage";
+import { ProfilePicture } from "../ProfilePicture";
 
-// Base type to enforce required fields
 type CutoffViewPropsBase = {
+  id?: string | number;
   firstName: string;
   lastName: string;
 };
 
-// Generic type for the component props
 type CutoffViewProps<T extends CutoffViewPropsBase> = {
   entries: T[];
   onPress: () => void;
@@ -50,35 +49,46 @@ export const CutoffList = <T extends CutoffViewPropsBase>({ entries, onPress }: 
 };
 
 const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntryProps<T>) => {
+  if (typeof user.id === "number") {
+    return (
+      <View style={styles.memberImgContainer} testID={"citizen"}>
+        <ProfilePicture label={`${user.firstName} ${user.lastName}`} style={styles.memberImg} />
+      </View>
+    );
+  }
   return (
-    <View style={styles.memberImgContainer} testID={"member"}>
-      <ProfilePicture label={`${user.firstName} ${user.lastName}`} style={styles.memberImg} />
+    <View style={styles.memberImgContainer} testID={"members"}>
+      <ProfilePicture
+        label={`${user.firstName} ${user.lastName}`}
+        style={styles.memberImg}
+        userId={user.id}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   memberImgContainer: {
-    marginRight: -ScaleSize(8),
-    height: ScaleSize(50),
-    width: ScaleSize(50),
+    marginRight: -ScaleSize(45),
+    aspectRatio: 1,
   },
   memberImg: {
-    height: ScaleSize(50),
-    width: ScaleSize(50),
+    height: ScaleSize(90),
+    aspectRatio: 1,
     borderRadius: ScaleSize(50),
   },
   memberViewRoot: {
     ...SharedStyles.trueCenter,
     ...SharedStyles.flexRow,
-    marginLeft: -ScaleSize(8),
+    marginLeft: -ScaleSize(45),
   },
   remainingMembersContainer: {
     ...SharedStyles.trueCenter,
-    height: ScaleSize(40),
-    width: ScaleSize(40),
+    height: ScaleSize(90),
+    aspectRatio: 1,
     borderRadius: ScaleSize(50),
     backgroundColor: colors.lightGray,
+    marginRight: -ScaleSize(45),
   },
   remainingMembersText: {
     color: colors.white,
