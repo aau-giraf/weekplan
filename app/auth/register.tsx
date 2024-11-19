@@ -118,7 +118,7 @@ const RegisterScreen: React.FC = () => {
         </FormContainer>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>
-            <ProfilePicture style={styles.mainProfilePicture} label={label} imageUri={imageUri} />
+            <ProfilePicture style={styles.mainProfilePicture} label={label} userId={userId} />
           </View>
           <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
           <SecondaryButton

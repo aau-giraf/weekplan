@@ -1,17 +1,18 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle, Image } from "react-native";
+import { useState } from "react";
 import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../utils/profileColors";
 import { BASE_URL } from "../utils/globals";
-import { useState } from "react";
 
 type ProfilePictureProps = {
   label: string;
   userId?: string | null;
   style?: StyleProp<ViewStyle>;
   fontSize?: number;
+  imageURI?: string;
 };
 
-export const ProfilePicture = ({ label, userId, style, fontSize }: ProfilePictureProps) => {
+export const ProfilePicture = ({ label, userId, style, fontSize, imageURI }: ProfilePictureProps) => {
   const [imageError, setImageError] = useState(false);
   const colourFromName = hashNameToColour(label);
   const colourTextContrast = getContrastingTextColor(colourFromName);
@@ -22,14 +23,12 @@ export const ProfilePicture = ({ label, userId, style, fontSize }: ProfilePictur
     .join("")
     .toUpperCase();
 
+  const uri = imageError ? null : imageURI || (userId ? `${BASE_URL}/images/users/${userId}.jpeg` : null);
+
   return (
     <View style={[styles.ProfilePictureContainer, style, { backgroundColor: colourFromName }]}>
-      {userId && !imageError ? (
-        <Image
-          source={{ uri: `${BASE_URL}/images/users/${userId}.jpeg` }}
-          style={styles.ProfileImage}
-          onError={() => setImageError(true)}
-        />
+      {uri ? (
+        <Image source={{ uri }} style={styles.ProfileImage} onError={() => setImageError(true)} />
       ) : (
         <Text
           style={[
