@@ -3,7 +3,6 @@ import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } fr
 import SwipeableList, { Action } from "./swipeablelist/SwipeableList";
 import { colors, ScaleSizeH } from "../utils/SharedStyles";
 import { ProfilePicture } from "./ProfilePicture";
-import { BASE_URL } from "../utils/globals";
 
 type ListItem = {
   id: number | string;
@@ -26,7 +25,6 @@ type ListViewProps<T extends ListItem> = {
 
 const ListView = <T extends ListItem>({
   data,
-  loadingMessage,
   errorMessage,
   isLoading,
   error,
@@ -67,11 +65,7 @@ const ListView = <T extends ListItem>({
   const renderItem = (item: T) => (
     <Pressable style={styles.itemContainer} key={keyExtractor(item)} onPress={() => onPress && onPress(item)}>
       {typeof item.id === "string" ? (
-        <ProfilePicture
-          label={getLabel(item)}
-          style={styles.profilePicture}
-          imageUri={`${BASE_URL}/images/users/${item.id}.jpeg`}
-        />
+        <ProfilePicture label={getLabel(item)} style={styles.profilePicture} userId={item.id} />
       ) : (
         <ProfilePicture label={getLabel(item)} style={styles.profilePicture} />
       )}
