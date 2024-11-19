@@ -6,9 +6,10 @@ type ProfilePictureProps = {
   label: string;
   imageUri?: string | null;
   style?: StyleProp<ViewStyle>;
+  fontSize?: number;
 };
 
-export const ProfilePicture = ({ label, imageUri, style }: ProfilePictureProps) => {
+export const ProfilePicture = ({ label, imageUri, style, fontSize }: ProfilePictureProps) => {
   const colourFromName = hashNameToColour(label);
   const colourTextContrast = getContrastingTextColor(colourFromName);
 
@@ -21,10 +22,13 @@ export const ProfilePicture = ({ label, imageUri, style }: ProfilePictureProps) 
   return (
     <View style={[styles.ProfilePictureContainer, style, { backgroundColor: colourFromName }]}>
       {imageUri ? (
-        <Image source={{ uri: imageUri }} style={[styles.ProfileImage]} />
+        <Image source={{ uri: imageUri }} style={styles.ProfileImage} />
       ) : (
         <Text
-          style={[styles.ProfilePictureText, { color: colourTextContrast }]}
+          style={[
+            styles.ProfilePictureText,
+            { color: colourTextContrast, fontSize: ScaleSize(fontSize ?? 50) },
+          ]}
           adjustsFontSizeToFit={true}
           numberOfLines={1}>
           {displayName}
@@ -39,7 +43,6 @@ const styles = StyleSheet.create({
     ...SharedStyles.trueCenter,
     shadowRadius: 15,
     shadowOpacity: 0.2,
-    padding: ScaleSize(15),
     borderRadius: 10000,
   },
   ProfileImage: {
@@ -50,6 +53,6 @@ const styles = StyleSheet.create({
   ProfilePictureText: {
     textShadowColor: "black",
     textShadowRadius: 0.5,
-    fontSize: ScaleSize(112),
+    fontSize: ScaleSize(50),
   },
 });

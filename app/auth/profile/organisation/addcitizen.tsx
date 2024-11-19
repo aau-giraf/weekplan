@@ -3,7 +3,7 @@ import React, { Fragment, useCallback, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import SwipeableList from "../../../../components/swipeablelist/SwipeableList";
-import { ProfilePicture } from "../../../../components/ProfilePage";
+import { ProfilePicture } from "../../../../components/ProfilePicture";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import FormField from "../../../../components/forms/TextInput";
 import useOrganisation from "../../../../hooks/useOrganisation";

@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { ProfilePicture } from "../../../components/ProfilePage";
+import { ProfilePicture } from "../../../components/ProfilePicture";
 import IconButton from "../../../components/IconButton";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import useProfile from "../../../hooks/useProfile";
@@ -63,7 +63,7 @@ const ProfilePage: React.FC = () => {
         router.push(`/auth/profile/organisation/${item.id}`);
       }}>
       <View style={styles.profileContainer}>
-        <ProfilePicture label={item.name} style={styles.mainProfilePicture} />
+        <ProfilePicture label={item.name} style={styles.mainProfilePicture} fontSize={100} />
       </View>
       <Text
         adjustsFontSizeToFit={true}
@@ -97,6 +97,7 @@ const ProfilePage: React.FC = () => {
                     style={styles.mainProfilePicture}
                     label={`${data.firstName} ${data.lastName}`}
                     imageUri={`${BASE_URL}/images/users/${userId}.jpeg`}
+                    fontSize={100}
                   />
                   <View style={styles.profileTextContainer}>
                     <Text style={SharedStyles.header}>{data.email}</Text>
@@ -187,6 +188,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     textAlign: "center",
+    fontSize: ScaleSize(25),
   },
   columnWrapper: {
     justifyContent: "flex-start",
@@ -281,7 +283,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profileContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: ScaleSizeH(20),

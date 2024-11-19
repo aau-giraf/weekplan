@@ -53,7 +53,7 @@ const ViewOrganisation = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }}>
-        <View style={{ alignItems: "center", height: "100%" }}>
+        <View style={{ alignItems: "center", height: "100%", gap: 20 }}>
           <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
           <View style={styles.ActionView}>
             <IconButton onPress={() => {}} absolute={false}>
@@ -84,18 +84,22 @@ const ViewOrganisation = () => {
               <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
             </IconButton>
           </View>
-          <Text style={styles.heading}>Medlemmer</Text>
-          <CutoffList
-            entries={data?.users ?? []}
-            onPress={() => {
-              router.push(`/auth/profile/organisation/members/${parsedId}`);
-            }}
-          />
-          <Text style={styles.heading}>Borger</Text>
-          <CutoffList
-            entries={data?.citizens ?? []}
-            onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
-          />
+          <View>
+            <Text style={styles.heading}>Medlemmer</Text>
+            <CutoffList
+              entries={data?.users ?? []}
+              onPress={() => {
+                router.push(`/auth/profile/organisation/members/${parsedId}`);
+              }}
+            />
+          </View>
+          <View>
+            <Text style={styles.heading}>Borger</Text>
+            <CutoffList
+              entries={data?.citizens ?? []}
+              onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
+            />
+          </View>
           <Text style={styles.heading}>Klasser</Text>
           {/* //TODO: Add and Implement Classes */}
 

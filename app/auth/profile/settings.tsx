@@ -10,7 +10,7 @@ import useProfile from "../../../hooks/useProfile";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
 import { ScaleSizeH } from "../../../utils/SharedStyles";
-import { ProfilePicture } from "../../../components/ProfilePage";
+import { ProfilePicture } from "../../../components/ProfilePicture";
 import { BASE_URL } from "../../../utils/globals";
 
 const Settings = () => {

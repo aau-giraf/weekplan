@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import SwipeableList, { Action } from "./swipeablelist/SwipeableList";
 import { colors, ScaleSizeH } from "../utils/SharedStyles";
-import { ProfilePicture } from "./ProfilePage";
+import { ProfilePicture } from "./ProfilePicture";
 import { BASE_URL } from "../utils/globals";
 
 type ListItem = {
@@ -84,18 +84,17 @@ const ListView = <T extends ListItem>({
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <View style={styles.container}>
-        <SwipeableList
-          items={data}
-          renderItem={({ item }) => renderItem(item)}
-          keyExtractor={keyExtractor}
-          flatListProps={{
-            ItemSeparatorComponent: () => <View style={{ height: 10 }} />,
-          }}
-          rightActions={rightActions}
-          leftActions={leftActions}
-        />
-      </View>
+
+      <SwipeableList
+        items={data}
+        renderItem={({ item }) => renderItem(item)}
+        keyExtractor={keyExtractor}
+        flatListProps={{
+          contentContainerStyle: { flexGrow: 1 },
+        }}
+        rightActions={rightActions}
+        leftActions={leftActions}
+      />
     </Fragment>
   );
 };
@@ -111,7 +110,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.lightBlue,
     alignItems: "center",
-    marginTop: 10,
     justifyContent: "space-between",
   },
   profilePicture: {

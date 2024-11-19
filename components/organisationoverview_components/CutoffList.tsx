@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
-import { ProfilePicture } from "../ProfilePage";
+import { ProfilePicture } from "../ProfilePicture";
 import { BASE_URL } from "../../utils/globals";
 
 type CutoffViewPropsBase = {
@@ -70,26 +70,26 @@ const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntr
 
 const styles = StyleSheet.create({
   memberImgContainer: {
-    marginRight: -ScaleSize(8),
-    height: ScaleSize(50),
-    width: ScaleSize(50),
+    marginRight: -ScaleSize(45),
+    aspectRatio: 1,
   },
   memberImg: {
-    height: ScaleSize(50),
-    width: ScaleSize(50),
+    height: ScaleSize(90),
+    aspectRatio: 1,
     borderRadius: ScaleSize(50),
   },
   memberViewRoot: {
     ...SharedStyles.trueCenter,
     ...SharedStyles.flexRow,
-    marginLeft: -ScaleSize(8),
+    marginLeft: -ScaleSize(45),
   },
   remainingMembersContainer: {
     ...SharedStyles.trueCenter,
-    height: ScaleSize(40),
-    width: ScaleSize(40),
+    height: ScaleSize(90),
+    aspectRatio: 1,
     borderRadius: ScaleSize(50),
     backgroundColor: colors.lightGray,
+    marginRight: -ScaleSize(45),
   },
   remainingMembersText: {
     color: colors.white,
