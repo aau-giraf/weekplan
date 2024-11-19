@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { useAuthentication } from "../../providers/AuthenticationProvider";
 import GirafIcon from "../../assets/SVG/GirafIcon";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
-import { ProfilePicture } from "../../components/ProfilePage";
+import { ProfilePicture } from "../../components/ProfilePicture";
 import CameraButton from "../../components/CameraButton";
 import { router } from "expo-router";
 import { uploadProfileImageRequest } from "../../apis/profileAPI";
