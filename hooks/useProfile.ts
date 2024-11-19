@@ -64,10 +64,7 @@ export default function useProfile() {
   });
 
   const deleteUser = useMutation({
-    mutationFn: async (data: DeleteUserDTO) => {
-      if (!userId) throw new Error("User ID is not available.");
-      return deleteUserRequest(userId, data);
-    },
+    mutationFn: async (data: DeleteUserDTO) => deleteUserRequest(userId, data),
   });
 
   return {
