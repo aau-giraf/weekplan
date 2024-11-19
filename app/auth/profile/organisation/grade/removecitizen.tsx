@@ -7,6 +7,7 @@ import { CitizenDTO } from "../../../../../hooks/useOrganisation";
 import useGrades from "../../../../../hooks/useGrades";
 import { useToast } from "../../../../../providers/ToastProvider";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
+import SubmitButton from "../../../../../components/forms/SubmitButton";
 
 type Params = {
   gradeId: string;
@@ -108,7 +109,12 @@ const RemoveCitizen = () => {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <SecondaryButton onPress={handleRemoveCitizen} label="Fjern elev" />
+          <SubmitButton
+            isValid={selectedCitizens.length > 0}
+            isSubmitting={false}
+            handleSubmit={handleRemoveCitizen}
+            label={"Fjern elever"}
+          />
           <SecondaryButton onPress={() => router.back()} label="Gå tilbage til oversigt" />
         </View>
       </View>
