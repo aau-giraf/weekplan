@@ -72,7 +72,7 @@ jest.spyOn(queryClient, "invalidateQueries").mockImplementation(() => Promise.re
 jest.mock("../apis/gradeAPI", () => ({
   addCitizenToGradeRequest: jest.fn().mockImplementation((citizenIds: number[], gradeId: number) => {
     return Promise.resolve({
-      id: 1,
+      id: gradeId,
       name: "Grade 1",
       citizens: [
         mockCitizens[citizenIds[0] - 1],
@@ -122,7 +122,7 @@ test("should add citizen to grade", async () => {
   });
 });
 
-test("should not change anything when adding an invalid citizen to grade", async () => {
+test("should not update grade when attempting to add an invalid citizen", async () => {
   const { result } = renderHook(() => useGrades(1), { wrapper });
 
   await waitFor(() => {
@@ -138,7 +138,7 @@ test("should not change anything when adding an invalid citizen to grade", async
   });
 });
 
-test("should remove citizen from grade", async () => {
+test("should remove citizens from grade", async () => {
   const { result } = renderHook(() => useGrades(1), { wrapper });
 
   await waitFor(() => {
@@ -154,7 +154,7 @@ test("should remove citizen from grade", async () => {
   });
 });
 
-test("should not change anything when removing", async () => {
+test("should not update grade when attempting to remove an invalid citizen", async () => {
   const { result } = renderHook(() => useGrades(1), { wrapper });
 
   await waitFor(() => {

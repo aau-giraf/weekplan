@@ -23,26 +23,23 @@ const AddCitizen = () => {
   const filterUnassignedCitizens = useMemo(
     () =>
       data?.citizens
-        .filter((citizen) => !data?.grades.some((grade) => grade.citizens.some((c) => c.id === citizen.id)))
-        .map((citizen) => `${citizen.firstName} ${citizen.lastName}`)
-        .sort(),
+        .filter((citizen) => !data?.grades.some((grade) => grade.citizens.some((c) => c.id === citizen.id))) // Filter by ID
+        .sort((a, b) => a.firstName.localeCompare(b.firstName)),
     [data]
   );
 
-  const searchUnassignedCitizens = useMemo(
-    () =>
-      searchInput
-        ? filterUnassignedCitizens?.filter((name) => name.toLowerCase().startsWith(searchInput.toLowerCase()))
-        : filterUnassignedCitizens,
-    [searchInput, filterUnassignedCitizens]
-  );
+  const searchUnassignedCitizens = useMemo(() => {
+    return searchInput
+      ? filterUnassignedCitizens?.filter((citizen) =>
+          `${citizen.firstName} ${citizen.lastName}`.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      : filterUnassignedCitizens;
+  }, [searchInput, filterUnassignedCitizens]);
 
   const handleSearch = (text: string) => setSearchInput(text);
 
-  const toggleCitizenSelection = (selection: string) => {
-    const selectedCitizen = data?.citizens.find(
-      (citizen) => `${citizen.firstName} ${citizen.lastName}` === selection
-    );
+  const toggleCitizenSelection = (id: number) => {
+    const selectedCitizen = data?.citizens.find((citizen) => citizen.id === id);
     if (!selectedCitizen) return;
 
     setSelectedCitizens((prev) => {
@@ -93,19 +90,18 @@ const AddCitizen = () => {
             data={searchUnassignedCitizens}
             contentContainerStyle={styles.listContent}
             numColumns={2}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[
-                  styles.selection,
-                  selectedCitizens.some((citizen) => `${citizen.firstName} ${citizen.lastName}` === item) &&
-                    styles.citizenSelected,
-                ]}
-                onPress={() => toggleCitizenSelection(item)}>
-                <Text style={styles.citizenText}>{item}</Text>
-              </TouchableOpacity>
-            )}
+            renderItem={({ item }) => {
+              const isSelected = selectedCitizens.some((citizen) => citizen.id === item.id);
+              return (
+                <TouchableOpacity
+                  style={[styles.selection, isSelected && styles.citizenSelected]}
+                  onPress={() => toggleCitizenSelection(item.id)}>
+                  <Text style={styles.citizenText}>{`${item.firstName} ${item.lastName}`}</Text>
+                </TouchableOpacity>
+              );
+            }}
             ListEmptyComponent={<Text>Ingen elever fundet</Text>}
-            keyExtractor={(item) => item}
+            keyExtractor={(item) => item.id.toString()} // Use ID as the key
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -148,13 +144,9 @@ const styles = StyleSheet.create({
   },
   listContent: {
     alignItems: "center",
-    height: "70%",
+    height: "65%",
   },
   searchbar: {
-    width: "90%",
-    minWidth: "90%",
-  },
-  flatListStyle: {
     width: "90%",
     minWidth: "90%",
   },
