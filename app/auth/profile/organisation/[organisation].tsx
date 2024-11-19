@@ -5,7 +5,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
-import { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
@@ -63,28 +63,28 @@ const ViewOrganisation = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }}>
-        <View style={{ alignItems: "center", height: "100%", gap: 20 }}>
-          <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
-          <View style={styles.ActionView}>
-            <IconButton onPress={() => {}} absolute={false}>
-              <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-              {/* //TODO: Setup Editing Org */}
-            </IconButton>
-            <IconButton
-              onPress={() =>
-                router.push({
-                  pathname: "/auth/profile/organisation/create-invitation",
-                  params: { orgId: parsedId },
-                })
-              }
-              absolute={false}>
-              <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            <IconButton onPress={openBS} absolute={false}>
-              <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
-            </IconButton>
-          </View>
-          <View>
+        <View>
+          <View style={{ alignItems: "center", height: "100%", gap: 20 }}>
+            <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
+            <View style={styles.ActionView}>
+              <IconButton onPress={() => {}} absolute={false}>
+                <Ionicons name={"create-outline"} size={ScaleSize(30)} />
+                {/* //TODO: Setup Editing Org */}
+              </IconButton>
+              <IconButton
+                onPress={() =>
+                  router.push({
+                    pathname: "/auth/profile/organisation/create-invitation",
+                    params: { orgId: parsedId },
+                  })
+                }
+                absolute={false}>
+                <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
+              </IconButton>
+              <IconButton onPress={openBS} absolute={false}>
+                <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
+              </IconButton>
+            </View>
             <Text style={styles.heading}>Medlemmer</Text>
             <CutoffList
               entries={data?.users ?? []}
@@ -92,55 +92,32 @@ const ViewOrganisation = () => {
                 router.push(`/auth/profile/organisation/members/${parsedId}`);
               }}
             />
-          </View>
-          <View>
-            <Text style={styles.heading}>Borger</Text>
+            <View style={styles.alignHeader}>
+              <Text style={styles.heading}>Borger</Text>
+              <IconButton
+                onPress={() => {
+                  router.push({
+                    pathname: "/auth/profile/organisation/addcitizen",
+                    params: { orgId: parsedId },
+                  });
+                }}
+                absolute={false}
+                style={styles.iconButton}>
+                <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
+              </IconButton>
+            </View>
             <CutoffList
               entries={data?.citizens ?? []}
               onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
             />
+            <View style={[styles.alignHeader]}>
+              <Text style={styles.heading}>Klasser</Text>
+              <IconButton onPress={openCreateBS} absolute={false} style={styles.iconButton}>
+                <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
+              </IconButton>
+            </View>
+            <GradeView grades={data?.grades ?? []} />
           </View>
-          <Text style={styles.heading}>Klasser</Text>
-          {/* //TODO: Add and Implement Classes */}
-
-          <Text>{classError?.message}</Text>
-          <Text>{classLoading}</Text>
-          <ClassView classes={classData ?? []} />
-          <IconButton onPress={() => {}} absolute={false}>
-            <Ionicons name={"add-outline"} size={ScaleSize(30)} />
-          </IconButton>
-          <Text style={styles.heading}>Medlemmer</Text>
-          <CutoffList
-            entries={data?.users ?? []}
-            onPress={() => {
-              router.push(`/auth/profile/organisation/members/${parsedId}`);
-            }}
-          />
-          <View style={styles.alignHeader}>
-            <Text style={styles.heading}>Borger</Text>
-            <IconButton
-              onPress={() => {
-                router.push({
-                  pathname: "/auth/profile/organisation/addcitizen",
-                  params: { orgId: parsedId },
-                });
-              }}
-              absolute={false}
-              style={styles.iconButton}>
-              <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
-            </IconButton>
-          </View>
-          <CutoffList
-            entries={data?.citizens ?? []}
-            onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
-          />
-          <View style={[styles.alignHeader]}>
-            <Text style={styles.heading}>Klasser</Text>
-            <IconButton onPress={openCreateBS} absolute={false} style={styles.iconButton}>
-              <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
-            </IconButton>
-          </View>
-          <GradeView grades={data?.grades ?? []} />
         </View>
       </SafeAreaView>
       <ConfirmBottomSheet
@@ -261,7 +238,6 @@ const styles = StyleSheet.create({
     gap: ScaleSize(10),
     padding: ScaleSize(90),
     alignItems: "center",
-    zIndex: 101,
   },
 });
 
