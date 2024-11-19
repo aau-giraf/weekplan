@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
 import { ProfilePicture } from "../ProfilePicture";
-import { BASE_URL } from "../../utils/globals";
 
 type CutoffViewPropsBase = {
   id?: string | number;
@@ -62,7 +61,7 @@ const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntr
       <ProfilePicture
         label={`${user.firstName} ${user.lastName}`}
         style={styles.memberImg}
-        imageUri={`${BASE_URL}/images/users/${user.id}.jpeg`}
+        userId={user.id}
       />
     </View>
   );

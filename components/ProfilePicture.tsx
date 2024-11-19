@@ -1,15 +1,18 @@
 import { StyleProp, StyleSheet, Text, View, ViewStyle, Image } from "react-native";
 import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../utils/profileColors";
+import { BASE_URL } from "../utils/globals";
+import { useState } from "react";
 
 type ProfilePictureProps = {
   label: string;
-  imageUri?: string | null;
+  userId?: string | null;
   style?: StyleProp<ViewStyle>;
   fontSize?: number;
 };
 
-export const ProfilePicture = ({ label, imageUri, style, fontSize }: ProfilePictureProps) => {
+export const ProfilePicture = ({ label, userId, style, fontSize }: ProfilePictureProps) => {
+  const [imageError, setImageError] = useState(false);
   const colourFromName = hashNameToColour(label);
   const colourTextContrast = getContrastingTextColor(colourFromName);
 
@@ -21,8 +24,12 @@ export const ProfilePicture = ({ label, imageUri, style, fontSize }: ProfilePict
 
   return (
     <View style={[styles.ProfilePictureContainer, style, { backgroundColor: colourFromName }]}>
-      {imageUri ? (
-        <Image source={{ uri: imageUri }} style={styles.ProfileImage} />
+      {userId && !imageError ? (
+        <Image
+          source={{ uri: `${BASE_URL}/images/users/${userId}.jpeg` }}
+          style={styles.ProfileImage}
+          onError={() => setImageError(true)}
+        />
       ) : (
         <Text
           style={[

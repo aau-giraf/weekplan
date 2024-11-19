@@ -21,7 +21,6 @@ import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../.
 import { router } from "expo-router";
 import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
-import { BASE_URL } from "../../../utils/globals";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 
 const screenWidth = Dimensions.get("window").width;
@@ -96,7 +95,7 @@ const ProfilePage: React.FC = () => {
                   <ProfilePicture
                     style={styles.mainProfilePicture}
                     label={`${data.firstName} ${data.lastName}`}
-                    imageUri={`${BASE_URL}/images/users/${userId}.jpeg`}
+                    userId={userId}
                     fontSize={100}
                   />
                   <View style={styles.profileTextContainer}>

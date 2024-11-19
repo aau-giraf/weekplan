@@ -11,7 +11,6 @@ import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
 import { ScaleSizeH } from "../../../utils/SharedStyles";
 import { ProfilePicture } from "../../../components/ProfilePicture";
-import { BASE_URL } from "../../../utils/globals";
 
 const Settings = () => {
   const { logout } = useAuthentication();
@@ -86,7 +85,8 @@ const Settings = () => {
             <ProfilePicture
               style={styles.mainProfilePicture}
               label={`${data?.firstName} ${data?.lastName}`}
-              imageUri={`${BASE_URL}/images/users/${userId}.jpeg`}
+              userId={userId}
+              fontSize={100}
             />
             <View style={{ gap: 5 }}>
               <Text style={{ fontSize: 30, fontWeight: "500" }}>{data?.firstName}</Text>
