@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonContainer: {
-    width: "100%",
+    width: "95%",
+    alignSelf: "center",
     alignItems: "center",
     marginTop: ScaleSizeH(20),
     paddingBottom: ScaleSizeH(20),

@@ -96,7 +96,7 @@ const RemoveCitizen = () => {
             );
           }}
           ListEmptyComponent={<Text>Ingen elever fundet</Text>}
-          keyExtractor={(item) => item.id.toString()} // Use ID as the key to avoid duplicates
+          keyExtractor={(item) => item.id.toString()}
         />
         <View style={styles.buttonContainer}>
           <SubmitButton

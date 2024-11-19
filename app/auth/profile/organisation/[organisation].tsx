@@ -94,6 +94,7 @@ const ViewOrganisation = () => {
             />
             <View style={styles.alignHeader}>
               <Text style={styles.heading}>Borger</Text>
+              {/*Temp until you can add through citizens.tsx */}
               <IconButton
                 onPress={() => {
                   router.push({
@@ -112,12 +113,14 @@ const ViewOrganisation = () => {
             />
             <View style={[styles.alignHeader]}>
               <Text style={styles.heading}>Klasser</Text>
-              <IconButton onPress={openCreateBS} absolute={false} style={styles.iconButton}>
-                <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
-              </IconButton>
             </View>
             <GradeView grades={data?.grades ?? []} />
           </View>
+        </View>
+        <View style={styles.iconViewAddButton}>
+          <IconButton onPress={openCreateBS} absolute={true} style={styles.iconAddButton}>
+            <Ionicons name={"add-outline"} size={ScaleSize(50)} />
+          </IconButton>
         </View>
       </SafeAreaView>
       <ConfirmBottomSheet
@@ -212,6 +215,17 @@ const styles = StyleSheet.create({
     marginBottom: ScaleSize(10),
     textAlign: "center",
     fontWeight: "bold",
+  },
+  iconAddButton: {
+    height: ScaleSize(100),
+    width: ScaleSize(100),
+    marginBottom: ScaleSize(10),
+  },
+  iconViewAddButton: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    bottom: ScaleSize(20),
+    right: ScaleSize(20),
   },
   button: {
     ...SharedStyles.trueCenter,
