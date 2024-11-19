@@ -110,10 +110,7 @@ const DeleteProfileScreen: React.FC = () => {
           handleSubmit={handleSubmit(onSubmit)}
           label="Slet profil"
         />
-        <SecondaryButton
-          onPress={() => router.back()}
-          label="Annuller"
-        />
+        <SecondaryButton onPress={() => router.back()} label="Annuller" />
       </FormContainer>
     </View>
   );
