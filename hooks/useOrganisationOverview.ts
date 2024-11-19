@@ -79,7 +79,7 @@ const useOrganisationOverview = () => {
 export default useOrganisationOverview;
 
 /**
- * @param classId
+ * @param gradeId
  * @returns
  * an organisation object
  */

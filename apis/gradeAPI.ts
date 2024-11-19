@@ -53,14 +53,14 @@ export const removeCitizenFromGradeRequest = async (
   return res.json();
 };
 
-export const createNewGradeRequest = async (className: string, orgId: number): Promise<GradeDTO> => {
+export const createNewGradeRequest = async (gradeName: string, orgId: number): Promise<GradeDTO> => {
   const url = `${BASE_URL}/grades?orgId=${orgId}`;
   const res = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: className }),
+    body: JSON.stringify({ name: gradeName }),
   });
   if (!res.ok) throw new Error("Kunne ikke oprette klasse");
   return res.json();

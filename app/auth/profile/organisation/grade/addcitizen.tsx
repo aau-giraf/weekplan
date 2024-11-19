@@ -69,7 +69,7 @@ const AddCitizen = () => {
   if (error) {
     return (
       <View style={styles.centeredContainer}>
-        <Text>Error loading class data</Text>
+        <Text>Error loading grade data</Text>
       </View>
     );
   }

@@ -175,15 +175,15 @@ const useOrganisation = (orgId: number) => {
   });
 
   const createGrade = useMutation({
-    mutationFn: async (className: string) => createNewGradeRequest(className, orgId),
-    onMutate: async (className) => {
+    mutationFn: async (gradeName: string) => createNewGradeRequest(gradeName, orgId),
+    onMutate: async (gradeName) => {
       await queryClient.cancelQueries({ queryKey: queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
 
-      const newClass: GradeDTO = {
+      const newGrade: GradeDTO = {
         id: -1,
-        name: className,
+        name: gradeName,
         citizens: [],
       };
 
@@ -191,14 +191,14 @@ const useOrganisation = (orgId: number) => {
         if (oldData) {
           return {
             ...oldData,
-            grades: [...oldData.grades, newClass],
+            grades: [...oldData.grades, newGrade],
           };
         }
         return previousOrg;
       });
       return { previousOrg };
     },
-    onError: (_error, _className, context) => {
+    onError: (_error, _gradeName, context) => {
       if (context?.previousOrg) {
         queryClient.setQueryData(queryKey, context.previousOrg);
       }

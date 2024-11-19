@@ -24,7 +24,7 @@ const ViewGrade = () => {
   if (error)
     return (
       <View>
-        <Text>Error loading class data</Text>
+        <Text>Error loading grade data</Text>
       </View>
     );
 
@@ -52,7 +52,7 @@ const ViewGrade = () => {
         ListHeaderComponent={
           <View style={styles.searchbarStyle}>
             <View style={{ alignItems: "center" }}>
-              <Text style={styles.gradeName}>{currentGrade?.name ?? "Class"}</Text>
+              <Text style={styles.gradeName}>{currentGrade?.name ?? "Grade"}</Text>
               <View style={styles.ActionView}>
                 <IconButton onPress={() => router.back()} absolute={false}>
                   <Ionicons name={"exit-outline"} size={ScaleSize(30)} />

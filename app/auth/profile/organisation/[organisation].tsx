@@ -16,7 +16,7 @@ const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
 
-  const { deleteMember, data, error, isLoading, createClass } = useOrganisation(parsedId);
+  const { deleteMember, data, error, isLoading, createGrade } = useOrganisation(parsedId);
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -53,8 +53,8 @@ const ViewOrganisation = () => {
     router.back();
   };
 
-  const handleCreateClass = async (className: string) => {
-    await createClass.mutateAsync(className).catch((error: Error) => {
+  const handleCreateGrade = async (gradeName: string) => {
+    await createGrade.mutateAsync(gradeName).catch((error: Error) => {
       addToast({ message: error.message, type: "error" });
     });
     closeCreateBS();
@@ -123,18 +123,18 @@ const ViewOrganisation = () => {
         orgName={data!.name}
         handleConfirm={handleLeaveOrganisation}
       />
-      <CreateClassButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateClass} />
+      <CreateGradeButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateGrade} />
     </Fragment>
   );
 };
 
-type CreateClassButtomSheetProps = {
+type CreateGradeButtomSheetProps = {
   bottomSheetRef: React.RefObject<BottomSheet>;
   handleConfirm: Function;
 };
 
-const CreateClassButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateClassButtomSheetProps) => {
-  const [className, setClassName] = useState("");
+const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeButtomSheetProps) => {
+  const [gradeName, setGradeName] = useState("");
 
   return (
     <BottomSheet
@@ -148,13 +148,13 @@ const CreateClassButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateClassBu
         <BottomSheetTextInput
           style={styles.inputValid}
           placeholder="Navn på klasse"
-          value={className}
-          onChangeText={(value: string) => setClassName(value)}
+          value={gradeName}
+          onChangeText={(value: string) => setGradeName(value)}
         />
         <SecondaryButton
           label="Bekræft"
           style={{ backgroundColor: colors.blue, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
-          onPress={() => handleConfirm(className)}
+          onPress={() => handleConfirm(gradeName)}
         />
       </BottomSheetScrollView>
     </BottomSheet>
