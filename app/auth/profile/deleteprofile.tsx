@@ -3,15 +3,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
-import { View, StyleSheet, Text, TouchableOpacity, Keyboard, Alert } from "react-native";
+import { View, StyleSheet, Keyboard, Alert } from "react-native";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 import FormField from "../../../components/forms/TextInput";
 import SubmitButton from "../../../components/forms/SubmitButton";
+import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useProfile from "../../../hooks/useProfile";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useToast } from "../../../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
 
 const schema = z
   .object({
@@ -33,8 +33,7 @@ type FormData = z.infer<typeof schema>;
 const DeleteProfileScreen: React.FC = () => {
   const [password, setPassword] = useState("");
   const { addToast } = useToast();
-  const { logout } = useAuthentication();
-  const { userId } = useAuthentication();
+  const { logout, userId } = useAuthentication();
   const { deleteUser } = useProfile();
 
   const deleteUserMethod = async () => {
@@ -111,31 +110,16 @@ const DeleteProfileScreen: React.FC = () => {
           handleSubmit={handleSubmit(onSubmit)}
           label="Slet profil"
         />
-        <TouchableOpacity
-          style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-          onPress={() => router.back()}>
-          <Text style={styles.buttonText}>Annuller</Text>
-        </TouchableOpacity>
+        <SecondaryButton
+          onPress={() => router.back()}
+          label="Annuller"
+        />
       </FormContainer>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonValid: {
-    paddingVertical: ScaleSizeW(18),
-    paddingHorizontal: ScaleSizeH(20),
-    borderRadius: 8,
-    marginTop: ScaleSize(20),
-    alignItems: "center",
-    backgroundColor: colors.blue,
-    width: "100%",
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(22),
-    fontWeight: "500",
-  },
   container: {
     flex: 1,
   },
