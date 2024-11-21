@@ -8,9 +8,16 @@ import useGrades from "../../../../../hooks/useGrades";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
+import { ProfilePicture } from "../../../../../components/ProfilePicture";
 
 type Params = {
   gradeId: string;
+};
+
+type Citizen = {
+  firstName: string;
+  lastName: string;
+  id: number;
 };
 
 const AddCitizen = () => {
@@ -53,6 +60,22 @@ const AddCitizen = () => {
     }
   };
 
+  const renderCitizen = (item: Citizen) => (
+    <View style={styles.citizenContainer}>
+      <TouchableOpacity
+        style={[
+          styles.selection,
+          selectedCitizens.some((citizen) => citizen.id === item.id) && styles.citizenSelected,
+        ]}
+        onPress={() => toggleCitizenSelection(item.id)}>
+        <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
+        <Text numberOfLines={3} style={styles.citizenText}>
+          {`${item.firstName} ${item.lastName}`}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   if (error) {
     return (
       <View style={styles.centeredContainer}>
@@ -82,17 +105,7 @@ const AddCitizen = () => {
         <FlatList
           data={searchUnassignedCitizens}
           contentContainerStyle={styles.citizenList}
-          numColumns={2}
-          renderItem={({ item }) => {
-            const isSelected = selectedCitizens.some((citizen) => citizen.id === item.id);
-            return (
-              <TouchableOpacity
-                style={[styles.selection, isSelected && styles.citizenSelected]}
-                onPress={() => toggleCitizenSelection(item.id)}>
-                <Text>{`${item.firstName} ${item.lastName}`}</Text>
-              </TouchableOpacity>
-            );
-          }}
+          renderItem={({ item }) => renderCitizen(item)}
           ListEmptyComponent={<Text>Ingen elever fundet</Text>}
           keyExtractor={(item) => item.id.toString()}
         />
@@ -118,19 +131,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  container: {
-    flex: 1,
-    gap: ScaleSize(10),
-    width: "100%",
-  },
   heading: {
     fontSize: ScaleSize(40),
     fontWeight: "bold",
     textAlign: "center",
     paddingVertical: ScaleSizeH(10),
   },
+  container: {
+    flex: 1,
+    width: "100%",
+  },
   citizenList: {
-    alignItems: "center",
     flexGrow: 1,
     width: "100%",
   },
@@ -142,23 +153,33 @@ const styles = StyleSheet.create({
   selection: {
     paddingVertical: ScaleSizeH(15),
     paddingHorizontal: ScaleSizeW(15),
-    marginBottom: ScaleSizeH(10),
-    marginHorizontal: ScaleSizeW(5),
-    textAlign: "center",
-    textAlignVertical: "center",
     borderRadius: 15,
     borderWidth: 1.5,
     borderColor: colors.lightBlue,
     backgroundColor: colors.lightBlue,
-    width: "45%",
-    minWidth: "45%",
+    width: "100%",
+    flexDirection: "row",
     alignItems: "center",
+  },
+  citizenContainer: {
+    display: "flex",
+    gap: ScaleSize(10),
+    padding: ScaleSize(5),
+    backgroundColor: colors.lightBlue,
+    alignItems: "center",
+  },
+  profilePicture: {
+    width: "20%",
+    maxHeight: ScaleSizeH(300),
+    aspectRatio: 1,
+    borderRadius: 10000,
   },
   citizenSelected: {
     borderColor: colors.green,
   },
   citizenText: {
-    fontSize: ScaleSize(18),
+    paddingLeft: ScaleSize(30),
+    fontSize: ScaleSize(30),
     color: colors.black,
     textAlign: "center",
   },
