@@ -1,5 +1,5 @@
 import { BASE_URL } from "../utils/globals";
-import { ChangePasswordDTO, UpdateProfileDTO } from "../hooks/useProfile";
+import { ChangePasswordDTO, UpdateProfileDTO, DeleteUserDTO } from "../hooks/useProfile";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {
@@ -34,6 +34,19 @@ export const changePasswordRequest = async (userId: string | null, data: ChangeP
     headers: { "Content-Type": "application/json" },
   });
   if (!res.ok) throw new Error("Kunne ikke opdatere adgangskode");
+};
+
+export const deleteUserRequest = async (userId: string | null, data: DeleteUserDTO) => {
+  if (userId === null) {
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
+  }
+
+  const res = await fetch(`${BASE_URL}/users/${userId}`, {
+    method: "DELETE",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Kunne ikke slette brugeren");
 };
 
 export const uploadProfileImageRequest = async (userId: string | null, imageUri: string | null) => {

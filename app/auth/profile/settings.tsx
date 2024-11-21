@@ -55,6 +55,13 @@ const Settings = () => {
         },
         label: "Rediger profil",
       },
+      {
+        icon: "trash-outline",
+        onPress: () => {
+          router.push("/auth/profile/deleteprofile");
+        },
+        label: "Slet profil",
+      },
     ],
     [logout]
   );
