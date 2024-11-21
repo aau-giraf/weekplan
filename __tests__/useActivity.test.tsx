@@ -7,7 +7,6 @@ import useActivity, {
   useSingleActivity,
 } from "../hooks/useActivity";
 import WeekplanProvider from "../providers/WeekplanProvider";
-import { createActivityCitizen } from "../apis/activityAPI";
 
 const queryClient = new QueryClient({
   defaultOptions: {
