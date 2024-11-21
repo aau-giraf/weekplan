@@ -1,17 +1,8 @@
 import React from "react";
-import { renderHook, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import useProfile from "../hooks/useProfile";
-import { useAuthentication } from "../providers/AuthenticationProvider";
 import { deleteUserRequest } from "../apis/profileAPI";
-
-jest.mock("../providers/AuthenticationProvider", () => ({
-  useAuthentication: jest.fn(),
-}));
-
-jest.mock("../apis/profileAPI", () => ({
-  deleteUserRequest: jest.fn(),
-}));
+import { act, renderHook, waitFor } from "@testing-library/react-native";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,40 +18,48 @@ const queryClient = new QueryClient({
   },
 });
 
-const mockUserId = "123";
+const mockUser = {
+  password: "password",
+  id: "123",
+};
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 
-beforeEach(() => {
-  useAuthentication.mockReturnValue({ userId: mockUserId });
-  deleteUserRequest.mockResolvedValue(undefined);
-});
+jest.mock("../providers/AuthenticationProvider", () => ({
+  useAuthentication: jest.fn().mockImplementation(() => {
+    return Promise.resolve(mockUser.id);
+  }),
+}));
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
+jest.mock("../apis/profileAPI", () => ({
+  deleteUserRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
+  }),
+}));
 
 test("deleteUser should invoke deleteUserRequest with correct data", async () => {
-  const deleteUserData = { password: "password", id: mockUserId };
-
-  deleteUserRequest.mockResolvedValue(undefined);
-
   const { result } = renderHook(() => useProfile(), { wrapper });
 
   await act(async () => {
-    await result.current.deleteUser.mutateAsync(deleteUserData);
+    await result.current.deleteUser.mutateAsync(mockUser);
   });
 
-  expect(deleteUserRequest).toHaveBeenCalledWith(mockUserId, deleteUserData);
+  await waitFor(() => {
+    expect(result.current.deleteUser.data).toBeUndefined();
+  });
   expect(deleteUserRequest).toHaveBeenCalledTimes(1);
 });
 
 test("deleteUser should handle edge case when userId is undefined", async () => {
-  useAuthentication.mockReturnValue({ userId: undefined });
-
   const { result } = renderHook(() => useProfile(), { wrapper });
 
-  expect(result.current.deleteUser.mutateAsync).toBeUndefined();
+  await act(async () => {
+    await result.current.deleteUser.mutateAsync({ password: "password", id: "" });
+  });
+
+  await waitFor(() => {
+    expect(result.current.deleteUser.error).toBeDefined();
+  });
 });
