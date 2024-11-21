@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 type ProfilePictureUpdaterContextType = {
   timestamp: number;
   updateTimestamp: () => void;
-}
+};
 
 const ProfilePictureUpdaterContext = createContext<ProfilePictureUpdaterContextType | undefined>(undefined);
 
