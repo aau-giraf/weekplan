@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
@@ -28,7 +28,6 @@ const ViewGrade = () => {
       </View>
     );
 
-  //Sorts citizens alphabetically
   const sortedCitizen = (data: GradeDTO) => {
     return data.citizens
       .filter((citizen) =>
@@ -39,74 +38,57 @@ const ViewGrade = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
-      <View>
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.gradeName}>{currentGrade?.name ?? "Grade"}</Text>
-          <View style={styles.ActionView}>
-            <IconButton onPress={() => router.back()} absolute={false}>
-              <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            {/* Edit Grade */}
-            <IconButton onPress={() => {}} absolute={false}>
-              <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            {/* Collective Weekplan */}
-            <IconButton onPress={() => {}} absolute={false}>
-              <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
+      <SafeAreaView style={styles.safeArea}>
+        <View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.gradeName}>{currentGrade?.name ?? "Grade"}</Text>
+            <IconButton
+              style={styles.settings}
+              onPress={() =>
+                router.push({
+                  pathname: "/auth/profile/organisation/grade/settings",
+                  params: { gradeId: grade },
+                })
+              }>
+              <Ionicons name="settings-outline" size={ScaleSize(64)} />
             </IconButton>
           </View>
-          <View style={styles.ActionView}>
-            <IconButton
-              onPress={() => {
-                router.push({
-                  pathname: "/auth/profile/organisation/grade/addcitizen",
-                  params: { gradeId: grade },
-                });
-              }}
-              absolute={false}>
-              <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            <IconButton
-              onPress={() => {
-                router.push({
-                  pathname: "/auth/profile/organisation/grade/removecitizen",
-                  params: { gradeId: grade },
-                });
-              }}
-              absolute={false}>
-              <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
-            </IconButton>
-          </View>
+          <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
         </View>
-        <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
-      </View>
-      <FlatList
-        data={currentGrade ? sortedCitizen(currentGrade) : []}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.citizenView}
-        numColumns={2}
-        renderItem={({ item }) => (
-          <Text
-            adjustsFontSizeToFit={true}
-            maxFontSizeMultiplier={2}
-            minimumFontScale={1}
-            style={styles.citizenName}>
-            {item.firstName + " " + item.lastName}
-          </Text>
-        )}
-        ListEmptyComponent={<Text>Ingen elever fundet</Text>}
-      />
+        <FlatList
+          data={currentGrade ? sortedCitizen(currentGrade) : []}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.citizenView}
+          numColumns={2}
+          renderItem={({ item }) => (
+            <Text
+              adjustsFontSizeToFit={true}
+              maxFontSizeMultiplier={2}
+              minimumFontScale={1}
+              style={styles.citizenName}>
+              {item.firstName + " " + item.lastName}
+            </Text>
+          )}
+          ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+        />
+      </SafeAreaView>
+      <IconButton style={styles.calender}>
+        <Ionicons name="calendar-outline" size={ScaleSize(64)} />
+      </IconButton>
     </Fragment>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   gradeName: {
     fontSize: ScaleSize(40),
     fontWeight: "bold",
     marginTop: ScaleSizeH(25),
-    marginBottom: ScaleSize(10),
+    marginBottom: ScaleSize(50),
   },
   ActionView: {
     ...SharedStyles.flexRow,
@@ -131,6 +113,14 @@ const styles = StyleSheet.create({
   sheetContent: {
     alignItems: "center",
     paddingVertical: ScaleSize(20),
+  },
+  settings: {
+    top: ScaleSize(10),
+    right: ScaleSize(30),
+  },
+  calender: {
+    left: ScaleSize(30),
+    bottom: ScaleSize(50),
   },
 });
 

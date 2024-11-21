@@ -33,6 +33,7 @@ const AuthRootLayout = () => {
             <Stack.Screen name="profile/organisation/grade/[grade]" />
             <Stack.Screen name="profile/organisation/grade/addcitizen" />
             <Stack.Screen name="profile/organisation/grade/removecitizen" />
+            <Stack.Screen name="profile/organisation/grade/settings" />
           </Stack>
         </DateProvider>
       </CitizenProvider>
