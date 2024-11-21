@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-interface ProfilePictureUpdaterContextType {
+type ProfilePictureUpdaterContextType = {
   timestamp: number;
   updateTimestamp: () => void;
 }
