@@ -32,7 +32,7 @@ const Settings = () => {
       },
       {
         icon: "mail-outline",
-        label: "Invitations",
+        label: "Invitationer",
         onPress: () => {
           router.push("/auth/profile/viewinvitation");
         },
@@ -54,6 +54,13 @@ const Settings = () => {
           router.push("/auth/profile/editprofile");
         },
         label: "Rediger profil",
+      },
+      {
+        icon: "trash-outline",
+        onPress: () => {
+          router.push("/auth/profile/deleteprofile");
+        },
+        label: "Slet profil",
       },
     ],
     [logout]
@@ -104,7 +111,7 @@ const Settings = () => {
                 item={item}
                 toggleStates={toggleStates}
                 handleToggleChange={handleToggleChange}
-                hasInvitations={item.label === "Invitations" && inviteData && inviteData.length > 0}
+                hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
               />
             )}
             keyExtractor={(item) => item.label}

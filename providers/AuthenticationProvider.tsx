@@ -56,7 +56,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
           setUserId(getUserIdFromToken(res.token));
           router.replace("/auth/profile/profilepage");
         } else {
-          addToast({ message: "Toast not received", type: "error" });
+          addToast({ message: "Toast er ikke blevet modtaget", type: "error" });
         }
       } catch (e) {
         addToast({ message: (e as Error).message, type: "error" });

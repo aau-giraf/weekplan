@@ -7,7 +7,7 @@ const formatDate = (date: Date): string => {
 const getMonthsFromDates = (startDate: Date, endDate: Date): string => {
   // Check for invalid dates
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-    throw new Error("Invalid date(s) provided");
+    throw new Error("Ugyldige dato(er) givet");
   }
 
   if (startDate.getMonth() === endDate.getMonth()) {

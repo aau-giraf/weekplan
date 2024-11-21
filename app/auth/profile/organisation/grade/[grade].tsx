@@ -1,13 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Fragment, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
 import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { ProfilePicture } from "../../../../../components/ProfilePicture";
+import { useWeekplan } from "../../../../../providers/WeekplanProvider";
+
 
 type Citizen = {
   firstName: string;
@@ -16,24 +18,24 @@ type Citizen = {
 };
 
 const ViewGrade = () => {
+  const [searchedCitizens, setSearchedCitizens] = useState<string>("");
+  const { setIsCitizen, setId } = useWeekplan();
   const { grade } = useLocalSearchParams();
   const parsedID = Number(grade);
-  const [searchedCitizens, setSearchedCitizens] = useState<string>("");
   const { data, error, isLoading } = useGrades(parsedID);
   const currentGrade = data?.grades.find((grade) => grade.id === parsedID);
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <View>
-        <Text>Loading...</Text>
+        <ActivityIndicator size={"large"} />
       </View>
     );
-  if (error)
-    return (
-      <View>
-        <Text>Error loading grade data</Text>
-      </View>
-    );
+  }
+
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
 
   //Sorts citizens alphabetically
   const sortedCitizen = (data: GradeDTO) => {
@@ -41,7 +43,7 @@ const ViewGrade = () => {
       .filter((citizen) =>
         `${citizen.firstName} ${citizen.lastName}`.toLowerCase().startsWith(searchedCitizens.toLowerCase())
       )
-      .sort((a, b) => a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName));
+      .sort((a, b) => a.firstName.localeCompare(b.firstName));
   };
 
   const renderCitizen = (item: Citizen) => (
@@ -60,7 +62,7 @@ const ViewGrade = () => {
       <SafeAreaView />
       <View>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.gradeName}>{currentGrade?.name ?? "Grade"}</Text>
+          <Text style={styles.gradeName}>{currentGrade?.name ?? "Klasse"}</Text>
           <View style={styles.ActionView}>
             <IconButton onPress={() => router.back()} absolute={false}>
               <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
@@ -70,7 +72,13 @@ const ViewGrade = () => {
               <Ionicons name={"create-outline"} size={ScaleSize(30)} />
             </IconButton>
             {/* Collective Weekplan */}
-            <IconButton onPress={() => {}} absolute={false}>
+            <IconButton
+              onPress={() => {
+                setIsCitizen(false);
+                setId(parsedID);
+                router.push("/auth/profile/organisation/weekplanscreen");
+              }}
+              absolute={false}>
               <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
             </IconButton>
           </View>
