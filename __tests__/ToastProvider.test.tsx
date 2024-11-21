@@ -55,7 +55,7 @@ describe("ToastProvider and useToast", () => {
     try {
       renderHook(() => useToast());
     } catch (error) {
-      expect(error).toEqual(new Error("useToast must be used within a ToastProvider"));
+      expect(error).toEqual(new Error("useToast skal bruges inde i en ToastProvider"));
     }
 
     consoleErrorMock.mockRestore();

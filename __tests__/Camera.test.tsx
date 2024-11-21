@@ -36,7 +36,7 @@ describe("takePhoto", () => {
     global.alert = jest.fn();
     await getImage("camera");
 
-    expect(global.alert).toHaveBeenCalledWith("Camera access is required to take a photo!");
+    expect(global.alert).toHaveBeenCalledWith("Kamera har brug for tilgang til at kunne tage et billede!");
   });
 
   test("should launch camera if permission is granted", async () => {

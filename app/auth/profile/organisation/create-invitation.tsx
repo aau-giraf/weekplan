@@ -14,7 +14,7 @@ import { Fragment } from "react";
 import { SafeAreaView } from "react-native";
 
 const invitationSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email("Skal være en email adresse"),
 });
 
 type InvitationFormData = z.infer<typeof invitationSchema>;

@@ -20,7 +20,7 @@ export const updateProfileRequest = async (userId: string | null, data: UpdatePr
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Kunne ikke opdatere profildata");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere profildata");
 };
 
 export const changePasswordRequest = async (userId: string | null, data: ChangePasswordDTO) => {
@@ -33,7 +33,7 @@ export const changePasswordRequest = async (userId: string | null, data: ChangeP
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Kunne ikke opdatere adgangskode");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere adgangskode");
 };
 
 export const deleteUserRequest = async (userId: string | null, data: DeleteUserDTO) => {
@@ -46,7 +46,7 @@ export const deleteUserRequest = async (userId: string | null, data: DeleteUserD
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Kunne ikke slette brugeren");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke slette brugeren");
 };
 
 export const uploadProfileImageRequest = async (userId: string | null, imageUri: string | null) => {
@@ -73,5 +73,5 @@ export const uploadProfileImageRequest = async (userId: string | null, imageUri:
     method: "POST",
     body: formData,
   });
-  if (!res.ok) throw new Error("Kunne ikke uploade profilbillede");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke uploade profilbillede");
 };

@@ -7,7 +7,7 @@ export const fetchInvitationByUserRequest = async (userId: string) => {
 
   const url = `${BASE_URL}/invitations/user/${userId}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente dine invitationer");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente dine invitationer");
   return res.json();
 };
 
@@ -17,7 +17,7 @@ export const acceptInvitationRequest = async (invitationId: number, isAccepted: 
     method: "PUT",
     headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Kunne ikke acceptere invitation");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke acceptere invitation");
 };
 
 export const createInvitationRequest = async (orgId: number, receiverEmail: string, senderId: string) => {
@@ -28,6 +28,6 @@ export const createInvitationRequest = async (orgId: number, receiverEmail: stri
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newInvitation),
   });
-  if (res.status === 400) throw new Error("Kunne ikke finde en bruger med den angivne email");
-  if (!res.ok) throw new Error("Kunne ikke oprette invitation");
+  if (res.status === 400) throw new Error("Fejl: Kunne ikke finde en bruger med den angivne email");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette invitation");
 };
