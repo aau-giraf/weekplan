@@ -27,6 +27,12 @@ const members = [
   },
 ];
 
+jest.mock("../providers/ProfilePictureUpdaterProvider", () => ({
+  useProfilePictureUpdater: () => ({
+    timestamp: "123",
+  }),
+}));
+
 describe("MemberView Component", () => {
   it("renders the correct number of members when below MAX_DISPLAYED_MEMBERS", () => {
     const mockMembers = Array.from({ length: 5 }, (_, i) =>
