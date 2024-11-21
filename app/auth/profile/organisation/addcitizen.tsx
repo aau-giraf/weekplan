@@ -17,11 +17,11 @@ const citizenSchema = z.object({
   firstName: z
     .string()
     .min(2, "Fornavn skal være mindst 2 karakterer langt")
-    .max(20, "Fornavn skal være højst 20 karakterer langt"),
+    .max(20, "Fornavn må højst være 20 karakterer langt"),
   lastName: z
     .string()
     .min(2, "Efternavn skal være mindst 2 karakterer langt")
-    .max(20, "Efternavn skal være højst 20 karakterer langt"),
+    .max(20, "Efternavn må højst være 20 karakterer langt"),
 });
 
 type CitizenData = z.infer<typeof citizenSchema>;

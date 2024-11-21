@@ -23,7 +23,7 @@ const EditActivity = () => {
   }
 
   if (citizenId === null) {
-    throw new Error("Citizen ID er null");
+    throw new Error("Borger ID er null");
   }
 
   const activities = queryClient.getQueryData<ActivityDTO[]>(dateToQueryKey(selectedDate, citizenId));

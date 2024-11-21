@@ -7,7 +7,7 @@ export const fetchProfileRequest = async (userId: string | null) => {
   }
   const url = `${BASE_URL}/users/${userId}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente profildata");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente din profil");
   return res.json();
 };
 
@@ -20,7 +20,7 @@ export const updateProfileRequest = async (userId: string | null, data: UpdatePr
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere profildata");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere din profil");
 };
 
 export const changePasswordRequest = async (userId: string | null, data: ChangePasswordDTO) => {
@@ -33,7 +33,7 @@ export const changePasswordRequest = async (userId: string | null, data: ChangeP
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere adgangskode");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere din adgangskode");
 };
 
 export const deleteUserRequest = async (userId: string | null, data: DeleteUserDTO) => {
@@ -46,7 +46,7 @@ export const deleteUserRequest = async (userId: string | null, data: DeleteUserD
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke slette brugeren");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke slette din konto");
 };
 
 export const uploadProfileImageRequest = async (userId: string | null, imageUri: string | null) => {

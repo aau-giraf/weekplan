@@ -28,6 +28,6 @@ export const createInvitationRequest = async (orgId: number, receiverEmail: stri
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newInvitation),
   });
-  if (res.status === 400) throw new Error("Fejl: Kunne ikke finde en bruger med den angivne email");
+  if (res.status === 400) throw new Error("Fejl: Kunne ikke finde en bruger med den angivne e-mail");
   if (!res.ok) throw new Error("Fejl: Kunne ikke oprette invitation");
 };

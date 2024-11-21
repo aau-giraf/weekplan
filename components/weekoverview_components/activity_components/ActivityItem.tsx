@@ -51,7 +51,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImage
             />
           </Pressable>
         ) : (
-          <Text style={styles.iconPlaceholderText}>Ingen Icon</Text>
+          <Text style={styles.iconPlaceholderText}>Intet ikon</Text>
         )}
       </View>
     </View>

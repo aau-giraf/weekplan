@@ -8,7 +8,7 @@ export const fetchPictograms = async (id: number): Promise<string> => {
   const res = await fetch(`https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`);
 
   if (!res.ok) {
-    throw new Error(`Fejl: Kunne ikke hente piktogramarne, status kode: ${res.status}`);
+    throw new Error(`Fejl: Kunne ikke hente piktogrammerne, status kode: ${res.status}`);
   }
 
   const contentType = res.headers.get("Content-Type");

@@ -58,7 +58,7 @@ const AddActivity = () => {
 
   const onSubmit = async (formData: FormData) => {
     if (citizenId === null) {
-      addToast({ message: "Fejl, prøvede at tilføje aktivitet uden at vælge en borger", type: "error" });
+      addToast({ message: "Fejl: Kan ikke tilføje en aktivitet uden at vælge en borger", type: "error" });
       return;
     }
     const { title, description, startTime, endTime } = formData;
