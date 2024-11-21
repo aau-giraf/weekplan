@@ -11,7 +11,7 @@ import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 
 const ViewGrade = () => {
   const [searchedCitizens, setSearchedCitizens] = useState<string>("");
-  const { setIsCitizen, setId, id } = useWeekplan();
+  const { setIsCitizen, setId } = useWeekplan();
   const { grade } = useLocalSearchParams();
   const parsedID = Number(grade);
   const { data, error, isLoading } = useGrades(parsedID);
