@@ -30,7 +30,13 @@ const ChangeProfilePicture = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
       <FormContainer style={styles.container}>
         <View style={styles.profileContainer}>
-          <ProfilePicture style={styles.mainProfilePicture} label={label} userId={userId} />
+          <ProfilePicture
+            style={styles.mainProfilePicture}
+            label={label}
+            userId={userId}
+            imageURI={imageUri}
+            key={imageUri}
+          />
         </View>
         <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
         <SecondaryButton

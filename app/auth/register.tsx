@@ -70,7 +70,7 @@ const RegisterScreen: React.FC = () => {
           progressRef.current?.nextStep();
         }
       })
-      .catch((error) => {
+      .catch(() => {
         addToast({ message: "Der skete en fejl under oprettelse af bruger", type: "error" });
       });
   };
@@ -80,7 +80,7 @@ const RegisterScreen: React.FC = () => {
       .then(() => {
         router.replace("/auth/login");
       })
-      .catch((error) => {
+      .catch(() => {
         addToast({ message: "Der skete en fejl under upload af billede", type: "error" });
       });
   };
@@ -118,7 +118,13 @@ const RegisterScreen: React.FC = () => {
         </FormContainer>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>
-            <ProfilePicture style={styles.mainProfilePicture} label={label} userId={userId} />
+            <ProfilePicture
+              style={styles.mainProfilePicture}
+              label={label}
+              userId={userId}
+              imageURI={imageUri}
+              key={imageUri}
+            />
           </View>
           <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
           <SecondaryButton

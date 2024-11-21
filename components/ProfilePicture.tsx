@@ -9,7 +9,7 @@ type ProfilePictureProps = {
   userId?: string | null;
   style?: StyleProp<ViewStyle>;
   fontSize?: number;
-  imageURI?: string;
+  imageURI?: string | null;
 };
 
 export const ProfilePicture = ({ label, userId, style, fontSize, imageURI }: ProfilePictureProps) => {
@@ -23,12 +23,20 @@ export const ProfilePicture = ({ label, userId, style, fontSize, imageURI }: Pro
     .join("")
     .toUpperCase();
 
-  const uri = imageError ? null : imageURI || (userId ? `${BASE_URL}/images/users/${userId}.jpeg` : null);
+  const uri = imageURI ?? `${BASE_URL}/images/users/${userId}.jpeg`;
 
   return (
     <View style={[styles.ProfilePictureContainer, style, { backgroundColor: colourFromName }]}>
-      {uri ? (
-        <Image source={{ uri }} style={styles.ProfileImage} onError={() => setImageError(true)} />
+      {uri && !imageError ? (
+        <Image
+          source={{ uri }}
+          style={styles.ProfileImage}
+          onError={() => {
+            if (!imageURI) {
+              setImageError(true);
+            }
+          }}
+        />
       ) : (
         <Text
           style={[
