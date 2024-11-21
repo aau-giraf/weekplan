@@ -11,6 +11,8 @@ node_modules/
 .expo/README.md
 dist/
 web-build/
+android/
+ios/
 
 # Native
 *.orig.*

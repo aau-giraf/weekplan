@@ -35,10 +35,3 @@ export const createOrganisationsRequest = async (
   if (!res.ok) throw new Error("Kunne ikke oprette organisation");
   return res.json();
 };
-
-export const fetchAllClassesInOrganisationRequest = async (organisationId: number) => {
-  const url = `${BASE_URL}/grades/org/${organisationId}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente klasse");
-  return res.json();
-};
