@@ -14,7 +14,7 @@ import { Fragment } from "react";
 import { SafeAreaView } from "react-native";
 
 const invitationSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email("Indtast en gyldig e-mailadresse"),
 });
 
 type InvitationFormData = z.infer<typeof invitationSchema>;
@@ -37,7 +37,7 @@ const CreateInvitationPage: React.FC = () => {
   const onSubmit = async (data: InvitationFormData) => {
     const { email } = data;
     if (!userId) {
-      addToast({ message: "Du er ikke logget ind", type: "error" });
+      addToast({ message: "Fejl: Du er ikke logget ind", type: "error" });
       return;
     }
     createInvitation

@@ -9,12 +9,12 @@ export const getImage = async (imageSelector: getImageProps) => {
       : await ImagePicker.requestMediaLibraryPermissionsAsync();
 
   if (!permissionResult.granted && imageSelector === "camera") {
-    alert("Camera access is required to take a photo!");
+    alert("Kamera har brug for adgang til at kunne tage et billede!");
     return null;
   }
 
   if (!permissionResult.granted && imageSelector === "photoAlbum") {
-    alert("Media library access is required to select a photo!");
+    alert("Adgang til fotoalbum er påkrævet for at vælge et billede!");
     return null;
   }
 

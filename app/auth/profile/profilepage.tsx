@@ -1,13 +1,5 @@
 import React, { Fragment, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Dimensions,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../components/ProfilePicture";
 import IconButton from "../../../components/IconButton";
@@ -22,14 +14,6 @@ import { router } from "expo-router";
 import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
-
-const screenWidth = Dimensions.get("window").width;
-
-const calculateNumberOfColumns = () => {
-  const columnWidth = 150;
-  const numColumns = Math.floor(screenWidth / columnWidth);
-  return numColumns > 0 ? numColumns : 1;
-};
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -86,8 +70,7 @@ const ProfilePage: React.FC = () => {
             data={orgData}
             renderItem={renderOrgContainer}
             keyExtractor={(item, index) => index.toString() + item.name}
-            numColumns={calculateNumberOfColumns()}
-            columnWrapperStyle={styles.columnWrapper}
+            numColumns={1}
             ListEmptyComponent={<Text>Ingen organisationer fundet</Text>}
             ListHeaderComponent={
               <View style={styles.headerContainer}>
@@ -175,10 +158,10 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   itemContainer: {
-    flex: 1,
-    margin: ScaleSize(8),
+    flexDirection: "row",
+    padding: 10,
+    backgroundColor: colors.lightBlue,
     alignItems: "center",
-    width: screenWidth / calculateNumberOfColumns() - ScaleSizeW(8),
   },
   profilePicture: {
     height: ScaleSizeH(150),
@@ -186,14 +169,14 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
   itemText: {
+    flex: 1,
+    flexWrap: "wrap",
     textAlign: "center",
     fontSize: ScaleSize(25),
   },
-  columnWrapper: {
-    justifyContent: "flex-start",
-  },
   headerContainer: {
     alignItems: "center",
+    backgroundColor: colors.lightBlue,
   },
   profileHeader: {
     backgroundColor: colors.white,
@@ -207,8 +190,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
   },
   mainProfilePicture: {
-    width: "50%",
-    maxHeight: ScaleSizeH(250),
+    width: "60%",
+    maxHeight: ScaleSizeH(200),
     aspectRatio: 1,
     borderRadius: 10000,
   },
@@ -222,7 +205,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    padding: ScaleSize(14),
+    padding: ScaleSize(30),
   },
   organizationsText: {
     fontSize: ScaleSize(48),

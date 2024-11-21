@@ -25,7 +25,7 @@ type ActivityItemProps = {
  */
 const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImageUri, setModalVisible }) => {
   const { useFetchPictograms } = usePictogram(27575);
-  const { data, error, isLoading } = useFetchPictograms;
+  const { data } = useFetchPictograms;
 
   const handleImagePress = (uri: string) => {
     setImageUri(uri);
@@ -51,7 +51,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImage
             />
           </Pressable>
         ) : (
-          <Text style={styles.iconPlaceholderText}>No Icon</Text>
+          <Text style={styles.iconPlaceholderText}>Intet ikon</Text>
         )}
       </View>
     </View>

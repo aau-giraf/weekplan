@@ -8,7 +8,7 @@ export const fetchAllOrganisationsRequest = async (userId: string) => {
 
   const url = `${BASE_URL}/organizations/user/${userId}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente dine organisationer");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente dine organisationer");
   return res.json();
 };
 
@@ -17,7 +17,7 @@ export const deleteOrganisationRequest = async (organisationId: number) => {
   const res = await fetch(url, {
     method: "DELETE",
   });
-  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+  if (res.status === 500) throw new Error("Fejl: Der er muligvis server problemer");
 };
 
 export const createOrganisationsRequest = async (
@@ -32,13 +32,6 @@ export const createOrganisationsRequest = async (
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: orgName }),
   });
-  if (!res.ok) throw new Error("Kunne ikke oprette organisation");
-  return res.json();
-};
-
-export const fetchAllClassesInOrganisationRequest = async (organisationId: number) => {
-  const url = `${BASE_URL}/grades/org/${organisationId}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente klasse");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette organisation");
   return res.json();
 };

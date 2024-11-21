@@ -14,8 +14,14 @@ import { useForm } from "react-hook-form";
 import { useLocalSearchParams } from "expo-router";
 
 const citizenSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters long").max(20),
-  lastName: z.string().min(2, "Last name must be at least 2 characters long").max(20),
+  firstName: z
+    .string()
+    .min(2, "Fornavn skal være mindst 2 karakterer langt")
+    .max(20, "Fornavn må højst være 20 karakterer langt"),
+  lastName: z
+    .string()
+    .min(2, "Efternavn skal være mindst 2 karakterer langt")
+    .max(20, "Efternavn må højst være 20 karakterer langt"),
 });
 
 type CitizenData = z.infer<typeof citizenSchema>;
@@ -110,7 +116,7 @@ const AddCitizen: React.FC = () => {
                 <CitizenForm onSubmit={handleAddCitizen} />
                 <FormHeader
                   style={{ textAlign: "left", fontSize: ScaleSize(35), marginVertical: 20 }}
-                  title={"List over nyligt tilføjede"}
+                  title={"Liste over nyligt tilføjede"}
                 />
               </>
             ),

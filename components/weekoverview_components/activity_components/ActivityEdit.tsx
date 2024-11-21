@@ -4,7 +4,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useActivity, { ActivityDTO } from "../../../hooks/useActivity";
-import { useCitizen } from "../../../providers/CitizenProvider";
 import { useDate } from "../../../providers/DateProvider";
 import { useToast } from "../../../providers/ToastProvider";
 import formatTimeHHMM from "../../../utils/formatTimeHHMM";
@@ -14,6 +13,7 @@ import FormTimePicker from "../../forms/FormTimePicker";
 import SubmitButton from "../../forms/SubmitButton";
 import FormField from "../../forms/TextInput";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
+import { useWeekplan } from "../../../providers/WeekplanProvider";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -48,7 +48,7 @@ type FormData = z.infer<typeof schema>;
  */
 const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   const { selectedDate } = useDate();
-  const { citizenId } = useCitizen();
+  const { id } = useWeekplan();
   const { updateActivity } = useActivity({ date: selectedDate });
   const { addToast } = useToast();
 
@@ -70,7 +70,7 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   });
 
   const onSubmit = async (formData: FormData) => {
-    if (citizenId === null) {
+    if (id === null) {
       addToast({ message: "Fejl, prøvede at tilføje aktivitet uden at vælge en borger", type: "error" });
       return;
     }
@@ -79,7 +79,7 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
     const endTimeHHMM = formatTimeHHMM(formData.endTime);
     const data = {
       activityId: activity.activityId,
-      citizenId: citizenId,
+      citizenId: id,
       date: formData.date.toDateString(),
       name: formData.title,
       description: formData.description,

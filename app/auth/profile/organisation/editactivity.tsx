@@ -5,8 +5,8 @@ import { useDate } from "../../../../providers/DateProvider";
 import { ActivityDTO, dateToQueryKey } from "../../../../hooks/useActivity";
 import { Fragment } from "react";
 import { SafeAreaView } from "react-native";
-import { useCitizen } from "../../../../providers/CitizenProvider";
 import { colors } from "../../../../utils/SharedStyles";
+import { useWeekplan } from "../../../../providers/WeekplanProvider";
 
 type Params = {
   activityId: string;
@@ -14,7 +14,7 @@ type Params = {
 
 const EditActivity = () => {
   const { activityId } = useLocalSearchParams<Params>();
-  const { citizenId } = useCitizen();
+  const { id, isCitizen } = useWeekplan();
   const { selectedDate } = useDate();
   const queryClient = useQueryClient();
 
@@ -22,11 +22,11 @@ const EditActivity = () => {
     throw new Error("Ugyldigt aktivitet id");
   }
 
-  if (citizenId === null) {
-    throw new Error("Citizen ID is null");
+  if (id === null) {
+    throw new Error("Borger ID er null");
   }
 
-  const activities = queryClient.getQueryData<ActivityDTO[]>(dateToQueryKey(selectedDate, citizenId));
+  const activities = queryClient.getQueryData<ActivityDTO[]>(dateToQueryKey(selectedDate, isCitizen, id));
   const activity = activities?.find((activity) => activity.activityId === parseInt(activityId));
 
   if (!activity) {
