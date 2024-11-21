@@ -10,7 +10,6 @@ import SearchBar from "../../../../../components/SearchBar";
 import { ProfilePicture } from "../../../../../components/ProfilePicture";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 
-
 type Citizen = {
   firstName: string;
   lastName: string;
