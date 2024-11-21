@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ToastProvider from "./ToastProvider";
 import AuthenticationProvider from "./AuthenticationProvider";
+import { ProfilePictureUpdaterProvider } from "./ProfilePictureUpdaterProvider";
 
 type CustomLayoutProps = {
   children: React.ReactNode;
@@ -28,7 +29,9 @@ const ProviderWrapper = ({ children }: CustomLayoutProps) => {
   return (
     <ToastProvider>
       <AuthenticationProvider>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <ProfilePictureUpdaterProvider>{children}</ProfilePictureUpdaterProvider>
+        </QueryClientProvider>
       </AuthenticationProvider>
     </ToastProvider>
   );

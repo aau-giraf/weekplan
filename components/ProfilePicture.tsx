@@ -1,11 +1,11 @@
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, Text, View, Image, ViewStyle, StyleProp } from "react-native";
 import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../utils/profileColors";
 import { BASE_URL } from "../utils/globals";
-import { useAuthentication } from "../providers/AuthenticationProvider";
+
 import initialsFromName from "../utils/initialFromName";
+import { useProfilePictureUpdater } from "../providers/ProfilePictureUpdaterProvider";
 
 type ProfilePictureProps = {
   label: string;
@@ -29,21 +29,7 @@ type ProfilePictureProps = {
  */
 export const ProfilePicture = ({ label, userId, style, fontSize, imageURI }: ProfilePictureProps) => {
   const [imageError, setImageError] = useState(false);
-  const [timestamp, setTimestamp] = useState(Date.now());
-  const { userId: loggedInUserId } = useAuthentication();
-
-  /*
-   * React Navigation hook that re-executes logic whenever the screen gains focus.
-   * Used here to update the timestamp and force a profile picture refresh for the logged-in user.
-   */
-  useFocusEffect(
-    useCallback(() => {
-      if (userId === loggedInUserId) {
-        setTimestamp(Date.now());
-      }
-    }, [loggedInUserId, userId])
-  );
-
+  const { timestamp } = useProfilePictureUpdater();
   const bgColor = hashNameToColour(label);
   const textColor = getContrastingTextColor(bgColor);
   const displayName = initialsFromName(label);

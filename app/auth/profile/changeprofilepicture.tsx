@@ -9,16 +9,19 @@ import { uploadProfileImageRequest } from "../../../apis/profileAPI";
 import { useToast } from "../../../providers/ToastProvider";
 import FormContainer from "../../../components/forms/FormContainer";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
+import { useProfilePictureUpdater } from "../../../providers/ProfilePictureUpdaterProvider";
 
 const ChangeProfilePicture = () => {
   const [label] = useState<string>("");
   const { userId } = useAuthentication();
   const [imageUri, setImageUri] = useState<string | null>(null);
   const { addToast } = useToast();
+  const { updateTimestamp } = useProfilePictureUpdater();
 
   const handleSubmitPicture = async () => {
     await uploadProfileImageRequest(userId, imageUri)
       .then(() => {
+        updateTimestamp();
         router.back();
       })
       .catch((error) => {
