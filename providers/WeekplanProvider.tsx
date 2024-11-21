@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 type WeekplanProviderValues = {
   id: number;
   isCitizen: boolean;
-  setId: (citizenId: number | null) => void;
+  setId: (citizenId: number) => void;
   setIsCitizen: (isCitizen: boolean) => void;
 };
 
@@ -32,7 +32,7 @@ export const WeekplanProvider = ({
       value={{
         isCitizen: value.isCitizen,
         id: value.id,
-        setId: (id: number | null) => setValue((prev) => ({ ...prev, citizenId: id })),
+        setId: (id: number) => setValue((prev) => ({ ...prev, id: id })),
         setIsCitizen: (isCitizen: boolean) => setValue((prev) => ({ ...prev, isCitizen })),
       }}>
       {children}

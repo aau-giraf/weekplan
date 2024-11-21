@@ -16,7 +16,7 @@ export const fetchByDateCitizen = async (id: number, date: Date) => {
     headers: { "Content-Type": "application/json" },
   });
 
-  if (!res.ok) throw new Error("Fejl: Kunne ikke hente aktiviteter");
+  if (!res.ok) console.log(res.status);
   return await res.json();
 };
 
@@ -30,6 +30,7 @@ export const fetchByDateGrade = async (id: number, date: Date) => {
   });
 
   if (!res.ok) throw new Error("Fejl: Kunne ikke hente aktiviteter");
+
   return await res.json();
 };
 
