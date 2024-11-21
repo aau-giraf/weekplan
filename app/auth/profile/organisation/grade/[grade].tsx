@@ -7,11 +7,13 @@ import IconButton from "../../../../../components/IconButton";
 import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
+import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 
 const ViewGrade = () => {
+  const [searchedCitizens, setSearchedCitizens] = useState<string>("");
+  const { setIsCitizen, setId } = useWeekplan();
   const { grade } = useLocalSearchParams();
   const parsedID = Number(grade);
-  const [searchedCitizens, setSearchedCitizens] = useState<string>("");
   const { data, error, isLoading } = useGrades(parsedID);
   const currentGrade = data?.grades.find((grade) => grade.id === parsedID);
 
@@ -52,7 +54,13 @@ const ViewGrade = () => {
               <Ionicons name={"create-outline"} size={ScaleSize(30)} />
             </IconButton>
             {/* Collective Weekplan */}
-            <IconButton onPress={() => {}} absolute={false}>
+            <IconButton
+              onPress={() => {
+                setIsCitizen(false);
+                setId(parsedID);
+                router.push("/auth/profile/organisation/weekplanscreen");
+              }}
+              absolute={false}>
               <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
             </IconButton>
           </View>

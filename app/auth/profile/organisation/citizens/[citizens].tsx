@@ -20,7 +20,7 @@ import {
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
-import { useCitizen } from "../../../../../providers/CitizenProvider";
+import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 
 type Citizen = {
   id: number | string;
@@ -32,7 +32,7 @@ const ViewCitizen = () => {
   const { citizens } = useLocalSearchParams();
   const parsedID = Number(citizens);
 
-  const { setCitizenId } = useCitizen();
+  const { setId, setIsCitizen } = useWeekplan();
   const { deleteCitizen, data, error, isLoading, updateCitizen } = useOrganisation(parsedID);
   const [searchQuery, setSearchQuery] = useState("");
   const { addToast } = useToast();
@@ -107,7 +107,8 @@ const ViewCitizen = () => {
         getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
         keyExtractor={(citizen) => citizen.id.toString()}
         onPress={(item) => {
-          setCitizenId(item.id);
+          setId(item.id);
+          setIsCitizen(true);
           router.push("/auth/profile/organisation/weekplanscreen");
         }}
       />

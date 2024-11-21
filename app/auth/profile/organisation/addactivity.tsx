@@ -11,12 +11,12 @@ import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import FormField from "../../../../components/forms/TextInput";
 import useActivity from "../../../../hooks/useActivity";
-import { useCitizen } from "../../../../providers/CitizenProvider";
 import { useDate } from "../../../../providers/DateProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import formatTimeHHMM from "../../../../utils/formatTimeHHMM";
 import { prettyDate } from "../../../../utils/prettyDate";
 import { colors } from "../../../../utils/SharedStyles";
+import { useWeekplan } from "../../../../providers/WeekplanProvider";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -38,7 +38,7 @@ const AddActivity = () => {
   const { selectedDate } = useDate();
   const { addToast } = useToast();
   const { useCreateActivity } = useActivity({ date: selectedDate });
-  const { citizenId } = useCitizen();
+  const { id } = useWeekplan();
 
   const {
     control,
@@ -57,7 +57,7 @@ const AddActivity = () => {
   });
 
   const onSubmit = async (formData: FormData) => {
-    if (citizenId === null) {
+    if (id === null) {
       addToast({ message: "Fejl, prøvede at tilføje aktivitet uden at vælge en borger", type: "error" });
       return;
     }
@@ -68,7 +68,7 @@ const AddActivity = () => {
 
     await useCreateActivity
       .mutateAsync({
-        citizenId: citizenId,
+        id: id,
         data: {
           activityId: -1,
           name: title,
