@@ -8,7 +8,7 @@ type ActivityItemProps = {
   isCompleted: boolean;
   setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  pictogramId: number;
+  imageUri: string;
 };
 
 /**
@@ -24,17 +24,13 @@ type ActivityItemProps = {
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
  * @returns {JSX.Element} The rendered activity item component.
  */
-const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImageUri, setModalVisible, pictogramId }) => {
-  console.log(pictogramId); //Giver Id'en i console
-  if (typeof pictogramId !== 'number' || isNaN(pictogramId)) {
-    console.error('Invalid pictogramId:', pictogramId); //Check if it is not a number
-  }
-  if (typeof pictogramId == 'number') {
-    console.log('Valid pictogramId:', pictogramId); //Check if it is a number
-  }
-  const { useFetchPictogram } = usePictogram();
-  const { data } = useFetchPictogram(pictogramId); //Den fejler her med "TypeError: Cannot read property 'PictogramId' of undefined"
-
+const ActivityItem: React.FC<ActivityItemProps> = ({
+  time,
+  isCompleted,
+  setImageUri,
+  setModalVisible,
+  imageUri,
+}) => {
   const handleImagePress = (uri: string) => {
     setImageUri(uri);
     setModalVisible(true);
@@ -50,10 +46,10 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImage
       ]}>
       <Text style={styles.timeText}>{time}</Text>
       <View style={styles.iconContainer}>
-        {data && data.PictogramId ? (
-          <Pressable onPress={() => handleImagePress(data)}>
+        {imageUri ? (
+          <Pressable onPress={() => handleImagePress(imageUri)}>
             <Image
-              source={{ uri: data }}
+              source={{ uri: imageUri }}
               style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
               resizeMode="contain"
             />

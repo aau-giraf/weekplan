@@ -11,8 +11,11 @@ import {
 } from "../apis/activityAPI";
 
 import { useCitizen } from "../providers/CitizenProvider";
+import { PictogramDTO } from "./usePictogram";
 
-export type ActivityDTO = Omit<FullActivityDTO, "citizenId"> & {};
+export type ActivityDTO = Omit<FullActivityDTO, "citizenId" | "Pictogram"> & {
+  Pictogram?: PictogramDTO;
+};
 
 export type FullActivityDTO = {
   activityId: number;
@@ -23,6 +26,7 @@ export type FullActivityDTO = {
   name: string;
   startTime: string;
   isCompleted: boolean;
+  Pictogram: PictogramDTO;
   PictogramId: number;
 };
 

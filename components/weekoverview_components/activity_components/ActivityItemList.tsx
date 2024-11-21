@@ -37,7 +37,7 @@ const ActivityItemList = () => {
         time={`${item.startTime}\n${item.endTime}`}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
-        pictogramId={item.pictogram.id}
+        imageUri={item.Pictogram?.pictogramUrl || ""}
       />
     ),
     [setImageUri, setModalVisible]

@@ -80,7 +80,7 @@ const AddActivity = () => {
           endTime: formattedEndTime,
           date: selectedDate.toISOString().split("T")[0],
           isCompleted: false,
-          PictogramId: selectedPictogram ? selectedPictogram.id : 0,
+          PictogramId: selectedPictogram?.id || -1,
         },
       });
 
