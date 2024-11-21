@@ -8,7 +8,7 @@ type ActivityItemProps = {
   isCompleted: boolean;
   setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  PictogramId: number; // Changed from pictogramId to PictogramId
+  PictogramId: number;
 };
 
 /**
@@ -22,7 +22,7 @@ type ActivityItemProps = {
  * @param {Function} props.checkActivity - Function to mark the activity as checked.
  * @param {Function} props.setImageUri - Function to set the image URI.
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
- * @param {number} props.PictogramId - The ID of the pictogram to fetch. // Changed from pictogramId to PictogramId
+ * @param {number} props.PictogramId - The ID of the pictogram to fetch.
  * @returns {JSX.Element} The rendered activity item component.
  */
 const ActivityItem: React.FC<ActivityItemProps> = ({

@@ -23,7 +23,7 @@ export type FullActivityDTO = {
   name: string;
   startTime: string;
   isCompleted: boolean;
-  PictogramId: number; // Changed from pictogramId to PictogramId
+  PictogramId: number;
 };
 
 export const dateToQueryKey = (date: Date, citizenId: number) => {

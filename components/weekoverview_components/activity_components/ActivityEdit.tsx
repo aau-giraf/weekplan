@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useActivity, { ActivityDTO } from "../../../hooks/useActivity";
@@ -14,6 +14,9 @@ import FormTimePicker from "../../forms/FormTimePicker";
 import SubmitButton from "../../forms/SubmitButton";
 import FormField from "../../forms/TextInput";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
+import ImagePickerSelector from "../../ImagePickerSelector";
+import { PictogramDTO } from "../../../hooks/usePictogram";
+import { Button } from "react-native";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -49,8 +52,9 @@ type FormData = z.infer<typeof schema>;
 const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   const { selectedDate } = useDate();
   const { citizenId } = useCitizen();
-  const { updateActivity } = useActivity({ date: selectedDate });
+  const { updateActivity, assignPictogramToActivity } = useActivity({ date: selectedDate });
   const { addToast } = useToast();
+  const [showImagePicker, setShowImagePicker] = useState(false);
 
   const {
     control,
@@ -86,11 +90,20 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
       startTime: startTimeHHMM,
       endTime: endTimeHHMM,
       isCompleted: activity.isCompleted,
+      PictogramId: activity.PictogramId,
     };
     updateActivity
       .mutateAsync(data)
       .catch((error) => addToast({ message: (error as any).message, type: "error" }))
       .finally(() => router.back());
+  };
+
+  const handlePictogramSelect = (pictogram: PictogramDTO) => {
+    assignPictogramToActivity.mutate({
+      activityId: activity.activityId,
+      PictogramId: pictogram.id,
+    });
+    setShowImagePicker(false);
   };
 
   return (
@@ -111,6 +124,11 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
         minDate={getValues("startTime")}
       />
       <FormTimePicker control={control} name="date" placeholder="Dato for aktivitet" mode="date" />
+      <ImagePickerSelector
+        visible={showImagePicker}
+        onSelect={handlePictogramSelect}
+        onClose={() => setShowImagePicker(false)}
+      />
       <SubmitButton
         isValid={isValid}
         isSubmitting={isSubmitting}
