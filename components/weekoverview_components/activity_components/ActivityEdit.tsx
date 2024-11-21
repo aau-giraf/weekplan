@@ -16,7 +16,7 @@ import FormField from "../../forms/TextInput";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import ImagePickerSelector from "../../ImagePickerSelector";
 import { PictogramDTO } from "../../../hooks/usePictogram";
-import { Button } from "react-native";
+import { Button, Image } from "react-native";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -55,6 +55,7 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   const { updateActivity, assignPictogramToActivity } = useActivity({ date: selectedDate });
   const { addToast } = useToast();
   const [showImagePicker, setShowImagePicker] = useState(false);
+  const [selectedPictogram, setSelectedPictogram] = useState<PictogramDTO | null>(null);
 
   const {
     control,
@@ -124,11 +125,13 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
         minDate={getValues("startTime")}
       />
       <FormTimePicker control={control} name="date" placeholder="Dato for aktivitet" mode="date" />
-      <ImagePickerSelector
-        visible={showImagePicker}
-        onSelect={handlePictogramSelect}
-        onClose={() => setShowImagePicker(false)}
-      />
+      <ImagePickerSelector onSelect={(pictogram) => setSelectedPictogram(pictogram)} onClose={() => {}} />
+      {selectedPictogram && (
+        <Image
+          source={{ uri: selectedPictogram.pictogramUrl }}
+          style={{ width: 100, height: 100, marginVertical: 10 }}
+        />
+      )}
       <SubmitButton
         isValid={isValid}
         isSubmitting={isSubmitting}
