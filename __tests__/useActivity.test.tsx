@@ -6,7 +6,7 @@ import useActivity, {
   FullActivityDTO,
   useSingleActivity,
 } from "../hooks/useActivity";
-import CitizenProvider from "../providers/CitizenProvider";
+import WeekplanProvider from "../providers/WeekplanProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,18 +33,18 @@ const mockActivity: FullActivityDTO = {
   isCompleted: false,
 };
 
-const mockCitizenId = 1;
+const mockCitizenData = { id: 1, isCitizen: true };
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <CitizenProvider defaultValue={mockCitizenId}>
+  <WeekplanProvider defaultValue={mockCitizenData}>
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  </CitizenProvider>
+  </WeekplanProvider>
 );
 
 jest.spyOn(queryClient, "invalidateQueries").mockImplementation(() => Promise.resolve());
 
 jest.mock("../apis/activityAPI", () => ({
-  fetchByDateRequestForCitizen: jest.fn().mockImplementation((activityId: number, date) => {
+  fetchByDateCitizen: jest.fn().mockImplementation((activityId: number, date) => {
     return Promise.resolve([
       { ...mockActivity, activityId: 1 },
       { ...mockActivity, activityId: 2 },
@@ -65,6 +65,9 @@ jest.mock("../apis/activityAPI", () => ({
   fetchActivityRequest: jest.fn().mockImplementation((activityId: number) => {
     return Promise.resolve({ ...mockActivity, activityId });
   }),
+  createActivityCitizen: jest.fn().mockImplementation(() => {
+    return Promise.resolve({ ...mockActivity, activityId: 3 });
+  }),
 }));
 
 beforeEach(async () => {
@@ -83,13 +86,15 @@ afterEach(async () => {
 
 test("query key is correct", () => {
   const date = new Date("2024-10-01");
-  const key = dateToQueryKey(date, mockCitizenId);
-  expect(key).toEqual(["activity", "2024-10-01", 1]);
+  const citizenKey = dateToQueryKey(date, mockCitizenData.isCitizen, mockCitizenData.id);
+  const gradeKey = dateToQueryKey(date, false, 1);
+  expect(citizenKey).toEqual(["activity", "citizen", "2024-10-01", 1]);
+  expect(gradeKey).toEqual(["activity", "grade", "2024-10-01", 1]);
 });
 
 test("invalid date throws an error", () => {
   const date = "2024-10-01";
-  expect(() => dateToQueryKey(date as any, mockCitizenId)).toThrow();
+  expect(() => dateToQueryKey(date as any, mockCitizenData.isCitizen, mockCitizenData.id)).toThrow();
 });
 
 test("invalid date throws on error when used in useActivity", async () => {
@@ -112,7 +117,7 @@ test("deleteActivity removes the activity from the list", async () => {
 
   await waitFor(() => expect(result.current.useFetchActivities.isSuccess).toBe(true));
 
-  const key = dateToQueryKey(date, mockCitizenId);
+  const key = dateToQueryKey(date, mockCitizenData.isCitizen, mockCitizenData.id);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -138,7 +143,7 @@ test("updateActivity updates the activity in the list", async () => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
 
-  const key = dateToQueryKey(date, mockCitizenId);
+  const key = dateToQueryKey(date, mockCitizenData.isCitizen, mockCitizenData.id);
   const { citizenId, ...localMock } = mockActivity;
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -171,7 +176,7 @@ test("updateActivity removes activity when date differs", async () => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
 
-  const key = dateToQueryKey(date, mockCitizenId);
+  const key = dateToQueryKey(date, mockCitizenData.isCitizen, mockCitizenData.id);
   const { citizenId, ...localMock } = mockActivity;
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -216,7 +221,7 @@ test("createActivity adds a new activity to the list", async () => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
 
-  const key = dateToQueryKey(date, mockCitizenId);
+  const key = dateToQueryKey(date, mockCitizenData.isCitizen, mockCitizenData.id);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -224,7 +229,7 @@ test("createActivity adds a new activity to the list", async () => {
       { ...mockActivity, activityId: 2 },
     ]);
     await result.current.useCreateActivity.mutateAsync({
-      citizenId: 1,
+      id: 1,
       data: { ...mockActivity, activityId: -1 },
     });
   });
@@ -250,7 +255,7 @@ test("toggleActivityStatus toggles the status of the activity", async () => {
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const key = dateToQueryKey(date, mockCitizenId);
+  const key = dateToQueryKey(date, mockCitizenData.isCitizen, mockCitizenData.id);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -279,7 +284,7 @@ test("toggleActivityStatus does not update the list if the activity is not found
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const key = dateToQueryKey(date, mockCitizenId);
+  const key = dateToQueryKey(date, mockCitizenData.isCitizen, mockCitizenData.id);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(key, [
@@ -310,7 +315,7 @@ test("toggleActivityStatus does not update data if the key differs from initial"
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const differentKey = dateToQueryKey(new Date("2024-10-02"), 2);
+  const differentKey = dateToQueryKey(new Date("2024-10-02"), mockCitizenData.isCitizen, mockCitizenData.id);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(differentKey, [{ ...mockActivity, activityId: 1 }]);
@@ -335,7 +340,7 @@ test("deleteActivity does not remove data if the key differs from initial", asyn
   await waitFor(() => {
     expect(result.current.useFetchActivities.isSuccess).toBe(true);
   });
-  const differentKey = dateToQueryKey(new Date("2024-10-02"), 2);
+  const differentKey = dateToQueryKey(new Date("2024-10-02"), mockCitizenData.isCitizen, mockCitizenData.id);
 
   await act(async () => {
     queryClient.setQueryData<ActivityDTO[]>(differentKey, [{ ...mockActivity, activityId: 1 }]);
