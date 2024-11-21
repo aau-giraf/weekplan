@@ -80,7 +80,7 @@ describe("AuthenticationProvider and useAuthentication", () => {
 
     await waitFor(() => {
       expect(addToast).toHaveBeenCalledWith({
-        message: "Toast not received",
+        message: "Toast er ikke blevet modtaget",
         type: "error",
       });
     });

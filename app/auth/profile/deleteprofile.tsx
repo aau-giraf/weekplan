@@ -96,13 +96,13 @@ const DeleteProfileScreen: React.FC = () => {
           control={control}
           name="currentPassword"
           placeholder="Indtast nuværende adgangskode"
-          secureText={true}
+          secureTextEntry
         />
         <FormField
           control={control}
           name="confirmPassword"
           placeholder="Bekræft adgangskode"
-          secureText={true}
+          secureTextEntry
         />
         <SubmitButton
           isValid={isValid}

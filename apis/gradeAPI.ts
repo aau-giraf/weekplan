@@ -10,14 +10,14 @@ export const addCitizenToGradeRequest = async (citizenIds: number[], gradeId: nu
     },
     body: JSON.stringify(citizenIds),
   });
-  if (!res.ok) throw new Error("Kunne ikke tilføje borger til klasse");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke tilføje borger til klasse");
   return res.json();
 };
 
 export const fetchCitizenById = async (citizenId: number): Promise<CitizenDTO> => {
   const url = `${BASE_URL}/citizens/${citizenId}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente borger");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente borger");
   return res.json();
 };
 
@@ -33,7 +33,7 @@ export const fetchOrganisationFromGradeRequest = async (gradeId: number): Promis
 
   const url = `${BASE_URL}/organizations/grades/${gradeId}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente organisation");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente organisation");
   return res.json();
 };
 
@@ -49,7 +49,7 @@ export const removeCitizenFromGradeRequest = async (
     },
     body: JSON.stringify(citizenIds),
   });
-  if (!res.ok) throw new Error("Kunne ikke fjerne borger fra klasse");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke fjerne borger fra klasse");
   return res.json();
 };
 
@@ -62,6 +62,6 @@ export const createNewGradeRequest = async (gradeName: string, orgId: number): P
     },
     body: JSON.stringify({ name: gradeName }),
   });
-  if (!res.ok) throw new Error("Kunne ikke oprette klasse");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette klasse");
   return res.json();
 };

@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
+    throw new Error("useToast skal bruges inde i en ToastProvider");
   }
   return context;
 };

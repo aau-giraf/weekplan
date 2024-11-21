@@ -3,7 +3,7 @@ import { BASE_URL } from "../utils/globals";
 export const fetchOrganisationRequest = async (organisationId: number) => {
   const url = `${BASE_URL}/organizations/${organisationId}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Kunne ikke hente data for organisationen");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente data for organisationen");
   return res.json();
 };
 
@@ -20,7 +20,7 @@ export const createCitizenRequest = async (
     },
     body: JSON.stringify({ firstName: firstname, lastName: lastName }),
   });
-  if (!res.ok) throw new Error("Kunne ikke oprette borger");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette borger");
   return res.json();
 };
 
@@ -30,7 +30,7 @@ export const deleteCitizenRequest = async (orgId: number, citizenId: number) => 
     method: "DELETE",
   });
 
-  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+  if (res.status === 500) throw new Error("Fejl: Der er muligvis server problemer");
 };
 
 export const deleteMemberRequest = async (orgId: number, memberId: string) => {
@@ -39,7 +39,7 @@ export const deleteMemberRequest = async (orgId: number, memberId: string) => {
     method: "put",
   });
 
-  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+  if (res.status === 500) throw new Error("Fejl: Der er muligvis server problemer");
 };
 
 export const updateCitizenRequest = async (citizenId: number, firstName: string, lastName: string) => {
@@ -52,5 +52,5 @@ export const updateCitizenRequest = async (citizenId: number, firstName: string,
     body: JSON.stringify({ firstName, lastName }),
   });
 
-  if (!res.ok) throw new Error("Kunne ikke opdatere borger");
+  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere borger");
 };

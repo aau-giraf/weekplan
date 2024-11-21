@@ -1,5 +1,5 @@
 import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,11 +23,15 @@ const ViewOrganisation = () => {
   const createBottomSheetRef = useRef<BottomSheet>(null);
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View>
+        <ActivityIndicator size={"large"} />
+      </View>
+    );
   }
 
   if (error) {
-    return <Text>Error loading organization data</Text>;
+    return <Text>{error.message}</Text>;
   }
 
   const closeBS = () => bottomSheetRef.current?.close();

@@ -32,7 +32,7 @@ export type FullActivityDTO = {
 
 export const dateToQueryKey = (date: Date, isCitizen: boolean, id: number) => {
   if (!(date instanceof Date)) {
-    throw new Error("Invalid date");
+    throw new Error("Ugyldig dato");
   }
   return ["activity", isCitizen ? "citizen" : "grade", date.toISOString().split("T")[0], id];
 };
@@ -49,7 +49,7 @@ export default function useActivity({ date }: { date: Date }) {
   const queryClient = useQueryClient();
   const { id, isCitizen } = useWeekplan();
 
-  if (id === null) throw new Error("Citizen ID is null");
+  if (id === null) throw new Error("Bruger Id er null");
 
   const queryKey = dateToQueryKey(date, isCitizen, id);
 

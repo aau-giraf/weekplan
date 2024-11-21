@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  SafeAreaView,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState, useMemo, Fragment } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW } from "../../../../../utils/SharedStyles";
@@ -56,7 +64,7 @@ const AddCitizen = () => {
   if (error) {
     return (
       <View style={styles.centeredContainer}>
-        <Text>Error loading grade data</Text>
+        <Text>{error.message}</Text>
       </View>
     );
   }
@@ -64,7 +72,7 @@ const AddCitizen = () => {
   if (isLoading) {
     return (
       <View style={styles.centeredContainer}>
-        <Text>Loading...</Text>
+        <ActivityIndicator size={"large"} />
       </View>
     );
   }
