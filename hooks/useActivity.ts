@@ -7,11 +7,13 @@ import {
   fetchByDateRequestForCitizen,
   toggleActivityStatusRequest,
   updateRequest,
+  assignPictogramToActivityRequest,
 } from "../apis/activityAPI";
 
 import { useCitizen } from "../providers/CitizenProvider";
 
-export type ActivityDTO = Omit<FullActivityDTO, "citizenId">;
+export type ActivityDTO = Omit<FullActivityDTO, "citizenId"> & {};
+
 export type FullActivityDTO = {
   activityId: number;
   citizenId: number;
@@ -21,6 +23,7 @@ export type FullActivityDTO = {
   name: string;
   startTime: string;
   isCompleted: boolean;
+  PictogramId: number; // Changed from pictogramId to PictogramId
 };
 
 export const dateToQueryKey = (date: Date, citizenId: number) => {
@@ -183,6 +186,12 @@ export default function useActivity({ date }: { date: Date }) {
     },
   });
 
+  const assignPictogramToActivity = useMutation({
+    mutationFn: ({ activityId, PictogramId }: { activityId: number; PictogramId: number }) =>
+      assignPictogramToActivityRequest(activityId, PictogramId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+  });
+
   return {
     invalidateQueries: () => queryClient.invalidateQueries({ queryKey }),
     data: useFetchActivities.data,
@@ -192,6 +201,7 @@ export default function useActivity({ date }: { date: Date }) {
     useToggleActivityStatus,
     useCreateActivity,
     copyActivities,
+    assignPictogramToActivity,
   };
 }
 

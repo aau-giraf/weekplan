@@ -111,3 +111,12 @@ export const copyActivitiesRequest = async (
   });
   if (!res.ok) throw new Error("Fejl: Kunne ikke kopier aktiviteter");
 };
+
+export const assignPictogramToActivityRequest = async (activityId: number, pictogramId: number) => {
+  const res = await fetch(`${BASE_URL}/weekplan/activity/assign-pictogram/${activityId}/${pictogramId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Fejl: Kunne ikke tildele piktogram til aktivitet");
+  return await res.json();
+};

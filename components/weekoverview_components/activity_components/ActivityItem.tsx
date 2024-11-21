@@ -8,6 +8,7 @@ type ActivityItemProps = {
   isCompleted: boolean;
   setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  PictogramId: number; // Changed from pictogramId to PictogramId
 };
 
 /**
@@ -21,11 +22,18 @@ type ActivityItemProps = {
  * @param {Function} props.checkActivity - Function to mark the activity as checked.
  * @param {Function} props.setImageUri - Function to set the image URI.
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
+ * @param {number} props.PictogramId - The ID of the pictogram to fetch. // Changed from pictogramId to PictogramId
  * @returns {JSX.Element} The rendered activity item component.
  */
-const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImageUri, setModalVisible }) => {
-  const { useFetchPictograms } = usePictogram(27575);
-  const { data, error, isLoading } = useFetchPictograms;
+const ActivityItem: React.FC<ActivityItemProps> = ({
+  time,
+  isCompleted,
+  setImageUri,
+  setModalVisible,
+  PictogramId,
+}) => {
+  const { useFetchPictogram } = usePictogram({ PictogramId: PictogramId });
+  const { data: pictogram, error, isLoading } = useFetchPictogram(PictogramId);
 
   const handleImagePress = (uri: string) => {
     setImageUri(uri);
@@ -42,10 +50,12 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImage
       ]}>
       <Text style={styles.timeText}>{time}</Text>
       <View style={styles.iconContainer}>
-        {data ? (
-          <Pressable onPress={() => handleImagePress(data)}>
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : pictogram ? (
+          <Pressable onPress={() => handleImagePress(pictogram.pictogramUrl)}>
             <Image
-              source={{ uri: data }}
+              source={{ uri: pictogram.pictogramUrl }}
               style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
               resizeMode="contain"
             />

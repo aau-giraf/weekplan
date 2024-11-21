@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import React, { Fragment } from "react";
-import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback } from "react-native";
+import React, { Fragment, useState } from "react";
+import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback, Image } from "react-native";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import FormContainer from "../../../../components/forms/FormContainer";
@@ -17,6 +17,8 @@ import { useToast } from "../../../../providers/ToastProvider";
 import formatTimeHHMM from "../../../../utils/formatTimeHHMM";
 import { prettyDate } from "../../../../utils/prettyDate";
 import { colors } from "../../../../utils/SharedStyles";
+import ImagePickerSelector from "../../../../components/ImagePickerSelector";
+import { PictogramDTO } from "../../../../hooks/usePictogram";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Du skal have en titel"),
@@ -37,8 +39,9 @@ const AddActivity = () => {
   const router = useRouter();
   const { selectedDate } = useDate();
   const { addToast } = useToast();
-  const { useCreateActivity } = useActivity({ date: selectedDate });
+  const { assignPictogramToActivity, useCreateActivity } = useActivity({ date: selectedDate });
   const { citizenId } = useCitizen();
+  const [selectedPictogram, setSelectedPictogram] = useState<PictogramDTO | null>(null);
 
   const {
     control,
@@ -66,8 +69,8 @@ const AddActivity = () => {
     const formattedStartTime = formatTimeHHMM(startTime);
     const formattedEndTime = formatTimeHHMM(endTime);
 
-    await useCreateActivity
-      .mutateAsync({
+    try {
+      const activity = await useCreateActivity.mutateAsync({
         citizenId: citizenId,
         data: {
           activityId: -1,
@@ -77,12 +80,21 @@ const AddActivity = () => {
           endTime: formattedEndTime,
           date: selectedDate.toISOString().split("T")[0],
           isCompleted: false,
+          PictogramId: selectedPictogram ? selectedPictogram.id : 0,
         },
-      })
-      .catch((error) => {
-        addToast({ message: error.message, type: "error" });
-      })
-      .finally(() => router.back());
+      });
+
+      if (selectedPictogram) {
+        await assignPictogramToActivity.mutateAsync({
+          activityId: activity.activityId,
+          PictogramId: selectedPictogram.id,
+        });
+      }
+    } catch (error: any) {
+      addToast({ message: error.message, type: "error" });
+    } finally {
+      router.back();
+    }
   };
 
   return (
@@ -110,6 +122,16 @@ const AddActivity = () => {
               androidDisplay={"spinner"}
               iosDisplay={"default"}
             />
+            <ImagePickerSelector
+              onSelect={(pictogram) => setSelectedPictogram(pictogram)}
+              onClose={() => {}}
+            />
+            {selectedPictogram && (
+              <Image
+                source={{ uri: selectedPictogram.pictogramUrl }}
+                style={{ width: 100, height: 100, marginVertical: 10 }}
+              />
+            )}
             <SubmitButton
               isValid={isValid}
               isSubmitting={isSubmitting}
