@@ -25,7 +25,7 @@ type ActivityItemProps = {
  */
 const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImageUri, setModalVisible }) => {
   const { useFetchPictograms } = usePictogram(27575);
-  const { data, error, isLoading } = useFetchPictograms;
+  const { data } = useFetchPictograms;
 
   const handleImagePress = (uri: string) => {
     setImageUri(uri);

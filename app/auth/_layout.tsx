@@ -30,8 +30,9 @@ const AuthRootLayout = () => {
             <Stack.Screen name="profile/organisation/create-invitation" />
             <Stack.Screen name="profile/organisation/members/[members]" />
             <Stack.Screen name="profile/organisation/citizens/[citizens]" />
-            <Stack.Screen name="profile/organisation/class/[grade]" />
-            <Stack.Screen name="profile/organisation/class/addcitizen" />
+            <Stack.Screen name="profile/organisation/grade/[grade]" />
+            <Stack.Screen name="profile/organisation/grade/addcitizen" />
+            <Stack.Screen name="profile/organisation/grade/removecitizen" />
           </Stack>
         </DateProvider>
       </WeekplanProvider>

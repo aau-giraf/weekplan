@@ -8,6 +8,8 @@ import {
 } from "../apis/organisationAPI";
 
 import { ActivityDTO } from "./useActivity";
+import { GradeDTO } from "./useGrades";
+import { createNewGradeRequest } from "../apis/gradeAPI";
 
 export type UserDTO = {
   id: string;
@@ -30,11 +32,18 @@ export type OrgDTO = {
   citizens: CitizenDTO[];
 };
 
+export type FullOrgDTO = {
+  id: number;
+  name: string;
+  users: UserDTO[];
+  citizens: CitizenDTO[];
+  grades: GradeDTO[];
+};
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
   const queryKey = [orgId, "Organisation"];
 
-  const fetchOrganisation = useQuery<OrgDTO>({
+  const fetchOrganisation = useQuery<FullOrgDTO>({
     queryFn: async () => fetchOrganisationRequest(orgId),
     queryKey,
   });
@@ -90,7 +99,7 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
-  const deleteCitizen = useMutation<void, Error, number>({
+  const deleteCitizen = useMutation({
     mutationFn: (citizenId: number) => deleteCitizenRequest(orgId, citizenId),
     onMutate: async (citizenId) => {
       await queryClient.cancelQueries({ queryKey });
@@ -165,6 +174,40 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  const createGrade = useMutation({
+    mutationFn: async (gradeName: string) => createNewGradeRequest(gradeName, orgId),
+    onMutate: async (gradeName) => {
+      await queryClient.cancelQueries({ queryKey: queryKey });
+
+      const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
+
+      const newGrade: GradeDTO = {
+        id: -1,
+        name: gradeName,
+        citizens: [],
+      };
+
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            grades: [...oldData.grades, newGrade],
+          };
+        }
+        return previousOrg;
+      });
+      return { previousOrg };
+    },
+    onError: (_error, _gradeName, context) => {
+      if (context?.previousOrg) {
+        queryClient.setQueryData(queryKey, context.previousOrg);
+      }
+    },
+    onSuccess: (_data, _variables, _context) => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   return {
     data: fetchOrganisation.data,
     isLoading: fetchOrganisation.isLoading,
@@ -174,6 +217,7 @@ const useOrganisation = (orgId: number) => {
     deleteCitizen,
     deleteMember,
     updateCitizen,
+    createGrade,
   };
 };
 
