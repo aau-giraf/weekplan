@@ -114,9 +114,15 @@ export const createActivityCitizen = async (data: ActivityDTO, citizenId: number
 };
 
 export const createActivityGrade = async (data: ActivityDTO, gradeId: number) => {
+  const { pictogram, ...rest } = data;
+  const dataWithOnlyPictogramId = {
+    ...rest,
+    pictogramId: pictogram.id,
+  };
+
   const res = await fetch(`${BASE_URL}/weekplan/to-grade/${gradeId}`, {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify(dataWithOnlyPictogramId),
     headers: { "Content-Type": "application/json" },
   });
   if (!res.ok) throw new Error("Fejl: Kunne ikke oprette aktivitet");
