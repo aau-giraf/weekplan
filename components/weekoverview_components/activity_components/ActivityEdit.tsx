@@ -138,6 +138,7 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
                 onPress={() => progressRef.current?.nextStep()}
                 label={"Næste"}
               />
+              <SecondaryButton onPress={() => router.back()} label={"Tilbage"} />
             </FormContainer>
           </ScrollView>
           <FormContainer style={{ paddingTop: 20 }}>
