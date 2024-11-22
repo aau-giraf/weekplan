@@ -1,11 +1,11 @@
-import React from "react";
-import usePictogram from "../../../hooks/usePictogram";
+import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../utils/SharedStyles";
+import { ActivityDTO } from "../../../hooks/useActivity";
+import { BASE_URL } from "../../../utils/globals";
 
 type ActivityItemProps = {
-  time: string;
-  isCompleted: boolean;
+  item: ActivityDTO;
   setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -23,31 +23,32 @@ type ActivityItemProps = {
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
  * @returns {JSX.Element} The rendered activity item component.
  */
-const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImageUri, setModalVisible }) => {
-  const { useFetchPictograms } = usePictogram(27575);
-  const { data } = useFetchPictograms;
-
+const ActivityItem: React.FC<ActivityItemProps> = ({ item, setImageUri, setModalVisible }) => {
+  const [imageError, setImageError] = useState<boolean>(false);
   const handleImagePress = (uri: string) => {
     setImageUri(uri);
     setModalVisible(true);
   };
+
+  const uri = `${BASE_URL}/${item.pictogram.pictogramUrl}`;
 
   return (
     <View
       style={[
         styles.taskContainer,
         {
-          backgroundColor: isCompleted ? colors.lightGreen : colors.lightBlue,
+          backgroundColor: item.isCompleted ? colors.lightGreen : colors.lightBlue,
         },
       ]}>
-      <Text style={styles.timeText}>{time}</Text>
+      <Text style={styles.timeText}>{item.startTime + "\n" + item.endTime}</Text>
       <View style={styles.iconContainer}>
-        {data ? (
-          <Pressable onPress={() => handleImagePress(data)}>
+        {!imageError ? (
+          <Pressable onPress={() => handleImagePress(uri)}>
             <Image
-              source={{ uri: data }}
+              source={{ uri }}
               style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
               resizeMode="contain"
+              onError={() => setImageError(true)}
             />
           </Pressable>
         ) : (

@@ -25,12 +25,6 @@ export const deletePictogram = async (pictogramId: number): Promise<void> => {
   return response.json();
 };
 
-export const fetchPictogram = async (pictogramId: number): Promise<Pictogram> => {
-  const response = await fetch(`${BASE_URL}/pictograms/${pictogramId}`);
-  if (!response.ok) throw new Error("Failed to fetch pictogram");
-  return response.json();
-};
-
 export const uploadNewPictogram = async (formData: FormData): Promise<void> => {
   const res = await fetch(`${BASE_URL}/pictograms`, {
     method: "POST",

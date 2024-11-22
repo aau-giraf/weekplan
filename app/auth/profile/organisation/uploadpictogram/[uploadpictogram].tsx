@@ -11,7 +11,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
-import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const schema = z.object({
@@ -37,16 +36,12 @@ const UploadPictogram = () => {
     mode: "onChange",
   });
 
-  const [imageURI, setImageURI] = useState<string | null>(null);
-
   const handleSubmitPicture = () => {
     const imageData = {
       uri: getValues().piktogramURI,
       type: "image/jpeg",
       name: "profile.jpg",
     };
-
-    console.log(imageData, getValues().name, organisationId);
 
     const formData = new FormData();
     formData.append("image", imageData as unknown as Blob);
@@ -63,25 +58,23 @@ const UploadPictogram = () => {
       });
   };
 
-  const handleImageSelect = (uri: string) => {
-    setValue("piktogramURI", uri);
-    setImageURI(uri);
-  };
-
   return (
     <SafeAreaView style={{ flexGrow: 1, backgroundColor: colors.white }}>
       <FormContainer style={styles.stepContainer}>
         <View style={styles.profileContainer}>
-          {imageURI && (
+          {getValues("piktogramURI") && (
             <ProfilePicture
               style={styles.mainProfilePicture}
               label={"N A"}
-              imageURI={imageURI}
-              key={imageURI}
+              imageURI={getValues("piktogramURI")}
+              key={getValues("piktogramURI")}
             />
           )}
         </View>
-        <CameraButton style={styles.cameraButton} onImageSelect={handleImageSelect} />
+        <CameraButton
+          style={styles.cameraButton}
+          onImageSelect={(uri) => setValue("piktogramURI", uri, { shouldValidate: true })}
+        />
         <FormField control={control} name="name" />
         <SubmitButton
           label="Upload billede"
