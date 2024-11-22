@@ -31,6 +31,12 @@ const mockActivity: FullActivityDTO = {
   endTime: "21:00:00",
   date: "2024-10-13",
   isCompleted: false,
+  pictogram: {
+    id: 1,
+    organizationId: 1,
+    pictogramName: "test",
+    pictogramUrl: "test",
+  },
 };
 
 const mockCitizenData = { id: 1, isCitizen: true };
