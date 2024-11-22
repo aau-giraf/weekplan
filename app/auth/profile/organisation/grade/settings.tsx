@@ -16,6 +16,7 @@ const Settings = () => {
   const { gradeId } = useLocalSearchParams<Params>();
   const parsedID = Number(gradeId);
   const { data, error, isLoading } = useGrades(parsedID);
+  const currentGrade = data?.grades.find((grade) => grade.id === parsedID);
 
   const settings: Setting[] = useMemo(
     () => [
@@ -73,11 +74,11 @@ const Settings = () => {
           <View style={styles.profileContainer}>
             <ProfilePicture
               style={styles.mainProfilePicture}
-              label={data?.name || "Unknown Grade"}
+              label={currentGrade?.name || "Ukendt klasse"}
               fontSize={100}
             />
             <View style={{ gap: 5 }}>
-              <Text style={{ fontSize: 30, fontWeight: "500" }}>{data?.name}</Text>
+              <Text style={{ fontSize: 30, fontWeight: "500" }}>{currentGrade?.name}</Text>
             </View>
           </View>
         </View>
@@ -86,9 +87,12 @@ const Settings = () => {
           <FlatList
             data={settings}
             scrollEnabled={false}
-            renderItem={({ item }) => <RenderSetting item={item} toggleStates={{}} />}
+            renderItem={({ item, index }) => (
+              <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
+                <RenderSetting item={item} toggleStates={{}} />
+              </View>
+            )}
             keyExtractor={(item) => item.label}
-            ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           />
         </View>
       </ScrollView>
@@ -131,9 +135,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 20,
   },
-  itemSeparator: {
-    borderWidth: 0.32,
-    borderColor: colors.black,
+  listItem: {
+    backgroundColor: colors.white,
+  },
+  itemWithTopSeparator: {
+    borderTopWidth: 0.32,
+    borderTopColor: colors.black,
   },
   mainProfilePicture: {
     width: "50%",

@@ -95,16 +95,17 @@ const Settings = () => {
           <FlatList
             data={settings}
             scrollEnabled={false}
-            renderItem={({ item }) => (
-              <RenderSetting
-                item={item}
-                toggleStates={toggleStates}
-                handleToggleChange={handleToggleChange}
-                hasInvitations={item.label === "Invitations" && inviteData && inviteData.length > 0}
-              />
+            renderItem={({ item, index }) => (
+              <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
+                <RenderSetting
+                  item={item}
+                  toggleStates={toggleStates}
+                  handleToggleChange={handleToggleChange}
+                  hasInvitations={item.label === "Invitations" && inviteData && inviteData.length > 0}
+                />
+              </View>
             )}
             keyExtractor={(item) => item.label}
-            ItemSeparatorComponent={() => <View style={styles.ItemSeparatorComponent}></View>}
           />
         </View>
       </ScrollView>
@@ -131,9 +132,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 20,
   },
-  ItemSeparatorComponent: {
-    borderWidth: 0.32,
-    borderColor: colors.black,
+  listItem: {
+    backgroundColor: colors.white,
+  },
+  itemWithTopSeparator: {
+    borderTopWidth: 0.32,
+    borderTopColor: colors.black,
   },
   backButton: {
     position: "absolute",
