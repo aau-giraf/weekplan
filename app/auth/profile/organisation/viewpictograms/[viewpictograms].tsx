@@ -1,27 +1,52 @@
 import { FlatList } from "react-native-gesture-handler";
 
-import { View, Image, Text, StyleSheet } from "react-native";
+import { Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Fragment } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BASE_URL } from "../../../../../utils/globals";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import { useLocalSearchParams } from "expo-router";
 import usePictogram, { Pictogram } from "../../../../../hooks/usePictogram";
+import { useToast } from "../../../../../providers/ToastProvider";
 
 const ViewPictograms = () => {
   const { viewpictograms } = useLocalSearchParams();
   const parsedId = Number(viewpictograms);
-  const { fetchAllPictrograms } = usePictogram(parsedId);
+  const { fetchAllPictrograms, deletePictogram } = usePictogram(parsedId);
+  const { addToast } = useToast();
   const { data, fetchNextPage } = fetchAllPictrograms;
   const pictograms = data?.pages?.flat();
+
+  const handleDelete = async (item: Pictogram) => {
+    Alert.alert("Slet piktogram", `Er du sikker på at du vil slette ${item.pictogramName}?`, [
+      {
+        text: "Annuller",
+        style: "cancel",
+      },
+      {
+        text: "Slet",
+        style: "destructive",
+        onPress: () => {
+          deletePictogram
+            .mutateAsync(item.id)
+            .then(() => {
+              addToast({ message: "Piktogrammet blev slettet", type: "success" }, 2000);
+            })
+            .catch(() => {
+              addToast({ message: "Der skete en fejl", type: "error" });
+            });
+        },
+      },
+    ]);
+  };
 
   const renderItem = ({ item }: { item: Pictogram }) => {
     const uri = `${BASE_URL}/${item.pictogramUrl}`;
     return (
-      <View style={styles.pictogramContainer}>
+      <TouchableOpacity style={styles.pictogramContainer} onLongPress={() => handleDelete(item)}>
         <Image source={{ uri }} resizeMode="contain" style={styles.pictogramImage} />
         <Text style={styles.pictogramText}>{item.pictogramName}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
