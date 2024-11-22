@@ -12,6 +12,6 @@ export async function tryLogin(username: string, password: string) {
     body: JSON.stringify({ username, password }),
   });
 
-  if (!res.ok) throw new Error("Ugyldig login");
+  if (!res.ok) throw new Error("Fejl: Ugyldigt login");
   return res.json();
 }

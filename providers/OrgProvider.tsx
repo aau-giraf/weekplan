@@ -30,7 +30,7 @@ const OrgProvider = ({ children }: { children: React.ReactNode }) => {
 const useOrgContext = () => {
   const context = useContext(OrgContext);
   if (!context) {
-    throw new Error("useOrgContext must be used within an OrgProvider");
+    throw new Error("useOrgContext skal bruges inde i en OrgProvider");
   }
   return context;
 };

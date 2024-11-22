@@ -5,8 +5,7 @@ import { router } from "expo-router";
 import RenderSetting from "../../../components/RenderSetting";
 import { colors, ScaleSizeH } from "../../../utils/SharedStyles";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
-import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
-import { ProfilePicture } from "../../../components/ProfilePicture";
+import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";import { ProfilePicture } from "../../../components/ProfilePicture";
 import useProfile from "../../../hooks/useProfile";
 import useInvitation from "../../../hooks/useInvitation";
 
@@ -30,7 +29,7 @@ const Settings = () => {
       },
       {
         icon: "mail-outline",
-        label: "Invitations",
+        label: "Invitationer",
         onPress: () => {
           router.push("/auth/profile/viewinvitation");
         },
@@ -52,6 +51,20 @@ const Settings = () => {
           router.push("/auth/profile/editprofile");
         },
         label: "Rediger profil",
+      },
+      {
+        icon: "camera-outline",
+        label: "Skift profilbillede",
+        onPress: () => {
+          router.push("/auth/profile/changeprofilepicture");
+        },
+      },
+      {
+        icon: "trash-outline",
+        onPress: () => {
+          router.push("/auth/profile/deleteprofile");
+        },
+        label: "Slet profil",
       },
     ],
     [logout]
@@ -77,6 +90,7 @@ const Settings = () => {
         <Pressable style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
         </Pressable>
+
         <View style={styles.profileSection}>
           <View style={styles.profileContainer}>
             <ProfilePicture
@@ -91,6 +105,7 @@ const Settings = () => {
             </View>
           </View>
         </View>
+
         <View style={styles.settingsContainer}>
           <FlatList
             data={settings}
@@ -101,11 +116,12 @@ const Settings = () => {
                   item={item}
                   toggleStates={toggleStates}
                   handleToggleChange={handleToggleChange}
-                  hasInvitations={item.label === "Invitations" && inviteData && inviteData.length > 0}
+                  hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
                 />
               </View>
             )}
             keyExtractor={(item) => item.label}
+            ItemSeparatorComponent={() => <View style={styles.itemWithTopSeparator}></View>}
           />
         </View>
       </ScrollView>

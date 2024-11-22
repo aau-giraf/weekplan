@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthentication } from "../providers/AuthenticationProvider";
-import { changePasswordRequest, fetchProfileRequest, updateProfileRequest } from "../apis/profileAPI";
+import {
+  changePasswordRequest,
+  fetchProfileRequest,
+  updateProfileRequest,
+  deleteUserRequest,
+} from "../apis/profileAPI";
 
 export type ProfileDTO = {
   email: string;
@@ -13,6 +18,11 @@ export type UpdateProfileDTO = Omit<ProfileDTO, "email">;
 export type ChangePasswordDTO = {
   oldPassword: string;
   newPassword: string;
+};
+
+export type DeleteUserDTO = {
+  password: string;
+  id: string;
 };
 
 export default function useProfile() {
@@ -53,11 +63,16 @@ export default function useProfile() {
     mutationFn: async (data: ChangePasswordDTO) => changePasswordRequest(userId, data),
   });
 
+  const deleteUser = useMutation({
+    mutationFn: async (data: DeleteUserDTO) => deleteUserRequest(userId, data),
+  });
+
   return {
     data: fetchProfile.data,
     isLoading: fetchProfile.isLoading,
     isError: fetchProfile.isError,
     updateProfile,
     changePassword,
+    deleteUser,
   };
 }

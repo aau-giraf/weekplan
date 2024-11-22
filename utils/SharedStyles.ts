@@ -1,5 +1,8 @@
 import { Dimensions, StyleSheet } from "react-native";
 
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
+
 /**
  * ScaleSizeW and ScaleSizeH are used to scale the size of components based on the device's width and height.
  * SHOULD NOT BE USED ON CIRCLES
@@ -9,9 +12,6 @@ import { Dimensions, StyleSheet } from "react-native";
  * @example
  * ScaleSizeW(100) // Returns 100 scaled to the device's width
  */
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
-
 const ScaleSizeW = (originalSize: number) => {
   if (deviceWidth >= 820) {
     return Math.round(originalSize);
@@ -21,7 +21,15 @@ const ScaleSizeW = (originalSize: number) => {
   }
   return Math.round((originalSize / 820) * deviceWidth);
 };
-
+/**
+ * ScaleSizeW and ScaleSizeH are used to scale the size of components based on the device's width and height.
+ * SHOULD NOT BE USED ON CIRCLES
+ * @param originalSize
+ * @constructor
+ * @returns {number} The scaled size of the component.
+ * @example
+ * ScaleSizeH(100) // Returns 100 scaled to the device's height
+ */
 const ScaleSizeH = (originalSize: number) => {
   if (deviceHeight >= 1180) {
     return Math.round(originalSize);

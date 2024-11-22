@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import DateProvider from "../../providers/DateProvider";
-import CitizenProvider from "../../providers/CitizenProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import WeekplanProvider from "../../providers/WeekplanProvider";
 
 /*
 The paths will be updated automatically updated within the .expo/types/router.d.ts everytime expo runs.
@@ -12,7 +12,7 @@ For instance, it may require you to write router.push(".index"), instead of just
 const AuthRootLayout = () => {
   return (
     <GestureHandlerRootView>
-      <CitizenProvider>
+      <WeekplanProvider>
         <DateProvider>
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="login" />
@@ -22,6 +22,8 @@ const AuthRootLayout = () => {
             <Stack.Screen name="profile/editprofile" />
             <Stack.Screen name="profile/viewinvitation" />
             <Stack.Screen name="profile/changepassword" />
+            <Stack.Screen name="profile/changeprofilepicture" />
+            <Stack.Screen name="profile/deleteprofile" />
             <Stack.Screen name="profile/organisation/[organisation]" />
             <Stack.Screen name="profile/organisation/addactivity" />
             <Stack.Screen name="profile/organisation/addcitizen" />
@@ -36,7 +38,7 @@ const AuthRootLayout = () => {
             <Stack.Screen name="profile/organisation/grade/settings" />
           </Stack>
         </DateProvider>
-      </CitizenProvider>
+      </WeekplanProvider>
     </GestureHandlerRootView>
   );
 };

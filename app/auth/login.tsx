@@ -78,7 +78,7 @@ const LoginScreen: React.FC = () => {
 
         <View style={styles.checkboxContainer}>
           <Switch value={rememberMe} onValueChange={(value) => setRememberMe(value)} />
-          <Text style={styles.checkboxLabel}>Remember Me</Text>
+          <Text style={styles.checkboxLabel}>Husk Mig</Text>
         </View>
         <SubmitButton
           isValid={isValid}

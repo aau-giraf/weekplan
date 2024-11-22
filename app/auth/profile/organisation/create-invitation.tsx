@@ -11,10 +11,10 @@ import FormHeader from "../../../../components/forms/FormHeader";
 import FormField from "../../../../components/forms/TextInput";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import { Fragment } from "react";
-import { SafeAreaView } from "react-native";
+import { KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 
 const invitationSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email("Indtast en gyldig e-mailadresse"),
 });
 
 type InvitationFormData = z.infer<typeof invitationSchema>;
@@ -37,7 +37,7 @@ const CreateInvitationPage: React.FC = () => {
   const onSubmit = async (data: InvitationFormData) => {
     const { email } = data;
     if (!userId) {
-      addToast({ message: "Du er ikke logget ind", type: "error" });
+      addToast({ message: "Fejl: Du er ikke logget ind", type: "error" });
       return;
     }
     createInvitation
@@ -57,16 +57,18 @@ const CreateInvitationPage: React.FC = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <FormContainer style={{ padding: 20, backgroundColor: colors.white }}>
-        <FormHeader title="Opret Invitation" />
-        <FormField control={control} name="email" placeholder="Modtager E-mail" />
-        <SubmitButton
-          isValid={isValid}
-          isSubmitting={isSubmitting}
-          handleSubmit={handleSubmit(onSubmit)}
-          label="Opret Invitation"
-        />
-      </FormContainer>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+        <FormContainer style={{ padding: 20, backgroundColor: colors.white }}>
+          <FormHeader title="Opret Invitation" />
+          <FormField control={control} name="email" placeholder="Modtager E-mail" />
+          <SubmitButton
+            isValid={isValid}
+            isSubmitting={isSubmitting}
+            handleSubmit={handleSubmit(onSubmit)}
+            label="Opret Invitation"
+          />
+        </FormContainer>
+      </KeyboardAvoidingView>
     </Fragment>
   );
 };
