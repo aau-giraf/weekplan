@@ -1,20 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchPictograms } from "../apis/pictogramAPI";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { fetchAllPictogramsByOrg } from "../apis/pictogramAPI";
 
-/**
- *
- * @param id - ID of the pictogram to be fetched
- * @return {useFetchPictograms}
- */
-export default function usePictogram(id: number) {
-  const queryKey = ["pictograms", id];
+export type Pictogram = {
+  id: number;
+  organizationId: number | null;
+  pictogramName: string;
+  pictogramUrl: string;
+};
 
-  const useFetchPictograms = useQuery({
-    queryFn: async () => fetchPictograms(id),
-    queryKey: queryKey,
+export default function usePictogram(organizationId: number) {
+  const queryKey = ["pictograms", organizationId];
+  const pageSize = 10;
+
+  const fetchAllPictrograms = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam = 1 }) => fetchAllPictogramsByOrg(organizationId, pageSize, pageParam),
+    getNextPageParam: (lastPage, pages) => pages.length + 1,
+    initialPageParam: 1,
   });
 
   return {
-    useFetchPictograms,
+    fetchAllPictrograms,
   };
 }
