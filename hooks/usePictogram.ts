@@ -1,5 +1,10 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchAllPictogramsByOrg, deletePictogram } from "../apis/pictogramAPI";
+import {
+  fetchAllPictogramsByOrg,
+  deletePictogram,
+  fetchPictogram,
+  uploadNewPictogram,
+} from "../apis/pictogramAPI";
 
 export type Pictogram = {
   id: number;
@@ -20,10 +25,16 @@ export default function usePictogram(organizationId: number) {
     initialPageParam: 1,
   });
 
+  const fetchPicto = async (pictogramId: number) => {
+    const queryKey = ["pictogram", organizationId, pictogramId];
+    return queryClient.fetchQuery({
+      queryKey,
+      queryFn: () => fetchPictogram(pictogramId),
+    });
+  };
+
   const deletePicto = useMutation({
-    mutationFn: async (id: number) => {
-      return deletePictogram(id);
-    },
+    mutationFn: async (id: number) => deletePictogram(id),
     onMutate: async (id) => {
       queryClient.cancelQueries({ queryKey });
       const previousPictograms = queryClient.getQueryData(queryKey);
@@ -43,8 +54,28 @@ export default function usePictogram(organizationId: number) {
     },
   });
 
+  /**
+   * Takes a `FormData` object as input and
+   * calls the `uploadNewPictogram` function to perform the upload.
+   *
+   * ```typescript
+   * const formData = new FormData();
+   * formData.append('image', fileInput.files[0], 'image.png');
+   * formData.append('organizationId', '1');
+   * formData.append('pictogramName', 'exampleName');
+   * ```
+   * @param {FormData} formData - The form data containing the pictogram details.
+   * @returns {void}
+   */
+  const uploadNewPicto = useMutation({
+    mutationFn: async (formData: FormData) => uploadNewPictogram(formData),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+  });
+
   return {
     fetchAllPictrograms,
+    fetchPictogram: fetchPicto,
     deletePictogram: deletePicto,
+    uploadNewPictogram: uploadNewPicto,
   };
 }
