@@ -16,7 +16,7 @@ export const fetchByDateCitizen = async (id: number, date: Date) => {
     headers: { "Content-Type": "application/json" },
   });
 
-  if (!res.ok) console.log(res.status);
+  if (!res.ok) throw new Error("Fejl: Kunne ikke hente aktiviteter");
   return await res.json();
 };
 
@@ -65,9 +65,15 @@ export const deleteRequest = async (id: number) => {
  * @param activityId {number} - The ID of the activity to be updated
  */
 export const updateRequest = async (data: FullActivityDTO, activityId: number) => {
+  const { pictogram, ...rest } = data;
+  const dataWithOnlyPictogramId = {
+    ...rest,
+    pictogramId: pictogram.id,
+  };
+
   const res = await fetch(`${BASE_URL}/weekplan/activity/${activityId}`, {
     method: "PUT",
-    body: JSON.stringify(data),
+    body: JSON.stringify(dataWithOnlyPictogramId),
     headers: { "Content-Type": "application/json" },
   });
   if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere aktivitet");
@@ -92,9 +98,15 @@ export const toggleActivityStatusRequest = async (id: number, isCompleted: boole
  * @param citizenId {number} - ID for the associated citizen
  */
 export const createActivityCitizen = async (data: ActivityDTO, citizenId: number) => {
+  const { pictogram, ...rest } = data;
+  const dataWithOnlyPictogramId = {
+    ...rest,
+    pictogramId: pictogram.id,
+  };
+
   const res = await fetch(`${BASE_URL}/weekplan/to-citizen/${citizenId}`, {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify(dataWithOnlyPictogramId),
     headers: { "Content-Type": "application/json" },
   });
   if (!res.ok) throw new Error("Fejl: Kunne ikke oprette aktivitet");

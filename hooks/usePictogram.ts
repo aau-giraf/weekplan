@@ -1,10 +1,5 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  fetchAllPictogramsByOrg,
-  deletePictogram,
-  fetchPictogram,
-  uploadNewPictogram,
-} from "../apis/pictogramAPI";
+import { fetchAllPictogramsByOrg, deletePictogram, uploadNewPictogram } from "../apis/pictogramAPI";
 
 export type Pictogram = {
   id: number;
@@ -15,23 +10,18 @@ export type Pictogram = {
 
 export default function usePictogram(organizationId: number) {
   const queryKey = ["pictograms", organizationId];
-  const pageSize = 10;
+  const pageSize = 20;
   const queryClient = useQueryClient();
 
   const fetchAllPictrograms = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam = 1 }) => fetchAllPictogramsByOrg(organizationId, pageSize, pageParam),
-    getNextPageParam: (lastPage, pages) => pages.length + 1,
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage?.length === 0) return undefined;
+      return pages.length + 1;
+    },
     initialPageParam: 1,
   });
-
-  const fetchPicto = async (pictogramId: number) => {
-    const queryKey = ["pictogram", organizationId, pictogramId];
-    return queryClient.fetchQuery({
-      queryKey,
-      queryFn: () => fetchPictogram(pictogramId),
-    });
-  };
 
   const deletePicto = useMutation({
     mutationFn: async (id: number) => deletePictogram(id),
@@ -74,7 +64,6 @@ export default function usePictogram(organizationId: number) {
 
   return {
     fetchAllPictrograms,
-    fetchPictogram: fetchPicto,
     deletePictogram: deletePicto,
     uploadNewPictogram: uploadNewPicto,
   };
