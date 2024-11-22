@@ -7,6 +7,7 @@ import { router } from "expo-router";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 import SwipeableList, { Action } from "../../swipeablelist/SwipeableList";
+import { BASE_URL } from "../../../utils/globals";
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -30,6 +31,9 @@ const ActivityItemList = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUri, setImageUri] = useState<string>();
 
+  console.log(data);
+  //When adding an activity, data become addActivityDTO instead of ActivityDTO like it's supposed to
+
   const renderActivityItem = useCallback(
     (item: ActivityDTO) => (
       <ActivityItem
@@ -37,7 +41,7 @@ const ActivityItemList = () => {
         time={`${item.startTime}\n${item.endTime}`}
         setImageUri={setImageUri}
         setModalVisible={setModalVisible}
-        imageUri={item.Pictogram?.pictogramUrl || ""}
+        pictogramUrl={item.pictogram.pictogramUrl}
       />
     ),
     [setImageUri, setModalVisible]

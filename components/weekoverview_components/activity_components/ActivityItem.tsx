@@ -1,14 +1,16 @@
 import React from "react";
-import usePictogram from "../../../hooks/usePictogram";
+import usePictogram, { PictogramDTO } from "../../../hooks/usePictogram";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../utils/SharedStyles";
+import { fetchPictogramRequest } from "../../../apis/pictogramAPI";
+import { BASE_URL } from "../../../utils/globals";
 
 type ActivityItemProps = {
   time: string;
   isCompleted: boolean;
   setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  imageUri: string;
+  pictogramUrl: string;
 };
 
 /**
@@ -24,13 +26,8 @@ type ActivityItemProps = {
  * @param {Function} props.setModalVisible - Function to set the modal visibility.
  * @returns {JSX.Element} The rendered activity item component.
  */
-const ActivityItem: React.FC<ActivityItemProps> = ({
-  time,
-  isCompleted,
-  setImageUri,
-  setModalVisible,
-  imageUri,
-}) => {
+const ActivityItem: React.FC<ActivityItemProps> = ({ time, isCompleted, setImageUri, setModalVisible, pictogramUrl }) => {
+
   const handleImagePress = (uri: string) => {
     setImageUri(uri);
     setModalVisible(true);
@@ -46,10 +43,10 @@ const ActivityItem: React.FC<ActivityItemProps> = ({
       ]}>
       <Text style={styles.timeText}>{time}</Text>
       <View style={styles.iconContainer}>
-        {imageUri ? (
-          <Pressable onPress={() => handleImagePress(imageUri)}>
+        {pictogramUrl ? (
+          <Pressable onPress={() => handleImagePress(`${BASE_URL}/${pictogramUrl}`)}>
             <Image
-              source={{ uri: imageUri }}
+              source={{ uri: `${BASE_URL}/${pictogramUrl}` }}
               style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
               resizeMode="contain"
             />
