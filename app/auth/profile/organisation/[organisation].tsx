@@ -88,6 +88,16 @@ const ViewOrganisation = () => {
               <IconButton onPress={openBS} absolute={false}>
                 <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
               </IconButton>
+              <IconButton
+                onPress={() => router.push(`/auth/profile/organisation/viewpictograms/${parsedId}`)}
+                absolute={false}>
+                <Ionicons name={"images-outline"} size={ScaleSize(30)} />
+              </IconButton>
+              <IconButton
+                onPress={() => router.push(`/auth/profile/organisation/uploadpictogram/${parsedId}`)}
+                absolute={false}>
+                <Ionicons name={"camera-outline"} size={ScaleSize(30)} />
+              </IconButton>
             </View>
             <Text style={styles.heading}>Medlemmer</Text>
             <CutoffList

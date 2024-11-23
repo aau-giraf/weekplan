@@ -3,9 +3,6 @@ import ActivityEdit from "../../../../components/weekoverview_components/activit
 import { useQueryClient } from "@tanstack/react-query";
 import { useDate } from "../../../../providers/DateProvider";
 import { ActivityDTO, dateToQueryKey } from "../../../../hooks/useActivity";
-import { Fragment } from "react";
-import { SafeAreaView } from "react-native";
-import { colors } from "../../../../utils/SharedStyles";
 import { useWeekplan } from "../../../../providers/WeekplanProvider";
 
 type Params = {
@@ -33,12 +30,7 @@ const EditActivity = () => {
     throw new Error("Aktiviteten findes ikke");
   }
 
-  return (
-    <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <ActivityEdit activity={activity} />
-    </Fragment>
-  );
+  return <ActivityEdit activity={activity} />;
 };
 
 export default EditActivity;
