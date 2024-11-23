@@ -26,7 +26,7 @@ const PictogramSelector = ({
       <TouchableOpacity
         style={[
           styles.pictogramContainer,
-          selectedPictogram === item.id && { borderColor: colors.green, borderWidth: 2 },
+          selectedPictogram === item.id && { backgroundColor: colors.lightBlue },
         ]}
         onPress={() => {
           setSelectedPictogram(item);
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   pictogramContainer: {
     width: "50%",
     alignItems: "center",
+    paddingVertical: ScaleSize(10),
   },
   pictogramImage: {
     width: ScaleSizeW(250),
