@@ -6,7 +6,6 @@ import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
 import React, { Fragment, useRef, useState } from "react";
-import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { GradeView } from "../../../../components/organisationoverview_components/GradeView";
@@ -16,10 +15,8 @@ const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
 
-  const { deleteMember, data, error, isLoading, createGrade } = useOrganisation(parsedId);
-  const { userId } = useAuthentication();
+  const { data, error, isLoading, createGrade } = useOrganisation(parsedId);
   const { addToast } = useToast();
-  const bottomSheetRef = useRef<BottomSheet>(null);
   const createBottomSheetRef = useRef<BottomSheet>(null);
 
   if (isLoading) {
@@ -34,28 +31,9 @@ const ViewOrganisation = () => {
     return <Text>{error.message}</Text>;
   }
 
-  const closeBS = () => bottomSheetRef.current?.close();
-
-  const openBS = () => bottomSheetRef.current?.expand();
-
   const openCreateBS = () => createBottomSheetRef.current?.expand();
 
   const closeCreateBS = () => createBottomSheetRef.current?.close();
-
-  const handleLeaveOrganisation = async () => {
-    if (typeof userId === "string") {
-      await deleteMember
-        .mutateAsync(userId)
-        .then(() => {
-          addToast({ message: "Du har forladt organisationen", type: "success" });
-        })
-        .catch((error) => {
-          addToast({ message: error.message, type: "error" });
-        });
-    }
-    closeBS();
-    router.back();
-  };
 
   const handleCreateGrade = async (gradeName: string) => {
     await createGrade.mutateAsync(gradeName).catch((error: Error) => {
@@ -70,25 +48,17 @@ const ViewOrganisation = () => {
         <View>
           <View style={{ alignItems: "center", height: "100%", gap: 20 }}>
             <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
-            <View style={styles.ActionView}>
-              <IconButton onPress={() => {}} absolute={false}>
-                <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-                {/* //TODO: Setup Editing Org */}
-              </IconButton>
-              <IconButton
-                onPress={() =>
-                  router.push({
-                    pathname: "/auth/profile/organisation/create-invitation",
-                    params: { orgId: parsedId },
-                  })
-                }
-                absolute={false}>
-                <Ionicons name={"mail-outline"} size={ScaleSize(30)} />
-              </IconButton>
-              <IconButton onPress={openBS} absolute={false}>
-                <Ionicons name={"exit-outline"} size={ScaleSize(30)} testID={"leave-org-button"} />
-              </IconButton>
-            </View>
+            <View style={styles.ActionView}></View>
+            <IconButton
+              style={styles.settings}
+              onPress={() =>
+                router.push({
+                  pathname: "/auth/profile/organisation/settings",
+                  params: { organisation: parsedId },
+                })
+              }>
+              <Ionicons name="settings-outline" size={ScaleSize(64)} />
+            </IconButton>
             <Text style={styles.heading}>Medlemmer</Text>
             <CutoffList
               entries={data?.users ?? []}
@@ -127,11 +97,6 @@ const ViewOrganisation = () => {
           </IconButton>
         </View>
       </SafeAreaView>
-      <ConfirmBottomSheet
-        bottomSheetRef={bottomSheetRef}
-        orgName={data!.name}
-        handleConfirm={handleLeaveOrganisation}
-      />
       <CreateGradeButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateGrade} />
     </Fragment>
   );
@@ -164,33 +129,6 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
           label="Bekræft"
           style={{ backgroundColor: colors.blue, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
           onPress={() => handleConfirm(gradeName)}
-        />
-      </BottomSheetScrollView>
-    </BottomSheet>
-  );
-};
-
-type BottomSheetProps = {
-  bottomSheetRef: React.RefObject<BottomSheet>;
-  handleConfirm: Function;
-  orgName: string;
-};
-
-const ConfirmBottomSheet = ({ bottomSheetRef, orgName, handleConfirm }: BottomSheetProps) => {
-  return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      enablePanDownToClose={true}
-      keyboardBlurBehavior="restore"
-      index={-1}
-      style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
-        <Text style={SharedStyles.header}>{`Vil du forlade organisationen "${orgName}"?`}</Text>
-        <SecondaryButton
-          label="Bekræft"
-          style={{ backgroundColor: colors.red, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
-          onPress={() => handleConfirm()}
-          testID={"confirm-leave-button"}
         />
       </BottomSheetScrollView>
     </BottomSheet>
@@ -256,6 +194,10 @@ const styles = StyleSheet.create({
     gap: ScaleSize(10),
     padding: ScaleSize(90),
     alignItems: "center",
+  },
+  settings: {
+    top: ScaleSize(10),
+    right: ScaleSize(30),
   },
 });
 

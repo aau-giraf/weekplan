@@ -1,5 +1,14 @@
 import React, { Fragment, useMemo } from "react";
-import { SafeAreaView, ScrollView, View, Pressable, StyleSheet, FlatList, Text } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Pressable,
+  StyleSheet,
+  FlatList,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import RenderSetting from "../../../../../components/RenderSetting";
@@ -49,18 +58,17 @@ const Settings = () => {
     [gradeId]
   );
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <View>
-        <Text>Loading...</Text>
+        <ActivityIndicator size={"large"} />
       </View>
     );
-  if (error)
-    return (
-      <View>
-        <Text>Error loading grade data</Text>
-      </View>
-    );
+  }
+
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
 
   return (
     <Fragment>
@@ -69,7 +77,6 @@ const Settings = () => {
         <Pressable style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back-outline" size={30} />
         </Pressable>
-
         <View style={styles.profileSection}>
           <View style={styles.profileContainer}>
             <ProfilePicture
@@ -82,14 +89,13 @@ const Settings = () => {
             </View>
           </View>
         </View>
-
         <View style={styles.settingsContainer}>
           <FlatList
             data={settings}
             scrollEnabled={false}
             renderItem={({ item, index }) => (
               <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
-                <RenderSetting item={item} toggleStates={{}} />
+                <RenderSetting item={item} />
               </View>
             )}
             keyExtractor={(item) => item.label}

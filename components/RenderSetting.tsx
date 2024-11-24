@@ -10,14 +10,14 @@ type RenderSettingProps = {
     label: string;
     onPress?: () => void;
   };
-  toggleStates: { [key: string]: boolean };
+  toggleStates?: { [key: string]: boolean };
   handleToggleChange?: (label: string, value: boolean) => void;
   hasInvitations?: boolean;
 };
 
 const RenderSetting: React.FC<RenderSettingProps> = ({
   item,
-  toggleStates,
+  toggleStates = {},
   handleToggleChange,
   hasInvitations,
 }) => {
@@ -28,7 +28,11 @@ const RenderSetting: React.FC<RenderSettingProps> = ({
 
   const onPress = item.onPress
     ? item.onPress
-    : () => handleToggleChange && handleToggleChange(item.label, !toggleStates[item.label]);
+    : () => {
+        if (handleToggleChange) {
+          handleToggleChange(item.label, !toggleStates[item.label]);
+        }
+      };
 
   const handlePressIn = () => {
     opacity.value = withTiming(0.7, { duration: 150 });

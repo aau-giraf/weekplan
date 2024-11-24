@@ -5,7 +5,7 @@ import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-n
 import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
 import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { ProfilePicture } from "../../../../../components/ProfilePicture";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
@@ -61,9 +61,6 @@ const ViewGrade = () => {
         <View>
           <View style={{ alignItems: "center" }}>
             <Text style={styles.gradeName}>{currentGrade?.name ?? "Klasse"}</Text>
-            <IconButton onPress={() => router.back()} absolute={false}>
-              <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
-            </IconButton>
             <IconButton
               style={styles.settings}
               onPress={() =>
@@ -86,14 +83,14 @@ const ViewGrade = () => {
           </View>
         </View>
         <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
-      <FlatList
-        data={currentGrade ? sortedCitizen(currentGrade) : []}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.citizenList}
-        renderItem={({ item }) => renderCitizen(item)}
-        ListEmptyComponent={<Text>Ingen elever fundet</Text>}
-      />
-    </SafeAreaView>
+        <FlatList
+          data={currentGrade ? sortedCitizen(currentGrade) : []}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.citizenList}
+          renderItem={({ item }) => renderCitizen(item)}
+          ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+        />
+      </SafeAreaView>
     </Fragment>
   );
 };
@@ -109,24 +106,10 @@ const styles = StyleSheet.create({
     marginTop: ScaleSizeH(25),
     marginBottom: ScaleSize(10),
   },
-  ActionView: {
-    ...SharedStyles.flexRow,
-    gap: ScaleSizeW(10),
-  },
-  container: {
-    flex: 1,
-    width: "100%",
-  },
   citizenRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: ScaleSizeW(10),
-  },
-  heading: {
-    fontSize: ScaleSize(40),
-    fontWeight: "bold",
-    textAlign: "center",
-    paddingVertical: ScaleSizeH(10),
   },
   citizenList: {
     flexGrow: 1,
@@ -137,11 +120,6 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(30),
     color: colors.black,
     flex: 1,
-  },
-  searchbar: {
-    width: "100%",
-    minWidth: "100%",
-    paddingVertical: ScaleSize(15),
   },
   citizenContainer: {
     gap: ScaleSize(10),
@@ -154,17 +132,9 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 10000,
   },
-  sheetContent: {
-    alignItems: "center",
-    paddingVertical: ScaleSize(20),
-  },
   settings: {
     top: ScaleSize(10),
     right: ScaleSize(30),
-  },
-  calender: {
-    left: ScaleSize(30),
-    bottom: ScaleSize(50),
   },
 });
 

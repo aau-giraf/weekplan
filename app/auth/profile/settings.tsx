@@ -5,7 +5,8 @@ import { router } from "expo-router";
 import RenderSetting from "../../../components/RenderSetting";
 import { colors, ScaleSizeH } from "../../../utils/SharedStyles";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
-import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";import { ProfilePicture } from "../../../components/ProfilePicture";
+import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
+import { ProfilePicture } from "../../../components/ProfilePicture";
 import useProfile from "../../../hooks/useProfile";
 import useInvitation from "../../../hooks/useInvitation";
 
