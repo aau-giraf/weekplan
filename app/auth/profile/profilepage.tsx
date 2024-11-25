@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   itemText: {
     flex: 1,
     flexWrap: "wrap",
-    textAlign: "center",
+    textAlign: "left",
     fontSize: ScaleSize(25),
   },
   headerContainer: {

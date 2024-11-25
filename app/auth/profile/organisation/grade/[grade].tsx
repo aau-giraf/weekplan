@@ -5,7 +5,7 @@ import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, Vi
 import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
 import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { ProfilePicture } from "../../../../../components/ProfilePicture";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
@@ -80,27 +80,27 @@ const ViewGrade = () => {
             </IconButton>
           </View>
         </View>
-        <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
-        <FlatList
-          data={currentGrade ? sortedCitizen(currentGrade) : []}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.citizenList}
-          renderItem={({ item }) => renderCitizen(item)}
-          ListEmptyComponent={<Text>Ingen elever fundet</Text>}
-        />
-        <View style={styles.viewCalendarButton}>
-          <IconButton
-            style={styles.calendarButton}
-            onPress={() => {
-              setIsCitizen(false);
-              setId(parsedID);
-              router.push("/auth/profile/organisation/weekplanscreen");
-            }}
-            absolute={false}>
-            <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
-          </IconButton>
-        </View>
       </SafeAreaView>
+      <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
+      <FlatList
+        data={currentGrade ? sortedCitizen(currentGrade) : []}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.citizenList}
+        renderItem={({ item }) => renderCitizen(item)}
+        ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+      />
+      <View style={styles.viewCalendarButton}>
+        <IconButton
+          style={styles.calendarButton}
+          onPress={() => {
+            setIsCitizen(false);
+            setId(parsedID);
+            router.push("/auth/profile/organisation/weekplanscreen");
+          }}
+          absolute={true}>
+          <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
+        </IconButton>
+      </View>
     </Fragment>
   );
 };
@@ -147,12 +147,15 @@ const styles = StyleSheet.create({
     right: ScaleSize(30),
   },
   calendarButton: {
-    bottom: ScaleSize(155),
-    right: ScaleSize(30),
+    height: ScaleSize(100),
+    width: ScaleSize(100),
+    marginBottom: ScaleSize(10),
   },
   viewCalendarButton: {
     justifyContent: "flex-end",
     alignItems: "flex-end",
+    bottom: ScaleSize(20),
+    right: ScaleSize(20),
   },
 });
 
