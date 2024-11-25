@@ -7,6 +7,12 @@ import { router } from "expo-router";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { useToast } from "../../../providers/ToastProvider";
 import SwipeableList, { Action } from "../../swipeablelist/SwipeableList";
+import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-reanimated";
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 /**
  * Component that renders a list of activities for a selected date.
@@ -32,12 +38,7 @@ const ActivityItemList = () => {
 
   const renderActivityItem = useCallback(
     (item: ActivityDTO) => (
-      <ActivityItem
-        isCompleted={item.isCompleted}
-        time={`${item.startTime}\n${item.endTime}`}
-        setImageUri={setImageUri}
-        setModalVisible={setModalVisible}
-      />
+      <ActivityItem item={item} setImageUri={setImageUri} setModalVisible={setModalVisible} />
     ),
     [setImageUri, setModalVisible]
   );

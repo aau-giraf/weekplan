@@ -1,34 +1,35 @@
-import { Platform } from "react-native";
+import { Pictogram } from "../hooks/usePictogram";
+import { BASE_URL } from "../utils/globals";
 
-/**
- * Function for sending a request to the Arasaac API to retrieve a Pictogram
- * @param id {number} - The ID of the pictogram to be fetched.
- */
-export const fetchPictograms = async (id: number): Promise<string> => {
-  const res = await fetch(`https://api.arasaac.org/v1/pictograms/${id}?color=true&download=false`);
+export const fetchAllPictogramsByOrg = async (
+  organizationId: number,
+  pageSize: number,
+  pageNumber: number
+): Promise<Pictogram[]> => {
+  const params = new URLSearchParams();
+  params.append("organizationId", organizationId.toString());
+  params.append("currentPage", pageNumber.toString());
+  params.append("pageSize", pageSize.toString());
 
-  if (!res.ok) {
-    throw new Error(`Fejl: Kunne ikke hente piktogrammerne, status kode: ${res.status}`);
-  }
+  const url = `${BASE_URL}/pictograms/organizationId:int?${params.toString()}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Failed to fetch pictograms");
+  return response.json();
+};
 
-  const contentType = res.headers.get("Content-Type");
-  if (contentType?.includes("image/png") || contentType?.includes("image/jpeg")) {
-    const imageBlob = await res.blob();
+export const deletePictogram = async (pictogramId: number): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/pictograms/${pictogramId}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) throw new Error("Failed to delete pictogram");
+  return response.json();
+};
 
-    if (Platform.OS === "ios") {
-      return URL.createObjectURL(imageBlob);
-    } else {
-      const reader = new FileReader();
-      return await new Promise((resolve, reject) => {
-        reader.onloadend = () => {
-          const base64data = reader.result;
-          resolve(base64data?.toString() ?? ""); // Return the Base64 string
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(imageBlob); // Read blob as Base64 string
-      });
-    }
-  } else {
-    throw new Error("Fejl: Response er ikke et billede");
-  }
+export const uploadNewPictogram = async (formData: FormData): Promise<void> => {
+  const res = await fetch(`${BASE_URL}/pictograms`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) throw new Error("Error: Could not create pictogram");
 };

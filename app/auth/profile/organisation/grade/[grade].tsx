@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Fragment, useState } from "react";
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
 import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
@@ -46,12 +46,19 @@ const ViewGrade = () => {
 
   const renderCitizen = (item: Citizen) => (
     <View style={styles.citizenContainer}>
-      <View style={styles.citizenRow}>
-        <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
-        <Text numberOfLines={1} style={styles.citizenText}>
-          {`${item.firstName} ${item.lastName}`}
-        </Text>
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          setIsCitizen(true);
+          setId(item.id);
+          router.push("/auth/profile/organisation/weekplanscreen");
+        }}>
+        <View style={styles.citizenRow}>
+          <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
+          <Text numberOfLines={1} style={styles.citizenText}>
+            {`${item.firstName} ${item.lastName}`}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 
