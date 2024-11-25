@@ -71,7 +71,7 @@ const ActivityItemList = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
@@ -79,7 +79,7 @@ const ActivityItemList = () => {
 
   if (error || !data) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <Text>Fejl med at hente aktiviteter {error?.message}</Text>
       </View>
     );
@@ -169,17 +169,6 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: ScaleSize(48),
     color: colors.white,
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-  },
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(18),
-    textAlign: "center",
   },
 });
 

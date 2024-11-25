@@ -156,6 +156,17 @@ const SharedStyles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: ScaleSizeH(10),
   },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  bigErrorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
+  },
 });
 
 export { colors, SharedStyles, ScaleSizeH, ScaleSizeW, ScaleSize };

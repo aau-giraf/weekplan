@@ -24,7 +24,7 @@ const ViewInvitation = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
@@ -32,8 +32,8 @@ const ViewInvitation = () => {
 
   if (error) {
     return (
-      <View style={styles.centeredContainer}>
-        <Text style={styles.errorText}>Fejl med at hente invitationer: {error.message}</Text>
+      <View style={SharedStyles.centeredContainer}>
+        <Text style={SharedStyles.bigErrorText}>Fejl med at hente invitationer: {error.message}</Text>
       </View>
     );
   }
@@ -104,20 +104,6 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: "column",
     justifyContent: "center",
-  },
-  iconContainer: {
-    marginLeft: 15,
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-  },
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(18),
-    textAlign: "center",
   },
 });
 

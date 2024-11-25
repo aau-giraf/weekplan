@@ -144,7 +144,7 @@ const RegisterScreen: React.FC = () => {
                   key={imageUri}
                 />
               </View>
-              <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
+              <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
               <SecondaryButton
                 style={{ backgroundColor: colors.green }}
                 label="Upload billede"
