@@ -35,8 +35,8 @@ jest.mock("../providers/AuthenticationProvider", () => ({
 }));
 
 const mockCitizens = [
-  { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
-  { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+  { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1", activities: [] },
+  { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2", activities: [] },
 ];
 
 const mockOrganisation = {
@@ -47,6 +47,7 @@ const mockOrganisation = {
     { id: "2", firstName: "User 2", lastName: "Test" },
   ],
   citizens: mockCitizens,
+  grades: [],
 };
 
 jest.mock("../apis/organisationAPI", () => ({
@@ -61,6 +62,15 @@ jest.mock("../apis/organisationAPI", () => ({
   }),
   updateCitizenRequest: jest.fn().mockImplementation((updatedCitizen) => {
     return Promise.resolve(updatedCitizen);
+  }),
+  createCitizenRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve(3);
+  }),
+}));
+
+jest.mock("../apis/gradeAPI", () => ({
+  createNewGradeRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
   }),
 }));
 
@@ -84,8 +94,8 @@ test("delete citizen from organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.citizens).toEqual([
-      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
-      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1", activities: [] },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2", activities: [] },
     ]);
   });
 
@@ -126,8 +136,8 @@ test("update citizen in organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.citizens).toEqual([
-      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1" },
-      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1", activities: [] },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2", activities: [] },
     ]);
   });
 
@@ -145,8 +155,59 @@ test("update citizen in organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data?.citizens).toEqual([
-      { id: 1, firstName: "Updated", lastName: "CitizenTest1" },
-      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2" },
+      { id: 1, firstName: "Updated", lastName: "CitizenTest1", activities: [] },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2", activities: [] },
+    ]);
+  });
+});
+
+test("Create a new grade in organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data?.grades).toEqual([]);
+  });
+
+  await act(async () => {
+    await result.current.createGrade.mutateAsync("Grade 1");
+  });
+
+  await waitFor(() => {
+    expect(result.current.createGrade.isSuccess).toBe(true);
+  });
+
+  await waitFor(() => {
+    expect(result.current.data?.grades).toEqual([{ id: -1, name: "Grade 1", citizens: [] }]);
+  });
+});
+
+test("Create a new citizen in organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data?.citizens).toEqual([
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1", activities: [] },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2", activities: [] },
+    ]);
+  });
+
+  await act(async () => {
+    await result.current.createCitizen.mutateAsync({
+      firstName: "Citizen 3",
+      lastName: "CitizenTest3",
+      activities: [],
+    });
+  });
+
+  await waitFor(() => {
+    expect(result.current.createCitizen.isSuccess).toBe(true);
+  });
+
+  await waitFor(() => {
+    expect(result.current.data?.citizens).toEqual([
+      { id: 3, firstName: "Citizen 3", lastName: "CitizenTest3", activities: [] },
+      { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1", activities: [] },
+      { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2", activities: [] },
     ]);
   });
 });

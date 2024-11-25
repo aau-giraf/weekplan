@@ -19,6 +19,8 @@ const queryClient = new QueryClient({
 });
 
 const mockUser = {
+  firstname: "John",
+  lastName: "Doe",
   password: "password",
   id: "123",
 };
@@ -36,6 +38,9 @@ jest.mock("../providers/AuthenticationProvider", () => ({
 jest.mock("../apis/profileAPI", () => ({
   deleteUserRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve();
+  }),
+  updateProfileRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve({ firstName: "Jane", lastName: "Doe" });
   }),
 }));
 
@@ -61,5 +66,17 @@ test("deleteUser should handle edge case when userId is undefined", async () => 
 
   await waitFor(() => {
     expect(result.current.deleteUser.error).toBeDefined();
+  });
+});
+
+test("UpdateProfile should update profile data", async () => {
+  const { result } = renderHook(() => useProfile(), { wrapper });
+
+  await act(async () => {
+    await result.current.updateProfile.mutateAsync({ firstName: "Jane", lastName: "Doe" });
+  });
+
+  await waitFor(() => {
+    expect(result.current.updateProfile.data).toEqual({ firstName: "Jane", lastName: "Doe" });
   });
 });
