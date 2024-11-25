@@ -31,7 +31,7 @@ const ProfilePage: React.FC = () => {
     );
   }
 
-  if (isError) {
+  if (isError || !data) {
     return (
       <View style={styles.centeredContainer}>
         <Text>Profil data kunne ikke hentes</Text>

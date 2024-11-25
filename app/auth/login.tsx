@@ -63,7 +63,7 @@ const LoginScreen: React.FC = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
         <FormContainer style={{ padding: 30 }}>
           <View style={styles.iconContainer}>
             <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />

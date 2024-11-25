@@ -80,7 +80,7 @@ const ActivityItemList = () => {
   if (error || !data) {
     return (
       <View style={styles.centeredContainer}>
-        return <Text>Fejl med at hente aktiviteter {error?.message}</Text>;
+        <Text>Fejl med at hente aktiviteter {error?.message}</Text>
       </View>
     );
   }

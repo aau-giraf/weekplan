@@ -66,7 +66,7 @@ const ChangePasswordScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Skift password" />
         <FormField
