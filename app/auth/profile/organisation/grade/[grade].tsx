@@ -26,14 +26,18 @@ const ViewGrade = () => {
 
   if (isLoading) {
     return (
-      <View>
-        <ActivityIndicator size={"large"} />
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
   }
 
   if (error) {
-    return <Text>{error.message}</Text>;
+    return (
+      <View style={styles.centeredContainer}>
+        <Text style={styles.errorText}>{error.message}</Text>
+      </View>
+    );
   }
 
   //Sorts citizens alphabetically
@@ -164,6 +168,20 @@ const styles = StyleSheet.create({
     maxHeight: ScaleSizeH(300),
     aspectRatio: 1,
     borderRadius: 10000,
+  },
+  sheetContent: {
+    paddingVertical: ScaleSize(20),
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
   },
 });
 

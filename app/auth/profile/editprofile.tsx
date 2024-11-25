@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Text, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { z } from "zod";
 import SubmitButton from "../../../components/forms/SubmitButton";
 import FormField from "../../../components/forms/TextInput";
@@ -51,22 +51,24 @@ const ProfileEdit: React.FC = () => {
   };
 
   return (
-    <FormContainer style={{ padding: 30 }}>
-      <FormHeader title="Rediger Profil" />
-      <FormField control={control} name="firstName" placeholder="Fornavn" />
-      <FormField control={control} name="lastName" placeholder="Efternavn" />
-      <SubmitButton
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        handleSubmit={handleSubmit(onSubmit)}
-        label="Opdater profil"
-      />
-      <TouchableOpacity
-        style={[SharedStyles.buttonValid, { backgroundColor: colors.blue }]}
-        onPress={() => router.back()}>
-        <Text style={SharedStyles.buttonText}>Annuller</Text>
-      </TouchableOpacity>
-    </FormContainer>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <FormContainer style={{ padding: 30 }}>
+        <FormHeader title="Rediger Profil" />
+        <FormField control={control} name="firstName" placeholder="Fornavn" />
+        <FormField control={control} name="lastName" placeholder="Efternavn" />
+        <SubmitButton
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+          handleSubmit={handleSubmit(onSubmit)}
+          label="Opdater profil"
+        />
+        <TouchableOpacity
+          style={[styles.buttonValid, { backgroundColor: colors.blue }]}
+          onPress={() => router.back()}>
+          <Text style={styles.buttonText}>Annuller</Text>
+        </TouchableOpacity>
+      </FormContainer>
+    </KeyboardAvoidingView>
   );
 };
 

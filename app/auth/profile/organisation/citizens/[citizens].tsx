@@ -78,14 +78,18 @@ const ViewCitizen = () => {
 
   if (isLoading) {
     return (
-      <View>
-        <ActivityIndicator size={"large"} />
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
   }
 
   if (error) {
-    return <Text>{error.message}</Text>;
+    return (
+      <View style={styles.centeredContainer}>
+        <Text style={styles.errorText}>{error.message}</Text>
+      </View>
+    );
   }
 
   return (
@@ -113,7 +117,7 @@ const ViewCitizen = () => {
         }}
       />
 
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={{ flex: 1 }}>
             <BottomSheet ref={bottomSheetRef} index={-1} enablePanDownToClose keyboardBlurBehavior="restore">
@@ -161,6 +165,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 5,
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
   },
 });
 

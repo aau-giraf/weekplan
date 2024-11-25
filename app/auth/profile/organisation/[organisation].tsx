@@ -24,14 +24,18 @@ const ViewOrganisation = () => {
 
   if (isLoading) {
     return (
-      <View>
-        <ActivityIndicator size={"large"} />
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
   }
 
   if (error) {
-    return <Text>{error.message}</Text>;
+    return (
+      <View style={styles.centeredContainer}>
+        <Text style={styles.errorText}>{error.message}</Text>
+      </View>
+    );
   }
 
   const closeBS = () => bottomSheetRef.current?.close();
@@ -244,6 +248,22 @@ const styles = StyleSheet.create({
   iconButton: {
     height: ScaleSize(30),
     width: ScaleSize(30),
+  },
+  sheetContent: {
+    gap: ScaleSize(10),
+    padding: ScaleSize(90),
+    alignItems: "center",
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
   },
 });
 

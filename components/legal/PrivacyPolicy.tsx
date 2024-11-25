@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../utils/SharedStyles";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const PrivacyPolicy = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -14,7 +15,8 @@ const PrivacyPolicy = () => {
         Privatlivs Politik
       </Text>
       <Modal visible={isVisible} onRequestClose={() => setIsVisible(false)}>
-        <ScrollView style={SharedStyles.container}>
+        <SafeAreaView />
+        <ScrollView style={styles.container}>
           <Button title={"Tilbage"} onPress={() => setIsVisible(false)} color={colors.blue} />
           <Text style={SharedStyles.header}>
             Oplysninger om vores behandling af dine personoplysninger mv.

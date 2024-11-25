@@ -1,17 +1,18 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Alert } from "react-native";
+import { StyleSheet, Alert, StyleProp, ViewStyle } from "react-native";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 import IconButton from "./IconButton";
 import { getImage } from "../utils/getImage";
 import * as ImageManipulator from "expo-image-manipulator";
 
 type CameraButtonProps = {
-  style?: object;
+  style?: StyleProp<ViewStyle>;
   onImageSelect: (imageUri: string) => void;
+  absolute?: boolean;
 };
 
-const CameraButton: React.FC<CameraButtonProps> = ({ style, onImageSelect }) => {
+const CameraButton = ({ style, onImageSelect, absolute = true }: CameraButtonProps) => {
   const handlePress = async () => {
     Alert.alert("Vælg billede-kilde", "Vil du tage et billede eller vælge et fra dit fotoalbum?", [
       { text: "Kamera", onPress: handleTakePhoto },
@@ -44,7 +45,7 @@ const CameraButton: React.FC<CameraButtonProps> = ({ style, onImageSelect }) => 
   };
 
   return (
-    <IconButton onPress={handlePress} style={style}>
+    <IconButton onPress={handlePress} style={[styles.button, style]} absolute={absolute}>
       <Ionicons name="camera-outline" size={ScaleSize(72)} color={colors.black} />
     </IconButton>
   );
