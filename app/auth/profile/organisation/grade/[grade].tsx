@@ -144,12 +144,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: ScaleSizeW(10),
   },
-  heading: {
-    fontSize: ScaleSize(40),
-    fontWeight: "bold",
-    textAlign: "center",
-    paddingVertical: ScaleSizeH(10),
-  },
   citizenList: {
     flexGrow: 1,
     width: "100%",

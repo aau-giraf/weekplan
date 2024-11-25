@@ -1,5 +1,5 @@
-import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
+import { StyleProp, Text, TouchableOpacity, ViewStyle } from "react-native";
+import { colors, SharedStyles } from "../../utils/SharedStyles";
 
 type SecondaryButtonProps = {
   onPress: () => void;
@@ -12,33 +12,13 @@ type SecondaryButtonProps = {
 const SecondaryButton = ({ onPress, label, style, disabled, testID }: SecondaryButtonProps) => {
   return (
     <TouchableOpacity
-      style={[styles.button, style, disabled ? styles.buttonDisabled : null]}
+      style={[SharedStyles.buttonValid, style, disabled ? { backgroundColor: colors.gray } : null]}
       disabled={disabled}
       onPress={onPress}
       testID={testID}>
-      <Text style={styles.buttonText}>{label}</Text>
+      <Text style={SharedStyles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
 };
 
 export default SecondaryButton;
-
-const styles = StyleSheet.create({
-  button: {
-    paddingVertical: ScaleSizeW(18),
-    paddingHorizontal: ScaleSizeH(20),
-    borderRadius: 8,
-    marginTop: ScaleSize(20),
-    alignItems: "center",
-    backgroundColor: colors.blue,
-    width: "100%",
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(22),
-    fontWeight: "500",
-  },
-  buttonDisabled: {
-    backgroundColor: colors.gray,
-  },
-});

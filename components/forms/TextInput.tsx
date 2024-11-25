@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, TextInputProps, TextStyle, View } from "react-native";
 import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";
+import { SharedStyles } from "../../utils/SharedStyles";
 
 type FormFieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -24,7 +25,7 @@ function FormField<T extends FieldValues>({ control, name, errorStyle, ...inputP
             {...inputProps}
           />
           {errors[name] && (
-            <Text style={[styles.errorText, errorStyle]}>
+            <Text style={[SharedStyles.errorText, errorStyle]}>
               {typeof errors[name]?.message === "string" ? errors[name]?.message : ""}
             </Text>
           )}
@@ -49,10 +50,6 @@ const styles = StyleSheet.create({
   },
   inputError: {
     borderColor: "red",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
   },
 });
 

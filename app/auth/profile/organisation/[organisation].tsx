@@ -162,10 +162,10 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
       keyboardBlurBehavior="restore"
       index={-1}
       style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
         <BottomSheetTextInput
-          style={styles.inputValid}
+          style={SharedStyles.inputValid}
           placeholder="Navn på klasse"
           value={gradeName}
           onChangeText={(value: string) => setGradeName(value)}
@@ -194,7 +194,7 @@ const ConfirmBottomSheet = ({ bottomSheetRef, orgName, handleConfirm }: BottomSh
       keyboardBlurBehavior="restore"
       index={-1}
       style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+      <BottomSheetScrollView contentContainerStyle={SharedStyles.inputValid}>
         <Text style={SharedStyles.header}>{`Vil du forlade organisationen "${orgName}"?`}</Text>
         <SecondaryButton
           label="Bekræft"
@@ -248,24 +248,9 @@ const styles = StyleSheet.create({
     borderRadius: ScaleSize(50),
     marginBottom: ScaleSize(10),
   },
-  inputValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(85),
-    borderWidth: 1,
-    fontSize: ScaleSize(24),
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-    borderRadius: 5,
-    marginVertical: ScaleSizeH(10),
-  },
   iconButton: {
     height: ScaleSize(30),
     width: ScaleSize(30),
-  },
-  sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(90),
-    alignItems: "center",
   },
 });
 

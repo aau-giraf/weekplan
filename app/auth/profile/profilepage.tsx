@@ -134,10 +134,10 @@ const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps
       index={-1}
       onClose={() => setName("")}
       style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
-      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
-          style={styles.inputValid}
+          style={SharedStyles.inputValid}
           placeholder="Navn på organisation"
           value={name}
           onChangeText={setName}
@@ -236,16 +236,6 @@ const styles = StyleSheet.create({
     bottom: ScaleSize(30),
     left: ScaleSize(30),
   },
-  inputValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(85),
-    borderWidth: 1,
-    fontSize: ScaleSize(24),
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-    borderRadius: 5,
-    marginVertical: ScaleSizeH(10),
-  },
   buttonValid: {
     paddingVertical: ScaleSizeH(16),
     paddingHorizontal: ScaleSizeW(100),
@@ -258,11 +248,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: ScaleSize(24),
     fontWeight: "bold",
-  },
-  sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(90),
-    alignItems: "center",
   },
   profileContainer: {
     justifyContent: "center",

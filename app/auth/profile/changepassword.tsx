@@ -3,14 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import { z } from "zod";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 import FormField from "../../../components/forms/TextInput";
 import SubmitButton from "../../../components/forms/SubmitButton";
 import useProfile from "../../../hooks/useProfile";
 import { useToast } from "../../../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
+import { colors, SharedStyles } from "../../../utils/SharedStyles";
 
 const schema = z
   .object({
@@ -88,29 +88,12 @@ const ChangePasswordScreen: React.FC = () => {
         label="Opdater adgangskode"
       />
       <TouchableOpacity
-        style={[styles.buttonValid, { backgroundColor: colors.blue }]}
+        style={[SharedStyles.buttonValid, { backgroundColor: colors.blue }]}
         onPress={() => router.back()}>
-        <Text style={styles.buttonText}>Annuller</Text>
+        <Text style={SharedStyles.buttonText}>Annuller</Text>
       </TouchableOpacity>
     </FormContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonValid: {
-    paddingVertical: ScaleSizeW(18),
-    paddingHorizontal: ScaleSizeH(20),
-    borderRadius: 8,
-    marginTop: ScaleSize(20),
-    alignItems: "center",
-    backgroundColor: colors.blue,
-    width: "100%",
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(22),
-    fontWeight: "500",
-  },
-});
 
 export default ChangePasswordScreen;

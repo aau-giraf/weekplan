@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, TextStyle, View } from "react-native";
+import { Text, TextStyle, View } from "react-native";
 import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";
 import TimePicker from "../TimePicker";
-import { colors, ScaleSize } from "../../utils/SharedStyles";
+import { SharedStyles } from "../../utils/SharedStyles";
 
 type FormTimePickerProps<T extends FieldValues> = {
   control: Control<T>;
@@ -51,7 +51,7 @@ function FormTimePicker<T extends FieldValues>({
             mode={mode}
           />
           {errors[name] && (
-            <Text style={[styles.errorText, errorStyle]}>
+            <Text style={[SharedStyles.errorText, errorStyle]}>
               {typeof errors[name]?.message === "string" ? errors[name]?.message : " "}
             </Text>
           )}
@@ -60,12 +60,5 @@ function FormTimePicker<T extends FieldValues>({
     />
   );
 }
-
-const styles = StyleSheet.create({
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(12),
-  },
-});
 
 export default FormTimePicker;
