@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 import React, { Fragment, useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import { router } from "expo-router";
 import { Switch } from "react-native-gesture-handler";
@@ -63,31 +63,33 @@ const LoginScreen: React.FC = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <FormContainer style={{ padding: 30 }}>
-        <View style={styles.iconContainer}>
-          <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
-        </View>
-        <FormField control={control} name="email" placeholder="Email" textContentType="emailAddress" />
-        <FormField
-          control={control}
-          name="password"
-          placeholder="Kodeord"
-          secureTextEntry
-          textContentType="password"
-        />
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+        <FormContainer style={{ padding: 30 }}>
+          <View style={styles.iconContainer}>
+            <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
+          </View>
+          <FormField control={control} name="email" placeholder="Email" textContentType="emailAddress" />
+          <FormField
+            control={control}
+            name="password"
+            placeholder="Kodeord"
+            secureTextEntry
+            textContentType="password"
+          />
 
-        <View style={styles.checkboxContainer}>
-          <Switch value={rememberMe} onValueChange={(value) => setRememberMe(value)} />
-          <Text style={styles.checkboxLabel}>Husk Mig</Text>
-        </View>
-        <SubmitButton
-          isValid={isValid}
-          isSubmitting={isSubmitting}
-          handleSubmit={handleSubmit(onsSubmit)}
-          label="Login"
-        />
-        <SecondaryButton onPress={() => router.replace("/auth/register")} label="Tilføj ny konto" />
-      </FormContainer>
+          <View style={styles.checkboxContainer}>
+            <Switch value={rememberMe} onValueChange={(value) => setRememberMe(value)} />
+            <Text style={styles.checkboxLabel}>Husk Mig</Text>
+          </View>
+          <SubmitButton
+            isValid={isValid}
+            isSubmitting={isSubmitting}
+            handleSubmit={handleSubmit(onsSubmit)}
+            label="Login"
+          />
+          <SecondaryButton onPress={() => router.replace("/auth/register")} label="Tilføj ny konto" />
+        </FormContainer>
+      </KeyboardAvoidingView>
     </Fragment>
   );
 };
