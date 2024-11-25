@@ -48,7 +48,6 @@ const ViewOrganisation = () => {
         <View>
           <View style={{ alignItems: "center", height: "100%", gap: 20 }}>
             <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
-            <View style={styles.ActionView}></View>
             <IconButton
               style={styles.settings}
               onPress={() =>

@@ -116,36 +116,40 @@ const Settings = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
-      <ScrollView style={styles.scrollContainer}>
-        <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back-outline" size={30} />
-        </Pressable>
-        <View style={styles.profileSection}>
-          <View style={styles.profileContainer}>
-            <ProfilePicture
-              style={styles.mainProfilePicture}
-              label={data?.name || "Ukendt organisation"}
-              fontSize={100}
-            />
-            <View style={{ gap: 5 }}>
-              <Text style={{ fontSize: 30, fontWeight: "500" }}>{data?.name}</Text>
+      <View style={{ flex: 1, position: "relative" }}>
+        <SafeAreaView />
+        <ScrollView style={styles.scrollContainer}>
+          <Pressable style={styles.backButton} onPress={() => router.back()}>
+            <Ionicons name="arrow-back-outline" size={30} />
+          </Pressable>
+
+          <View style={styles.profileSection}>
+            <View style={styles.profileContainer}>
+              <ProfilePicture
+                style={styles.mainProfilePicture}
+                label={data?.name || "Ukendt organisation"}
+                fontSize={100}
+              />
+              <View style={{ gap: 5 }}>
+                <Text style={{ fontSize: 30, fontWeight: "500" }}>{data?.name}</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.settingsContainer}>
-          <FlatList
-            data={settings}
-            scrollEnabled={false}
-            renderItem={({ item, index }) => (
-              <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
-                <RenderSetting item={item} />
-              </View>
-            )}
-            keyExtractor={(item) => item.label}
-          />
-        </View>
-      </ScrollView>
+
+          <View style={styles.settingsContainer}>
+            <FlatList
+              data={settings}
+              scrollEnabled={false}
+              renderItem={({ item, index }) => (
+                <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
+                  <RenderSetting item={item} />
+                </View>
+              )}
+              keyExtractor={(item) => item.label}
+            />
+          </View>
+        </ScrollView>
+      </View>
       <ConfirmBottomSheet
         bottomSheetRef={bottomSheetRef}
         orgName={data!.name}

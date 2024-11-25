@@ -107,10 +107,6 @@ const Settings = () => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
   profileSection: {
     backgroundColor: "#f0f0f5",
   },

@@ -64,7 +64,7 @@ const ViewGrade = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView>
         <View>
           <View style={{ alignItems: "center" }}>
             <Text style={styles.gradeName}>{currentGrade?.name ?? "Klasse"}</Text>
@@ -78,15 +78,6 @@ const ViewGrade = () => {
               }>
               <Ionicons name="settings-outline" size={ScaleSize(64)} />
             </IconButton>
-            <IconButton
-              onPress={() => {
-                setIsCitizen(false);
-                setId(parsedID);
-                router.push("/auth/profile/organisation/weekplanscreen");
-              }}
-              absolute={false}>
-              <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
-            </IconButton>
           </View>
         </View>
         <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
@@ -97,6 +88,18 @@ const ViewGrade = () => {
           renderItem={({ item }) => renderCitizen(item)}
           ListEmptyComponent={<Text>Ingen elever fundet</Text>}
         />
+        <View style={styles.viewCalendarButton}>
+          <IconButton
+            style={styles.calendarButton}
+            onPress={() => {
+              setIsCitizen(false);
+              setId(parsedID);
+              router.push("/auth/profile/organisation/weekplanscreen");
+            }}
+            absolute={false}>
+            <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
+          </IconButton>
+        </View>
       </SafeAreaView>
     </Fragment>
   );
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(40),
     fontWeight: "bold",
     marginTop: ScaleSizeH(25),
-    marginBottom: ScaleSize(10),
+    marginBottom: ScaleSize(40),
   },
   citizenRow: {
     flexDirection: "row",
@@ -142,6 +145,14 @@ const styles = StyleSheet.create({
   settings: {
     top: ScaleSize(10),
     right: ScaleSize(30),
+  },
+  calendarButton: {
+    bottom: ScaleSize(155),
+    right: ScaleSize(30),
+  },
+  viewCalendarButton: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
 });
 
