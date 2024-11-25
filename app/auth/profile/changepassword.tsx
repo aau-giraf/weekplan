@@ -3,14 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import { z } from "zod";
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, Platform, Text, TouchableOpacity } from "react-native";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 import FormField from "../../../components/forms/TextInput";
 import SubmitButton from "../../../components/forms/SubmitButton";
 import useProfile from "../../../hooks/useProfile";
 import { useToast } from "../../../providers/ToastProvider";
-import { colors, SharedStyles } from "../../../utils/SharedStyles";
+import { SharedStyles } from "../../../utils/SharedStyles";
 
 const schema = z
   .object({
@@ -93,10 +93,8 @@ const ChangePasswordScreen: React.FC = () => {
           handleSubmit={handleSubmit(onSubmit)}
           label="Opdater adgangskode"
         />
-        <TouchableOpacity
-          style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-          onPress={() => router.back()}>
-          <Text style={styles.buttonText}>Annuller</Text>
+        <TouchableOpacity style={[SharedStyles.buttonValid]} onPress={() => router.back()}>
+          <Text style={SharedStyles.buttonText}>Annuller</Text>
         </TouchableOpacity>
       </FormContainer>
     </KeyboardAvoidingView>

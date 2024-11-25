@@ -25,7 +25,7 @@ const ProfilePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
@@ -33,7 +33,7 @@ const ProfilePage: React.FC = () => {
 
   if (isError || !data) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <Text>Profil data kunne ikke hentes</Text>
       </View>
     );
@@ -232,17 +232,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: ScaleSizeH(20),
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-  },
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(18),
-    textAlign: "center",
   },
 });
 
