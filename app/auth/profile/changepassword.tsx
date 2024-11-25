@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import { z } from "zod";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 import FormField from "../../../components/forms/TextInput";
@@ -66,33 +66,40 @@ const ChangePasswordScreen: React.FC = () => {
   };
 
   return (
-    <FormContainer style={{ padding: 30 }}>
-      <FormHeader title="Skift password" />
-      <FormField
-        control={control}
-        name="oldPassword"
-        placeholder="Indtast nuværende adgangskode"
-        secureTextEntry
-      />
-      <FormField control={control} name="newPassword" placeholder="Indtast ny adgangskode" secureTextEntry />
-      <FormField
-        control={control}
-        name="confirmNewPassword"
-        placeholder="Bekræft ny adgangskode"
-        secureTextEntry
-      />
-      <SubmitButton
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        handleSubmit={handleSubmit(onSubmit)}
-        label="Opdater adgangskode"
-      />
-      <TouchableOpacity
-        style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-        onPress={() => router.back()}>
-        <Text style={styles.buttonText}>Annuller</Text>
-      </TouchableOpacity>
-    </FormContainer>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <FormContainer style={{ padding: 30 }}>
+        <FormHeader title="Skift password" />
+        <FormField
+          control={control}
+          name="oldPassword"
+          placeholder="Indtast nuværende adgangskode"
+          secureTextEntry
+        />
+        <FormField
+          control={control}
+          name="newPassword"
+          placeholder="Indtast ny adgangskode"
+          secureTextEntry
+        />
+        <FormField
+          control={control}
+          name="confirmNewPassword"
+          placeholder="Bekræft ny adgangskode"
+          secureTextEntry
+        />
+        <SubmitButton
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+          handleSubmit={handleSubmit(onSubmit)}
+          label="Opdater adgangskode"
+        />
+        <TouchableOpacity
+          style={[styles.buttonValid, { backgroundColor: colors.blue }]}
+          onPress={() => router.back()}>
+          <Text style={styles.buttonText}>Annuller</Text>
+        </TouchableOpacity>
+      </FormContainer>
+    </KeyboardAvoidingView>
   );
 };
 

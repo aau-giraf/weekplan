@@ -1,10 +1,10 @@
-import { useLocalSearchParams } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { KeyboardAvoidingView, Platform, StyleSheet, View, Text } from "react-native";
 import usePictogram from "../../../../../hooks/usePictogram";
 import CameraButton from "../../../../../components/CameraButton";
 import FormContainer from "../../../../../components/forms/FormContainer";
 import { ProfilePicture } from "../../../../../components/ProfilePicture";
-import { colors, ScaleSizeH } from "../../../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH } from "../../../../../utils/SharedStyles";
 import { useToast } from "../../../../../providers/ToastProvider";
 import FormField from "../../../../../components/forms/TextInput";
 import { z } from "zod";
@@ -52,6 +52,7 @@ const UploadPictogram = () => {
       .mutateAsync(formData)
       .then(() => {
         addToast({ message: "Billede blev uploadet", type: "success" });
+        router.back();
       })
       .catch(() => {
         addToast({ message: "Der skete en fejl", type: "error" });
@@ -60,29 +61,38 @@ const UploadPictogram = () => {
 
   return (
     <SafeAreaView style={{ flexGrow: 1, backgroundColor: colors.white }}>
-      <FormContainer style={styles.stepContainer}>
-        <View style={styles.profileContainer}>
-          {getValues("piktogramURI") && (
-            <ProfilePicture
-              style={styles.mainProfilePicture}
-              label={"N A"}
-              imageURI={getValues("piktogramURI")}
-              key={getValues("piktogramURI")}
-            />
-          )}
-        </View>
-        <CameraButton
-          style={styles.cameraButton}
-          onImageSelect={(uri) => setValue("piktogramURI", uri, { shouldValidate: true })}
-        />
-        <FormField control={control} name="name" />
-        <SubmitButton
-          label="Upload billede"
-          isSubmitting={isSubmitting}
-          isValid={isValid}
-          handleSubmit={handleSubmitPicture}
-        />
-      </FormContainer>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+        <FormContainer style={styles.stepContainer}>
+          <View style={styles.profileContainer}>
+            <View style={styles.pictureWrapper}>
+              {getValues("piktogramURI") ? (
+                <ProfilePicture
+                  style={styles.mainProfilePicture}
+                  label={"N A"}
+                  imageURI={getValues("piktogramURI")}
+                  key={getValues("piktogramURI")}
+                />
+              ) : (
+                <View style={styles.emptyPictureBorder}>
+                  <Text style={styles.pictureText}>Intet valgt billede</Text>
+                </View>
+              )}
+              <CameraButton
+                absolute={false}
+                style={styles.cameraButton}
+                onImageSelect={(uri: string) => setValue("piktogramURI", uri, { shouldValidate: true })}
+              />
+            </View>
+          </View>
+          <FormField control={control} name="name" />
+          <SubmitButton
+            label="Upload billede"
+            isSubmitting={isSubmitting}
+            isValid={isValid}
+            handleSubmit={handleSubmitPicture}
+          />
+        </FormContainer>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -90,27 +100,47 @@ const UploadPictogram = () => {
 const styles = StyleSheet.create({
   stepContainer: {
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: ScaleSizeH(30),
-    marginBottom: ScaleSizeH(20),
+    marginBottom: ScaleSizeH(10),
   },
   profileContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: ScaleSizeH(20),
+  },
+  pictureWrapper: {
+    position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyPictureBorder: {
+    aspectRatio: 1,
+    height: ScaleSizeH(350),
+    borderRadius: 10000,
+    borderWidth: 2,
+    borderColor: colors.gray,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.lightGray,
+  },
+  pictureText: {
+    fontSize: 20,
+    color: colors.white,
+    shadowColor: colors.black,
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
   mainProfilePicture: {
     width: "100%",
-    maxHeight: ScaleSizeH(360),
+    maxHeight: ScaleSizeH(350),
     aspectRatio: 1,
     borderRadius: 10000,
-    marginBottom: ScaleSizeH(140),
   },
   cameraButton: {
-    bottom: ScaleSizeH(350),
-    position: "relative",
+    bottom: ScaleSize(100),
+    right: ScaleSize(-100),
   },
   navigationButtons: {
     flexDirection: "column",

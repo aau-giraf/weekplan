@@ -24,14 +24,18 @@ const ViewInvitation = () => {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <ActivityIndicator size="large" />
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
   }
 
   if (error) {
-    return <Text>Fejl med at hente invitationer: {error.message}</Text>;
+    return (
+      <View style={styles.centeredContainer}>
+        <Text style={styles.errorText}>Fejl med at hente invitationer: {error.message}</Text>
+      </View>
+    );
   }
 
   const handleInvitation = async (id: number, isAccepted: boolean) => {
@@ -103,6 +107,17 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginLeft: 15,
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
   },
 });
 

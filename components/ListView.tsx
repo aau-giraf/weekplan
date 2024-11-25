@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import SwipeableList, { Action } from "./swipeablelist/SwipeableList";
-import { colors, ScaleSizeH } from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH } from "../utils/SharedStyles";
 import { ProfilePicture } from "./ProfilePicture";
 
 type ListItem = {
@@ -36,14 +36,18 @@ const ListView = <T extends ListItem>({
 }: ListViewProps<T>) => {
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <ActivityIndicator size="large" />
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
   }
 
   if (error) {
-    return <Text>{errorMessage}</Text>;
+    return (
+      <View style={styles.centeredContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
   }
 
   const rightActions: Action<T>[] = [
@@ -117,6 +121,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: colors.black,
     flexWrap: "wrap",
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
   },
 });
 
