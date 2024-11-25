@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   profileSection: {
-    backgroundColor: "#f0f0f5",
+    backgroundColor: colors.lightBlueMagenta,
   },
   profileContainer: {
     flexDirection: "row",

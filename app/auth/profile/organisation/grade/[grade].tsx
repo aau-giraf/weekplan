@@ -108,7 +108,7 @@ const ViewGrade = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
   },
   gradeName: {
     fontSize: ScaleSize(40),

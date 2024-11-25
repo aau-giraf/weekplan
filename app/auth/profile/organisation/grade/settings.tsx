@@ -108,7 +108,7 @@ const Settings = () => {
 
 const styles = StyleSheet.create({
   profileSection: {
-    backgroundColor: "#f0f0f5",
+    backgroundColor: colors.lightBlueMagenta,
   },
   profileContainer: {
     flexDirection: "row",
