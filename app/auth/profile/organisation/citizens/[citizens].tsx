@@ -89,7 +89,7 @@ const ViewCitizen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
       <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
       <ListView
         data={filteredData}
@@ -149,10 +149,6 @@ const ViewCitizen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
   sheetContent: {
     gap: ScaleSize(10),
     padding: ScaleSize(20),

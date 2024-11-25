@@ -154,11 +154,6 @@ const styles = StyleSheet.create({
     color: colors.black,
     flex: 1,
   },
-  searchbar: {
-    width: "100%",
-    minWidth: "100%",
-    paddingVertical: ScaleSize(15),
-  },
   citizenContainer: {
     gap: ScaleSize(10),
     padding: ScaleSize(5),
@@ -169,9 +164,6 @@ const styles = StyleSheet.create({
     maxHeight: ScaleSizeH(300),
     aspectRatio: 1,
     borderRadius: 10000,
-  },
-  sheetContent: {
-    paddingVertical: ScaleSize(20),
   },
 });
 

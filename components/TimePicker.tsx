@@ -48,7 +48,7 @@ const TimePicker = ({
 }: TimeSelectorProps) => {
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
-    <View style={styles.pickerContainer}>
+    <View style={{ alignItems: "center" }}>
       <Text style={SharedStyles.header}>{title}</Text>
 
       {/* Android - Touchable and DateTimePicker visibility */}
@@ -107,9 +107,6 @@ const TimePicker = ({
 };
 
 const styles = StyleSheet.create({
-  pickerContainer: {
-    alignItems: "center",
-  },
   centeredPicker: {
     ...SharedStyles.trueCenter,
     width: "100%",

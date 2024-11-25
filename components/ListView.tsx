@@ -94,11 +94,6 @@ const ListView = <T extends ListItem>({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-    width: "100%",
-  },
   itemContainer: {
     flexDirection: "row",
     padding: 10,

@@ -75,7 +75,7 @@ const RemoveCitizen = () => {
       <TouchableOpacity
         style={[
           styles.selection,
-          selectedCitizens.some((citizen) => citizen.id === item.id) && styles.citizenSelected,
+          selectedCitizens.some((citizen) => citizen.id === item.id) && { borderColor: colors.red },
         ]}
         onPress={() => toggleCitizenSelection(item.id)}>
         <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
@@ -177,9 +177,6 @@ const styles = StyleSheet.create({
     maxHeight: ScaleSizeH(300),
     aspectRatio: 1,
     borderRadius: 10000,
-  },
-  citizenSelected: {
-    borderColor: colors.red,
   },
   citizenText: {
     paddingLeft: ScaleSize(30),

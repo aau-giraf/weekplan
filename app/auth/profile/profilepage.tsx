@@ -228,27 +228,6 @@ const styles = StyleSheet.create({
     bottom: ScaleSize(30),
     right: ScaleSize(30),
   },
-  iconMail: {
-    top: ScaleSize(10),
-    left: ScaleSize(30),
-  },
-  weekoverview: {
-    bottom: ScaleSize(30),
-    left: ScaleSize(30),
-  },
-  buttonValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(100),
-    borderRadius: 8,
-    marginBottom: ScaleSizeH(10),
-    alignItems: "center",
-    backgroundColor: colors.green,
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(24),
-    fontWeight: "bold",
-  },
   profileContainer: {
     justifyContent: "center",
     alignItems: "center",

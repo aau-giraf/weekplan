@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, TextInputProps, TextStyle, View } from "react-native";
 import { Control, Controller, FieldPath, FieldValues, useFormState } from "react-hook-form";
-import { SharedStyles } from "../../utils/SharedStyles";
+import { colors, SharedStyles } from "../../utils/SharedStyles";
 
 type FormFieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -20,7 +20,11 @@ function FormField<T extends FieldValues>({ control, name, errorStyle, ...inputP
         <View style={{ width: "100%" }}>
           <TextInput
             value={value}
-            style={[styles.inputBase, errors[name] ? styles.inputError : styles.inputValid, inputProps.style]}
+            style={[
+              styles.inputBase,
+              errors[name] ? { borderColor: colors.red } : { borderColor: colors.gray },
+              inputProps.style,
+            ]}
             onChangeText={onChange}
             {...inputProps}
           />
@@ -43,13 +47,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
-    backgroundColor: "#fff",
-  },
-  inputValid: {
-    borderColor: "#ccc",
-  },
-  inputError: {
-    borderColor: "red",
+    backgroundColor: colors.white,
   },
 });
 

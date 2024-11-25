@@ -94,7 +94,7 @@ const Settings = () => {
           <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
         </Pressable>
 
-        <View style={styles.profileSection}>
+        <View style={{ backgroundColor: "#f0f0f5" }}>
           <View style={styles.profileContainer}>
             <ProfilePicture
               style={styles.mainProfilePicture}
@@ -163,7 +163,7 @@ const RenderSetting = ({ item, toggleStates, handleToggleChange, hasInvitations 
         style={styles.settingItem}>
         <View style={styles.settingItemContainerSeparator}>
           <Ionicons name={item.icon} size={40} />
-          <Text style={styles.settingItemText}>{item.label}</Text>
+          <Text style={{ fontSize: 20 }}>{item.label}</Text>
           {hasInvitations && <View style={styles.notificationBadge} />}
         </View>
         {!item.onPress ? (
@@ -183,9 +183,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "white",
-  },
-  profileSection: {
-    backgroundColor: "#f0f0f5",
   },
   profileContainer: {
     flexDirection: "row",
@@ -210,9 +207,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 15,
     position: "relative",
-  },
-  settingItemText: {
-    fontSize: 20,
   },
   ItemSeparatorComponent: {
     borderWidth: 0.32,

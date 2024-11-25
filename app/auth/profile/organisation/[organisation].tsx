@@ -241,13 +241,6 @@ const styles = StyleSheet.create({
     bottom: ScaleSize(20),
     right: ScaleSize(20),
   },
-  button: {
-    ...SharedStyles.trueCenter,
-    height: ScaleSize(50),
-    width: ScaleSize(50),
-    borderRadius: ScaleSize(50),
-    marginBottom: ScaleSize(10),
-  },
   iconButton: {
     height: ScaleSize(30),
     width: ScaleSize(30),

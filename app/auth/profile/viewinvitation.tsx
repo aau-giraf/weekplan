@@ -52,14 +52,14 @@ const ViewInvitation = () => {
           name={"checkmark"}
           size={ScaleSize(48)}
           color={colors.green}
-          style={styles.iconContainer}
+          style={{ marginLeft: 15 }}
           onPress={() => handleInvitation(item.id, true)}
         />
         <Ionicons
           name={"close"}
           size={ScaleSize(48)}
           color={colors.red}
-          style={styles.iconContainer}
+          style={{ marginLeft: 15 }}
           onPress={() => handleInvitation(item.id, false)}
         />
       </View>
@@ -100,9 +100,6 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: "column",
     justifyContent: "center",
-  },
-  iconContainer: {
-    marginLeft: 15,
   },
 });
 
