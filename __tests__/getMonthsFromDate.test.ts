@@ -13,9 +13,6 @@ describe("getMonthsFromDates", () => {
   it("should return the names of both months when dates are in different months", () => {
     const startDate = new Date("2023-07-15");
     const endDate = new Date("2023-08-05");
-      
-      
-      
 
     const result = getMonthsFromDates(startDate, endDate);
 
