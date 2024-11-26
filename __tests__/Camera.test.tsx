@@ -22,15 +22,6 @@ const mockCameraResult = {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  
-  
-  
-  
-  
-  
-  
-  
-  
 });
 
 describe("takePhoto", () => {
