@@ -146,6 +146,21 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 10000,
   },
+  settings: {
+    top: ScaleSize(10),
+    right: ScaleSize(30),
+  },
+  calendarButton: {
+    height: ScaleSize(100),
+    width: ScaleSize(100),
+    marginBottom: ScaleSize(10),
+  },
+  viewCalendarButton: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    bottom: ScaleSize(20),
+    right: ScaleSize(20),
+  },
 });
 
 export default ViewGrade;

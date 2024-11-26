@@ -176,6 +176,10 @@ const styles = StyleSheet.create({
     height: ScaleSize(30),
     width: ScaleSize(30),
   },
+  settings: {
+    top: ScaleSize(10),
+    right: ScaleSize(30),
+  },
 });
 
 export default ViewOrganisation;
