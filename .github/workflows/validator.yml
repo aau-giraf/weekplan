@@ -41,7 +41,7 @@ jobs:
         with:
           script: |
             const commentBody = `
-              Linting detected issues 😱😱😱:
+              Linting detected issues 😱😱😱
             
               - **Errors**: ${process.env.errors}
               - **Warnings**: ${process.env.warnings}
