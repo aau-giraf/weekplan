@@ -23,9 +23,9 @@ jobs:
 
       - name: Checks code for errors
         run: npm run lint
-        
-      - name: Comment GIF if errors
-        if: env.errors == 'true'
+
+      - name: Add GIF to PR comment
+        if: env.errors == 'true' || env.warnings == 'true'
         uses: actions/github-script@v6
         with:
           script: |
