@@ -16,11 +16,11 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe("takePhoto", () => {
+describe("takePhoto", () => 
   test("should request for permission to access camera", async () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
       granted: true,
-    });
+    });;;
 
     (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue(mockCameraResult);
 
