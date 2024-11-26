@@ -1,17 +1,21 @@
 import { BASE_URL } from "../utils/globals";
+import axios from "axios";
 
 /**
  * Function that sends a POST request to the server to try to login.
- * @param email {string} - The username of the user.
+ * @param username {string} - The username of the user.
  * @param password {string} - The password of the user.
  */
 export async function tryLogin(username: string, password: string) {
-  const res = await fetch(`${BASE_URL}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
+  const res = await axios.post(`${BASE_URL}/login`, { username, password }).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Der opstod et problem med login");
+    }
   });
 
-  if (!res.ok) throw new Error("Fejl: Ugyldigt login");
-  return res.json();
+  if (!res) {
+    throw new Error("Fejl: Der opstod et problem med login");
+  }
+
+  return res.data;
 }
