@@ -71,14 +71,18 @@ const ActivityItemList = () => {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <ActivityIndicator size="large" />
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
   }
 
   if (error || !data) {
-    return <Text>Fejl med at hente aktiviteter {error?.message}</Text>;
+    return (
+      <View style={styles.centeredContainer}>
+        <Text>Fejl med at hente aktiviteter {error?.message}</Text>
+      </View>
+    );
   }
 
   const rightActions: Action<ActivityDTO>[] = [
@@ -165,6 +169,17 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: ScaleSize(48),
     color: colors.white,
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
   },
 });
 

@@ -21,14 +21,18 @@ const ViewOrganisation = () => {
 
   if (isLoading) {
     return (
-      <View>
-        <ActivityIndicator size={"large"} />
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
   }
 
   if (error) {
-    return <Text>{error.message}</Text>;
+    return (
+      <View style={styles.centeredContainer}>
+        <Text style={styles.errorText}>{error.message}</Text>
+      </View>
+    );
   }
 
   const openCreateBS = () => createBottomSheetRef.current?.expand();
@@ -193,6 +197,17 @@ const styles = StyleSheet.create({
     gap: ScaleSize(10),
     padding: ScaleSize(90),
     alignItems: "center",
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
   },
   settings: {
     top: ScaleSize(10),
