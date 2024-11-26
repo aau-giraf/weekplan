@@ -26,19 +26,14 @@ jobs:
 
       - name: Run Linting and Check Results
         id: lint
-        continue-on-error: true
         run: |
           npm run lint > lint-output.txt || LINT_EXIT_CODE=$?
           # Count errors and warnings
-          ERRORS=$(grep -i -E "^[[:space:]]*[0-9]+:[0-9]+.*error" lint-output.txt | wc -l)
-          WARNINGS=$(grep -i -E "^[[:space:]]*[0-9]+:[0-9]+.*warning" lint-output.txt | wc -l)
+          ERRORS=$(grep -i "error" lint-output.txt | wc -l)
+          WARNINGS=$(grep -i "warning" lint-output.txt | wc -l)
           echo "errors=$ERRORS" >> $GITHUB_ENV
           echo "warnings=$WARNINGS" >> $GITHUB_ENV
           cat lint-output.txt
-          # Exit with the original lint exit code if there are errors
-          if [ "$ERRORS" -ne "0" ]; then
-            exit $LINT_EXIT_CODE
-          fi
 
       - name: Add GIF to PR comment
         if: ${{ env.errors != '0' || env.warnings != '0' }}
@@ -58,3 +53,7 @@ jobs:
               issue_number: context.issue.number,
               body: commentBody,
             });
+      
+      - name: Fail the job if there are errors
+        if: ${{ env.errors != '0' }}
+        run: exit 1
