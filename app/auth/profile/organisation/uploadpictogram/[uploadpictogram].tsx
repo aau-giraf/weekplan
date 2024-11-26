@@ -36,7 +36,7 @@ const UploadPictogram = () => {
     mode: "onChange",
   });
 
-  const handleSubmitPicture = () => {
+  const handleSubmitPicture = async () => {
     const imageData = {
       uri: getValues().piktogramURI,
       type: "image/jpeg",
@@ -44,7 +44,9 @@ const UploadPictogram = () => {
     };
 
     const formData = new FormData();
-    formData.append("image", imageData as unknown as Blob);
+    const blob = await fetch(imageData.uri).then((r) => r.blob());
+
+    formData.append("image", blob);
     formData.append("organizationId", organisationId.toString());
     formData.append("pictogramName", getValues().name);
 
