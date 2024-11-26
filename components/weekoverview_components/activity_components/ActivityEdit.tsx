@@ -21,19 +21,29 @@ import ProgressSteps, { ProgressStepsMethods } from "../../ProgressSteps";
 import SecondaryButton from "../../forms/SecondaryButton";
 import { BASE_URL } from "../../../utils/globals";
 
-const schema = z.object({
-  title: z.string().trim().min(1, "Du skal have en titel"),
-  description: z.string().trim().min(1, "Du skal have en beskrivelse"),
-  startTime: z.date(),
-  endTime: z.date(),
-  date: z.date(),
-  pictogram: z.object({
-    id: z.number(),
-    organizationId: z.number().nullable(),
-    pictogramName: z.string(),
-    pictogramUrl: z.string(),
-  }),
-});
+const schema = z
+  .object({
+    title: z.string().trim().min(1, "Du skal have en titel"),
+    description: z.string().trim().min(1, "Du skal have en beskrivelse"),
+    startTime: z.date(),
+    endTime: z.date(),
+    date: z.date(),
+    pictogram: z.object({
+      id: z.number(),
+      organizationId: z.number().nullable(),
+      pictogramName: z.string(),
+      pictogramUrl: z.string(),
+    }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.startTime >= data.endTime) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.invalid_date,
+        path: ["endTime"],
+        message: "Sluttidspunktet skal være efter starttidspunktet",
+      });
+    }
+  });
 
 type FormData = z.infer<typeof schema>;
 
@@ -120,18 +130,8 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
               <FormHeader title="Ændre Aktivitet" />
               <FormField control={control} name="title" placeholder="Titel" />
               <FormField control={control} name="description" placeholder="Beskrivelse" />
-              <FormTimePicker
-                control={control}
-                name="startTime"
-                placeholder="Vælg start tid"
-                maxDate={getValues("endTime")}
-              />
-              <FormTimePicker
-                control={control}
-                name="endTime"
-                placeholder="Vælg slut tid"
-                minDate={getValues("startTime")}
-              />
+              <FormTimePicker control={control} name="startTime" placeholder="Vælg start tid" />
+              <FormTimePicker control={control} name="endTime" placeholder="Vælg slut tid" />
               <FormTimePicker control={control} name="date" placeholder="Dato for aktivitet" mode="date" />
               <SecondaryButton
                 style={{ backgroundColor: colors.green }}
