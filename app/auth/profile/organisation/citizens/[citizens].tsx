@@ -28,7 +28,7 @@ const ViewCitizen = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [citizenInfo, setCitizenInfo] = useState<Citizen>({
-    id: "",
+    id: 0,
     firstName: "",
     lastName: "",
   });
@@ -44,9 +44,14 @@ const ViewCitizen = () => {
   const filteredData = useSearch(data?.citizens || [], searchQuery, citizenSearchFn);
 
   const handleDelete = async (id: number) => {
-    await deleteCitizen.mutateAsync(id).catch((error) => {
-      addToast({ message: error.message, type: "error" });
-    });
+    await deleteCitizen
+      .mutateAsync(id)
+      .then(() => {
+        addToast({ message: "Borger fjernet", type: "success" }, 1500);
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" }, 3000);
+      });
   };
 
   const handleUpdate = async () => {
@@ -58,7 +63,7 @@ const ViewCitizen = () => {
           lastName: citizenInfo.lastName,
         })
         .then(() => {
-          addToast({ message: "Borger opdateret", type: "success" });
+          addToast({ message: "Borger opdateret", type: "success" }, 1500);
           closeBottomSheet();
         })
         .catch((error) => {
