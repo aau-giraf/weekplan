@@ -44,9 +44,8 @@ const UploadPictogram = () => {
     };
 
     const formData = new FormData();
-    const blob = await fetch(imageData.uri).then((r) => r.blob());
 
-    formData.append("image", blob);
+    formData.append("image", imageData as unknown as Blob);
     formData.append("organizationId", organisationId.toString());
     formData.append("pictogramName", getValues().name);
 
