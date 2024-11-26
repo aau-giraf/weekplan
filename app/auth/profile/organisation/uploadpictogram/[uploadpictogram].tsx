@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { KeyboardAvoidingView, Platform, StyleSheet, View, Text } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, View, Text } from "react-native";
 import usePictogram from "../../../../../hooks/usePictogram";
 import CameraButton from "../../../../../components/CameraButton";
 import FormContainer from "../../../../../components/forms/FormContainer";
@@ -61,7 +61,7 @@ const UploadPictogram = () => {
 
   return (
     <SafeAreaView style={{ flexGrow: 1, backgroundColor: colors.white }}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>
             <View style={styles.pictureWrapper}>
