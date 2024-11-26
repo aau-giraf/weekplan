@@ -12,7 +12,7 @@ type SubmitButtonProps = {
 const SubmitButton = ({ isValid, isSubmitting, handleSubmit, label, style }: SubmitButtonProps) => {
   return (
     <TouchableOpacity
-      style={[isValid ? SharedStyles.buttonValid : SharedStyles.buttonDisabled, style]}
+      style={[isValid ? SharedStyles.submitButton : SharedStyles.buttonDisabled, style]}
       disabled={!isValid || isSubmitting}
       onPress={handleSubmit}>
       <Text style={SharedStyles.buttonText}>{isSubmitting ? "..." : label}</Text>

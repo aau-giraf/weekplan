@@ -129,6 +129,15 @@ const SharedStyles = StyleSheet.create({
     fontSize: ScaleSize(22),
     fontWeight: "500",
   },
+  submitButton: {
+    paddingVertical: ScaleSizeW(18),
+    paddingHorizontal: ScaleSizeH(20),
+    borderRadius: 8,
+    marginTop: ScaleSize(20),
+    alignItems: "center",
+    backgroundColor: colors.green,
+    width: "100%",
+  },
   buttonValid: {
     paddingVertical: ScaleSizeW(18),
     paddingHorizontal: ScaleSizeH(20),
