@@ -4,77 +4,79 @@ import axios from "axios";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {
-    return "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.";
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
   const url = `${BASE_URL}/users/${userId}`;
-  try {
-    const res = await axios.get(url);
-    return res.data;
-  } catch (error: any) {
-    return error.message || "Fejl: Kunne ikke hente din profil";
+  const res = await axios.get(url).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke hente din profil");
+    }
+  });
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke hente din profil");
   }
+
+  return res.data;
 };
 
 export const updateProfileRequest = async (userId: string | null, data: UpdateProfileDTO) => {
   if (userId === null) {
-    return "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.";
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  try {
-    const res = await axios.put(`${BASE_URL}/users/${userId}`, data, {
-      headers: { "Content-Type": "application/json" },
-    });
-    if (res.status !== 200) {
-      return "Fejl: Kunne ikke opdatere din profil";
+  const res = await axios.put(`${BASE_URL}/users/${userId}`, data).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke opdatere din profil");
     }
-  } catch (error: any) {
-    return error.message || "Fejl: Kunne ikke opdatere din profil";
+  });
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke opdatere din profil");
   }
 };
 
 export const changePasswordRequest = async (userId: string | null, data: ChangePasswordDTO) => {
   if (userId === null) {
-    return "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.";
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  try {
-    const res = await axios.put(`${BASE_URL}/users/${userId}/change-password`, data, {
-      headers: { "Content-Type": "application/json" },
-    });
-    if (res.status !== 200) {
-      return "Fejl: Kunne ikke opdatere din adgangskode";
+  const res = await axios.put(`${BASE_URL}/users/${userId}/change-password`, data).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke opdatere din adgangskode");
     }
-  } catch (error: any) {
-    return error.message || "Fejl: Kunne ikke opdatere din adgangskode";
+  });
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke opdatere din adgangskode");
   }
 };
 
 export const deleteUserRequest = async (userId: string | null, data: DeleteUserDTO) => {
   if (userId === null) {
-    return "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.";
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  try {
-    const res = await axios.delete(`${BASE_URL}/users/${userId}`, {
+  return await axios
+    .delete(`${BASE_URL}/users/${userId}`, {
       data,
       headers: { "Content-Type": "application/json" },
+    })
+    .catch((error) => {
+      if (error.response) {
+        throw new Error(error.response.data?.message || "Fejl: Kunne ikke slette din konto");
+      }
     });
-    if (res.status !== 200) {
-      return "Fejl: Kunne ikke slette din konto";
-    }
-  } catch (error: any) {
-    return error.message || "Fejl: Kunne ikke slette din konto";
-  }
 };
 
 export const uploadProfileImageRequest = async (userId: string | null, imageUri: string | null) => {
   if (userId === null) {
-    return "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.";
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
   if (imageUri === null) {
-    return "FATAL FEJL: Billede er ikke korrekt initialiseret.";
+    throw new Error("FATAL FEJL: Billede er ikke korrekt initialiseret.");
   }
 
   const imageData = {
@@ -86,14 +88,17 @@ export const uploadProfileImageRequest = async (userId: string | null, imageUri:
   const formData = new FormData();
   formData.append("image", imageData as unknown as Blob);
 
-  try {
-    const res = await axios.post(`${BASE_URL}/users/setProfilePicture?userId=${userId}`, formData, {
+  const res = await axios
+    .post(`${BASE_URL}/users/setProfilePicture?userId=${userId}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
+    })
+    .catch((error) => {
+      if (error.response) {
+        throw new Error(error.message || "Fejl: Kunne ikke uploade profilbillede");
+      }
     });
-    if (res.status !== 200) {
-      return "Fejl: Kunne ikke uploade profilbillede";
-    }
-  } catch (error: any) {
-    return error.message || "Fejl: Kunne ikke uploade profilbillede";
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke uploade profilbillede");
   }
 };

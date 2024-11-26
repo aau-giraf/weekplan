@@ -23,14 +23,15 @@ type CreateUserResponseProps = {
 export const createUserRequest = async (
   userData: CreateUserRequestProps
 ): Promise<CreateUserResponseProps> => {
-  try {
-    const res = await axios.post(`${BASE_URL}/users`, userData, {
-      headers: { "Content-Type": "application/json" },
-    });
+  const res = await axios.post(`${BASE_URL}/users`, userData).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke oprette bruger");
+    }
+  });
 
-    return res.data;
-  } catch (error: any) {
-    const errorMessage = error.message || "Fejl: Kunne ikke oprette bruger";
-    throw new Error(errorMessage);
+  if (!res) {
+    throw new Error("Fejl: Der opstod et problem med anmodningen");
   }
+
+  return res.data;
 };

@@ -15,28 +15,44 @@ export const fetchAllPictogramsByOrg = async (
 
   const url = `${BASE_URL}/pictograms/organizationId:int`;
 
-  try {
-    const res = await axios.get(url, { params });
-    return res.data;
-  } catch (error: any) {
-    const errorMessage = error.message || "Ukendt fejl opstod";
-    throw new Error(`Failed to fetch pictograms. Details: ${errorMessage}`);
+  const res = await axios.get(url, { params }).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Der opstod et problem med at hente piktogrammer");
+    }
+  });
+
+  if (!res) {
+    throw new Error("Fejl: Der opstod et problem med at hente piktogrammer");
   }
+
+  return res.data;
 };
 
 export const deletePictogram = async (pictogramId: number): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/pictograms/${pictogramId}`, {
+  const res = await fetch(`${BASE_URL}/pictograms/${pictogramId}`, {
     method: "DELETE",
+  }).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Der opstod et problem med at slette piktogrammet");
+    }
   });
-  if (!response.ok) throw new Error("Failed to delete pictogram");
-  return response.json();
+
+  if (!res) {
+    throw new Error("Fejl: Der opstod et problem med at slette piktogrammet");
+  }
 };
 
 export const uploadNewPictogram = async (formData: FormData): Promise<void> => {
   const res = await fetch(`${BASE_URL}/pictograms`, {
     method: "POST",
     body: formData,
+  }).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Der opstod et problem med at oprette piktogrammet");
+    }
   });
 
-  if (!res.ok) throw new Error("Error: Could not create pictogram");
+  if (!res) {
+    throw new Error("Fejl: Der opstod et problem med at oprette piktogrammet");
+  }
 };
