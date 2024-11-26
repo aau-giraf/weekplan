@@ -9,7 +9,6 @@ import FormHeader from "../../../../components/forms/FormHeader";
 import FormTimePicker from "../../../../components/forms/FormTimePicker";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../components/forms/SubmitButton";
-import FormField from "../../../../components/forms/TextInput";
 import PictogramSelector from "../../../../components/PictogramSelector";
 import useActivity from "../../../../hooks/useActivity";
 import { useDate } from "../../../../providers/DateProvider";
@@ -23,8 +22,6 @@ import { BASE_URL } from "../../../../utils/globals";
 
 const schema = z
   .object({
-    title: z.string().trim().min(1, "Du skal have en titel"),
-    description: z.string().trim().min(1, "Du skal have en beskrivelse"),
     startTime: z.date(),
     endTime: z.date(),
     pictogram: z.object({
@@ -35,7 +32,7 @@ const schema = z
     }),
   })
   .superRefine((data, ctx) => {
-    if (data.startTime >= data.endTime) {
+    if (data.startTime > data.endTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.invalid_date,
         path: ["endTime"],
@@ -68,8 +65,6 @@ const AddActivity = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: "",
-      description: "",
       startTime: new Date(),
       endTime: new Date(),
       pictogram: {},
@@ -87,7 +82,7 @@ const AddActivity = () => {
       addToast({ message: "Fejl: Vælg venligst et piktogram", type: "error" });
       return;
     }
-    const { title, description, startTime, endTime } = formData;
+    const { startTime, endTime } = formData;
 
     const formattedStartTime = formatTimeHHMM(startTime);
     const formattedEndTime = formatTimeHHMM(endTime);
@@ -96,8 +91,8 @@ const AddActivity = () => {
       id: id,
       data: {
         activityId: -1,
-        name: title,
-        description,
+        name: " ",
+        description: " ",
         startTime: formattedStartTime,
         endTime: formattedEndTime,
         date: selectedDate.toISOString().split("T")[0],
@@ -121,8 +116,6 @@ const AddActivity = () => {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <FormContainer>
               <FormHeader title={"Opret en aktivitet til " + prettyDate(selectedDate)} />
-              <FormField control={control} name="title" placeholder="Titel" />
-              <FormField control={control} name="description" placeholder="Beskrivelse" />
               <FormTimePicker
                 control={control}
                 name="startTime"
