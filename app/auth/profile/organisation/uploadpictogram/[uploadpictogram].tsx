@@ -36,7 +36,7 @@ const UploadPictogram = () => {
     mode: "onChange",
   });
 
-  const handleSubmitPicture = () => {
+  const handleSubmitPicture = async () => {
     const imageData = {
       uri: getValues().piktogramURI,
       type: "image/jpeg",
@@ -44,6 +44,7 @@ const UploadPictogram = () => {
     };
 
     const formData = new FormData();
+
     formData.append("image", imageData as unknown as Blob);
     formData.append("organizationId", organisationId.toString());
     formData.append("pictogramName", getValues().name);
@@ -54,7 +55,8 @@ const UploadPictogram = () => {
         addToast({ message: "Billede blev uploadet", type: "success" });
         router.back();
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e.message);
         addToast({ message: "Der skete en fejl", type: "error" });
       });
   };

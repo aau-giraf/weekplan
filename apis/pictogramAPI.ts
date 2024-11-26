@@ -45,6 +45,9 @@ export const deletePictogram = async (pictogramId: number): Promise<void> => {
 export const uploadNewPictogram = async (formData: FormData): Promise<void> => {
   const res = await fetch(`${BASE_URL}/pictograms`, {
     method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
     body: formData,
   }).catch((error) => {
     if (error.response) {
