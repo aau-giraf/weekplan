@@ -10,7 +10,6 @@ import {
   Text,
   TextInput,
   View,
-  Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
@@ -117,7 +116,7 @@ const ViewCitizen = () => {
         }}
       />
 
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={{ flex: 1 }}>
             <BottomSheet ref={bottomSheetRef} index={-1} enablePanDownToClose keyboardBlurBehavior="restore">

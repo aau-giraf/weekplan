@@ -11,7 +11,7 @@ import FormHeader from "../../../../components/forms/FormHeader";
 import FormField from "../../../../components/forms/TextInput";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import { Fragment } from "react";
-import { KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView } from "react-native";
 
 const invitationSchema = z.object({
   email: z.string().email("Indtast en gyldig e-mailadresse"),
@@ -57,7 +57,7 @@ const CreateInvitationPage: React.FC = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <FormContainer style={{ padding: 20, backgroundColor: colors.white }}>
           <FormHeader title="Opret Invitation" />
           <FormField control={control} name="email" placeholder="Modtager E-mail" />

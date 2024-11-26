@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 import React, { Fragment, useEffect, useState } from "react";
-import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import { router } from "expo-router";
 import { Switch } from "react-native-gesture-handler";
@@ -63,7 +63,7 @@ const LoginScreen: React.FC = () => {
   return (
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <FormContainer style={{ padding: 30 }}>
           <View style={styles.iconContainer}>
             <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
