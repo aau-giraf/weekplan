@@ -38,15 +38,27 @@ jobs:
           git commit -m "💥 Get prettified, b****! 🔥"
           git push origin ${{ github.head_ref }}
 
-      - name: Comment GIF on Pull Request
+      - name: Add GIF to PR comment
+        if: steps.prettier.outputs.changed-files == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMENT_BODY="Check out the prettified files! ![Prettify GIF](https://imgur.com/qW7lWJF)"
+          curl -s -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"${COMMENT_BODY}\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+          
+      - name: Comment GIF
         if: steps.prettier.outputs.changed-files == 'true'
         uses: actions/github-script@v6
         with:
           script: |
-            const { context, github } = require('@actions/github');
             const commentBody = 'Uh oh! Linting errors detected 😱!\n\n![GIF](https://imgur.com/qW7lWJF)';
             await github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
               body: commentBody,
             });
+
