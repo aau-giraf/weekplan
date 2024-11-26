@@ -54,6 +54,6 @@ jobs:
               body: commentBody,
             });
       
-      - name: Fail the job if there are errors or errors
+      - name: Fail the job if there are any linting issues
         if: ${{ env.errors != '0' || env.warnings != '0' }}
         run: exit 1
