@@ -10,14 +10,6 @@ jest.mock("expo-image-picker", () => ({
 const mockCameraResult = {
   canceled: false,
   assets: [{ uri: "mockImageUri" }],
-  
-  
-  
-  
-  
-  
-  
-  
 };
 
 beforeEach(() => {
