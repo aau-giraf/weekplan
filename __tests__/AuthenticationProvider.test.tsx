@@ -14,6 +14,12 @@ jest.mock("expo-router", () => ({
 
 jest.mock("../providers/ToastProvider", () => ({
   useToast: jest.fn(),
+  
+  
+  
+  
+  
+  
 }));
 
 jest.mock("@react-native-async-storage/async-storage", () =>

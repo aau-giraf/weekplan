@@ -24,7 +24,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Run Linting and Check Results
+      - name: Run Linting
         id: lint
         run: |
           npm run lint > lint-output.txt || LINT_EXIT_CODE=$?
@@ -35,7 +35,7 @@ jobs:
           echo "warnings=$WARNINGS" >> $GITHUB_ENV
           cat lint-output.txt
 
-      - name: Add GIF to PR comment
+      - name: Add PR comment if linting issues found
         if: ${{ env.errors != '0' || env.warnings != '0' }}
         uses: actions/github-script@v6
         with:
@@ -54,6 +54,6 @@ jobs:
               body: commentBody,
             });
       
-      - name: Fail the job if there are errors
-        if: ${{ env.errors != '0' }}
+      - name: Fail the job if there are errors or errors
+        if: ${{ env.errors != '0' || env.warnings != '0' }}
         run: exit 1
