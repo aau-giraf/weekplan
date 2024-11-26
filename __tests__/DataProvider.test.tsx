@@ -13,10 +13,6 @@ describe("DateProvider and useDate", () => {
       result.current.setSelectedDate(newDate);
     });
 
-    
-    
-    
-    
     expect(result.current.selectedDate).toBe(newDate);
   });
 
