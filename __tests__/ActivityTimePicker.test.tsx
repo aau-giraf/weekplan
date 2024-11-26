@@ -10,16 +10,7 @@ describe("ActivityTimePicker", () => {
   const initialProps = {
     title: "Select Time",
     value: new Date(new Date().setHours(14, 30)),
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     onChange: mockOnChange,
   };
 
