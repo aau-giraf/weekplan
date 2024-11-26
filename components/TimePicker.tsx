@@ -14,8 +14,6 @@ type TimeSelectorProps = {
   androidDisplay?: "default" | "spinner" | "clock";
   iosDisplay?: "default" | "inline" | "spinner" | "compact";
   mode?: "time" | "date";
-  minDate?: Date;
-  maxDate?: Date;
 };
 
 /**
@@ -29,8 +27,6 @@ type TimeSelectorProps = {
  * @param {string} [androidDisplay="spinner"] - The display mode for Android time picker.
  * @param {string} [iosDisplay="default"] - The display mode for iOS time picker.
  * @param {string} [mode="time"] - The mode of the time picker.
- * @param {Date} [minDate] - The minimum selectable date.
- * @param {Date} [maxDate] - The maximum selectable date.
  *
  * @returns {JSX.Element} The rendered TimePicker component.
  */
@@ -43,8 +39,6 @@ const TimePicker = ({
   androidDisplay = "spinner",
   iosDisplay = "default",
   mode = "time",
-  minDate = undefined,
-  maxDate = undefined,
 }: TimeSelectorProps) => {
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
@@ -71,8 +65,6 @@ const TimePicker = ({
             mode={mode}
             value={value}
             minuteInterval={minuteInterval}
-            minimumDate={minDate}
-            maximumDate={maxDate}
             display={iosDisplay}
             onChange={(_event, selectedTime) => {
               if (selectedTime) {
@@ -89,8 +81,6 @@ const TimePicker = ({
             value={value}
             is24Hour={is24Hour}
             minuteInterval={minuteInterval}
-            minimumDate={minDate}
-            maximumDate={maxDate}
             display={androidDisplay}
             onChange={(_event, selectedTime) => {
               setTimeSelectorVisible(false);

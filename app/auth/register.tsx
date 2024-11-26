@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/forms/TextInput";
@@ -88,7 +88,7 @@ const RegisterScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
           <ProgressSteps ref={progressRef}>
             <FormContainer style={styles.stepContainer}>

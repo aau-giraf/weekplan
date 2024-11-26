@@ -14,8 +14,6 @@ type FormTimePickerProps<T extends FieldValues> = {
   androidDisplay?: "default" | "spinner" | "clock";
   iosDisplay?: "default" | "inline" | "spinner" | "compact";
   mode?: "time" | "date";
-  minDate?: Date;
-  maxDate?: Date;
 };
 
 function FormTimePicker<T extends FieldValues>({
@@ -23,8 +21,6 @@ function FormTimePicker<T extends FieldValues>({
   name,
   placeholder,
   errorStyle,
-  maxDate = undefined,
-  minDate = undefined,
   mode = "time",
   androidDisplay = "spinner",
   iosDisplay = "default",
@@ -44,8 +40,6 @@ function FormTimePicker<T extends FieldValues>({
             onChange={onChange}
             minuteInterval={minuteInterval}
             is24Hour={is24Hour}
-            minDate={minDate}
-            maxDate={maxDate}
             androidDisplay={androidDisplay}
             iosDisplay={iosDisplay}
             mode={mode}

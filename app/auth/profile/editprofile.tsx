@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { KeyboardAvoidingView, Platform, Text, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, Text, TouchableOpacity } from "react-native";
 import { z } from "zod";
 import SubmitButton from "../../../components/forms/SubmitButton";
 import FormField from "../../../components/forms/TextInput";
@@ -51,7 +51,7 @@ const ProfileEdit: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Rediger Profil" />
         <FormField control={control} name="firstName" placeholder="Fornavn" />

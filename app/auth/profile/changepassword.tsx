@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import { z } from "zod";
-import { KeyboardAvoidingView, Platform, Text, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, Text, TouchableOpacity } from "react-native";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 import FormField from "../../../components/forms/TextInput";
@@ -66,7 +66,7 @@ const ChangePasswordScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Skift password" />
         <FormField
