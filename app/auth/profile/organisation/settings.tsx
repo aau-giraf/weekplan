@@ -71,7 +71,7 @@ const Settings = () => {
         testID: "leave-org-button",
       },
     ],
-    [parsedId]
+    [organisation, parsedId]
   );
 
   if (isLoading) {
