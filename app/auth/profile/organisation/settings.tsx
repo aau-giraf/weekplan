@@ -20,14 +20,17 @@ import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import RenderSetting from "../../../../components/RenderSetting";
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../../components/ProfilePicture";
+import useOrganisationOverview from "../../../../hooks/useOrganisationOverview";
 
 const Settings = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
   const { deleteMember, data, error, isLoading } = useOrganisation(parsedId);
+  const { deleteOrganisation } = useOrganisationOverview();
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const deleteSheetRef = useRef<BottomSheet>(null);
 
   const settings: Setting[] = useMemo(
     () => [
@@ -52,6 +55,11 @@ const Settings = () => {
         onPress: () => openBS(),
         testID: "leave-org-button",
       },
+      {
+        icon: "trash-outline",
+        label: "Slet organisation",
+        onPress: () => deleteOpenBS(),
+      },
     ],
     [parsedId]
   );
@@ -72,6 +80,10 @@ const Settings = () => {
 
   const openBS = () => bottomSheetRef.current?.expand();
 
+  const deleteCloseBS = () => deleteSheetRef.current?.close();
+
+  const deleteOpenBS = () => deleteSheetRef.current?.expand;
+
   const handleLeaveOrganisation = async () => {
     if (typeof userId === "string") {
       await deleteMember
@@ -85,6 +97,50 @@ const Settings = () => {
     }
     closeBS();
     router.back();
+  };
+
+  const handleDeleteOrganisation = async () => {
+    await deleteOrganisation
+      .mutateAsync(parsedId)
+      .then(() => {
+        addToast({ message: "Organisationen er blevet slettet", type: "success" });
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      });
+    deleteCloseBS();
+    router.back();
+  };
+
+  type deleteBottomSheetProps = {
+    bottomSheetRef: React.RefObject<BottomSheet>;
+    handleDeleteOrganisation: Function;
+    orgName: string;
+  };
+
+  const DeleteBottomSheet = ({
+    bottomSheetRef,
+    orgName,
+    handleDeleteOrganisation,
+  }: deleteBottomSheetProps) => {
+    return (
+      <BottomSheet
+        ref={bottomSheetRef}
+        enablePanDownToClose={true}
+        keyboardBlurBehavior="restore"
+        index={-1}
+        style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
+        <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+          <Text style={SharedStyles.header}>{`Vil du slette organisationen "${orgName}"?`}</Text>
+          <SecondaryButton
+            label="Bekræft"
+            style={{ backgroundColor: colors.red, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
+            onPress={() => handleDeleteOrganisation()}
+            testID={"confirm-delete-button"}
+          />
+        </BottomSheetScrollView>
+      </BottomSheet>
+    );
   };
 
   type BottomSheetProps = {
@@ -154,6 +210,11 @@ const Settings = () => {
         bottomSheetRef={bottomSheetRef}
         orgName={data!.name}
         handleConfirm={handleLeaveOrganisation}
+      />
+      <DeleteBottomSheet
+        bottomSheetRef={deleteSheetRef}
+        orgName={data!.name}
+        handleDeleteOrganisation={handleDeleteOrganisation}
       />
     </Fragment>
   );
