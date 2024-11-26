@@ -29,8 +29,8 @@ jobs:
         run: |
           npm run lint > lint-output.txt || LINT_EXIT_CODE=$?
           # Count errors and warnings
-          ERRORS=$(grep -i "error" lint-output.txt | wc -l)
-          WARNINGS=$(grep -i "warning" lint-output.txt | wc -l)
+          ERRORS=$(grep -i -E "^[[:space:]]*[0-9]+:[0-9]+.*error" lint-output.txt | wc -l)
+          WARNINGS=$(grep -i -E "^[[:space:]]*[0-9]+:[0-9]+.*warning" lint-output.txt | wc -l)
           echo "errors=$ERRORS" >> $GITHUB_ENV
           echo "warnings=$WARNINGS" >> $GITHUB_ENV
           cat lint-output.txt

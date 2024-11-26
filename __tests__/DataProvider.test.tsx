@@ -8,11 +8,15 @@ describe("DateProvider and useDate", () => {
       wrapper: DateProvider,
     });
 
-    const newDate = new Date("2024-02-01);
+    const newDate = new Date("2024-02-01");
     act(() => {
       result.current.setSelectedDate(newDate);
     });
 
+    
+    
+    
+    
     expect(result.current.selectedDate).toBe(newDate);
   });
 
