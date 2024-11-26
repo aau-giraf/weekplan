@@ -31,8 +31,8 @@ const PickerColumn: React.FC<PickerColumnProps> = ({
     <Picker
       selectedValue={selectedValue}
       onValueChange={(itemValue) => setSelectedValue(itemValue)}
-      style={styles.picker}
-      itemStyle={styles.pickerItem}>
+      style={{ width: ScaleSizeW(250) }}
+      itemStyle={{ fontSize: ScaleSize(28) }}>
       {weeksOrYear.map((item) => (
         <Picker.Item key={item} label={item.toString()} value={item} />
       ))}
@@ -49,12 +49,6 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(28),
     fontWeight: "bold",
     marginBottom: ScaleSizeH(10),
-  },
-  picker: {
-    width: ScaleSizeW(250),
-  },
-  pickerItem: {
-    fontSize: ScaleSize(28),
   },
 });
 

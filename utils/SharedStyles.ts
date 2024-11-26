@@ -109,6 +109,65 @@ const SharedStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  inputValid: {
+    paddingVertical: ScaleSizeH(16),
+    paddingHorizontal: ScaleSizeW(85),
+    borderWidth: 1,
+    fontSize: ScaleSize(24),
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
+    borderRadius: 5,
+    marginVertical: ScaleSizeH(10),
+  },
+  sheetContent: {
+    gap: ScaleSize(10),
+    padding: ScaleSize(90),
+    alignItems: "center",
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: ScaleSize(22),
+    fontWeight: "500",
+  },
+  buttonValid: {
+    paddingVertical: ScaleSizeW(18),
+    paddingHorizontal: ScaleSizeH(20),
+    borderRadius: 8,
+    marginTop: ScaleSize(20),
+    alignItems: "center",
+    backgroundColor: colors.blue,
+    width: "100%",
+  },
+  buttonDisabled: {
+    paddingVertical: ScaleSizeW(18),
+    paddingHorizontal: ScaleSizeH(20),
+    borderRadius: 8,
+    marginTop: ScaleSize(20),
+    alignItems: "center",
+    backgroundColor: colors.gray,
+    width: "100%",
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: ScaleSize(12),
+  },
+  heading: {
+    fontSize: ScaleSize(40),
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingVertical: ScaleSizeH(10),
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+  },
+  bigErrorText: {
+    color: colors.red,
+    fontSize: ScaleSize(18),
+    textAlign: "center",
+  },
 });
 
 export { colors, SharedStyles, ScaleSizeH, ScaleSizeW, ScaleSize };

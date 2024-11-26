@@ -4,7 +4,7 @@ import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { colors, ScaleSize } from "../../../../../utils/SharedStyles";
+import { colors, ScaleSize, SharedStyles } from "../../../../../utils/SharedStyles";
 import {
   StyleSheet,
   Text,
@@ -77,7 +77,7 @@ const ViewCitizen = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
@@ -85,14 +85,14 @@ const ViewCitizen = () => {
 
   if (error) {
     return (
-      <View style={styles.centeredContainer}>
-        <Text style={styles.errorText}>{error.message}</Text>
+      <View style={SharedStyles.centeredContainer}>
+        <Text style={SharedStyles.bigErrorText}>{error.message}</Text>
       </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
       <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
       <ListView
         data={filteredData}
@@ -152,10 +152,6 @@ const ViewCitizen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
   sheetContent: {
     gap: ScaleSize(10),
     padding: ScaleSize(20),
@@ -168,17 +164,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 5,
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-  },
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(18),
-    textAlign: "center",
   },
 });
 

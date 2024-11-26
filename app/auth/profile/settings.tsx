@@ -92,7 +92,7 @@ const Settings = () => {
           <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
         </Pressable>
 
-        <View style={styles.profileSection}>
+        <View style={{ backgroundColor: "#f0f0f5" }}>
           <View style={styles.profileContainer}>
             <ProfilePicture
               style={styles.mainProfilePicture}
@@ -134,9 +134,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: colors.white,
-  },
-  profileSection: {
-    backgroundColor: colors.lightBlueMagenta,
   },
   profileContainer: {
     flexDirection: "row",

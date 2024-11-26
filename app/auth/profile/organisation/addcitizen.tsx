@@ -143,10 +143,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
     alignItems: "center",
   },
-  title: {
-    fontSize: 24,
-    marginVertical: 16,
-  },
   profilePicture: {
     maxWidth: 50,
     maxHeight: 50,

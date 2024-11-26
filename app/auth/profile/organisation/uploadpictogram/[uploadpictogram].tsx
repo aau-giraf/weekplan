@@ -142,13 +142,6 @@ const styles = StyleSheet.create({
     bottom: ScaleSize(100),
     right: ScaleSize(-100),
   },
-  navigationButtons: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    marginTop: 20,
-  },
 });
 
 export default UploadPictogram;

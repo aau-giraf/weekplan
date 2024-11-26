@@ -144,7 +144,7 @@ const RegisterScreen: React.FC = () => {
                   key={imageUri}
                 />
               </View>
-              <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
+              <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
               <SecondaryButton
                 style={{ backgroundColor: colors.green }}
                 label="Upload billede"
@@ -185,9 +185,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 10000,
     marginBottom: ScaleSizeH(140),
-  },
-  cameraButton: {
-    bottom: ScaleSizeH(230),
   },
   navigationButtons: {
     flexDirection: "column",

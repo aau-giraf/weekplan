@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
-import { View, StyleSheet, Keyboard, Alert } from "react-native";
+import { View, Keyboard, Alert } from "react-native";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 import FormField from "../../../components/forms/TextInput";
@@ -89,7 +89,7 @@ const DeleteProfileScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Slet Profil" />
         <FormField
@@ -115,11 +115,5 @@ const DeleteProfileScreen: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default DeleteProfileScreen;

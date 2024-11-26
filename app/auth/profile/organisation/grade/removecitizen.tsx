@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScaleSize, ScaleSizeH, colors, ScaleSizeW } from "../../../../../utils/SharedStyles";
+import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import useGrades from "../../../../../hooks/useGrades";
 import { useToast } from "../../../../../providers/ToastProvider";
@@ -75,7 +75,7 @@ const RemoveCitizen = () => {
       <TouchableOpacity
         style={[
           styles.selection,
-          selectedCitizens.some((citizen) => citizen.id === item.id) && styles.citizenSelected,
+          selectedCitizens.some((citizen) => citizen.id === item.id) && { borderColor: colors.red },
         ]}
         onPress={() => toggleCitizenSelection(item.id)}>
         <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
@@ -107,7 +107,7 @@ const RemoveCitizen = () => {
       <SafeAreaView />
       <View style={styles.container}>
         <View>
-          <Text style={styles.heading}>Fjern elever fra klasse</Text>
+          <Text style={SharedStyles.heading}>Fjern elever fra klasse</Text>
           <View style={styles.searchbar}>
             <SearchBar value={searchInput} onChangeText={handleSearch} />
           </View>
@@ -145,12 +145,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  heading: {
-    fontSize: ScaleSize(40),
-    fontWeight: "bold",
-    textAlign: "center",
-    paddingVertical: ScaleSizeH(10),
-  },
   citizenList: {
     flexGrow: 1,
     width: "100%",
@@ -183,9 +177,6 @@ const styles = StyleSheet.create({
     maxHeight: ScaleSizeH(300),
     aspectRatio: 1,
     borderRadius: 10000,
-  },
-  citizenSelected: {
-    borderColor: colors.red,
   },
   citizenText: {
     paddingLeft: ScaleSize(30),

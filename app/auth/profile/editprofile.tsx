@@ -2,13 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, Text, TouchableOpacity } from "react-native";
 import { z } from "zod";
 import SubmitButton from "../../../components/forms/SubmitButton";
 import FormField from "../../../components/forms/TextInput";
 import useProfile from "../../../hooks/useProfile";
 import { useToast } from "../../../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
+import { SharedStyles } from "../../../utils/SharedStyles";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 
@@ -62,31 +62,12 @@ const ProfileEdit: React.FC = () => {
           handleSubmit={handleSubmit(onSubmit)}
           label="Opdater profil"
         />
-        <TouchableOpacity
-          style={[styles.buttonValid, { backgroundColor: colors.blue }]}
-          onPress={() => router.back()}>
-          <Text style={styles.buttonText}>Annuller</Text>
+        <TouchableOpacity style={[SharedStyles.buttonValid]} onPress={() => router.back()}>
+          <Text style={SharedStyles.buttonText}>Annuller</Text>
         </TouchableOpacity>
       </FormContainer>
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonValid: {
-    paddingVertical: ScaleSizeW(18),
-    paddingHorizontal: ScaleSizeH(20),
-    borderRadius: 8,
-    marginTop: ScaleSize(20),
-    alignItems: "center",
-    backgroundColor: colors.green,
-    width: "100%",
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(22),
-    fontWeight: "500",
-  },
-});
 
 export default ProfileEdit;
