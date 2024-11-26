@@ -30,23 +30,20 @@ jobs:
           npm run lint > lint-output.txt || true
           # Count errors and warnings
           ERRORS=$(grep -i "error" lint-output.txt | wc -l)
-          WARNINGS=$(grep -i "warning" lint-output.txt | wc -l)
           echo "errors=$ERRORS" >> $GITHUB_ENV
-          echo "warnings=$WARNINGS" >> $GITHUB_ENV
           cat lint-output.txt
 
       - name: Add GIF to PR comment
-        if: env.errors != '0' || env.warnings != '0'
+        if: env.errors != '0'
         uses: actions/github-script@v6
         with:
           script: |
             const commentBody = `
-              Linting detected issues 😱:
+              Linting detected errors 😱😱😱:
             
               - **Errors**: ${process.env.errors}
-              - **Warnings**: ${process.env.warnings}
             
-              ![GIF](https://imgur.com/qW7lWJF)
+              ![GIF](https://i.imgur.com/qW7lWJF.gif)
             `;
             await github.rest.issues.createComment({
               ...context.repo,
