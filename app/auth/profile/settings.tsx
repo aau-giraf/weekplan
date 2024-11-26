@@ -1,16 +1,14 @@
-import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
+import { SafeAreaView, ScrollView, View, Text, Pressable, StyleSheet, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FlatList, Switch } from "react-native-gesture-handler";
-import { Fragment, useEffect, useMemo, useState } from "react";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import useInvitation from "../../../hooks/useInvitation";
-import useProfile from "../../../hooks/useProfile";
+import RenderSetting from "../../../components/RenderSetting";
+import { colors, ScaleSizeH } from "../../../utils/SharedStyles";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
-import { ScaleSizeH } from "../../../utils/SharedStyles";
 import { ProfilePicture } from "../../../components/ProfilePicture";
+import useProfile from "../../../hooks/useProfile";
+import useInvitation from "../../../hooks/useInvitation";
 
 const Settings = () => {
   const { logout } = useAuthentication();
@@ -113,16 +111,18 @@ const Settings = () => {
           <FlatList
             data={settings}
             scrollEnabled={false}
-            renderItem={({ item }) => (
-              <RenderSetting
-                item={item}
-                toggleStates={toggleStates}
-                handleToggleChange={handleToggleChange}
-                hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
-              />
+            renderItem={({ item, index }) => (
+              <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
+                <RenderSetting
+                  item={item}
+                  toggleStates={toggleStates}
+                  handleToggleChange={handleToggleChange}
+                  hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
+                />
+              </View>
             )}
             keyExtractor={(item) => item.label}
-            ItemSeparatorComponent={() => <View style={styles.ItemSeparatorComponent}></View>}
+            ItemSeparatorComponent={() => <View style={styles.itemWithTopSeparator}></View>}
           />
         </View>
       </ScrollView>
@@ -130,59 +130,10 @@ const Settings = () => {
   );
 };
 
-type RenderSettingProps = {
-  item: Setting;
-  toggleStates: { [key: string]: boolean };
-  handleToggleChange: (label: string, value: boolean) => void;
-  hasInvitations?: boolean;
-};
-
-const RenderSetting = ({ item, toggleStates, handleToggleChange, hasInvitations }: RenderSettingProps) => {
-  const opacity = useSharedValue(1);
-  const opacityAnimation = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-  }));
-
-  const onPress = item.onPress
-    ? item.onPress
-    : () => handleToggleChange(item.label, !toggleStates[item.label]);
-
-  const handlePressIn = () => {
-    opacity.value = withTiming(0.7, { duration: 150 });
-  };
-  const handlePressOut = () => {
-    opacity.value = withTiming(1, { duration: 150 });
-  };
-
-  return (
-    <Animated.View style={opacityAnimation}>
-      <Pressable
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={onPress}
-        style={styles.settingItem}>
-        <View style={styles.settingItemContainerSeparator}>
-          <Ionicons name={item.icon} size={40} />
-          <Text style={{ fontSize: 20 }}>{item.label}</Text>
-          {hasInvitations && <View style={styles.notificationBadge} />}
-        </View>
-        {!item.onPress ? (
-          <Switch
-            value={toggleStates[item.label] || false}
-            onValueChange={(value) => handleToggleChange(item.label, value)}
-          />
-        ) : (
-          <Ionicons name="chevron-forward-outline" size={30} />
-        )}
-      </Pressable>
-    </Animated.View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
   },
   profileContainer: {
     flexDirection: "row",
@@ -191,40 +142,16 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   settingsContainer: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     paddingTop: 10,
     paddingBottom: 20,
   },
-  settingItem: {
-    padding: 20,
-    paddingHorizontal: 15,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  listItem: {
+    backgroundColor: colors.white,
   },
-  settingItemContainerSeparator: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-    position: "relative",
-  },
-  ItemSeparatorComponent: {
-    borderWidth: 0.32,
-    borderColor: "black",
-  },
-  notificationBadge: {
-    top: -2,
-    right: -175,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: "red",
-  },
-  mainProfilePicture: {
-    width: "50%",
-    maxHeight: ScaleSizeH(250),
-    aspectRatio: 1,
-    borderRadius: 10000,
+  itemWithTopSeparator: {
+    borderTopWidth: 0.32,
+    borderTopColor: colors.black,
   },
   backButton: {
     position: "absolute",
@@ -233,6 +160,12 @@ const styles = StyleSheet.create({
     zIndex: 2,
     paddingHorizontal: 10,
     paddingBottom: 10,
+  },
+  mainProfilePicture: {
+    width: "50%",
+    maxHeight: ScaleSizeH(250),
+    aspectRatio: 1,
+    borderRadius: 10000,
   },
 });
 

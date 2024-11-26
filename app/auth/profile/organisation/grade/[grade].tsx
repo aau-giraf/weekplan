@@ -40,7 +40,6 @@ const ViewGrade = () => {
     );
   }
 
-  //Sorts citizens alphabetically
   const sortedCitizen = (data: GradeDTO) => {
     return data.citizens
       .filter((citizen) =>
@@ -69,54 +68,24 @@ const ViewGrade = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
-      <View>
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.gradeName}>{currentGrade?.name ?? "Klasse"}</Text>
-          <View style={styles.ActionView}>
-            <IconButton onPress={() => router.back()} absolute={false}>
-              <Ionicons name={"exit-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            {/* Edit Grade */}
-            <IconButton onPress={() => {}} absolute={false}>
-              <Ionicons name={"create-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            {/* Collective Weekplan */}
+      <SafeAreaView>
+        <View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.gradeName}>{currentGrade?.name ?? "Klasse"}</Text>
             <IconButton
-              onPress={() => {
-                setIsCitizen(false);
-                setId(parsedID);
-                router.push("/auth/profile/organisation/weekplanscreen");
-              }}
-              absolute={false}>
-              <Ionicons name={"calendar-outline"} size={ScaleSize(30)} />
-            </IconButton>
-          </View>
-          <View style={styles.ActionView}>
-            <IconButton
-              onPress={() => {
+              style={styles.settings}
+              onPress={() =>
                 router.push({
-                  pathname: "/auth/profile/organisation/grade/addcitizen",
+                  pathname: "/auth/profile/organisation/grade/settings",
                   params: { gradeId: grade },
-                });
-              }}
-              absolute={false}>
-              <Ionicons name={"person-add-outline"} size={ScaleSize(30)} />
-            </IconButton>
-            <IconButton
-              onPress={() => {
-                router.push({
-                  pathname: "/auth/profile/organisation/grade/removecitizen",
-                  params: { gradeId: grade },
-                });
-              }}
-              absolute={false}>
-              <Ionicons name={"person-remove-outline"} size={ScaleSize(30)} />
+                })
+              }>
+              <Ionicons name="settings-outline" size={ScaleSize(64)} />
             </IconButton>
           </View>
         </View>
-        <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
-      </View>
+      </SafeAreaView>
+      <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
       <FlatList
         data={currentGrade ? sortedCitizen(currentGrade) : []}
         keyExtractor={(item) => item.id.toString()}
@@ -124,24 +93,32 @@ const ViewGrade = () => {
         renderItem={({ item }) => renderCitizen(item)}
         ListEmptyComponent={<Text>Ingen elever fundet</Text>}
       />
+      <View style={styles.viewCalendarButton}>
+        <IconButton
+          style={styles.calendarButton}
+          onPress={() => {
+            setIsCitizen(false);
+            setId(parsedID);
+            router.push("/auth/profile/organisation/weekplanscreen");
+          }}
+          absolute={true}>
+          <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
+        </IconButton>
+      </View>
     </Fragment>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
   gradeName: {
     fontSize: ScaleSize(40),
     fontWeight: "bold",
     marginTop: ScaleSizeH(25),
-    marginBottom: ScaleSize(10),
-  },
-  ActionView: {
-    ...SharedStyles.flexRow,
-    gap: ScaleSizeW(10),
-  },
-  container: {
-    flex: 1,
-    width: "100%",
+    marginBottom: ScaleSize(40),
   },
   citizenRow: {
     flexDirection: "row",
