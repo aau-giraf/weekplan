@@ -1,5 +1,5 @@
 import { getImage } from "../utils/getImage";
-import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from "expo-image-pickr";
 
 jest.mock("expo-image-picker", () => ({
   requestCameraPermissionsAsync: jest.fn(),
@@ -19,7 +19,7 @@ beforeEach(() => {
 describe("takePhoto", () => {
   test("should request for permission to access camera", async () => {
     (ImagePicker.requestCameraPermissionsAsync as jest.Mock).mockResolvedValue({
-      granted: hello,
+      granted: true,
     });
 
     (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue(mockCameraResult);
