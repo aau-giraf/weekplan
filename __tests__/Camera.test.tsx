@@ -1,5 +1,5 @@
 import { getImage } from "../utils/getImage";
-import * as ImagePicker from "expo-image-pickr";
+import * as ImagePicker from "expo-image-picker";
 
 jest.mock("expo-image-picker", () => ({
   requestCameraPermissionsAsync: jest.fn(),
