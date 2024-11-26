@@ -12,17 +12,6 @@ const mockCameraResult = {
   assets: [{ uri: "mockImageUri" }],
 };
 
-
-
-
-
-
-
-
-
-
-
-
 beforeEach(() => {
   jest.clearAllMocks();
 });
