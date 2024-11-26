@@ -1,10 +1,14 @@
 import { BASE_URL } from "../utils/globals";
+import axios from "axios";
 
 export const fetchOrganisationRequest = async (organisationId: number) => {
   const url = `${BASE_URL}/organizations/${organisationId}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Fejl: Kunne ikke hente data for organisationen");
-  return res.json();
+  try {
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke hente data for organisationen.";
+  }
 };
 
 export const createCitizenRequest = async (
@@ -13,44 +17,63 @@ export const createCitizenRequest = async (
   orgId: number
 ): Promise<number> => {
   const url = `${BASE_URL}/citizens/${orgId}/add-citizen`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ firstName: firstname, lastName: lastName }),
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette borger");
-  return res.json();
+  try {
+    const res = await axios.post(
+      url,
+      { firstName: firstname, lastName: lastName },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke oprette borger";
+  }
 };
 
 export const deleteCitizenRequest = async (orgId: number, citizenId: number) => {
   const url = `${BASE_URL}/citizens/${orgId}/remove-citizen/${citizenId}`;
-  const res = await fetch(url, {
-    method: "DELETE",
-  });
+  try {
+    const res = await axios.delete(url);
 
-  if (res.status === 500) throw new Error("Fejl: Der er muligvis server problemer");
+    if (res.status !== 200) {
+      return "Fejl: Der er muligvis server problemer";
+    }
+  } catch (error: any) {
+    return error.message || "Fejl: Der er muligvis server problemer";
+  }
 };
 
 export const deleteMemberRequest = async (orgId: number, memberId: string) => {
   const url = `${BASE_URL}/organizations/${orgId}/remove-user/${memberId}`;
-  const res = await fetch(url, {
-    method: "put",
-  });
-
-  if (res.status === 500) throw new Error("Fejl: Der er muligvis server problemer");
+  try {
+    const res = await axios.put(url);
+    if (res.status !== 200) {
+      return "Fejl: Der er muligvis server problemer";
+    }
+  } catch (error: any) {
+    return error.message || "Fejl: Der er muligvis server problemer";
+  }
 };
 
 export const updateCitizenRequest = async (citizenId: number, firstName: string, lastName: string) => {
   const url = `${BASE_URL}/citizens/${citizenId}`;
-  const res = await fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ firstName, lastName }),
-  });
-
-  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere borger");
+  try {
+    const res = await axios.put(
+      url,
+      { firstName, lastName },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (res.status !== 200) {
+      return "Fejl: Kunne ikke opdatere borger";
+    }
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke opdatere borger";
+  }
 };

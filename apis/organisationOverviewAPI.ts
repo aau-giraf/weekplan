@@ -1,37 +1,46 @@
 import { OrgOverviewDTO } from "../hooks/useOrganisationOverview";
 import { BASE_URL } from "../utils/globals";
+import axios from "axios";
 
 export const fetchAllOrganisationsRequest = async (userId: string) => {
-  if (userId === null) {
-    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
+  if (!userId) {
+    return "FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.";
   }
 
   const url = `${BASE_URL}/organizations/user/${userId}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Fejl: Kunne ikke hente dine organisationer");
-  return res.json();
+  try {
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke hente dine organisationer.";
+  }
 };
 
 export const deleteOrganisationRequest = async (organisationId: number) => {
   const url = `${BASE_URL}/organizations/${organisationId}`;
-  const res = await fetch(url, {
-    method: "DELETE",
-  });
-  if (res.status === 500) throw new Error("Fejl: Der er muligvis server problemer");
+  try {
+    const res = await axios.delete(url);
+    if (res.status !== 200) {
+      return "Fejl: Der er muligvis server problemer";
+    }
+  } catch (error: any) {
+    return error.message || "Fejl: Der er muligvis server problemer";
+  }
 };
 
 export const createOrganisationsRequest = async (
   userId: string,
   orgName: string
 ): Promise<OrgOverviewDTO> => {
-  const params = new URLSearchParams();
-  params.append("id", userId);
-  const url = `${BASE_URL}/organizations?${params.toString()}`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: orgName }),
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette organisation");
-  return res.json();
+  const url = `${BASE_URL}/organizations?id=${userId}`;
+  const payload = { name: orgName };
+
+  try {
+    const { data } = await axios.post(url, payload, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke oprette organisation.";
+  }
 };

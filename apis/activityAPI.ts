@@ -1,69 +1,56 @@
 import { FullActivityDTO, ActivityDTO } from "../hooks/useActivity";
 import formatQueryDate from "../utils/formatQueryDate";
 import { BASE_URL } from "../utils/globals";
+import axios from "axios";
 
-/**
- * Function for fetching activities from the relevant API Endpoint.
- * @param id {number} - ID of the citizen
- * @param date {Date} - The date for which the activities will be fetched
- */
 export const fetchByDateCitizen = async (id: number, date: Date) => {
-  const params = new URLSearchParams();
-  params.append("date", formatQueryDate(date));
+  const params = { date: formatQueryDate(date) };
 
-  const res = await fetch(`${BASE_URL}/weekplan/${id}?${params.toString()}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!res.ok) throw new Error("Fejl: Kunne ikke hente aktiviteter");
-  return await res.json();
+  try {
+    const res = await axios.get(`${BASE_URL}/weekplan/${id}`, {
+      params,
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke hente aktiviteter.";
+  }
 };
 
 export const fetchByDateGrade = async (id: number, date: Date) => {
-  const params = new URLSearchParams();
-  params.append("date", formatQueryDate(date));
+  const params = { date: formatQueryDate(date) };
 
-  const res = await fetch(`${BASE_URL}/weekplan/grade/${id}?${params.toString()}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!res.ok) throw new Error("Fejl: Kunne ikke hente aktiviteter");
-
-  return await res.json();
+  try {
+    const res = await axios.get(`${BASE_URL}/weekplan/grade/${id}`, {
+      params,
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke hente aktiviteter.";
+  }
 };
 
-/**
- * Function for fetching a single activity from the relevant API endpoint.
- * @param id {number} - ID of the activity in question
- */
 export const fetchActivityRequest = async (id: number) => {
-  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!res.ok) throw new Error("Fejl: Kunne ikke hente aktivitet");
-  return await res.json();
+  try {
+    const res = await axios.get(`${BASE_URL}/weekplan/activity/${id}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke hente aktivitet.";
+  }
 };
 
-/**
- * Function for sending a request to the API endpoint to delete an activity.
- * @param id {number} - The ID of the Activity to be deleted
- */
 export const deleteRequest = async (id: number) => {
-  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}`, {
-    method: "DELETE",
-  });
-  if (res.status === 500) throw new Error("Der er muligvis server problemer");
+  try {
+    const res = await axios.delete(`${BASE_URL}/weekplan/activity/${id}`);
+    if (res.status === 500) return "Fejl: Der er muligvis server problemer";
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke slette aktivitet";
+  }
 };
 
-/**
- * Function for sending a request to the API endpoint to updating an activity.
- * @param data {FullActivityDTO} - The updated data for the activity
- * @param activityId {number} - The ID of the activity to be updated
- */
 export const updateRequest = async (data: FullActivityDTO, activityId: number) => {
   const { pictogram, ...rest } = data;
   const dataWithOnlyPictogramId = {
@@ -71,32 +58,31 @@ export const updateRequest = async (data: FullActivityDTO, activityId: number) =
     pictogramId: pictogram.id,
   };
 
-  const res = await fetch(`${BASE_URL}/weekplan/activity/${activityId}`, {
-    method: "PUT",
-    body: JSON.stringify(dataWithOnlyPictogramId),
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere aktivitet");
+  try {
+    const res = await axios.put(`${BASE_URL}/weekplan/activity/${activityId}`, dataWithOnlyPictogramId, {
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.status !== 200) return "Fejl: Kunne ikke opdatere aktivitet";
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke opdatere aktivitet";
+  }
 };
 
-/**
- * Function for sending a request to the relevant API endpoint to update the status of an activity.
- * @param id {number} - ID of the activity
- * @param isCompleted {boolean} - Whether to mark it as completed or unfinished
- */
 export const toggleActivityStatusRequest = async (id: number, isCompleted: boolean) => {
-  const res = await fetch(`${BASE_URL}/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke ændre aktivitet status");
+  try {
+    const res = await axios.put(
+      `${BASE_URL}/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`,
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    if (res.status !== 200) return "Fejl: Kunne ikke ændre aktivitet status";
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke ændre aktivitet status";
+  }
 };
 
-/**
- * Function for sending a request to the relevant API endpoint to create an activity.
- * @param data {ActivityDTO} - Data for the Activity to be created
- * @param citizenId {number} - ID for the associated citizen
- */
 export const createActivityCitizen = async (data: ActivityDTO, citizenId: number) => {
   const { pictogram, ...rest } = data;
   const dataWithOnlyPictogramId = {
@@ -104,13 +90,14 @@ export const createActivityCitizen = async (data: ActivityDTO, citizenId: number
     pictogramId: pictogram.id,
   };
 
-  const res = await fetch(`${BASE_URL}/weekplan/to-citizen/${citizenId}`, {
-    method: "POST",
-    body: JSON.stringify(dataWithOnlyPictogramId),
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette aktivitet");
-  return await res.json();
+  try {
+    const res = await axios.post(`${BASE_URL}/weekplan/to-citizen/${citizenId}`, dataWithOnlyPictogramId, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke oprette aktivitet";
+  }
 };
 
 export const createActivityGrade = async (data: ActivityDTO, gradeId: number) => {
@@ -120,22 +107,16 @@ export const createActivityGrade = async (data: ActivityDTO, gradeId: number) =>
     pictogramId: pictogram.id,
   };
 
-  const res = await fetch(`${BASE_URL}/weekplan/to-grade/${gradeId}`, {
-    method: "POST",
-    body: JSON.stringify(dataWithOnlyPictogramId),
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette aktivitet");
-  return await res.json();
+  try {
+    const res = await axios.post(`${BASE_URL}/weekplan/to-grade/${gradeId}`, dataWithOnlyPictogramId, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke oprette aktivitet";
+  }
 };
 
-/**
- * Function for sending a request to the relevant API endpoint to copy a set of Activities to another day
- * @param citizenId {number} - ID of the citizen.
- * @param activityIds {number[]} - An array of ID of the activities to be copied
- * @param sourceDate {Date} - The date on which the activities lie
- * @param destinationDate {Date} -  The date to which these activities should be copied
- */
 export const copyActivitiesRequest = async (
   citizenId: number,
   activityIds: number[],
@@ -146,10 +127,13 @@ export const copyActivitiesRequest = async (
   params.append("citizenId", citizenId.toString());
   params.append("dateStr", formatQueryDate(sourceDate));
   params.append("newDateStr", formatQueryDate(destinationDate));
-  const res = await fetch(`${BASE_URL}/weekplan/activity/copy?${params.toString()}`, {
-    method: "POST",
-    body: JSON.stringify(activityIds),
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke kopier aktiviteter");
+
+  try {
+    const res = await axios.post(`${BASE_URL}/weekplan/activity/copy?${params.toString()}`, activityIds, {
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.status !== 200) return "Fejl: Kunne ikke kopier aktiviteter";
+  } catch (error: any) {
+    return error.message || "Fejl: Kunne ikke kopiere aktiviteter";
+  }
 };

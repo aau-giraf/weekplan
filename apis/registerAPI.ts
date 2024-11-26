@@ -1,4 +1,5 @@
 import { BASE_URL } from "../utils/globals";
+import axios from "axios";
 
 /**
  * Function for sending a request to the API endpoint to create a new user.
@@ -22,11 +23,14 @@ type CreateUserResponseProps = {
 export const createUserRequest = async (
   userData: CreateUserRequestProps
 ): Promise<CreateUserResponseProps> => {
-  const res = await fetch(`${BASE_URL}/users`, {
-    method: "POST",
-    body: JSON.stringify(userData),
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke oprette bruger");
-  return await res.json();
+  try {
+    const res = await axios.post(`${BASE_URL}/users`, userData, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    return res.data;
+  } catch (error: any) {
+    const errorMessage = error.message || "Fejl: Kunne ikke oprette bruger";
+    throw new Error(errorMessage);
+  }
 };

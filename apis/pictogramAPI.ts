@@ -1,20 +1,27 @@
 import { Pictogram } from "../hooks/usePictogram";
 import { BASE_URL } from "../utils/globals";
+import axios from "axios";
 
 export const fetchAllPictogramsByOrg = async (
   organizationId: number,
   pageSize: number,
   pageNumber: number
 ): Promise<Pictogram[]> => {
-  const params = new URLSearchParams();
-  params.append("organizationId", organizationId.toString());
-  params.append("currentPage", pageNumber.toString());
-  params.append("pageSize", pageSize.toString());
+  const params = {
+    organizationId: organizationId.toString(),
+    currentPage: pageNumber.toString(),
+    pageSize: pageSize.toString(),
+  };
 
-  const url = `${BASE_URL}/pictograms/organizationId:int?${params.toString()}`;
-  const response = await fetch(url);
-  if (!response.ok) throw new Error("Failed to fetch pictograms");
-  return response.json();
+  const url = `${BASE_URL}/pictograms/organizationId:int`;
+
+  try {
+    const res = await axios.get(url, { params });
+    return res.data;
+  } catch (error: any) {
+    const errorMessage = error.message || "Ukendt fejl opstod";
+    throw new Error(`Failed to fetch pictograms. Details: ${errorMessage}`);
+  }
 };
 
 export const deletePictogram = async (pictogramId: number): Promise<void> => {

@@ -36,6 +36,7 @@
     "@react-native-picker/picker": "2.9.0",
     "@tanstack/react-query": "^5.56.2",
     "@types/react-native-base64": "^0.2.2",
+    "axios": "^1.7.8",
     "expo": "~52.0.10",
     "expo-constants": "~17.0.3",
     "expo-image": "~2.0.2",
