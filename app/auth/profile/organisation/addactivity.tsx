@@ -21,18 +21,28 @@ import { colors, ScaleSizeH, ScaleSizeW } from "../../../../utils/SharedStyles";
 import ProgressSteps, { ProgressStepsMethods } from "../../../../components/ProgressSteps";
 import { BASE_URL } from "../../../../utils/globals";
 
-const schema = z.object({
-  title: z.string().trim().min(1, "Du skal have en titel"),
-  description: z.string().trim().min(1, "Du skal have en beskrivelse"),
-  startTime: z.date(),
-  endTime: z.date(),
-  pictogram: z.object({
-    id: z.number(),
-    organizationId: z.number().nullable(),
-    pictogramName: z.string(),
-    pictogramUrl: z.string(),
-  }),
-});
+const schema = z
+  .object({
+    title: z.string().trim().min(1, "Du skal have en titel"),
+    description: z.string().trim().min(1, "Du skal have en beskrivelse"),
+    startTime: z.date(),
+    endTime: z.date(),
+    pictogram: z.object({
+      id: z.number(),
+      organizationId: z.number().nullable(),
+      pictogramName: z.string(),
+      pictogramUrl: z.string(),
+    }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.startTime >= data.endTime) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.invalid_date,
+        path: ["endTime"],
+        message: "Sluttidspunktet skal være efter starttidspunktet",
+      });
+    }
+  });
 
 type FormData = z.infer<typeof schema>;
 
@@ -117,7 +127,6 @@ const AddActivity = () => {
                 control={control}
                 name="startTime"
                 placeholder="Vælg start tid"
-                maxDate={getValues("endTime")}
                 androidDisplay={"spinner"}
                 iosDisplay={"default"}
               />
@@ -125,7 +134,6 @@ const AddActivity = () => {
                 control={control}
                 name="endTime"
                 placeholder="Vælg slut tid"
-                minDate={getValues("startTime")}
                 androidDisplay={"spinner"}
                 iosDisplay={"default"}
               />
