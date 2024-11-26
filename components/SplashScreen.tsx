@@ -26,11 +26,6 @@ const SplashScreenComponent: React.FC = () => {
       duration: 1500,
       useNativeDriver: true,
     }).start();
-    
-    
-    
-    
-    
   }, [logoSpin]);
 
   const rotation = logoSpin.interpolate({
