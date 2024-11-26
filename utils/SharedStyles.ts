@@ -87,6 +87,7 @@ const colors = {
   lightGreen: "#A5D6A7FF",
   lightGray: "#ccc",
   red: "#FF0000",
+  lightBlueMagenta: "#f0f0f5",
 };
 
 const SharedStyles = StyleSheet.create({
