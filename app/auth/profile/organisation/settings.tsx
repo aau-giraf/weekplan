@@ -47,6 +47,24 @@ const Settings = () => {
         },
       },
       {
+        icon: "aperture-outline",
+        label: "Se Pictogrammer",
+        onPress: () =>
+          router.push({
+            pathname: "/auth/profile/organisation/viewpictograms/[viewpictograms]",
+            params: { viewpictograms: organisation.toString() },
+          }),
+      },
+      {
+        icon: "image-outline",
+        label: "Tilføj Pictogrammer",
+        onPress: () =>
+          router.push({
+            pathname: "/auth/profile/organisation/uploadpictogram/[uploadpictogram]",
+            params: { uploadpictogram: organisation.toString() },
+          }),
+      },
+      {
         icon: "exit-outline",
         label: "Forlad organisation",
         onPress: () => openBS(),

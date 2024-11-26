@@ -54,7 +54,8 @@ const UploadPictogram = () => {
         addToast({ message: "Billede blev uploadet", type: "success" });
         router.back();
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e.message);
         addToast({ message: "Der skete en fejl", type: "error" });
       });
   };
