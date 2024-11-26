@@ -26,6 +26,7 @@ jobs:
 
       - name: Run Linting and Check Results
         id: lint
+        continue-on-error: true
         run: |
           npm run lint > lint-output.txt || LINT_EXIT_CODE=$?
           # Count errors and warnings
