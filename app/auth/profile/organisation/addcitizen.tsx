@@ -91,7 +91,7 @@ const AddCitizen: React.FC = () => {
 
   const renderCitizen = (item: Citizen) => (
     <View style={styles.citizenContainer}>
-      <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
+      <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} fontSize={ScaleSize(75)} />
       <Text numberOfLines={3} style={{ flexShrink: 1 }}>
         {`${item.firstName} ${item.lastName}`}
       </Text>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     maxHeight: 50,
     aspectRatio: 1,
     borderRadius: 10000,
-  },
+  }
 });
 
 export default AddCitizen;
