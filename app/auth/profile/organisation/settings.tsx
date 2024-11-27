@@ -100,7 +100,7 @@ const Settings = () => {
 
   const deleteCloseBS = () => deleteSheetRef.current?.close();
 
-  const deleteOpenBS = () => deleteSheetRef.current?.expand;
+  const deleteOpenBS = () => deleteSheetRef.current?.expand();
 
   const handleLeaveOrganisation = async () => {
     if (typeof userId === "string") {
