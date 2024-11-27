@@ -55,18 +55,6 @@ const RemoveCitizen = () => {
 
   const handleSearch = (text: string) => setSearchInput(text);
 
-
-
-
-
-
-
-
-
-
-
-
-
   const handleRemoveCitizen = async () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
