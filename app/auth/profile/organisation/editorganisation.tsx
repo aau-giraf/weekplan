@@ -53,15 +53,18 @@ const EditOrganisation: React.FC = () => {
   }
 
   const onSubmit = async (formData: FormData) => {
-    try {
-      if (formData.name !== data?.name) {
-        await updateOrganisation.mutateAsync({
+    if (formData.name !== data?.name) {
+      await updateOrganisation
+        .mutateAsync({
           name: formData.name,
+        })
+        .then(() => {
+          addToast({ message: "Organisationen er blevet opdateret", type: "success" }, 2500);
+          router.back();
+        })
+        .catch((error: any) => {
+          addToast({ message: error.message, type: "error" });
         });
-      }
-      router.back();
-    } catch (error: any) {
-      addToast({ message: error.message, type: "error" });
     }
   };
 
