@@ -113,7 +113,7 @@ const AddActivity = () => {
     <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ProgressSteps ref={progressRef}>
-          <View style={{flexGrow: 1 }}>
+          <View style={{ flexGrow: 1 }}>
             <FormContainer>
               <FormHeader title={"Opret en aktivitet til " + prettyDate(selectedDate)} />
               <FormTimePicker

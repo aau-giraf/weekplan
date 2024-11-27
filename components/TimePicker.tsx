@@ -60,7 +60,7 @@ const TimePicker = ({
 
       {/* iOS - Inline DateTimePicker */}
       {Platform.OS === "ios" ? (
-        <View style={styles.centeredPicker}>
+        <View style={SharedStyles.trueCenter}>
           <DateTimePicker
             mode={mode}
             value={value}
@@ -93,12 +93,5 @@ const TimePicker = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  centeredPicker: {
-    ...SharedStyles.trueCenter,
-    width: "100%",
-  },
-});
 
 export default TimePicker;
