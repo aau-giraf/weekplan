@@ -23,20 +23,16 @@ const useOrganisationOverview = () => {
   });
 
   const deleteOrganisation = useMutation({
-    mutationFn: (orgId: number) => deleteOrganisationRequest(orgId),
+    mutationFn: (orgId: number) => deleteOrganisationRequest(userId!, orgId),
     onMutate: async (orgId) => {
       await queryClient.cancelQueries({ queryKey });
+
       const previousOrgs = queryClient.getQueryData<OrgOverviewDTO[]>(queryKey);
-      queryClient.setQueryData<OrgOverviewDTO[]>(queryKey, (oldData) => {
-        return oldData?.filter((org) => org.id !== orgId);
-      });
+      queryClient.setQueryData<OrgOverviewDTO[]>(queryKey, (oldData) =>
+        (oldData || []).filter((org) => org.id !== orgId)
+      );
 
       return previousOrgs;
-    },
-    onError: (_error, _deleted, context) => {
-      if (context) {
-        queryClient.setQueryData(queryKey, context);
-      }
     },
   });
 

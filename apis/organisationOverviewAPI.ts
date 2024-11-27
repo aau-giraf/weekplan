@@ -21,7 +21,11 @@ export const fetchAllOrganisationsRequest = async (userId: string) => {
   return res.data;
 };
 
-export const deleteOrganisationRequest = async (organisationId: number) => {
+export const deleteOrganisationRequest = async (userId: string | null, organisationId: number) => {
+  if (userId === null) {
+    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
+  }
+
   const url = `${BASE_URL}/organizations/${organisationId}`;
   const res = await axios.delete(url).catch((error) => {
     if (error.response) {

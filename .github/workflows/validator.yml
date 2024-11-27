@@ -6,6 +6,9 @@ on:
     branches:
       - master
 
+permissions:
+  pull-requests: write
+
 jobs:
   linting:
     runs-on: ubuntu-latest
@@ -21,5 +24,38 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Checks code for errors
-        run: npm run lint
+      - name: Run Linting
+        id: lint
+        run: |
+          npm run lint > lint-output.txt || LINT_EXIT_CODE=$?
+          # Count errors and warnings
+          ERRORS=$(grep -i -E "^\s*[0-9]+:[0-9]+.*error" lint-output.txt | wc -l)
+          WARNINGS=$(grep -i -E "^\s*[0-9]+:[0-9]+.*warning" lint-output.txt | wc -l)
+          echo "errors=$ERRORS" >> $GITHUB_ENV
+          echo "warnings=$WARNINGS" >> $GITHUB_ENV
+          cat lint-output.txt
+
+      - name: Add PR comment if linting issues found
+        if: ${{ env.errors != '0' || env.warnings != '0' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const commentBody = `
+              Linting detected issues 😱😱😱
+            
+              - **Errors**: ${process.env.errors}
+              - **Warnings**: ${process.env.warnings}
+            
+              Check details for more information
+            
+              ![GIF](https://i.imgur.com/qW7lWJF.gif)
+            `;
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: commentBody,
+            });
+
+      - name: Fail the job if there are any linting issues
+        if: ${{ env.errors != '0' || env.warnings != '0' }}
+        run: exit 1
