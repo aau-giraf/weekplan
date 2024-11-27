@@ -34,7 +34,12 @@ const Settings = () => {
       {
         icon: "create-outline",
         label: "Rediger organisation",
-        onPress: () => {},
+        onPress: () => {
+          router.push({
+            pathname: "/auth/profile/organisation/editorganisation",
+            params: { orgId: parsedId },
+          });
+        },
       },
       {
         icon: "mail-outline",
@@ -48,7 +53,7 @@ const Settings = () => {
       },
       {
         icon: "aperture-outline",
-        label: "Se Pictogrammer",
+        label: "Se Billeder",
         onPress: () =>
           router.push({
             pathname: "/auth/profile/organisation/viewpictograms/[viewpictograms]",
@@ -57,7 +62,7 @@ const Settings = () => {
       },
       {
         icon: "image-outline",
-        label: "Tilføj Pictogrammer",
+        label: "Tilføj Billeder",
         onPress: () =>
           router.push({
             pathname: "/auth/profile/organisation/uploadpictogram/[uploadpictogram]",

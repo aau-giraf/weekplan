@@ -30,6 +30,7 @@ const AuthRootLayout = () => {
             <Stack.Screen name="profile/organisation/addactivity" />
             <Stack.Screen name="profile/organisation/addcitizen" />
             <Stack.Screen name="profile/organisation/editactivity" />
+            <Stack.Screen name="profile/organisation/editorganisation" />
             <Stack.Screen name="profile/organisation/weekplanscreen" />
             <Stack.Screen name="profile/organisation/create-invitation" />
             <Stack.Screen name="profile/organisation/members/[members]" />
