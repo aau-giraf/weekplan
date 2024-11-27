@@ -118,17 +118,21 @@ const Settings = () => {
     router.back();
   };
 
-  const handleDeleteOrganisation = async () => {
-    await deleteOrganisation
-      .mutateAsync(parsedId)
-      .then(() => {
-        addToast({ message: "Organisationen er blevet slettet", type: "success" });
-      })
-      .catch((error) => {
-        addToast({ message: error.message, type: "error" });
-      });
-    deleteCloseBS();
-    router.push("/auth/profile/profilepage");
+  const handleDeleteOrganisation = async (userInput: string) => {
+    if (userInput !== data?.name) {
+      addToast({ message: "Organisationen blev ikke slettet. Forkert navn", type: "error" });
+    } else {
+      await deleteOrganisation
+        .mutateAsync(parsedId)
+        .then(() => {
+          addToast({ message: "Organisationen er blevet slettet", type: "success" });
+        })
+        .catch((error) => {
+          addToast({ message: error.message, type: "error" });
+        });
+      deleteCloseBS();
+      router.push("/auth/profile/profilepage");
+    }
   };
 
   type deleteBottomSheetProps = {
