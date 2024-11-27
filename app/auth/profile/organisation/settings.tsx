@@ -151,7 +151,7 @@ const Settings = () => {
         index={-1}
         style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
         <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
-          <Text style={SharedStyles.header}>{`Vil du slette organisationen "${orgName}"?`}</Text>
+          <Text style={SharedStyles.header}>{`Vil du slette organisationen \n "${orgName}"`}</Text>
           <Text style={{ fontSize: 18, marginBottom: ScaleSize(20) }}>
             Indtast organisationens navn for at bekræfte
           </Text>
