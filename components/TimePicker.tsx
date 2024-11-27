@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
-import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
+import { SharedStyles } from "../utils/SharedStyles";
 import formatDateDDMM from "../utils/formatDateDDMM";
 
 type TimeSelectorProps = {

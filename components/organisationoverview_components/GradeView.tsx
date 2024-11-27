@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
+import { colors, ScaleSize } from "../../utils/SharedStyles";
 import { router } from "expo-router";
 import { GradeDTO } from "../../hooks/useGrades";
-import { ProfilePicture } from "../ProfilePicture"; // Ensure you have this component imported
+import { ProfilePicture } from "../ProfilePicture";
 
 type GradeViewProps = {
   grades: GradeDTO[];
