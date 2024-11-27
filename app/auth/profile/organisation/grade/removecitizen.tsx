@@ -55,13 +55,25 @@ const RemoveCitizen = () => {
 
   const handleSearch = (text: string) => setSearchInput(text);
 
+
+
+
+
+
+
+
+
+
+
+
+
   const handleRemoveCitizen = async () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await removeCitizenFromGrade
         .mutateAsync(citizenIds)
         .then(() => {
-          addToast({ message: "Elever fjernet, type: "success" }, 1500);
+          addToast({ message: "Elever fjernet", type: "success" }, 1500);
           toggleCitizenSelection(null);
         })
         .catch((error) => {
