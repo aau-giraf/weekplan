@@ -84,3 +84,18 @@ export const createNewGradeRequest = async (gradeName: string, orgId: number): P
 
   return res.data;
 };
+
+export const updateGradeRequest = async (gradeId: number, gradeName: string): Promise<GradeDTO> => {
+  const url = `${BASE_URL}/grades/${gradeId}/change-name?newName=${gradeName}`;
+  const res = await axios.put(url, { name: gradeName }).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke opdatere klasse");
+    }
+  });
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke opdatere klasse");
+  }
+
+  return res.data;
+};

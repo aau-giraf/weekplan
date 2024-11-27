@@ -5,6 +5,7 @@ import {
   fetchCitizenById,
   fetchOrganisationFromGradeRequest,
   removeCitizenFromGradeRequest,
+  updateGradeRequest,
 } from "../apis/gradeAPI";
 import { CitizenDTO, FullOrgDTO } from "./useOrganisation";
 
@@ -97,9 +98,47 @@ export default function useGrades(gradeId: number) {
     },
   });
 
+  const updateGrade = useMutation({
+    mutationFn: (gradeName: string) => updateGradeRequest(gradeId, gradeName),
+    onMutate: async (gradeName: string) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
+
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            grades: oldData.grades.map((grade) => {
+              if (grade.id === gradeId) {
+                return {
+                  ...grade,
+                  name: gradeName,
+                };
+              }
+              return grade;
+            }),
+          };
+        }
+        return previousOrg;
+      });
+
+      return { previousOrg };
+    },
+    onError: (_error, _gradeName, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context.previousOrg);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   return {
     addCitizenToGrade,
     removeCitizenFromGrade,
+    updateGrade,
     createNewGradeRequest: createNewGradeRequest,
     data: fetchOrganisationWithGrade.data,
     error: fetchOrganisationWithGrade.error,

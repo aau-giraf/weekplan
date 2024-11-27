@@ -52,7 +52,12 @@ const Settings = () => {
       {
         icon: "create-outline",
         label: "Rediger klasse",
-        onPress: () => {},
+        onPress: () => {
+          router.push({
+            pathname: "/auth/profile/organisation/grade/editgrade",
+            params: { gradeId: gradeId },
+          });
+        },
       },
     ],
     [gradeId]
