@@ -118,21 +118,17 @@ const Settings = () => {
     router.back();
   };
 
-  const handleDeleteOrganisation = async (userInput: string) => {
-    if (userInput !== data?.name) {
-      addToast({ message: "Organisationen blev ikke slettet. Forkert navn", type: "error" });
-    } else {
-      await deleteOrganisation
-        .mutateAsync(parsedId)
-        .then(() => {
-          addToast({ message: "Organisationen er blevet slettet", type: "success" });
-        })
-        .catch((error) => {
-          addToast({ message: error.message, type: "error" });
-        });
-      deleteCloseBS();
-      router.push("/auth/profile/profilepage");
-    }
+  const handleDeleteOrganisation = async () => {
+    await deleteOrganisation
+      .mutateAsync(parsedId)
+      .then(() => {
+        addToast({ message: "Organisationen er blevet slettet", type: "success" });
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      });
+    deleteCloseBS();
+    router.push("/auth/profile/profilepage");
   };
 
   type deleteBottomSheetProps = {
@@ -156,7 +152,7 @@ const Settings = () => {
         style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
         <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
           <Text style={SharedStyles.header}>{`Vil du slette organisationen "${orgName}"?`}</Text>
-          <Text style={{ fontSize: 20, marginBottom: ScaleSize(20) }}>
+          <Text style={{ fontSize: 18, marginBottom: ScaleSize(20) }}>
             Indtast organisationens navn for at bekræfte
           </Text>
           <TextInput
@@ -165,6 +161,7 @@ const Settings = () => {
               height: ScaleSize(50),
               borderColor: colors.black,
               borderWidth: 1,
+              borderRadius: ScaleSize(5),
               padding: ScaleSize(10),
               marginBottom: ScaleSize(20),
             }}
