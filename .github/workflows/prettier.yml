@@ -44,7 +44,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const commentBody = 'Uh oh! You\'ve been PRETTIFIED 😱😱😱\n\n![prettified](https://i.imgur.com/Mvfvdyt.gif)';
+            const commentBody = 'Uh oh! You\'ve been PRETTIFIED 😱😱😱\n\n![prettified](https://i.imgur.com/gYhiB3c.gif)';
             await github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
