@@ -118,21 +118,17 @@ const Settings = () => {
     router.back();
   };
 
-  const handleDeleteOrganisation = async (userInput: string) => {
-    if (userInput !== data?.name) {
-      addToast({ message: "Organisationen blev ikke slettet. Forkert navn", type: "error" });
-    } else {
-      await deleteOrganisation
-        .mutateAsync(parsedId)
-        .then(() => {
-          addToast({ message: "Organisationen er blevet slettet", type: "success" });
-        })
-        .catch((error) => {
-          addToast({ message: error.message, type: "error" });
-        });
-      deleteCloseBS();
-      router.push("/auth/profile/profilepage");
-    }
+  const handleDeleteOrganisation = async () => {
+    await deleteOrganisation
+      .mutateAsync(parsedId)
+      .then(() => {
+        addToast({ message: "Organisationen er blevet slettet", type: "success" });
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      });
+    deleteCloseBS();
+    router.push("/auth/profile/profilepage");
   };
 
   type deleteBottomSheetProps = {
@@ -175,7 +171,8 @@ const Settings = () => {
           <SecondaryButton
             label="Bekræft"
             style={{ backgroundColor: colors.red, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
-            onPress={() => handleDeleteOrganisation(userInput)}
+            disabled={userInput !== data?.name}
+            onPress={() => handleDeleteOrganisation()}
             testID={"confirm-delete-button"}
           />
         </BottomSheetScrollView>
