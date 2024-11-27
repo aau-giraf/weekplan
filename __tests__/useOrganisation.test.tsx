@@ -50,6 +50,17 @@ const mockOrganisation = {
   grades: [],
 };
 
+const mockUpdatedOrganisation = {
+  id: 1,
+  name: "Updated Organisation",
+  users: [
+    { id: "1", firstName: "User 1", lastName: "Test" },
+    { id: "2", firstName: "User 2", lastName: "Test" },
+  ],
+  citizens: mockCitizens,
+  grades: [],
+};
+
 jest.mock("../apis/organisationAPI", () => ({
   fetchOrganisationRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve(mockOrganisation);
@@ -65,6 +76,9 @@ jest.mock("../apis/organisationAPI", () => ({
   }),
   createCitizenRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve(3);
+  }),
+  updateOrganisationRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve(mockUpdatedOrganisation);
   }),
 }));
 
@@ -209,5 +223,25 @@ test("Create a new citizen in organisation", async () => {
       { id: 1, firstName: "Citizen 1", lastName: "CitizenTest1", activities: [] },
       { id: 2, firstName: "Citizen 2", lastName: "CitizenTest2", activities: [] },
     ]);
+  });
+});
+
+test("Should update organisation", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.updateOrganisation.mutateAsync({ name: "Updated Organisation" });
+  });
+
+  await waitFor(() => {
+    expect(result.current.updateOrganisation.isSuccess).toBe(true);
+  });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockUpdatedOrganisation);
   });
 });

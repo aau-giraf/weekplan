@@ -52,6 +52,28 @@ const mockGrade = {
   ],
 };
 
+const mockUpdatedGrade = {
+  id: 1,
+  name: "Updated grade",
+  citizens: [
+    {
+      id: 1,
+      firstName: "Citizen 1",
+      lastName: "CitizenTest1",
+    },
+    {
+      id: 2,
+      firstName: "Citizen 2",
+      lastName: "CitizenTest2",
+    },
+    {
+      id: 3,
+      firstName: "Citizen 3",
+      lastName: "CitizenTest3",
+    },
+  ],
+};
+
 const mockOrganisation = {
   id: 1,
   name: "Test Organisation",
@@ -89,6 +111,9 @@ jest.mock("../apis/gradeAPI", () => ({
   }),
   fetchCitizenById: jest.fn().mockImplementation((citizenId: number) => {
     return Promise.resolve(mockCitizens[citizenId - 1]);
+  }),
+  updateGradeRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve(mockUpdatedGrade);
   }),
 }));
 
@@ -167,5 +192,21 @@ test("should not update grade when attempting to remove an invalid citizen", asy
 
   await waitFor(() => {
     expect(result.current.data).toEqual(mockOrganisation);
+  });
+});
+
+test("should update grade", async () => {
+  const { result } = renderHook(() => useGrades(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.updateGrade.mutateAsync("Updated grade");
+  });
+
+  await waitFor(() => {
+    expect(result.current.data?.grades[0].name).toEqual("Updated grade");
   });
 });
