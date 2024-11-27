@@ -1,164 +1,115 @@
 import { FullActivityDTO, ActivityDTO } from "../hooks/useActivity";
 import formatQueryDate from "../utils/formatQueryDate";
-import { BASE_URL } from "../utils/globals";
-import axios from "axios";
+import { axiosInstance } from "./axiosConfig";
 
-export const fetchByDateCitizen = async (id: number, date: Date) => {
-  const params = { date: formatQueryDate(date) };
-  const res = await axios
-    .get(`${BASE_URL}/weekplan/${id}`, {
-      params,
-      headers: { "Content-Type": "application/json" },
+export const fetchByDateCitizen = (id: number, date: Date) => {
+  return axiosInstance
+    .get(`/weekplan/${id}`, {
+      params: { date: formatQueryDate(date) },
     })
-    .catch((error) => {
-      if (error.response) {
-        throw new Error("Fejl: Kunne ikke hente aktiviteter.");
-      }
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke hente aktiviteter.");
     });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke hente aktiviteter.");
-  }
-  return res.data;
 };
 
-export const fetchByDateGrade = async (id: number, date: Date) => {
-  const params = { date: formatQueryDate(date) };
-  const res = await axios
-    .get(`${BASE_URL}/weekplan/grade/${id}`, {
-      params,
-      headers: { "Content-Type": "application/json" },
+export const fetchByDateGrade = (id: number, date: Date) => {
+  return axiosInstance
+    .get(`/weekplan/grade/${id}`, {
+      params: { date: formatQueryDate(date) },
     })
-    .catch((error) => {
-      if (error.response) {
-        throw new Error("Fejl: Kunne ikke hente aktiviteter.");
-      }
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke hente aktiviteter.");
     });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke hente aktiviteter.");
-  }
-  return res.data;
 };
 
-export const fetchActivityRequest = async (id: number) => {
-  const res = await axios.get(`${BASE_URL}/weekplan/activity/${id}`).catch((error) => {
-    if (error.response) {
+export const fetchActivityRequest = (id: number) => {
+  return axiosInstance
+    .get(`/weekplan/activity/${id}`)
+    .then((res) => res.data)
+    .catch(() => {
       throw new Error("Fejl: Kunne ikke hente aktivitet.");
-    }
-  });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke hente aktivitet.");
-  }
-  return res.data;
+    });
 };
 
-export const deleteRequest = async (id: number) => {
-  const res = await axios.delete(`${BASE_URL}/weekplan/activity/${id}`).catch((error) => {
-    if (error.response) {
+export const deleteRequest = (id: number) => {
+  return axiosInstance
+    .delete(`/weekplan/activity/${id}`)
+    .then((res) => res.data)
+    .catch(() => {
       throw new Error("Fejl: Der er muligvis server problemer");
-    }
-  });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke slette aktivitet");
-  }
+    });
 };
 
-export const updateRequest = async (data: FullActivityDTO, activityId: number) => {
-  const { pictogram, ...rest } = data;
-  const dataWithOnlyPictogramId = {
-    ...rest,
+export const updateRequest = (activity: FullActivityDTO, activityId: number) => {
+  const { pictogram, ...deconstructedActivity } = activity;
+  const data = {
+    ...deconstructedActivity,
     pictogramId: pictogram.id,
   };
-  const res = await axios
-    .put(`${BASE_URL}/weekplan/activity/${activityId}`, dataWithOnlyPictogramId)
-    .catch((error) => {
-      if (error.response) {
-        throw new Error("Fejl: Kunne ikke opdatere aktivitet");
-      }
+  return axiosInstance
+    .put(`/weekplan/activity/${activityId}`, { data: data })
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke opdatere aktivitet");
     });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke opdatere aktivitet");
-  }
 };
 
-export const toggleActivityStatusRequest = async (id: number, isCompleted: boolean) => {
-  const res = await axios
-    .put(`${BASE_URL}/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`, {})
-    .catch((error) => {
-      if (error.response) {
-        throw new Error("Fejl: Kunne ikke ændre aktivitet status");
-      }
+export const toggleActivityStatusRequest = (id: number, isCompleted: boolean) => {
+  return axiosInstance
+    .put(`/weekplan/activity/${id}/iscomplete?IsComplete=${isCompleted}`)
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke ændre aktivitet status");
     });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke ændre aktivitet status");
-  }
 };
 
-export const createActivityCitizen = async (data: ActivityDTO, citizenId: number) => {
-  const { pictogram, ...rest } = data;
+export const createActivityCitizen = (activity: ActivityDTO, citizenId: number) => {
+  const { pictogram, ...deconstructedActivity } = activity;
   const dataWithOnlyPictogramId = {
-    ...rest,
+    ...deconstructedActivity,
     pictogramId: pictogram.id,
   };
-  const res = await axios
-    .post(`${BASE_URL}/weekplan/to-citizen/${citizenId}`, dataWithOnlyPictogramId)
-    .catch((error) => {
-      if (error.response) {
-        throw new Error("Fejl: Kunne ikke oprette aktivitet");
-      }
+  return axiosInstance
+    .post(`/weekplan/to-citizen/${citizenId}`, { data: dataWithOnlyPictogramId })
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke oprette aktivitet");
     });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke oprette aktivitet");
-  }
-  return res.data;
 };
 
-export const createActivityGrade = async (data: ActivityDTO, gradeId: number) => {
-  const { pictogram, ...rest } = data;
-  const dataWithOnlyPictogramId = {
-    ...rest,
+export const createActivityGrade = (activity: ActivityDTO, gradeId: number) => {
+  const { pictogram, ...deconstructedActivity } = activity;
+  const data = {
+    ...deconstructedActivity,
     pictogramId: pictogram.id,
   };
-  const res = await axios
-    .post(`${BASE_URL}/weekplan/to-grade/${gradeId}`, dataWithOnlyPictogramId)
-    .catch((error) => {
-      if (error.response) {
-        throw new Error("Fejl: Kunne ikke oprette aktivitet");
-      }
+  return axiosInstance
+    .post(`/weekplan/to-grade/${gradeId}`, { data: data })
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke oprette aktivitet");
     });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke oprette aktivitet");
-  }
-  return res.data;
 };
 
-export const copyActivitiesRequest = async (
+export const copyActivitiesRequest = (
   citizenId: number,
   activityIds: number[],
   sourceDate: Date,
   destinationDate: Date
 ) => {
-  const params = new URLSearchParams();
-  params.append("citizenId", citizenId.toString());
-  params.append("dateStr", formatQueryDate(sourceDate));
-  params.append("newDateStr", formatQueryDate(destinationDate));
-
-  const res = await axios
-    .post(`${BASE_URL}/weekplan/activity/copy?${params.toString()}`, activityIds)
-    .catch((error) => {
-      if (error.response) {
-        throw new Error("Fejl: Kunne ikke kopiere aktiviteter");
-      }
+  return axiosInstance
+    .post(`/weekplan/activity/copy`, {
+      params: {
+        citizenId: citizenId,
+        dateStr: formatQueryDate(sourceDate),
+        newDateStr: formatQueryDate(destinationDate),
+      },
+      data: activityIds,
+    })
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke kopiere aktiviteter");
     });
-
-  if (!res) {
-    throw new Error("Fejl: Kunne ikke kopiere aktiviteter");
-  }
 };

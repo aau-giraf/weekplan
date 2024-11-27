@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { createUserRequest } from "../apis/registerAPI";
-import { tryLogin } from "../apis/loginAPI";
+import { tryLogin } from "../apis/authorizationAPI";
 import { useToast } from "./ToastProvider";
 import { router } from "expo-router";
 import { getUserIdFromToken, isTokenExpired } from "../utils/jwtDecode";
