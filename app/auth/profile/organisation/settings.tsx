@@ -119,7 +119,7 @@ const Settings = () => {
         keyboardBlurBehavior="restore"
         index={-1}
         style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-        <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+        <BottomSheetScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
           <Text style={SharedStyles.header}>{`Vil du forlade organisationen "${orgName}"?`}</Text>
           <SecondaryButton
             label="Bekræft"
@@ -136,7 +136,7 @@ const Settings = () => {
     <Fragment>
       <View style={{ flex: 1, position: "relative" }}>
         <SafeAreaView />
-        <ScrollView style={styles.scrollContainer}>
+        <ScrollView style={styles.scrollContainer} bounces={false}>
           <Pressable style={styles.backButton} onPress={() => router.back()}>
             <Ionicons name="arrow-back-outline" size={30} />
           </Pressable>
@@ -156,6 +156,7 @@ const Settings = () => {
 
           <View style={styles.settingsContainer}>
             <FlatList
+              bounces={false}
               data={settings}
               scrollEnabled={false}
               renderItem={({ item, index }) => (

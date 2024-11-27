@@ -71,7 +71,8 @@ const ProfilePage: React.FC = () => {
             renderItem={renderOrgContainer}
             keyExtractor={(item, index) => index.toString() + item.name}
             numColumns={1}
-            ListEmptyComponent={<Text>Ingen organisationer fundet</Text>}
+            bounces={false}
+            ListEmptyComponent={<Text style={styles.notFound}>Ingen organisationer fundet</Text>}
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.profileHeader}>
@@ -134,7 +135,7 @@ const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps
       index={-1}
       onClose={() => setName("")}
       style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
-      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent}>
+      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
           style={SharedStyles.inputValid}
@@ -156,6 +157,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
+    backgroundColor: colors.lightBlue,
   },
   itemContainer: {
     flexDirection: "row",
@@ -177,6 +179,12 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: "center",
     backgroundColor: colors.lightBlue,
+  },
+  notFound: {
+    color: colors.black,
+    fontSize: ScaleSize(26),
+    textAlign: "center",
+    marginTop: "50%",
   },
   profileHeader: {
     backgroundColor: colors.white,

@@ -75,11 +75,16 @@ const RemoveCitizen = () => {
       <TouchableOpacity
         style={[
           styles.selection,
-          selectedCitizens.some((citizen) => citizen.id === item.id) && { borderColor: colors.red },
+          selectedCitizens.some((citizen) => citizen.id === item.id) && { backgroundColor: colors.red },
         ]}
         onPress={() => toggleCitizenSelection(item.id)}>
         <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
-        <Text numberOfLines={3} style={styles.citizenText}>
+        <Text
+          numberOfLines={3}
+          style={[
+            styles.citizenText,
+            selectedCitizens.some((citizen) => citizen.id === item.id) && { fontWeight: "bold" },
+          ]}>
           {`${item.firstName} ${item.lastName}`}
         </Text>
       </TouchableOpacity>
@@ -113,10 +118,11 @@ const RemoveCitizen = () => {
           </View>
         </View>
         <FlatList
+          bounces={false}
           data={searchAssignedCitizens}
           contentContainerStyle={styles.citizenList}
           renderItem={({ item }) => renderCitizen(item)}
-          ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+          ListEmptyComponent={<Text style={styles.notFound}>Ingen elever fundet</Text>}
           keyExtractor={(item) => item.id.toString()}
         />
         <View style={styles.buttonContainer}>
@@ -154,12 +160,16 @@ const styles = StyleSheet.create({
     minWidth: "100%",
     paddingVertical: ScaleSize(15),
   },
+  notFound: {
+    color: colors.black,
+    fontSize: ScaleSize(26),
+    textAlign: "center",
+    marginTop: "50%",
+  },
   selection: {
     paddingVertical: ScaleSizeH(15),
     paddingHorizontal: ScaleSizeW(15),
     borderRadius: 15,
-    borderWidth: 1.5,
-    borderColor: colors.lightBlue,
     backgroundColor: colors.lightBlue,
     width: "100%",
     flexDirection: "row",

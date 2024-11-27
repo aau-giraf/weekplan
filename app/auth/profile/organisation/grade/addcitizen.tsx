@@ -73,11 +73,18 @@ const AddCitizen = () => {
       <TouchableOpacity
         style={[
           styles.selection,
-          selectedCitizens.some((citizen) => citizen.id === item.id) && { borderColor: colors.green },
+          selectedCitizens.some((citizen) => citizen.id === item.id) && {
+            backgroundColor: colors.lightGreen,
+          },
         ]}
         onPress={() => toggleCitizenSelection(item.id)}>
         <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
-        <Text numberOfLines={3} style={styles.citizenText}>
+        <Text
+          numberOfLines={3}
+          style={[
+            styles.citizenText,
+            selectedCitizens.some((citizen) => citizen.id === item.id) && { fontWeight: "bold" },
+          ]}>
           {`${item.firstName} ${item.lastName}`}
         </Text>
       </TouchableOpacity>
@@ -114,7 +121,8 @@ const AddCitizen = () => {
           data={searchUnassignedCitizens}
           contentContainerStyle={styles.citizenList}
           renderItem={({ item }) => renderCitizen(item)}
-          ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+          bounces={false}
+          ListEmptyComponent={<Text style={styles.notFound}>Ingen elever fundet</Text>}
           keyExtractor={(item) => item.id.toString()}
         />
         <View style={styles.buttonContainer}>
@@ -156,8 +164,6 @@ const styles = StyleSheet.create({
     paddingVertical: ScaleSizeH(15),
     paddingHorizontal: ScaleSizeW(15),
     borderRadius: 15,
-    borderWidth: 1.5,
-    borderColor: colors.lightBlue,
     backgroundColor: colors.lightBlue,
     width: "100%",
     flexDirection: "row",
@@ -169,6 +175,12 @@ const styles = StyleSheet.create({
     padding: ScaleSize(5),
     backgroundColor: colors.lightBlue,
     alignItems: "center",
+  },
+  notFound: {
+    color: colors.black,
+    fontSize: ScaleSize(26),
+    textAlign: "center",
+    marginTop: "50%",
   },
   profilePicture: {
     width: "20%",

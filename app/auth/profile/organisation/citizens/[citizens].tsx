@@ -143,7 +143,7 @@ const UpdateCitizenBottomSheet = ({
     keyboardBlurBehavior="restore"
     index={-1}
     style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-    <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+    <BottomSheetScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
       <Text style={SharedStyles.header}>Opdater fornavn</Text>
       <BottomSheetTextInput
         style={styles.input}

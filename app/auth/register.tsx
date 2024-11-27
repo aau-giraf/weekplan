@@ -17,7 +17,6 @@ import { router } from "expo-router";
 import { uploadProfileImageRequest } from "../../apis/profileAPI";
 import { useToast } from "../../providers/ToastProvider";
 import FormContainer from "../../components/forms/FormContainer";
-import { ScrollView } from "react-native-gesture-handler";
 
 const schema = z
   .object({
@@ -89,7 +88,7 @@ const RegisterScreen: React.FC = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
       <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+        <View style={{ flexGrow: 1 }}>
           <ProgressSteps ref={progressRef}>
             <FormContainer style={styles.stepContainer}>
               <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
@@ -155,17 +154,13 @@ const RegisterScreen: React.FC = () => {
             </FormContainer>
           </ProgressSteps>
           <View style={styles.navigationButtons}></View>
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    flexGrow: 1,
-    backgroundColor: colors.white,
-  },
   stepContainer: {
     flex: 1,
     justifyContent: "flex-start",

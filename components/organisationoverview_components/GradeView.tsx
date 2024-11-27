@@ -1,51 +1,59 @@
-import { StyleSheet, Text, View } from "react-native";
-import { getContrastingTextColor, hashNameToColour } from "../../utils/colourFunctions";
-import { SharedStyles } from "../../utils/SharedStyles";
-import IconButton from "../IconButton";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
 import { router } from "expo-router";
 import { GradeDTO } from "../../hooks/useGrades";
+import { ProfilePicture } from "../ProfilePicture"; // Ensure you have this component imported
 
 type GradeViewProps = {
   grades: GradeDTO[];
 };
 
-type GradeViewEntryProps = {
-  gradeData: GradeDTO;
-};
-
 export const GradeView = ({ grades }: GradeViewProps) => {
   return (
-    <View style={styles.gradeView}>
-      {(Array.isArray(grades) ? grades : []).map((member, index) => (
-        <GradeViewEntry gradeData={member} key={index} />
+    <View style={styles.container}>
+      {grades.map((grade, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.itemContainer}
+          onPress={() => {
+            router.push(`/auth/profile/organisation/grade/${grade.id}`);
+          }}>
+          <View style={styles.profileContainer}>
+            <ProfilePicture label={grade.name} style={styles.mainProfilePicture} />
+          </View>
+          <Text
+            adjustsFontSizeToFit={true}
+            style={styles.itemText}
+            maxFontSizeMultiplier={2}
+            minimumFontScale={0.3}>
+            {grade.name}
+          </Text>
+        </TouchableOpacity>
       ))}
     </View>
   );
 };
 
-const GradeViewEntry = ({ gradeData }: GradeViewEntryProps) => {
-  const nameColour = hashNameToColour(gradeData.name);
-  const textColour = getContrastingTextColor(nameColour);
-
-  return (
-    <IconButton
-      style={{ backgroundColor: nameColour }}
-      onPress={() => {
-        router.push(`/auth/profile/organisation/grade/${gradeData.id}`);
-      }}
-      absolute={false}>
-      <Text style={{ color: textColour }}>{gradeData.name}</Text>
-    </IconButton>
-  );
-};
-
 const styles = StyleSheet.create({
-  gradeView: {
-    ...SharedStyles.flexRow,
-    justifyContent: "center",
-    width: "100%",
-    rowGap: 5,
-    columnGap: 5,
-    flexWrap: "wrap",
+  container: {
+    minWidth: "100%",
+  },
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: ScaleSize(5),
+    backgroundColor: colors.lightBlue,
+  },
+  profileContainer: {
+    marginRight: ScaleSize(15),
+    padding: ScaleSize(10),
+  },
+  mainProfilePicture: {
+    width: ScaleSize(100),
+    height: ScaleSize(100),
+    borderRadius: 10000,
+  },
+  itemText: {
+    fontSize: 24,
   },
 });

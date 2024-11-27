@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import formatTimeHHMM from "../utils/formatTimeHHMM";
-import { SharedStyles } from "../utils/SharedStyles";
+import { ScaleSize, SharedStyles } from "../utils/SharedStyles";
 import formatDateDDMM from "../utils/formatDateDDMM";
 
 type TimeSelectorProps = {
@@ -42,7 +42,7 @@ const TimePicker = ({
 }: TimeSelectorProps) => {
   const [isTimeSelectorVisible, setTimeSelectorVisible] = useState(false);
   return (
-    <View style={{ alignItems: "center" }}>
+    <View style={{ justifyContent: "center" }}>
       <Text style={SharedStyles.header}>{title}</Text>
 
       {/* Android - Touchable and DateTimePicker visibility */}
@@ -71,7 +71,6 @@ const TimePicker = ({
                 onChange(selectedTime);
               }
             }}
-            style={styles.timePicker}
           />
         </View>
       ) : (
@@ -88,7 +87,6 @@ const TimePicker = ({
                 onChange(selectedTime);
               }
             }}
-            style={styles.timePicker}
           />
         )
       )}
@@ -100,10 +98,6 @@ const styles = StyleSheet.create({
   centeredPicker: {
     ...SharedStyles.trueCenter,
     width: "100%",
-  },
-  timePicker: {
-    position: "static",
-    alignItems: "center",
   },
 });
 

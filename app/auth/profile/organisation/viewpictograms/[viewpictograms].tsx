@@ -54,6 +54,7 @@ const ViewPictograms = () => {
     <Fragment>
       <SafeAreaView style={{ backgroundColor: colors.white }} />
       <FlatList
+        bounces={false}
         contentContainerStyle={styles.flatListContent}
         columnWrapperStyle={{ justifyContent: "space-around" }}
         numColumns={2}
