@@ -37,16 +37,19 @@ const ProfileEdit: React.FC = () => {
   });
 
   const onSubmit = async (formData: FormData) => {
-    try {
-      if (formData.firstName !== data?.firstName || formData.lastName !== data?.lastName) {
-        await updateProfile.mutateAsync({
+    if (formData.firstName !== data?.firstName || formData.lastName !== data?.lastName) {
+      await updateProfile
+        .mutateAsync({
           firstName: formData.firstName,
           lastName: formData.lastName,
+        })
+        .then(() => {
+          addToast({ message: "Profil opdateret", type: "success" }, 2500);
+          router.back();
+        })
+        .catch((error: any) => {
+          addToast({ message: error.message, type: "error" });
         });
-      }
-      router.back();
-    } catch (error: any) {
-      addToast({ message: error.message, type: "error" });
     }
   };
 
