@@ -46,7 +46,7 @@ const ProfilePage: React.FC = () => {
         router.push(`/auth/profile/organisation/${item.id}`);
       }}>
       <View style={styles.profileContainer}>
-        <ProfilePicture label={item.name} style={styles.mainProfilePicture} fontSize={100} />
+        <ProfilePicture label={item.name} style={styles.mainProfilePicture} fontSize={ScaleSize(75)} />
       </View>
       <Text
         adjustsFontSizeToFit={true}
