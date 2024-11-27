@@ -156,15 +156,7 @@ const Settings = () => {
             Indtast organisationens navn for at bekræfte
           </Text>
           <TextInput
-            style={{
-              width: ScaleSize(500),
-              height: ScaleSize(50),
-              borderColor: colors.black,
-              borderWidth: 1,
-              borderRadius: ScaleSize(5),
-              padding: ScaleSize(10),
-              marginBottom: ScaleSize(20),
-            }}
+            style={styles.input}
             onChangeText={(text: string) => setUserInput(text)}
             value={userInput}
             testID={"delete-org-input"}
@@ -310,6 +302,15 @@ const styles = StyleSheet.create({
     gap: ScaleSize(10),
     padding: ScaleSize(90),
     alignItems: "center",
+  },
+  input: {
+    width: ScaleSize(500),
+    height: ScaleSize(50),
+    borderColor: colors.black,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: ScaleSize(10),
+    marginBottom: ScaleSize(20),
   },
 });
 
