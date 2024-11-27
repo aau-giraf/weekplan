@@ -25,7 +25,7 @@ const ProfilePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
@@ -33,7 +33,7 @@ const ProfilePage: React.FC = () => {
 
   if (isError || !data) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <Text>Profil data kunne ikke hentes</Text>
       </View>
     );
@@ -134,10 +134,10 @@ const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps
       index={-1}
       onClose={() => setName("")}
       style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
-      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
-          style={styles.inputValid}
+          style={SharedStyles.inputValid}
           placeholder="Navn på organisation"
           value={name}
           onChangeText={setName}
@@ -228,57 +228,10 @@ const styles = StyleSheet.create({
     bottom: ScaleSize(30),
     right: ScaleSize(30),
   },
-  iconMail: {
-    top: ScaleSize(10),
-    left: ScaleSize(30),
-  },
-  weekoverview: {
-    bottom: ScaleSize(30),
-    left: ScaleSize(30),
-  },
-  inputValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(85),
-    borderWidth: 1,
-    fontSize: ScaleSize(24),
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-    borderRadius: 5,
-    marginVertical: ScaleSizeH(10),
-  },
-  buttonValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(100),
-    borderRadius: 8,
-    marginBottom: ScaleSizeH(10),
-    alignItems: "center",
-    backgroundColor: colors.green,
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: ScaleSize(24),
-    fontWeight: "bold",
-  },
-  sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(90),
-    alignItems: "center",
-  },
   profileContainer: {
     justifyContent: "center",
     alignItems: "center",
     marginBottom: ScaleSizeH(20),
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-  },
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(18),
-    textAlign: "center",
   },
 });
 

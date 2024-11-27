@@ -1,6 +1,6 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Alert, StyleProp, ViewStyle } from "react-native";
+import { Alert, StyleProp, ViewStyle } from "react-native";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 import IconButton from "./IconButton";
 import { getImage } from "../utils/getImage";
@@ -45,14 +45,10 @@ const CameraButton = ({ style, onImageSelect, absolute = true }: CameraButtonPro
   };
 
   return (
-    <IconButton onPress={handlePress} style={[styles.button, style]} absolute={absolute}>
+    <IconButton onPress={handlePress} style={style} absolute={absolute}>
       <Ionicons name="camera-outline" size={ScaleSize(72)} color={colors.black} />
     </IconButton>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {},
-});
 
 export default CameraButton;

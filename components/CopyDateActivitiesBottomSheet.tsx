@@ -38,7 +38,7 @@ export default function CopyDateActivitiesBottomSheet({
     <BottomSheet
       ref={bottomSheetRef}
       snapPoints={snapPoints}
-      style={styles.bottomSheet}
+      style={{ flex: 1 }}
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}>
@@ -71,7 +71,7 @@ export default function CopyDateActivitiesBottomSheet({
           isSubmitting={false}
           handleSubmit={handleCopyActivities}
           label={"Kopier Aktiviteter"}
-          style={styles.submitButton}
+          style={{ marginTop: "auto" }}
         />
       </BottomSheetView>
     </BottomSheet>
@@ -95,8 +95,5 @@ const styles = StyleSheet.create({
   activitiesText: {
     fontSize: ScaleSize(28),
     textAlign: "center",
-  },
-  submitButton: {
-    marginTop: "auto",
   },
 });

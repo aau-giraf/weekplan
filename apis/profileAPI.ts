@@ -1,26 +1,40 @@
 import { BASE_URL } from "../utils/globals";
 import { ChangePasswordDTO, UpdateProfileDTO, DeleteUserDTO } from "../hooks/useProfile";
+import axios from "axios";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {
     throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
+
   const url = `${BASE_URL}/users/${userId}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Fejl: Kunne ikke hente din profil");
-  return res.json();
+  const res = await axios.get(url).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke hente din profil");
+    }
+  });
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke hente din profil");
+  }
+
+  return res.data;
 };
 
 export const updateProfileRequest = async (userId: string | null, data: UpdateProfileDTO) => {
   if (userId === null) {
     throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
-  const res = await fetch(`${BASE_URL}/users/${userId}`, {
-    method: "PUT",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
+
+  const res = await axios.put(`${BASE_URL}/users/${userId}`, data).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke opdatere din profil");
+    }
   });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere din profil");
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke opdatere din profil");
+  }
 };
 
 export const changePasswordRequest = async (userId: string | null, data: ChangePasswordDTO) => {
@@ -28,12 +42,15 @@ export const changePasswordRequest = async (userId: string | null, data: ChangeP
     throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  const res = await fetch(`${BASE_URL}/users/${userId}/change-password`, {
-    method: "PUT",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
+  const res = await axios.put(`${BASE_URL}/users/${userId}/change-password`, data).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke opdatere din adgangskode");
+    }
   });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke opdatere din adgangskode");
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke opdatere din adgangskode");
+  }
 };
 
 export const deleteUserRequest = async (userId: string | null, data: DeleteUserDTO) => {
@@ -41,12 +58,16 @@ export const deleteUserRequest = async (userId: string | null, data: DeleteUserD
     throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  const res = await fetch(`${BASE_URL}/users/${userId}`, {
-    method: "DELETE",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke slette din konto");
+  return await axios
+    .delete(`${BASE_URL}/users/${userId}`, {
+      data,
+      headers: { "Content-Type": "application/json" },
+    })
+    .catch((error) => {
+      if (error.response) {
+        throw new Error(error.response.data?.message || "Fejl: Kunne ikke slette din konto");
+      }
+    });
 };
 
 export const uploadProfileImageRequest = async (userId: string | null, imageUri: string | null) => {
@@ -65,13 +86,19 @@ export const uploadProfileImageRequest = async (userId: string | null, imageUri:
   };
 
   const formData = new FormData();
-
-  //TypeScript doesn't this format, so we need to typecast it
   formData.append("image", imageData as unknown as Blob);
 
-  const res = await fetch(`${BASE_URL}/users/setProfilePicture?userId=${userId}`, {
-    method: "POST",
-    body: formData,
-  });
-  if (!res.ok) throw new Error("Fejl: Kunne ikke uploade profilbillede");
+  const res = await axios
+    .post(`${BASE_URL}/users/setProfilePicture?userId=${userId}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .catch((error) => {
+      if (error.response) {
+        throw new Error(error.message || "Fejl: Kunne ikke uploade profilbillede");
+      }
+    });
+
+  if (!res) {
+    throw new Error("Fejl: Kunne ikke uploade profilbillede");
+  }
 };

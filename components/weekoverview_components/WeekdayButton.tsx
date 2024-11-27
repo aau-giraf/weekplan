@@ -38,7 +38,7 @@ const WeekdayButton = ({ date, day, bottomSheetRef }: WeekdayButtonProps) => {
         setSelectedDate(date);
         bottomSheetRef.current?.expand();
       }}>
-      <View style={[styles.circle, isSelected && styles.selectedCircle]}>
+      <View style={[styles.circle, isSelected && { backgroundColor: colors.orange }]}>
         <Text style={[styles.dayText]}>{day.name}</Text>
       </View>
 
@@ -67,9 +67,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginBottom: ScaleSizeH(5),
     backgroundColor: colors.gray,
-  },
-  selectedCircle: {
-    backgroundColor: colors.orange,
   },
   dateText: {
     fontSize: ScaleSize(24),

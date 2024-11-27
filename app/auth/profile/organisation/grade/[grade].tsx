@@ -26,7 +26,7 @@ const ViewGrade = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
@@ -34,8 +34,8 @@ const ViewGrade = () => {
 
   if (error) {
     return (
-      <View style={styles.centeredContainer}>
-        <Text style={styles.errorText}>{error.message}</Text>
+      <View style={SharedStyles.centeredContainer}>
+        <Text style={SharedStyles.bigErrorText}>{error.message}</Text>
       </View>
     );
   }
@@ -160,17 +160,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     bottom: ScaleSize(20),
     right: ScaleSize(20),
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-  },
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(18),
-    textAlign: "center",
   },
 });
 

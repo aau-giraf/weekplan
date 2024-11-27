@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { KeyboardAvoidingView, Platform, StyleSheet, View, Text } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, View, Text } from "react-native";
 import usePictogram from "../../../../../hooks/usePictogram";
 import CameraButton from "../../../../../components/CameraButton";
 import FormContainer from "../../../../../components/forms/FormContainer";
@@ -36,7 +36,7 @@ const UploadPictogram = () => {
     mode: "onChange",
   });
 
-  const handleSubmitPicture = () => {
+  const handleSubmitPicture = async () => {
     const imageData = {
       uri: getValues().piktogramURI,
       type: "image/jpeg",
@@ -44,6 +44,7 @@ const UploadPictogram = () => {
     };
 
     const formData = new FormData();
+
     formData.append("image", imageData as unknown as Blob);
     formData.append("organizationId", organisationId.toString());
     formData.append("pictogramName", getValues().name);
@@ -54,14 +55,15 @@ const UploadPictogram = () => {
         addToast({ message: "Billede blev uploadet", type: "success" });
         router.back();
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e.message);
         addToast({ message: "Der skete en fejl", type: "error" });
       });
   };
 
   return (
     <SafeAreaView style={{ flexGrow: 1, backgroundColor: colors.white }}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>
             <View style={styles.pictureWrapper}>
@@ -141,13 +143,6 @@ const styles = StyleSheet.create({
   cameraButton: {
     bottom: ScaleSize(100),
     right: ScaleSize(-100),
-  },
-  navigationButtons: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    marginTop: 20,
   },
 });
 

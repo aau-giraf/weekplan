@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/forms/TextInput";
@@ -88,7 +88,7 @@ const RegisterScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
           <ProgressSteps ref={progressRef}>
             <FormContainer style={styles.stepContainer}>
@@ -144,7 +144,7 @@ const RegisterScreen: React.FC = () => {
                   key={imageUri}
                 />
               </View>
-              <CameraButton style={styles.cameraButton} onImageSelect={setImageUri} />
+              <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
               <SecondaryButton
                 style={{ backgroundColor: colors.green }}
                 label="Upload billede"
@@ -185,9 +185,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 10000,
     marginBottom: ScaleSizeH(140),
-  },
-  cameraButton: {
-    bottom: ScaleSizeH(230),
   },
   navigationButtons: {
     flexDirection: "column",

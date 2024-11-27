@@ -40,7 +40,7 @@ const PictogramSelector = ({
   return (
     <FlatList
       contentContainerStyle={styles.flatListContent}
-      columnWrapperStyle={styles.flatListColumnWrapper}
+      columnWrapperStyle={{ justifyContent: "space-around" }}
       numColumns={2}
       data={pictograms}
       renderItem={renderItem}
@@ -57,9 +57,6 @@ const styles = StyleSheet.create({
     padding: ScaleSize(10),
     backgroundColor: colors.white,
   },
-  flatListColumnWrapper: {
-    justifyContent: "space-around",
-  },
   pictogramContainer: {
     width: "50%",
     alignItems: "center",
@@ -74,14 +71,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
     fontSize: ScaleSize(25),
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "grey",
-  },
-  contentContainer: {
-    padding: 36,
-    alignItems: "center",
   },
 });
 

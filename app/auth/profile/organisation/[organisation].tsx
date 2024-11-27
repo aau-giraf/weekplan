@@ -21,7 +21,7 @@ const ViewOrganisation = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.black} />
       </View>
     );
@@ -29,8 +29,8 @@ const ViewOrganisation = () => {
 
   if (error) {
     return (
-      <View style={styles.centeredContainer}>
-        <Text style={styles.errorText}>{error.message}</Text>
+      <View style={SharedStyles.centeredContainer}>
+        <Text style={SharedStyles.bigErrorText}>{error.message}</Text>
       </View>
     );
   }
@@ -120,10 +120,10 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
       keyboardBlurBehavior="restore"
       index={-1}
       style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-      <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
         <BottomSheetTextInput
-          style={styles.inputValid}
+          style={SharedStyles.inputValid}
           placeholder="Navn på klasse"
           value={gradeName}
           onChangeText={(value: string) => setGradeName(value)}
@@ -172,42 +172,9 @@ const styles = StyleSheet.create({
     bottom: ScaleSize(20),
     right: ScaleSize(20),
   },
-  button: {
-    ...SharedStyles.trueCenter,
-    height: ScaleSize(50),
-    width: ScaleSize(50),
-    borderRadius: ScaleSize(50),
-    marginBottom: ScaleSize(10),
-  },
-  inputValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(85),
-    borderWidth: 1,
-    fontSize: ScaleSize(24),
-    borderColor: colors.lightGray,
-    backgroundColor: colors.white,
-    borderRadius: 5,
-    marginVertical: ScaleSizeH(10),
-  },
   iconButton: {
     height: ScaleSize(30),
     width: ScaleSize(30),
-  },
-  sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(90),
-    alignItems: "center",
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-  },
-  errorText: {
-    color: colors.red,
-    fontSize: ScaleSize(18),
-    textAlign: "center",
   },
   settings: {
     top: ScaleSize(10),

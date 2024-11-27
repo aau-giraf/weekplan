@@ -11,7 +11,6 @@ import FormContainer from "../../forms/FormContainer";
 import FormHeader from "../../forms/FormHeader";
 import FormTimePicker from "../../forms/FormTimePicker";
 import SubmitButton from "../../forms/SubmitButton";
-import FormField from "../../forms/TextInput";
 import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import { useWeekplan } from "../../../providers/WeekplanProvider";
 import PictogramSelector from "../../PictogramSelector";
@@ -23,8 +22,6 @@ import { BASE_URL } from "../../../utils/globals";
 
 const schema = z
   .object({
-    title: z.string().trim().min(1, "Du skal have en titel"),
-    description: z.string().trim().min(1, "Du skal have en beskrivelse"),
     startTime: z.date(),
     endTime: z.date(),
     date: z.date(),
@@ -36,7 +33,7 @@ const schema = z
     }),
   })
   .superRefine((data, ctx) => {
-    if (data.startTime >= data.endTime) {
+    if (data.startTime > data.endTime) {
       ctx.addIssue({
         code: z.ZodIssueCode.invalid_date,
         path: ["endTime"],
@@ -84,8 +81,6 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: activity.name,
-      description: activity.description,
       startTime: new Date(dateAndTimeToISO(activity.date, activity.startTime)),
       endTime: new Date(dateAndTimeToISO(activity.date, activity.endTime)),
       date: new Date(dateAndTimeToISO(activity.date)),
@@ -106,8 +101,8 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
       activityId: activity.activityId,
       citizenId: id,
       date: formData.date.toDateString(),
-      name: formData.title,
-      description: formData.description,
+      name: " ",
+      description: " ",
       startTime: startTimeHHMM,
       endTime: endTimeHHMM,
       isCompleted: activity.isCompleted,
@@ -128,8 +123,6 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <FormContainer>
               <FormHeader title="Ændre Aktivitet" />
-              <FormField control={control} name="title" placeholder="Titel" />
-              <FormField control={control} name="description" placeholder="Beskrivelse" />
               <FormTimePicker control={control} name="startTime" placeholder="Vælg start tid" />
               <FormTimePicker control={control} name="endTime" placeholder="Vælg slut tid" />
               <FormTimePicker control={control} name="date" placeholder="Dato for aktivitet" mode="date" />

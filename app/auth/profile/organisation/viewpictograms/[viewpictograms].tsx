@@ -52,10 +52,10 @@ const ViewPictograms = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={styles.safeArea} />
+      <SafeAreaView style={{ backgroundColor: colors.white }} />
       <FlatList
         contentContainerStyle={styles.flatListContent}
-        columnWrapperStyle={styles.flatListColumnWrapper}
+        columnWrapperStyle={{ justifyContent: "space-around" }}
         numColumns={2}
         data={pictograms}
         renderItem={renderItem}
@@ -67,15 +67,9 @@ const ViewPictograms = () => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    backgroundColor: colors.white,
-  },
   flatListContent: {
     padding: ScaleSize(10),
     backgroundColor: colors.white,
-  },
-  flatListColumnWrapper: {
-    justifyContent: "space-around",
   },
   pictogramContainer: {
     width: "50%",

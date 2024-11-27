@@ -56,14 +56,16 @@ const ProgressSteps = forwardRef<ProgressStepsMethods, ProgressStepsProps>((prop
             key={index}
             style={[
               styles.stepCircle,
-              index <= currentStep ? styles.activeStep : styles.inactiveStep,
+              index <= currentStep
+                ? { backgroundColor: colors.green }
+                : { backgroundColor: colors.lightGray },
               index === currentStep && [animatedStyle, { transform: [{ scale: 1.1 }] }],
             ]}
           />
         ))}
       </View>
 
-      <Animated.View key={currentStep} entering={FadeIn} style={styles.stepContainer}>
+      <Animated.View key={currentStep} entering={FadeIn} style={{ flex: 1 }}>
         {steps[currentStep]}
       </Animated.View>
     </View>
@@ -85,15 +87,6 @@ const styles = StyleSheet.create({
     height: ScaleSize(20),
     borderRadius: 10,
     marginHorizontal: 5,
-  },
-  activeStep: {
-    backgroundColor: colors.green,
-  },
-  inactiveStep: {
-    backgroundColor: colors.lightGray,
-  },
-  stepContainer: {
-    flex: 1,
   },
 });
 
