@@ -17,7 +17,7 @@ import { useAuthentication } from "../../../providers/AuthenticationProvider";
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const { userId } = useAuthentication();
+  const { userId, logout } = useAuthentication();
   const { data, isLoading, isError } = useProfile();
   const { data: orgData, isLoading: orgIsLoading, createOrganisation, refetch } = useOrganisationOverview();
   const { fetchByUser } = useInvitation();
@@ -34,7 +34,13 @@ const ProfilePage: React.FC = () => {
   if (isError || !data) {
     return (
       <View style={SharedStyles.centeredContainer}>
-        <Text>Profil data kunne ikke hentes</Text>
+        <TouchableOpacity
+          onPress={async () => {
+            await logout();
+            router.push("/auth/login");
+          }}>
+          <Text>Profil data kunne ikke hentes</Text>
+        </TouchableOpacity>
       </View>
     );
   }

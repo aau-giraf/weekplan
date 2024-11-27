@@ -1,12 +1,13 @@
 import { ChangePasswordDTO, UpdateProfileDTO, DeleteUserDTO } from "../hooks/useProfile";
 import { axiosInstance } from "./axiosConfig";
+import axios from "axios";
 
-export const fetchProfileRequest = (userId: string | null) => {
+export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {
     throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  return axiosInstance
+  return await axiosInstance
     .get(`/users/${userId}`)
     .then((res) => res.data)
     .catch(() => {

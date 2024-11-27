@@ -7,6 +7,7 @@ import { getUserIdFromToken, isTokenExpired } from "../utils/jwtDecode";
 import * as SecureStore from "expo-secure-store";
 import { setSettingsValue } from "../utils/settingsUtils";
 import { RegisterForm } from "../app/auth/register";
+import { setBearer } from "../apis/axiosConfig";
 
 type AuthenticationProviderValues = {
   jwt: string | null;
@@ -52,6 +53,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
       try {
         const res = await tryLogin(email, password);
         if (res.token) {
+          setBearer(res.token);
           setJwt(res.token);
           setUserId(getUserIdFromToken(res.token));
           router.replace("/auth/profile/profilepage");

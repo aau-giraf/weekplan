@@ -1,11 +1,11 @@
 import { axiosInstance } from "./axiosConfig";
 
-export const fetchInvitationByUserRequest = (userId: string) => {
+export const fetchInvitationByUserRequest = async (userId: string) => {
   if (userId === null) {
     throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  return axiosInstance
+  return await axiosInstance
     .get(`/invitations/user/${userId}`)
     .then((res) => res.data)
     .catch(() => {
