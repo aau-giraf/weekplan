@@ -92,7 +92,7 @@ const ListView = <T extends ListItem>({
           contentContainerStyle: { flexGrow: 1 },
         }}
         rightActions={rightActions}
-        leftActions={leftActions}
+        leftActions={handleUpdate ? leftActions : undefined}
       />
     </Fragment>
   );
