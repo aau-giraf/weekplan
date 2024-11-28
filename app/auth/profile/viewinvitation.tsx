@@ -76,6 +76,7 @@ const ViewInvitation = () => {
       <View style={styles.container}>
         <Text style={SharedStyles.header}>Invitations</Text>
         <FlatList
+          bounces={false}
           data={data}
           renderItem={renderInvitationContainer}
           keyExtractor={(item) => item.id.toString()}

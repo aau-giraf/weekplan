@@ -119,7 +119,7 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
     <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ProgressSteps ref={progressRef}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
             <FormContainer>
               <FormHeader title="Ændre Aktivitet" />
               <FormTimePicker control={control} name="startTime" placeholder="Vælg start tid" />

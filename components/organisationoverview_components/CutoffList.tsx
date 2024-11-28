@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     ...SharedStyles.trueCenter,
     ...SharedStyles.flexRow,
     marginLeft: -ScaleSize(45),
+    padding: ScaleSize(20),
   },
   remainingMembersContainer: {
     ...SharedStyles.trueCenter,

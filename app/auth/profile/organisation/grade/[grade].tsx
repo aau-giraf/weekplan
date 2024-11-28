@@ -87,11 +87,12 @@ const ViewGrade = () => {
       </SafeAreaView>
       <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
       <FlatList
+        bounces={false}
         data={currentGrade ? sortedCitizen(currentGrade) : []}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.citizenList}
         renderItem={({ item }) => renderCitizen(item)}
-        ListEmptyComponent={<Text>Ingen elever fundet</Text>}
+        ListEmptyComponent={<Text style={styles.notFound}>Ingen elever fundet</Text>}
       />
       <View style={styles.viewCalendarButton}>
         <IconButton
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   gradeName: {
+    padding: ScaleSize(15),
     fontSize: ScaleSize(40),
     fontWeight: "bold",
     marginTop: ScaleSizeH(25),
@@ -145,6 +147,12 @@ const styles = StyleSheet.create({
     maxHeight: ScaleSizeH(300),
     aspectRatio: 1,
     borderRadius: 10000,
+  },
+  notFound: {
+    color: colors.black,
+    fontSize: ScaleSize(26),
+    textAlign: "center",
+    marginTop: "50%",
   },
   settings: {
     top: ScaleSize(10),

@@ -36,6 +36,7 @@ const ActivitySelectList = ({ activities, toggleCheck, selectedIds }: ActivitySe
   return (
     <View style={styles.container}>
       <FlatList
+        bounces={false}
         data={activities}
         renderItem={renderItem}
         keyExtractor={(item) => item.activityId.toString()}

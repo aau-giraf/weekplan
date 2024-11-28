@@ -78,7 +78,7 @@ const Settings = () => {
   return (
     <Fragment>
       <SafeAreaView />
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView style={styles.scrollContainer} bounces={false}>
         <Pressable style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back-outline" size={30} />
         </Pressable>
@@ -96,6 +96,7 @@ const Settings = () => {
         </View>
         <View style={styles.settingsContainer}>
           <FlatList
+            bounces={false}
             data={settings}
             scrollEnabled={false}
             renderItem={({ item, index }) => (

@@ -1,5 +1,5 @@
 import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -48,10 +48,10 @@ const ViewOrganisation = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }}>
-        <View>
-          <View style={{ alignItems: "center", height: "100%", gap: 20 }}>
-            <Text style={styles.OrgName}> {data?.name ?? "Organisation"}</Text>
+      <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          <View style={{ alignItems: "center", flex: 1 }}>
+            <Text style={styles.OrgName}>{data?.name ?? "Organisation"}</Text>
             <IconButton
               style={styles.settings}
               onPress={() =>
@@ -71,7 +71,6 @@ const ViewOrganisation = () => {
             />
             <View style={styles.alignHeader}>
               <Text style={styles.heading}>Borger</Text>
-              {/*Temp until you can add through citizens.tsx */}
               <IconButton
                 onPress={() => {
                   router.push({
@@ -88,10 +87,20 @@ const ViewOrganisation = () => {
               entries={data?.citizens ?? []}
               onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
             />
-            <View style={[styles.alignHeader]}>
-              <Text style={styles.heading}>Klasser</Text>
-            </View>
-            <GradeView grades={data?.grades ?? []} />
+            <FlatList
+              ListHeaderComponent={
+                <View style={styles.classContainer}>
+                  <Text style={styles.classText}>Klasser</Text>
+                </View>
+              }
+              ListEmptyComponent={<Text style={styles.notFound}>Ingen klasse fundet</Text>}
+              contentContainerStyle={[styles.gradeView, { flexGrow: 1 }]}
+              data={data?.grades ?? []}
+              bounces={false}
+              numColumns={1}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => <GradeView grades={[item]} />}
+            />
           </View>
         </View>
         <View style={styles.iconViewAddButton}>
@@ -120,7 +129,7 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
       keyboardBlurBehavior="restore"
       index={-1}
       style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent}>
+      <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
         <BottomSheetTextInput
           style={SharedStyles.inputValid}
@@ -154,6 +163,18 @@ const styles = StyleSheet.create({
     gap: ScaleSizeW(10),
     alignItems: "center",
   },
+  classContainer: {
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: ScaleSize(30),
+    minWidth: "100%",
+  },
+  classText: {
+    fontSize: ScaleSize(25),
+    fontWeight: "bold",
+  },
   heading: {
     fontSize: ScaleSize(25),
     marginTop: ScaleSize(10),
@@ -165,6 +186,10 @@ const styles = StyleSheet.create({
     height: ScaleSize(100),
     width: ScaleSize(100),
     marginBottom: ScaleSize(10),
+  },
+  gradeView: {
+    flexWrap: "wrap",
+    backgroundColor: colors.lightBlue,
   },
   iconViewAddButton: {
     justifyContent: "flex-end",
@@ -179,6 +204,12 @@ const styles = StyleSheet.create({
   settings: {
     top: ScaleSize(10),
     right: ScaleSize(30),
+  },
+  notFound: {
+    color: colors.black,
+    fontSize: ScaleSize(26),
+    textAlign: "center",
+    paddingTop: ScaleSize(200),
   },
 });
 

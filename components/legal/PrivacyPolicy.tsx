@@ -16,7 +16,7 @@ const PrivacyPolicy = () => {
       </Text>
       <Modal visible={isVisible} onRequestClose={() => setIsVisible(false)}>
         <SafeAreaView />
-        <ScrollView style={SharedStyles.container}>
+        <ScrollView style={SharedStyles.container} bounces={false}>
           <Button title={"Tilbage"} onPress={() => setIsVisible(false)} color={colors.blue} />
           <Text style={SharedStyles.header}>
             Oplysninger om vores behandling af dine personoplysninger mv.
