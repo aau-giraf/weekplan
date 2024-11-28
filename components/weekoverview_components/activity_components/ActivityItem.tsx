@@ -46,7 +46,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ item, setImageUri, setModal
           <Pressable onPress={() => handleImagePress(uri)}>
             <Image
               source={{ uri }}
-              style={{ width: ScaleSizeH(150), height: ScaleSizeH(150) }}
+              style={{ width: ScaleSizeH(200), height: ScaleSizeH(200) }}
               resizeMode="contain"
               onError={() => setImageError(true)}
             />
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 150,
     marginVertical: ScaleSize(10),
     backgroundColor: colors.orange,
+    overflow: "hidden",
   },
   iconPlaceholderText: {
     fontSize: ScaleSize(30),
@@ -84,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(ActivityItem);
+export default ActivityItem;

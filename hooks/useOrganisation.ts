@@ -5,6 +5,7 @@ import {
   deleteMemberRequest,
   fetchOrganisationRequest,
   updateCitizenRequest,
+  updateOrganisationRequest,
 } from "../apis/organisationAPI";
 
 import { ActivityDTO } from "./useActivity";
@@ -123,7 +124,9 @@ const useOrganisation = (orgId: number) => {
   });
 
   const deleteMember = useMutation<void, Error, string>({
-    mutationFn: (memberId: string) => deleteMemberRequest(orgId, memberId),
+    mutationFn: async (memberId: string) => {
+      await deleteMemberRequest(orgId, memberId);
+    },
     onMutate: async (memberId) => {
       await queryClient.cancelQueries({ queryKey });
 
@@ -146,7 +149,9 @@ const useOrganisation = (orgId: number) => {
   });
 
   const updateCitizen = useMutation<void, Error, Omit<CitizenDTO, "activities">>({
-    mutationFn: (citizen) => updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName),
+    mutationFn: async (citizen) => {
+      await updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName);
+    },
     onMutate: async (newCitizen) => {
       newCitizen.id = Number(newCitizen.id);
 
@@ -165,6 +170,33 @@ const useOrganisation = (orgId: number) => {
       });
     },
     onError: (_error, _newCitizen, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context);
+      }
+    },
+    onSuccess: (_data, _variables, _context) => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
+  const updateOrganisation = useMutation<void, Error, { name: string }>({
+    mutationFn: async ({ name }) => {
+      await updateOrganisationRequest(orgId, name);
+    },
+    onMutate: async ({ name }) => {
+      await queryClient.cancelQueries({ queryKey });
+      const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
+      queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            name,
+          };
+        }
+        return previousOrg;
+      });
+    },
+    onError: (_error, { name }, context) => {
       if (context) {
         queryClient.setQueryData(queryKey, context);
       }
@@ -217,6 +249,7 @@ const useOrganisation = (orgId: number) => {
     deleteCitizen,
     deleteMember,
     updateCitizen,
+    updateOrganisation,
     createGrade,
   };
 };

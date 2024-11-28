@@ -11,6 +11,7 @@ import {
   FlatList,
   Pressable,
   ScrollView,
+  TextInput,
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
@@ -20,21 +21,29 @@ import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import RenderSetting from "../../../../components/RenderSetting";
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../../components/ProfilePicture";
+import useOrganisationOverview from "../../../../hooks/useOrganisationOverview";
 
 const Settings = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
   const { deleteMember, data, error, isLoading } = useOrganisation(parsedId);
+  const { deleteOrganisation } = useOrganisationOverview();
   const { userId } = useAuthentication();
   const { addToast } = useToast();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const deleteSheetRef = useRef<BottomSheet>(null);
 
   const settings: Setting[] = useMemo(
     () => [
       {
         icon: "create-outline",
         label: "Rediger organisation",
-        onPress: () => {},
+        onPress: () => {
+          router.push({
+            pathname: "/auth/profile/organisation/editorganisation",
+            params: { orgId: parsedId },
+          });
+        },
       },
       {
         icon: "mail-outline",
@@ -48,7 +57,7 @@ const Settings = () => {
       },
       {
         icon: "aperture-outline",
-        label: "Se Pictogrammer",
+        label: "Se Billeder",
         onPress: () =>
           router.push({
             pathname: "/auth/profile/organisation/viewpictograms/[viewpictograms]",
@@ -57,7 +66,7 @@ const Settings = () => {
       },
       {
         icon: "image-outline",
-        label: "Tilføj Pictogrammer",
+        label: "Tilføj Billeder",
         onPress: () =>
           router.push({
             pathname: "/auth/profile/organisation/uploadpictogram/[uploadpictogram]",
@@ -69,6 +78,11 @@ const Settings = () => {
         label: "Forlad organisation",
         onPress: () => openBS(),
         testID: "leave-org-button",
+      },
+      {
+        icon: "trash-outline",
+        label: "Slet organisation",
+        onPress: () => deleteOpenBS(),
       },
     ],
     [organisation, parsedId]
@@ -90,6 +104,10 @@ const Settings = () => {
 
   const openBS = () => bottomSheetRef.current?.expand();
 
+  const deleteCloseBS = () => deleteSheetRef.current?.close();
+
+  const deleteOpenBS = () => deleteSheetRef.current?.expand();
+
   const handleLeaveOrganisation = async () => {
     if (typeof userId === "string") {
       await deleteMember
@@ -103,6 +121,61 @@ const Settings = () => {
     }
     closeBS();
     router.back();
+  };
+
+  const handleDeleteOrganisation = async () => {
+    await deleteOrganisation
+      .mutateAsync(parsedId)
+      .then(() => {
+        addToast({ message: "Organisationen er blevet slettet", type: "success" });
+      })
+      .catch((error) => {
+        addToast({ message: error.message, type: "error" });
+      });
+    deleteCloseBS();
+    router.push("/auth/profile/profilepage");
+  };
+
+  type deleteBottomSheetProps = {
+    bottomSheetRef: React.RefObject<BottomSheet>;
+    handleDeleteOrganisation: Function;
+    orgName: string;
+  };
+
+  const DeleteBottomSheet = ({
+    bottomSheetRef,
+    orgName,
+    handleDeleteOrganisation,
+  }: deleteBottomSheetProps) => {
+    const [userInput, setUserInput] = React.useState("");
+    return (
+      <BottomSheet
+        ref={bottomSheetRef}
+        enablePanDownToClose={true}
+        keyboardBlurBehavior="restore"
+        index={-1}
+        style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
+        <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+          <Text style={SharedStyles.header}>{`Vil du slette organisationen \n "${orgName}"`}</Text>
+          <Text style={{ fontSize: 18, marginBottom: ScaleSize(20) }}>
+            Indtast organisationens navn for at bekræfte
+          </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(text: string) => setUserInput(text)}
+            value={userInput}
+            testID={"delete-org-input"}
+          />
+          <SecondaryButton
+            label="Bekræft"
+            style={{ backgroundColor: colors.red, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
+            disabled={userInput !== data?.name}
+            onPress={() => handleDeleteOrganisation()}
+            testID={"confirm-delete-button"}
+          />
+        </BottomSheetScrollView>
+      </BottomSheet>
+    );
   };
 
   type BottomSheetProps = {
@@ -173,6 +246,11 @@ const Settings = () => {
         orgName={data!.name}
         handleConfirm={handleLeaveOrganisation}
       />
+      <DeleteBottomSheet
+        bottomSheetRef={deleteSheetRef}
+        orgName={data!.name}
+        handleDeleteOrganisation={handleDeleteOrganisation}
+      />
     </Fragment>
   );
 };
@@ -229,6 +307,15 @@ const styles = StyleSheet.create({
     gap: ScaleSize(10),
     padding: ScaleSize(90),
     alignItems: "center",
+  },
+  input: {
+    width: ScaleSize(500),
+    height: ScaleSize(50),
+    borderColor: colors.black,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: ScaleSize(10),
+    marginBottom: ScaleSize(20),
   },
 });
 

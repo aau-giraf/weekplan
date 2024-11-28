@@ -44,3 +44,12 @@ export const updateCitizenRequest = (citizenId: number, firstName: string, lastN
       throw new Error("Fejl: Der opstod et problem med anmodningen");
     });
 };
+
+export const updateOrganisationRequest = async (orgId: number, name: string) => {
+  const url = `${BASE_URL}/organizations/${orgId}/change-name?newName=${name}`;
+  return await axios.put(url, { name }).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke opdatere organisation");
+    }
+  });
+};
