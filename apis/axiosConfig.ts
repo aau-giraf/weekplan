@@ -1,8 +1,5 @@
 import axios from "axios";
-import login from "../app/auth/login";
-//import { BASE_URL } from "../utils/globals";
-
-const BASE_URL = "https://allowing-bluejay-model.ngrok-free.app";
+import { BASE_URL } from "../utils/globals";
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -17,11 +14,19 @@ export const setBearer = (token: string) => {
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    //console.log(response.status + ": " + response.request.responseURL); // Should display all successful requests
     return response; // Successful request (2xx status)
   },
   (error) => {
-    //console.log(error.response || error.message);
+    //console.log(error.status + ": " + error.request.responseURL); // Should display all faulty requests
+    const originalRequest = error.config;
 
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      axiosInstance.post(`/refresh`, { withCredentials: true }).then((response) => {
+        setBearer(response.data.token);
+        axiosInstance(error.response);
+      });
+    }
     return Promise.reject(error);
   }
 );

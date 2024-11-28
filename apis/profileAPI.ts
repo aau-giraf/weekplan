@@ -1,6 +1,5 @@
 import { ChangePasswordDTO, UpdateProfileDTO, DeleteUserDTO } from "../hooks/useProfile";
 import { axiosInstance } from "./axiosConfig";
-import axios from "axios";
 
 export const fetchProfileRequest = async (userId: string | null) => {
   if (userId === null) {

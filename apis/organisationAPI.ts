@@ -45,11 +45,11 @@ export const updateCitizenRequest = (citizenId: number, firstName: string, lastN
     });
 };
 
-export const updateOrganisationRequest = async (orgId: number, name: string) => {
-  const url = `${BASE_URL}/organizations/${orgId}/change-name?newName=${name}`;
-  return await axios.put(url, { name }).catch((error) => {
-    if (error.response) {
-      throw new Error(error.message || "Fejl: Kunne ikke opdatere organisation");
-    }
-  });
+export const updateOrganisationRequest = (orgId: number, name: string) => {
+  return axiosInstance
+    .put(`/organizations/${orgId}/change-name`, {}, { params: { newName: name } })
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke opdatere organisation");
+    });
 };

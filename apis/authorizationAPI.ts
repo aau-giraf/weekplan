@@ -13,8 +13,3 @@ export async function tryLogin(username: string, password: string) {
       throw new Error("Fejl: Der opstod et problem med login");
     });
 }
-
-export const refreshToken = async (token: string) => {
-  const res = await axiosInstance.post("/token/refresh", { token });
-  return res.data;
-};

@@ -30,12 +30,13 @@ export const deletePictogram = (pictogramId: number): Promise<void> => {
 };
 
 export const uploadNewPictogram = (formData: FormData): Promise<void> => {
-  return axiosInstance(`/pictograms`, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    data: formData,
-  })
+  return axiosInstance
+    .post(`/pictograms`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    })
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Der opstod et problem med at oprette piktogrammet");
