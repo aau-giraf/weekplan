@@ -11,6 +11,7 @@ export default function useInvitation() {
   const queryClient = useQueryClient();
   const queryKey = [userId!, "Invitation"];
 
+
   const fetchByUser = useQuery({
     queryFn: async () => fetchInvitationByUserRequest(userId!),
     queryKey,
@@ -36,6 +37,9 @@ export default function useInvitation() {
       if (context?.previousInvitations) {
         queryClient.setQueryData(queryKey, context.previousInvitations);
       }
+    },
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({queryKey: [userId,"OrganisationOverview"]});
     },
   });
 
