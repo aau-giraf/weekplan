@@ -4,7 +4,7 @@ import { getContrastingTextColor, hashNameToColour } from "../../utils/profileCo
 
 import initialsFromName from "../../utils/initialFromName";
 
-type MemberProps = {
+type InitialsProps = {
   label: string;
   style?: StyleProp<ViewStyle>;
   fontSize?: number;
@@ -20,7 +20,7 @@ type MemberProps = {
  *
  * @returns {JSX.Element} The rendered profile picture component.
  */
-export const MemberPicture = ({ label, style, fontSize }: MemberProps) => {
+export const InitialsPicture = ({ label, style, fontSize }: InitialsProps) => {
   const bgColor = hashNameToColour(label);
   const textColor = getContrastingTextColor(bgColor);
   const displayName = initialsFromName(label);

@@ -11,7 +11,7 @@ import FormContainer from "../../../../components/forms/FormContainer";
 import FormHeader from "../../../../components/forms/FormHeader";
 import { useForm } from "react-hook-form";
 import { useLocalSearchParams } from "expo-router";
-import { MemberPicture } from "../../../../components/profilepicture_components/MemberPicture";
+import { InitialsPicture } from "../../../../components/profilepicture_components/InitialsPicture";
 
 const citizenSchema = z.object({
   firstName: z
@@ -91,7 +91,7 @@ const AddCitizen: React.FC = () => {
 
   const renderCitizen = (item: Citizen) => (
     <View style={styles.citizenContainer}>
-      <MemberPicture
+      <InitialsPicture
         label={`${item.firstName} ${item.lastName}`}
         style={styles.profilePicture}
         fontSize={ScaleSize(75)}

@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } fr
 import SwipeableList, { Action } from "./swipeablelist/SwipeableList";
 import { colors, ScaleSizeH, SharedStyles } from "../utils/SharedStyles";
 import { ProfilePicture } from "./profilepicture_components/ProfilePicture";
-import { MemberPicture } from "./profilepicture_components/MemberPicture";
+import { InitialsPicture } from "./profilepicture_components/InitialsPicture";
 
 type ListItem = {
   id: number | string;
@@ -72,7 +72,7 @@ const ListView = <T extends ListItem>({
       {typeof item.id === "string" ? (
         <ProfilePicture label={getLabel(item)} style={styles.profilePicture} userId={item.id} />
       ) : (
-        <MemberPicture label={getLabel(item)} style={styles.profilePicture} />
+        <InitialsPicture label={getLabel(item)} style={styles.profilePicture} />
       )}
       <Text numberOfLines={3} style={styles.label}>
         {getLabel(item)}

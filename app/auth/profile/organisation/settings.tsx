@@ -20,9 +20,8 @@ import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../../utils/S
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import RenderSetting from "../../../../components/RenderSetting";
 import { Ionicons } from "@expo/vector-icons";
-import { ProfilePicture } from "../../../../components/profilepicture_components/ProfilePicture";
 import useOrganisationOverview from "../../../../hooks/useOrganisationOverview";
-import { MemberPicture } from "../../../../components/profilepicture_components/MemberPicture";
+import { InitialsPicture } from "../../../../components/profilepicture_components/InitialsPicture";
 
 const Settings = () => {
   const { organisation } = useLocalSearchParams();
@@ -217,7 +216,7 @@ const Settings = () => {
 
           <View style={styles.profileSection}>
             <View style={styles.profileContainer}>
-              <MemberPicture
+              <InitialsPicture
                 style={styles.mainProfilePicture}
                 label={data?.name || "Ukendt organisation"}
                 fontSize={100}

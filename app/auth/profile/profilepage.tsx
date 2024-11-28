@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
+import { InitialsPicture } from "../../../components/profilepicture_components/InitialsPicture";
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -46,7 +47,7 @@ const ProfilePage: React.FC = () => {
         router.push(`/auth/profile/organisation/${item.id}`);
       }}>
       <View style={styles.profileContainer}>
-        <ProfilePicture label={item.name} style={styles.mainProfilePicture} fontSize={ScaleSize(75)} />
+        <InitialsPicture label={item.name} style={styles.mainProfilePicture} fontSize={ScaleSize(75)} />
       </View>
       <Text
         adjustsFontSizeToFit={true}

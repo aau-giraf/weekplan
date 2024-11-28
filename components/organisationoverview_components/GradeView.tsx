@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { colors, ScaleSize } from "../../utils/SharedStyles";
 import { router } from "expo-router";
 import { GradeDTO } from "../../hooks/useGrades";
-import { MemberPicture } from "../profilepicture_components/MemberPicture";
+import { InitialsPicture } from "../profilepicture_components/InitialsPicture";
 
 type GradeViewProps = {
   grades: GradeDTO[];
@@ -19,7 +19,7 @@ export const GradeView = ({ grades }: GradeViewProps) => {
             router.push(`/auth/profile/organisation/grade/${grade.id}`);
           }}>
           <View style={styles.profileContainer}>
-            <MemberPicture label={grade.name} style={styles.mainProfilePicture} />
+            <InitialsPicture label={grade.name} style={styles.mainProfilePicture} />
           </View>
           <Text
             adjustsFontSizeToFit={true}
