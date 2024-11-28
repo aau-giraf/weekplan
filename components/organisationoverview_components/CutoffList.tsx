@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../utils/SharedStyles";
-import { ProfilePicture } from "../ProfilePicture";
+import { ProfilePicture } from "../profilepicture_components/ProfilePicture";
+import { MemberPicture } from "../profilepicture_components/MemberPicture";
 
 type CutoffViewPropsBase = {
   id?: string | number;
@@ -52,7 +53,7 @@ const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntr
   if (typeof user.id === "number") {
     return (
       <View style={styles.memberImgContainer} testID={"citizen"}>
-        <ProfilePicture label={`${user.firstName} ${user.lastName}`} style={styles.memberImg} />
+        <MemberPicture label={`${user.firstName} ${user.lastName}`} style={styles.memberImg} />
       </View>
     );
   }
@@ -61,7 +62,7 @@ const CutoffListEntry = <T extends CutoffViewPropsBase>({ user }: MemberViewEntr
       <ProfilePicture
         label={`${user.firstName} ${user.lastName}`}
         style={styles.memberImg}
-        userId={user.id}
+        userId={user.id ?? null}
       />
     </View>
   );

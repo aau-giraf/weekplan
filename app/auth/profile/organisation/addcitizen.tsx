@@ -3,7 +3,6 @@ import React, { Fragment, useCallback, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import SwipeableList from "../../../../components/swipeablelist/SwipeableList";
-import { ProfilePicture } from "../../../../components/ProfilePicture";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import FormField from "../../../../components/forms/TextInput";
 import useOrganisation from "../../../../hooks/useOrganisation";
@@ -12,6 +11,7 @@ import FormContainer from "../../../../components/forms/FormContainer";
 import FormHeader from "../../../../components/forms/FormHeader";
 import { useForm } from "react-hook-form";
 import { useLocalSearchParams } from "expo-router";
+import { MemberPicture } from "../../../../components/profilepicture_components/MemberPicture";
 
 const citizenSchema = z.object({
   firstName: z
@@ -91,7 +91,7 @@ const AddCitizen: React.FC = () => {
 
   const renderCitizen = (item: Citizen) => (
     <View style={styles.citizenContainer}>
-      <ProfilePicture
+      <MemberPicture
         label={`${item.firstName} ${item.lastName}`}
         style={styles.profilePicture}
         fontSize={ScaleSize(75)}

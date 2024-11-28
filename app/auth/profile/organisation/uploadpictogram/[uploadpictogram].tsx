@@ -3,7 +3,6 @@ import { KeyboardAvoidingView, StyleSheet, View, Text } from "react-native";
 import usePictogram from "../../../../../hooks/usePictogram";
 import CameraButton from "../../../../../components/CameraButton";
 import FormContainer from "../../../../../components/forms/FormContainer";
-import { ProfilePicture } from "../../../../../components/ProfilePicture";
 import { colors, ScaleSize, ScaleSizeH } from "../../../../../utils/SharedStyles";
 import { useToast } from "../../../../../providers/ToastProvider";
 import FormField from "../../../../../components/forms/TextInput";
@@ -12,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { UploadProfilePicture } from "../../../../../components/profilepicture_components/UploadProfilePicture";
 
 const schema = z.object({
   piktogramURI: z.string().nonempty("Piktogramnavn må ikke være tomt"),
@@ -68,7 +68,7 @@ const UploadPictogram = () => {
           <View style={styles.profileContainer}>
             <View style={styles.pictureWrapper}>
               {getValues("piktogramURI") ? (
-                <ProfilePicture
+                <UploadProfilePicture
                   style={styles.mainProfilePicture}
                   label={"N A"}
                   imageURI={getValues("piktogramURI")}

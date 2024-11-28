@@ -7,8 +7,8 @@ import IconButton from "../../../../../components/IconButton";
 import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
-import { ProfilePicture } from "../../../../../components/ProfilePicture";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
+import { MemberPicture } from "../../../../../components/profilepicture_components/MemberPicture";
 
 type Citizen = {
   firstName: string;
@@ -57,7 +57,7 @@ const ViewGrade = () => {
           router.push("/auth/profile/organisation/weekplanscreen");
         }}>
         <View style={styles.citizenRow}>
-          <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
+          <MemberPicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
           <Text numberOfLines={1} style={styles.citizenText}>
             {`${item.firstName} ${item.lastName}`}
           </Text>
