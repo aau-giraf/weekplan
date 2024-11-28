@@ -39,6 +39,7 @@ const PictogramSelector = ({
 
   return (
     <FlatList
+      bounces={false}
       contentContainerStyle={styles.flatListContent}
       columnWrapperStyle={{ justifyContent: "space-around" }}
       numColumns={2}

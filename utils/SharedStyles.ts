@@ -87,6 +87,7 @@ const colors = {
   lightGreen: "#A5D6A7FF",
   lightGray: "#ccc",
   red: "#FF0000",
+  lightRed: "#FC4538",
   lightBlueMagenta: "#f0f0f5",
 };
 
@@ -173,7 +174,7 @@ const SharedStyles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   bigErrorText: {
-    color: colors.red,
+    color: colors.black,
     fontSize: ScaleSize(18),
     textAlign: "center",
   },

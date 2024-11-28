@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback, Image } from "react-native";
+import { Keyboard, SafeAreaView, TouchableWithoutFeedback, Image, View } from "react-native";
 import { z } from "zod";
 import FormContainer from "../../../../components/forms/FormContainer";
 import FormHeader from "../../../../components/forms/FormHeader";
@@ -113,7 +113,7 @@ const AddActivity = () => {
     <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ProgressSteps ref={progressRef}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={{ flexGrow: 1 }}>
             <FormContainer>
               <FormHeader title={"Opret en aktivitet til " + prettyDate(selectedDate)} />
               <FormTimePicker
@@ -137,7 +137,7 @@ const AddActivity = () => {
               />
               <SecondaryButton onPress={() => router.back()} label={"Tilbage"} />
             </FormContainer>
-          </ScrollView>
+          </View>
           <FormContainer style={{ paddingTop: 20 }}>
             {getValues("pictogram.pictogramUrl") && (
               <Image
