@@ -15,11 +15,11 @@ export const setBearer = (token: string) => {
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log(response.status + ": " + response.request.responseURL); // Should display all successful requests
+    // console.log(response.status + ": " + response.request.responseURL); // Should display all successful requests
     return response; // Successful request (2xx status)
   },
   (error) => {
-    console.log(error.status + ": " + error.request.responseURL); // Should display all faulty requests
+    // console.log(error.status + ": " + error.request.responseURL); // Should display all faulty requests
     const originalRequest = error.config;
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
