@@ -15,7 +15,7 @@ import RenderSetting from "../../../components/RenderSetting";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
-import { ProfilePicture } from "../../../components/ProfilePicture";
+import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import useProfile from "../../../hooks/useProfile";
 import useInvitation from "../../../hooks/useInvitation";
 

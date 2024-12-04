@@ -17,7 +17,7 @@ import { useToast } from "../../../../../providers/ToastProvider";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
-import { ProfilePicture } from "../../../../../components/ProfilePicture";
+import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
 
 type Params = {
   gradeId: string;
@@ -79,7 +79,7 @@ const RemoveCitizen = () => {
           selectedCitizens.some((citizen) => citizen.id === item.id) && { backgroundColor: colors.red },
         ]}
         onPress={() => toggleCitizenSelection(item.id)}>
-        <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
+        <InitialsPicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
         <Text
           numberOfLines={3}
           style={[

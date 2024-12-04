@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { useAuthentication } from "../../providers/AuthenticationProvider";
 import GirafIcon from "../../assets/SVG/GirafIcon";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../utils/SharedStyles";
-import { ProfilePicture } from "../../components/ProfilePicture";
+import { UploadProfilePicture } from "../../components/profilepicture_components/UploadProfilePicture";
 import CameraButton from "../../components/CameraButton";
 import { router } from "expo-router";
 import { uploadProfileImageRequest } from "../../apis/profileAPI";
@@ -135,10 +135,9 @@ const RegisterScreen: React.FC = () => {
             </FormContainer>
             <FormContainer style={styles.stepContainer}>
               <View style={styles.profileContainer}>
-                <ProfilePicture
+                <UploadProfilePicture
                   style={styles.mainProfilePicture}
                   label={label}
-                  userId={userId}
                   imageURI={imageUri}
                   key={imageUri}
                 />

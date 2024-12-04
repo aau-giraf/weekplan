@@ -1,5 +1,5 @@
 import { View, StyleSheet, SafeAreaView } from "react-native";
-import { ProfilePicture } from "../../../components/ProfilePicture";
+import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import CameraButton from "../../../components/CameraButton";
 import SecondaryButton from "../../../components/forms/SecondaryButton";
 import { colors, ScaleSizeH } from "../../../utils/SharedStyles";
@@ -10,6 +10,7 @@ import { useToast } from "../../../providers/ToastProvider";
 import FormContainer from "../../../components/forms/FormContainer";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useProfilePictureUpdater } from "../../../providers/ProfilePictureUpdaterProvider";
+import { UploadProfilePicture } from "../../../components/profilepicture_components/UploadProfilePicture";
 
 const ChangeProfilePicture = () => {
   const [label] = useState<string>("");
@@ -33,13 +34,11 @@ const ChangeProfilePicture = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
       <FormContainer style={styles.container}>
         <View style={styles.profileContainer}>
-          <ProfilePicture
-            style={styles.mainProfilePicture}
-            label={label}
-            userId={userId}
-            imageURI={imageUri}
-            key={imageUri}
-          />
+          {imageUri ? (
+            <UploadProfilePicture style={styles.mainProfilePicture} label={label} imageURI={imageUri} />
+          ) : (
+            <ProfilePicture style={styles.mainProfilePicture} label={label} userId={userId} />
+          )}
         </View>
         <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
         <SecondaryButton
