@@ -12,11 +12,12 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  Dimensions,
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import RenderSetting from "../../../../components/RenderSetting";
 import { Ionicons } from "@expo/vector-icons";
@@ -299,8 +300,8 @@ const styles = StyleSheet.create({
     borderTopColor: colors.black,
   },
   mainProfilePicture: {
-    width: "50%",
-    maxHeight: ScaleSizeH(250),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
     aspectRatio: 1,
     borderRadius: 10000,
   },

@@ -8,11 +8,12 @@ import {
   FlatList,
   Text,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import RenderSetting from "../../../../../components/RenderSetting";
-import { colors, ScaleSizeH } from "../../../../../utils/SharedStyles";
+import { colors, ScaleSizeH, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import { Setting } from "../../../../../utils/settingsUtils";
 import useGrades from "../../../../../hooks/useGrades";
 import { ProfilePicture } from "../../../../../components/ProfilePicture";
@@ -151,8 +152,8 @@ const styles = StyleSheet.create({
     borderTopColor: colors.black,
   },
   mainProfilePicture: {
-    width: "50%",
-    maxHeight: ScaleSizeH(250),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(200),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(200),
     aspectRatio: 1,
     borderRadius: 10000,
   },

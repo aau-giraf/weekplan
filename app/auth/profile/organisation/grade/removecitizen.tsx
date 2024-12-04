@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profilePicture: {
-    width: "20%",
-    maxHeight: ScaleSizeH(300),
+    width: ScaleSizeW(125),
+    height: ScaleSizeW(125),
     aspectRatio: 1,
     borderRadius: 10000,
   },
