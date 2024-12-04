@@ -93,3 +93,12 @@ export const updateGradeRequest = async (gradeId: number, gradeName: string) => 
     }
   });
 };
+
+export const deleteGradeRequest = async (gradeId: number) => {
+  const url = `${BASE_URL}/grades/${gradeId}`;
+  return await axios.delete(url).catch((error) => {
+    if (error.response) {
+      throw new Error(error.message || "Fejl: Kunne ikke slette klasse");
+    }
+  });
+};
