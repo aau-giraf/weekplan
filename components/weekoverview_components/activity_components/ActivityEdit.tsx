@@ -101,8 +101,6 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
       activityId: activity.activityId,
       citizenId: id,
       date: formData.date.toDateString(),
-      name: " ",
-      description: " ",
       startTime: startTimeHHMM,
       endTime: endTimeHHMM,
       isCompleted: activity.isCompleted,
