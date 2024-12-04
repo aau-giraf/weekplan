@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
@@ -31,7 +30,6 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
-  const [password, setPassword] = useState("");
   const { addToast } = useToast();
   const { logout, userId } = useAuthentication();
   const { deleteUser } = useProfile();
@@ -41,7 +39,7 @@ const DeleteProfileScreen: React.FC = () => {
       await deleteUser
         .mutateAsync({
           id: userId,
-          password: password,
+          password: getValues("currentPassword"),
         })
         .then(() => {
           logout();
@@ -74,6 +72,7 @@ const DeleteProfileScreen: React.FC = () => {
   const {
     control,
     handleSubmit,
+    getValues,
     formState: { isSubmitting, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -82,7 +81,6 @@ const DeleteProfileScreen: React.FC = () => {
 
   const onSubmit = async (formData: FormData) => {
     Keyboard.dismiss();
-    setPassword(formData.currentPassword);
     setTimeout(() => {
       confirmationAlert();
     }, 200);
