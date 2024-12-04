@@ -56,7 +56,7 @@ const UploadPictogram = () => {
         router.back();
       })
       .catch((e) => {
-        addToast({ message: "Der skete en fejl", type: "error" });
+        addToast({ message: e.message, type: "error" });
       });
   };
 

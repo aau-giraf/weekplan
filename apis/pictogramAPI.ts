@@ -31,11 +31,10 @@ export const deletePictogram = (pictogramId: number): Promise<void> => {
 
 export const uploadNewPictogram = (formData: FormData): Promise<void> => {
   return axiosInstance
-    .post(`/pictograms`, {
+    .post(`/pictograms`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-      data: formData,
     })
     .then((res) => res.data)
     .catch(() => {

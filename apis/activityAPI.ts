@@ -49,7 +49,7 @@ export const updateRequest = (activity: FullActivityDTO, activityId: number) => 
     pictogramId: pictogram.id,
   };
   return axiosInstance
-    .put(`/weekplan/activity/${activityId}`, { data: data })
+    .put(`/weekplan/activity/${activityId}`, data)
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke opdatere aktivitet");
@@ -72,7 +72,7 @@ export const createActivityCitizen = (activity: ActivityDTO, citizenId: number) 
     pictogramId: pictogram.id,
   };
   return axiosInstance
-    .post(`/weekplan/to-citizen/${citizenId}`, { data: dataWithOnlyPictogramId })
+    .post(`/weekplan/to-citizen/${citizenId}`, dataWithOnlyPictogramId)
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke oprette aktivitet");
@@ -86,7 +86,7 @@ export const createActivityGrade = (activity: ActivityDTO, gradeId: number) => {
     pictogramId: pictogram.id,
   };
   return axiosInstance
-    .post(`/weekplan/to-grade/${gradeId}`, { data: data })
+    .post(`/weekplan/to-grade/${gradeId}`, data)
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke oprette aktivitet");
@@ -100,13 +100,12 @@ export const copyActivitiesRequest = (
   destinationDate: Date
 ) => {
   return axiosInstance
-    .post(`/weekplan/activity/copy`, {
+    .post(`/weekplan/activity/copy`, activityIds, {
       params: {
         citizenId: citizenId,
         dateStr: formatQueryDate(sourceDate),
         newDateStr: formatQueryDate(destinationDate),
       },
-      data: activityIds,
     })
     .then((res) => res.data)
     .catch(() => {

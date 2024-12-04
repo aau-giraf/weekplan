@@ -25,14 +25,17 @@ export const deleteOrganisationRequest = (organisationId: number) => {
 
 export const createOrganisationsRequest = (userId: string, orgName: string): Promise<OrgOverviewDTO> => {
   return axiosInstance
-    .post(`/organizations`, {
-      params: {
-        id: userId,
-      },
-      data: {
+    .post(
+      `/organizations`,
+      {
         name: orgName,
       },
-    })
+      {
+        params: {
+          id: userId,
+        },
+      }
+    )
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Der opstod et problem med at oprette organisation");

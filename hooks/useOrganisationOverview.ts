@@ -5,6 +5,7 @@ import {
   deleteOrganisationRequest,
   fetchAllOrganisationsRequest,
 } from "../apis/organisationOverviewAPI";
+import { refreshToken } from "../apis/authorizationAPI";
 
 export type OrgOverviewDTO = {
   id: number;
@@ -23,7 +24,7 @@ const useOrganisationOverview = () => {
   });
 
   const deleteOrganisation = useMutation({
-    mutationFn: (orgId: number) => deleteOrganisationRequest(userId!, orgId),
+    mutationFn: (orgId: number) => deleteOrganisationRequest(orgId),
     onMutate: async (orgId) => {
       await queryClient.cancelQueries({ queryKey });
 
@@ -37,7 +38,11 @@ const useOrganisationOverview = () => {
   });
 
   const createOrganisation = useMutation({
-    mutationFn: (orgName: string) => createOrganisationsRequest(userId!, orgName),
+    mutationFn: (orgName: string) => {
+      const data = createOrganisationsRequest(userId!, orgName);
+      refreshToken();
+      return data;
+    },
     onMutate: async (newOrgName) => {
       await queryClient.cancelQueries({ queryKey });
 
