@@ -1,15 +1,15 @@
 import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
   ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import React, { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import useGrades from "../../../../../hooks/useGrades";
 import { useToast } from "../../../../../providers/ToastProvider";

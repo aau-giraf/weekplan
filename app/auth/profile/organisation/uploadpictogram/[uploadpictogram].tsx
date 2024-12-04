@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { KeyboardAvoidingView, StyleSheet, View, Text } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import usePictogram from "../../../../../hooks/usePictogram";
 import CameraButton from "../../../../../components/CameraButton";
 import FormContainer from "../../../../../components/forms/FormContainer";

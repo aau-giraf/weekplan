@@ -1,4 +1,4 @@
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import CameraButton from "../../../components/CameraButton";
 import SecondaryButton from "../../../components/forms/SecondaryButton";

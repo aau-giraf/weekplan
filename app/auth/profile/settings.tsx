@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useMemo, useState } from "react";
-import { SafeAreaView, ScrollView, View, Text, Pressable, StyleSheet, FlatList } from "react-native";
+import { FlatList, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import RenderSetting from "../../../components/RenderSetting";
 import { colors, ScaleSizeH } from "../../../utils/SharedStyles";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
-import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
+import { loadSettingValues, setSettingsValue, Setting } from "../../../utils/settingsUtils";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import useProfile from "../../../hooks/useProfile";
 import useInvitation from "../../../hooks/useInvitation";

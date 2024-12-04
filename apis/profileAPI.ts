@@ -1,5 +1,5 @@
 import { BASE_URL } from "../utils/globals";
-import { ChangePasswordDTO, UpdateProfileDTO, DeleteUserDTO } from "../hooks/useProfile";
+import { ChangePasswordDTO, DeleteUserDTO, UpdateProfileDTO } from "../hooks/useProfile";
 import axios from "axios";
 
 export const fetchProfileRequest = async (userId: string | null) => {

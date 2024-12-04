@@ -15,7 +15,7 @@ import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import { useWeekplan } from "../../../providers/WeekplanProvider";
 import PictogramSelector from "../../PictogramSelector";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
-import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback, Image } from "react-native";
+import { Image, Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback } from "react-native";
 import ProgressSteps, { ProgressStepsMethods } from "../../ProgressSteps";
 import SecondaryButton from "../../forms/SecondaryButton";
 import { BASE_URL } from "../../../utils/globals";

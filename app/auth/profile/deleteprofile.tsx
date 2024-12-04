@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { z } from "zod";
-import { View, Keyboard, Alert } from "react-native";
+import { Alert, Keyboard, View } from "react-native";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
 import FormField from "../../../components/forms/TextInput";

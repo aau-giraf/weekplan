@@ -12,6 +12,7 @@ import { ActivityDTO } from "./useActivity";
 import { GradeDTO } from "./useGrades";
 import { createNewGradeRequest } from "../apis/gradeAPI";
 
+
 export type UserDTO = {
   id: string;
   firstName: string;
@@ -40,21 +41,34 @@ export type FullOrgDTO = {
   citizens: CitizenDTO[];
   grades: GradeDTO[];
 };
+
+/**
+ * Hook for managing organisation data, including fetching, creating, updating,
+ * and deleting resources such as citizens, members, and grades.
+ * @param orgId - The ID of the organisation to manage.
+ * @returns Object containing various utilities for managing the organisation.
+ */
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
   const queryKey = [orgId, "Organisation"];
 
+  /**
+   * Fetch the full details of the organisation, including users, citizens, and grades.
+   */
   const fetchOrganisation = useQuery<FullOrgDTO>({
     queryFn: async () => fetchOrganisationRequest(orgId),
     queryKey,
   });
 
+  /**
+   * Create a new citizen within the organisation.
+   * Optimistically updates the UI to include the new citizen.
+   */
   const createCitizen = useMutation<number, Error, Omit<CitizenDTO, "id">>({
     mutationFn: (citizen: Omit<CitizenDTO, "id">) =>
       createCitizenRequest(citizen.firstName, citizen.lastName, orgId),
     onMutate: async (newCitizen) => {
       await queryClient.cancelQueries({ queryKey });
-
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
       queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
         if (oldData) {
@@ -62,7 +76,7 @@ const useOrganisation = (orgId: number) => {
             ...oldData,
             citizens: [
               {
-                id: -1,
+                id: -1, // Temporary ID until the server responds.
                 ...newCitizen,
               },
               ...oldData.citizens,
@@ -82,17 +96,16 @@ const useOrganisation = (orgId: number) => {
         if (oldData) {
           return {
             ...oldData,
-            citizens: oldData.citizens.map((citizen) => {
-              if (citizen.id === -1) {
-                return {
-                  id: actualId,
-                  firstName: citizen.firstName,
-                  lastName: citizen.lastName,
-                  activities: citizen.activities,
-                };
-              }
-              return citizen;
-            }),
+            citizens: oldData.citizens.map((citizen) =>
+              citizen.id === -1
+                ? {
+                    id: actualId,
+                    firstName: citizen.firstName,
+                    lastName: citizen.lastName,
+                    activities: citizen.activities,
+                  }
+                : citizen
+            ),
           };
         }
         return oldData;
@@ -100,11 +113,14 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  /**
+   * Delete a citizen from the organisation.
+   * Optimistically updates the UI by removing the citizen immediately.
+   */
   const deleteCitizen = useMutation({
     mutationFn: (citizenId: number) => deleteCitizenRequest(orgId, citizenId),
     onMutate: async (citizenId) => {
       await queryClient.cancelQueries({ queryKey });
-
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
       queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
         if (oldData) {
@@ -123,19 +139,22 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  /**
+   * Delete a member (user) from the organisation.
+   * Optimistically updates the UI by removing the member immediately.
+   */
   const deleteMember = useMutation<void, Error, string>({
     mutationFn: async (memberId: string) => {
       await deleteMemberRequest(orgId, memberId);
     },
     onMutate: async (memberId) => {
       await queryClient.cancelQueries({ queryKey });
-
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
       queryClient.setQueryData<OrgDTO>(queryKey, (oldData) => {
         if (oldData) {
           return {
             ...oldData,
-            users: oldData.users.filter((user) => user.id.toString() !== memberId.toString()),
+            users: oldData.users.filter((user) => user.id !== memberId),
           };
         }
         return previousOrg;
@@ -148,13 +167,15 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  /**
+   * Update an existing citizen in the organisation.
+   * Optimistically updates the UI with new citizen details.
+   */
   const updateCitizen = useMutation<void, Error, Omit<CitizenDTO, "activities">>({
     mutationFn: async (citizen) => {
       await updateCitizenRequest(Number(citizen.id), citizen.firstName, citizen.lastName);
     },
     onMutate: async (newCitizen) => {
-      newCitizen.id = Number(newCitizen.id);
-
       const previousOrg = queryClient.getQueryData<OrgDTO>(queryKey);
       await queryClient.cancelQueries({ queryKey });
 
@@ -165,7 +186,6 @@ const useOrganisation = (orgId: number) => {
           );
           return { ...oldData, citizens: updatedCitizens };
         }
-
         return previousOrg;
       });
     },
@@ -179,6 +199,10 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  /**
+   * Update the organisation's name.
+   * Optimistically updates the UI with the new organisation name.
+   */
   const updateOrganisation = useMutation<void, Error, { name: string }>({
     mutationFn: async ({ name }) => {
       await updateOrganisationRequest(orgId, name);
@@ -206,10 +230,14 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  /**
+   * Create a new grade for the organisation.
+   * Optimistically updates the UI to include the new grade.
+   */
   const createGrade = useMutation({
     mutationFn: async (gradeName: string) => createNewGradeRequest(gradeName, orgId),
     onMutate: async (gradeName) => {
-      await queryClient.cancelQueries({ queryKey: queryKey });
+      await queryClient.cancelQueries({ queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
 

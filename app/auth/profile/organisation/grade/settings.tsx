@@ -1,13 +1,13 @@
 import React, { Fragment, useMemo } from "react";
 import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
   SafeAreaView,
   ScrollView,
-  View,
-  Pressable,
   StyleSheet,
-  FlatList,
   Text,
-  ActivityIndicator,
+  View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";

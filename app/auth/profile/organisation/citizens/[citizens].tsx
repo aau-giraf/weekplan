@@ -5,7 +5,7 @@ import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { colors, ScaleSize, SharedStyles } from "../../../../../utils/SharedStyles";
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";

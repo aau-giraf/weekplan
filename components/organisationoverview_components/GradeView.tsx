@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, ScaleSize } from "../../utils/SharedStyles";
 import { router } from "expo-router";
 import { GradeDTO } from "../../hooks/useGrades";

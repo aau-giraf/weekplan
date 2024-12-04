@@ -1,7 +1,7 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { colors } from "../utils/SharedStyles";
 
 type RenderSettingProps = {

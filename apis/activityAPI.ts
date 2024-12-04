@@ -1,4 +1,4 @@
-import { FullActivityDTO, ActivityDTO } from "../hooks/useActivity";
+import { ActivityDTO, FullActivityDTO } from "../hooks/useActivity";
 import formatQueryDate from "../utils/formatQueryDate";
 import { BASE_URL } from "../utils/globals";
 import axios from "axios";

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, StyleSheet, View } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/forms/TextInput";

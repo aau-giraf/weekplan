@@ -1,6 +1,6 @@
 import React, { forwardRef, ReactNode, useImperativeHandle, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, FadeIn } from "react-native-reanimated";
+import { StyleSheet, View } from "react-native";
+import Animated, { FadeIn, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type ProgressStepsProps = {

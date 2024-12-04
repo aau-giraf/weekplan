@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo } from "react";
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import TimePicker from "./TimePicker";
 import useCopyDayData from "../hooks/useCopyDateActivities";

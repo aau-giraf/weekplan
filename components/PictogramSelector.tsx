@@ -1,7 +1,7 @@
-import { Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { BASE_URL } from "../utils/globals";
 import usePictogram, { Pictogram } from "../hooks/usePictogram";
-import { colors, ScaleSize, ScaleSizeW, ScaleSizeH } from "../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../utils/SharedStyles";
 import { FlatList } from "react-native-gesture-handler";
 
 type PictogramSelectorProps = {

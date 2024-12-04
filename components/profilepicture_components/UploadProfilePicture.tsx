@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Image, ViewStyle, StyleProp } from "react-native";
+import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 import { ScaleSize, SharedStyles } from "../../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../../utils/profileColors";
 

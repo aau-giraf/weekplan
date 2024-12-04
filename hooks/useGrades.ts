@@ -14,15 +14,37 @@ export type GradeDTO = {
   name: string;
   citizens: CitizenDTO[];
 };
+
+/**
+ * Custom hook for managing grade-related data and operations.
+ *
+ * @param {number} gradeId - The ID of the grade to manage.
+ * @returns {Object} Hook utilities.
+ * @returns {Mutation} addCitizenToGrade - Mutation for adding citizens to the grade.
+ * @returns {Mutation} removeCitizenFromGrade - Mutation for removing citizens from the grade.
+ * @returns {Mutation} updateGrade - Mutation for updating the grade's name.
+ * @returns {Function} createNewGradeRequest - Function for creating a new grade.
+ * @returns {Object} data - The organisation data associated with the grade.
+ * @returns {Object} error - Error object for the organisation query.
+ * @returns {boolean} isLoading - Indicates whether the organisation query is loading.
+ */
 export default function useGrades(gradeId: number) {
   const queryClient = useQueryClient();
   const queryKey = [gradeId, "Grades"];
 
+  /**
+   * Query to fetch organisation data for a specific grade.
+   */
   const fetchOrganisationWithGrade = useQuery<FullOrgDTO>({
     queryFn: async () => fetchOrganisationFromGradeRequest(gradeId),
     queryKey,
   });
 
+  /**
+   * Mutation to add citizens to a grade.
+   *
+   * @param {number[]} citizenIds - Array of citizen IDs to add to the grade.
+   */
   const addCitizenToGrade = useMutation({
     mutationFn: (citizenIds: number[]) => addCitizenToGradeRequest(citizenIds, gradeId),
     onMutate: async (citizenIds: number[]) => {
@@ -61,6 +83,11 @@ export default function useGrades(gradeId: number) {
     },
   });
 
+  /**
+   * Mutation to remove citizens from a grade.
+   *
+   * @param {number[]} citizenIds - Array of citizen IDs to remove from the grade.
+   */
   const removeCitizenFromGrade = useMutation({
     mutationFn: async (citizenIds: number[]) => removeCitizenFromGradeRequest(citizenIds, gradeId),
     onMutate: async (citizenIds: number[]) => {
@@ -98,6 +125,11 @@ export default function useGrades(gradeId: number) {
     },
   });
 
+  /**
+   * Mutation to update the name of a grade.
+   *
+   * @param {string} gradeName - The new name for the grade.
+   */
   const updateGrade = useMutation({
     mutationFn: (gradeName: string) => updateGradeRequest(gradeId, gradeName),
     onMutate: async (gradeName: string) => {

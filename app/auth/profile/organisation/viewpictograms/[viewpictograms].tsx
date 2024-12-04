@@ -1,6 +1,6 @@
 import { FlatList } from "react-native-gesture-handler";
 
-import { Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Fragment } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BASE_URL } from "../../../../../utils/globals";

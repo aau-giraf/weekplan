@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ViewStyle, StyleProp } from "react-native";
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 import { ScaleSize, SharedStyles } from "../../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../../utils/profileColors";
 
