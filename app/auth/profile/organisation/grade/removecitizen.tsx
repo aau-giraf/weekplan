@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import React, { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
@@ -183,8 +184,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profilePicture: {
-    width: ScaleSizeW(125),
-    height: ScaleSizeW(125),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
     aspectRatio: 1,
     borderRadius: 10000,
   },
