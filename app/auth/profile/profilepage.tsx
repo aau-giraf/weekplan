@@ -72,7 +72,6 @@ const ProfilePage: React.FC = () => {
             renderItem={renderOrgContainer}
             keyExtractor={(item, index) => index.toString() + item.name}
             numColumns={1}
-            bounces={false}
             ListEmptyComponent={<Text style={styles.notFound}>Ingen organisationer fundet</Text>}
             ListHeaderComponent={
               <View style={styles.headerContainer}>
