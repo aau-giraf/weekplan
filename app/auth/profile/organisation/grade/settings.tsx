@@ -15,7 +15,7 @@ import RenderSetting from "../../../../../components/RenderSetting";
 import { colors, ScaleSizeH } from "../../../../../utils/SharedStyles";
 import { Setting } from "../../../../../utils/settingsUtils";
 import useGrades from "../../../../../hooks/useGrades";
-import { ProfilePicture } from "../../../../../components/ProfilePicture";
+import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
 
 type Params = {
   gradeId: string;
@@ -84,7 +84,7 @@ const Settings = () => {
         </Pressable>
         <View style={styles.profileSection}>
           <View style={styles.profileContainer}>
-            <ProfilePicture
+            <InitialsPicture
               style={styles.mainProfilePicture}
               label={currentGrade?.name || "Ukendt klasse"}
               fontSize={100}

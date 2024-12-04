@@ -73,7 +73,7 @@ const useCopyDayData = () => {
     error,
     dates,
     selectedActivityIds,
-    canSubmit: data?.length ?? 0 > 0,
+    canSubmit: (data?.length ?? 0) > 0,
     setDates,
     handleCopyActivities,
     toggleActivitySelection,

@@ -67,7 +67,7 @@ export default function CopyDateActivitiesBottomSheet({
           </Fragment>
         )}
         <SubmitButton
-          isValid={!canSubmit}
+          isValid={canSubmit}
           isSubmitting={false}
           handleSubmit={handleCopyActivities}
           label={"Kopier Aktiviteter"}

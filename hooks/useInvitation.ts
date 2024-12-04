@@ -37,6 +37,9 @@ export default function useInvitation() {
         queryClient.setQueryData(queryKey, context.previousInvitations);
       }
     },
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({ queryKey: [userId, "OrganisationOverview"] });
+    },
   });
 
   const createInvitation = useMutation({
