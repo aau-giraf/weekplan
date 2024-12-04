@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import SwipeableList, { Action } from "./swipeablelist/SwipeableList";
-import { colors, ScaleSizeH, SharedStyles } from "../utils/SharedStyles";
+import { colors, ScaleSizeW, SharedStyles } from "../utils/SharedStyles";
 import { ProfilePicture } from "./profilepicture_components/ProfilePicture";
 import { InitialsPicture } from "./profilepicture_components/InitialsPicture";
 
@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   profilePicture: {
-    width: "25%",
-    maxHeight: ScaleSizeH(300),
+    width: ScaleSizeW(125),
+    height: ScaleSizeW(125),
     aspectRatio: 1,
     borderRadius: 10000,
   },
