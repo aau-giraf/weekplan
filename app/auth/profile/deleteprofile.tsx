@@ -11,6 +11,7 @@ import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useProfile from "../../../hooks/useProfile";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useToast } from "../../../providers/ToastProvider";
+import clearAutoLogin from "../../../utils/clearAutoLogin";
 
 const schema = z
   .object({
@@ -42,9 +43,10 @@ const DeleteProfileScreen: React.FC = () => {
           password: getValues("currentPassword"),
         })
         .then(() => {
-          logout();
+          clearAutoLogin();
           addToast({ message: "Profilen er blevet slettet.", type: "success" });
         })
+        .then(() => logout())
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
         });
