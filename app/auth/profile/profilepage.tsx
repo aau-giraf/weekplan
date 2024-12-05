@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState } from "react";
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { ProfilePicture } from "../../../components/ProfilePicture";
+import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import IconButton from "../../../components/IconButton";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import useProfile from "../../../hooks/useProfile";
@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
+import { InitialsPicture } from "../../../components/profilepicture_components/InitialsPicture";
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -52,7 +53,7 @@ const ProfilePage: React.FC = () => {
         router.push(`/auth/profile/organisation/${item.id}`);
       }}>
       <View style={styles.profileContainer}>
-        <ProfilePicture label={item.name} style={styles.mainProfilePicture} fontSize={ScaleSize(75)} />
+        <InitialsPicture label={item.name} style={styles.mainProfilePicture} fontSize={ScaleSize(75)} />
       </View>
       <Text
         adjustsFontSizeToFit={true}
@@ -77,7 +78,6 @@ const ProfilePage: React.FC = () => {
             renderItem={renderOrgContainer}
             keyExtractor={(item, index) => index.toString() + item.name}
             numColumns={1}
-            bounces={false}
             ListEmptyComponent={<Text style={styles.notFound}>Ingen organisationer fundet</Text>}
             ListHeaderComponent={
               <View style={styles.headerContainer}>

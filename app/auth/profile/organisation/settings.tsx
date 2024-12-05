@@ -12,16 +12,17 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  Dimensions,
 } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import RenderSetting from "../../../../components/RenderSetting";
 import { Ionicons } from "@expo/vector-icons";
-import { ProfilePicture } from "../../../../components/ProfilePicture";
 import useOrganisationOverview from "../../../../hooks/useOrganisationOverview";
+import { InitialsPicture } from "../../../../components/profilepicture_components/InitialsPicture";
 
 const Settings = () => {
   const { organisation } = useLocalSearchParams();
@@ -155,7 +156,7 @@ const Settings = () => {
         keyboardBlurBehavior="restore"
         index={-1}
         style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-        <BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
+        <BottomSheetScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
           <Text style={SharedStyles.header}>{`Vil du slette organisationen \n "${orgName}"`}</Text>
           <Text style={{ fontSize: 18, marginBottom: ScaleSize(20) }}>
             Indtast organisationens navn for at bekræfte
@@ -216,7 +217,7 @@ const Settings = () => {
 
           <View style={styles.profileSection}>
             <View style={styles.profileContainer}>
-              <ProfilePicture
+              <InitialsPicture
                 style={styles.mainProfilePicture}
                 label={data?.name || "Ukendt organisation"}
                 fontSize={100}
@@ -299,8 +300,8 @@ const styles = StyleSheet.create({
     borderTopColor: colors.black,
   },
   mainProfilePicture: {
-    width: "50%",
-    maxHeight: ScaleSizeH(250),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
     aspectRatio: 1,
     borderRadius: 10000,
   },

@@ -93,7 +93,7 @@ const ViewOrganisation = () => {
                   <Text style={styles.classText}>Klasser</Text>
                 </View>
               }
-              ListEmptyComponent={<Text style={styles.notFound}>Ingen klasse fundet</Text>}
+              ListEmptyComponent={<Text style={styles.notFound}>Ingen klasser fundet</Text>}
               contentContainerStyle={[styles.gradeView, { flexGrow: 1 }]}
               data={data?.grades ?? []}
               bounces={false}
@@ -128,6 +128,7 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
+      onClose={() => setGradeName("")}
       style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
       <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
@@ -188,7 +189,6 @@ const styles = StyleSheet.create({
     marginBottom: ScaleSize(10),
   },
   gradeView: {
-    flexWrap: "wrap",
     backgroundColor: colors.lightBlue,
   },
   iconViewAddButton: {

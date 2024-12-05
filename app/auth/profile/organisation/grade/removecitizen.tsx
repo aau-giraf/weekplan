@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import React, { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
@@ -16,7 +17,7 @@ import { useToast } from "../../../../../providers/ToastProvider";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
-import { ProfilePicture } from "../../../../../components/ProfilePicture";
+import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
 
 type Params = {
   gradeId: string;
@@ -78,7 +79,7 @@ const RemoveCitizen = () => {
           selectedCitizens.some((citizen) => citizen.id === item.id) && { backgroundColor: colors.red },
         ]}
         onPress={() => toggleCitizenSelection(item.id)}>
-        <ProfilePicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
+        <InitialsPicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
         <Text
           numberOfLines={3}
           style={[
@@ -183,8 +184,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profilePicture: {
-    width: "20%",
-    maxHeight: ScaleSizeH(300),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
     aspectRatio: 1,
     borderRadius: 10000,
   },
