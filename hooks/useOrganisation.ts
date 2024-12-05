@@ -10,7 +10,7 @@ import {
 
 import { ActivityDTO } from "./useActivity";
 import { GradeDTO } from "./useGrades";
-import { createNewGradeRequest } from "../apis/gradeAPI";
+import { createNewGradeRequest, deleteGradeRequest } from "../apis/gradeAPI";
 
 export type UserDTO = {
   id: string;
@@ -240,6 +240,35 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  const deleteGrade = useMutation({
+    mutationFn: async (gradeId: number) => {
+      await deleteGradeRequest(gradeId);
+    },
+    onMutate: async (gradeId) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            grades: oldData.grades.filter((grade) => grade.id !== gradeId),
+          };
+        }
+        return previousOrg;
+      });
+      return { previousOrg };
+    },
+    onError: (_error, _gradeId, context) => {
+      if (context?.previousOrg) {
+        queryClient.setQueryData(queryKey, context.previousOrg);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   return {
     data: fetchOrganisation.data,
     isLoading: fetchOrganisation.isLoading,
@@ -251,6 +280,7 @@ const useOrganisation = (orgId: number) => {
     updateCitizen,
     updateOrganisation,
     createGrade,
+    deleteGrade,
   };
 };
 

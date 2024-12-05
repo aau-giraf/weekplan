@@ -1,9 +1,18 @@
 import React, { Fragment, useEffect, useMemo, useState } from "react";
-import { SafeAreaView, ScrollView, View, Text, Pressable, StyleSheet, FlatList } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import RenderSetting from "../../../components/RenderSetting";
-import { colors, ScaleSizeH } from "../../../utils/SharedStyles";
+import { colors, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
@@ -163,8 +172,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   mainProfilePicture: {
-    width: "50%",
-    maxHeight: ScaleSizeH(250),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
     aspectRatio: 1,
     borderRadius: 10000,
   },
