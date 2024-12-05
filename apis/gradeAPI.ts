@@ -64,10 +64,10 @@ export const updateGradeRequest = async (gradeId: number, newName: string) => {
 };
 
 export const deleteGradeRequest = async (gradeId: number) => {
-  const url = `${BASE_URL}/grades/${gradeId}`;
-  return await axios.delete(url).catch((error) => {
-    if (error.response) {
-      throw new Error(error.message || "Fejl: Kunne ikke slette klasse");
-    }
-  });
+  return axiosInstance
+    .delete(`/grades/${gradeId}`)
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke slette din klasse");
+    });
 };
