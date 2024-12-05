@@ -1,6 +1,5 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/globals";
-import { refreshToken } from "./authorizationAPI";
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -20,12 +19,6 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     // console.log(error.status + ": " + error.request.responseURL); // Should display all faulty requests
-    const originalRequest = error.config;
-
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      refreshToken();
-      axiosInstance(originalRequest);
-    }
     return Promise.reject(error);
   }
 );
