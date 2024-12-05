@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { router } from "expo-router";
@@ -12,6 +11,7 @@ import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useProfile from "../../../hooks/useProfile";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useToast } from "../../../providers/ToastProvider";
+import clearAutoLogin from "../../../utils/clearAutoLogin";
 
 const schema = z
   .object({
@@ -31,7 +31,6 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 const DeleteProfileScreen: React.FC = () => {
-  const [password, setPassword] = useState("");
   const { addToast } = useToast();
   const { logout, userId } = useAuthentication();
   const { deleteUser } = useProfile();
@@ -41,12 +40,13 @@ const DeleteProfileScreen: React.FC = () => {
       await deleteUser
         .mutateAsync({
           id: userId,
-          password: password,
+          password: getValues("currentPassword"),
         })
         .then(() => {
-          logout();
+          clearAutoLogin();
           addToast({ message: "Profilen er blevet slettet.", type: "success" });
         })
+        .then(() => logout())
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
         });
@@ -74,6 +74,7 @@ const DeleteProfileScreen: React.FC = () => {
   const {
     control,
     handleSubmit,
+    getValues,
     formState: { isSubmitting, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -82,7 +83,6 @@ const DeleteProfileScreen: React.FC = () => {
 
   const onSubmit = async (formData: FormData) => {
     Keyboard.dismiss();
-    setPassword(formData.currentPassword);
     setTimeout(() => {
       confirmationAlert();
     }, 200);

@@ -17,6 +17,7 @@ import { router } from "expo-router";
 import { uploadProfileImageRequest } from "../../apis/profileAPI";
 import { useToast } from "../../providers/ToastProvider";
 import FormContainer from "../../components/forms/FormContainer";
+import clearAutoLogin from "../../utils/clearAutoLogin";
 
 const schema = z
   .object({
@@ -65,7 +66,7 @@ const RegisterScreen: React.FC = () => {
       .then((userId) => {
         setUserId(userId);
         setLabel(`${getValues().firstName} ${getValues().lastName}`);
-
+        clearAutoLogin();
         if (userId) {
           progressRef.current?.nextStep();
         }
