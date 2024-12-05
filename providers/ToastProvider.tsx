@@ -11,6 +11,12 @@ type ToastProviderValues = {
 
 const ToastContext = createContext<ToastProviderValues | undefined>(undefined);
 
+/**
+ * Provider for displaying toasts throughout the app.
+ * @param children
+ * @constructor
+ */
+
 const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const [toasts, setToasts] = useState<Omit<ToastProps, "onClose">[]>([]);
 

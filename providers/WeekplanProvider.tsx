@@ -9,18 +9,17 @@ type WeekplanProviderValues = {
 
 const WeekplanContext = createContext<WeekplanProviderValues | undefined>(undefined);
 
-/**
- * Provider for citizen context
- * @param children
- * @constructor
- * @return {ReactNode}
- */
-
 type CitizenProviderProps = {
   children: React.ReactNode;
   defaultValue?: { isCitizen: boolean; id: number };
 };
 
+/**
+ * Provider for values regarding the weekplans owner.
+ * @param children
+ * @param defaultValue
+ * @constructor
+ */
 export const WeekplanProvider = ({
   children,
   defaultValue = { isCitizen: false, id: 1 },
@@ -40,9 +39,6 @@ export const WeekplanProvider = ({
   );
 };
 
-/**
- * Hook to use the citizen context
- */
 export const useWeekplan = () => {
   const context = useContext(WeekplanContext);
   if (context === undefined) {

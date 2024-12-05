@@ -5,6 +5,9 @@ type ProfilePictureUpdaterContextType = {
   updateTimestamp: () => void;
 };
 
+/**
+ * Provider for updating the user's profile picture.
+ */
 const ProfilePictureUpdaterContext = createContext<ProfilePictureUpdaterContextType | undefined>(undefined);
 
 export const ProfilePictureUpdaterProvider = ({ children }: { children: ReactNode }) => {

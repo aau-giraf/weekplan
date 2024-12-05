@@ -1,15 +1,18 @@
 import React, { createContext, useContext, useState } from "react";
 
-// Define the shape of our context's values
 type OrgProviderValues = {
   availableOrgIDs: number[];
   selectedOrg: number;
-  setSelectedOrg: (orgId: number) => void; // Function to update selectedOrg
+  setSelectedOrg: (orgId: number) => void;
 };
 
-// Create a context with the type of OrgProviderValues or undefined
 const OrgContext = createContext<OrgProviderValues | undefined>(undefined);
 
+/**
+ * Provider for values regarding the selected org
+ * @param children
+ * @constructor
+ */
 const OrgProvider = ({ children }: { children: React.ReactNode }) => {
   const [availableOrgIDs] = useState<number[]>([1, 2, 3]);
   const [selectedOrg, setSelectedOrg] = useState<number>(1);
@@ -19,7 +22,7 @@ const OrgProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         availableOrgIDs,
         selectedOrg,
-        setSelectedOrg, // Expose setSelectedOrg for updates
+        setSelectedOrg,
       }}>
       {children}
     </OrgContext.Provider>
