@@ -62,3 +62,12 @@ export const updateGradeRequest = async (gradeId: number, newName: string) => {
       throw new Error("Fejl: Kunne ikke opdatere klasse");
     });
 };
+
+export const deleteGradeRequest = async (gradeId: number) => {
+  return axiosInstance
+    .delete(`/grades/${gradeId}`)
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke slette din klasse");
+    });
+};
