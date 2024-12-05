@@ -14,6 +14,7 @@ export const addCitizenToGradeRequest = (citizenIds: number[], gradeId: number):
 export const fetchCitizenById = (citizenId: number): Promise<CitizenDTO> => {
   return axiosInstance
     .get(`/citizens/${citizenId}`)
+
     .then((res) => res.data)
     .catch(() => {
       throw new Error(`Fejl: Kunne ikke hente borger.`);

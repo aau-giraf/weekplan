@@ -15,7 +15,7 @@ export const fetchInvitationByUserRequest = async (userId: string) => {
 
 export const acceptInvitationRequest = (invitationId: number, isAccepted: boolean) => {
   return axiosInstance
-    .put(`/invitations/respond/${invitationId}?response=${isAccepted}`)
+    .put(`/invitations/respond/${invitationId}`, { response: isAccepted })
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Der opstod et problem med at acceptere invitation");
