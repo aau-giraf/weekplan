@@ -57,7 +57,7 @@ const Settings = () => {
         },
       },
       {
-        icon: "aperture-outline",
+        icon: "image-outline",
         label: "Se Billeder",
         onPress: () =>
           router.push({
@@ -66,7 +66,7 @@ const Settings = () => {
           }),
       },
       {
-        icon: "image-outline",
+        icon: "aperture-outline",
         label: "Tilføj Billeder",
         onPress: () =>
           router.push({
@@ -115,13 +115,13 @@ const Settings = () => {
         .mutateAsync(userId)
         .then(() => {
           addToast({ message: "Du har forladt organisationen", type: "success" });
+          closeBS();
+          router.replace("/auth/profile/profilepage");
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
         });
     }
-    closeBS();
-    router.back();
   };
 
   const handleDeleteOrganisation = async () => {

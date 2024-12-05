@@ -1,11 +1,11 @@
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import { tryLogin } from "../apis/loginAPI";
+import { tryLogin } from "../apis/authorizationAPI";
 import { useToast } from "../providers/ToastProvider";
 import AuthenticationProvider, { useAuthentication } from "../providers/AuthenticationProvider";
 import { router } from "expo-router";
 
 jest.mock("../apis/registerAPI");
-jest.mock("../apis/loginAPI");
+jest.mock("../apis/authorizationAPI");
 jest.mock("expo-router", () => ({
   router: {
     replace: jest.fn(),

@@ -19,7 +19,7 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const addToast = useCallback(
-    (toast: Omit<ToastProps, "id" | "onClose">, duration = 2500) => {
+    (toast: Omit<ToastProps, "id" | "onClose">, duration = 5000) => {
       const id = new Date().getTime();
       const toastWithId = { id, duration, ...toast };
       setToasts((prev) => [...prev, toastWithId]);
