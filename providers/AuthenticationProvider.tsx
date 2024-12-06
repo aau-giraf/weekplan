@@ -74,6 +74,7 @@ const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => 
     await setSettingsValue("Remember me", false);
     setJwt(null);
     setUserId(null);
+    router.dismissAll();
     router.replace("/auth/login");
   }, []);
 
