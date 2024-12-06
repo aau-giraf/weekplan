@@ -91,8 +91,6 @@ const AddActivity = () => {
       id: id,
       data: {
         activityId: -1,
-        name: " ",
-        description: " ",
         startTime: formattedStartTime,
         endTime: formattedEndTime,
         date: selectedDate.toISOString().split("T")[0],
