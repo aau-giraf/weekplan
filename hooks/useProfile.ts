@@ -30,7 +30,7 @@ export default function useProfile() {
   const queryClient = useQueryClient();
 
   const fetchProfile = useQuery<ProfileDTO>({
-    queryFn: async () => fetchProfileRequest(userId),
+    queryFn: async () => await fetchProfileRequest(userId),
     queryKey: [userId, "Profile"],
     enabled: !!userId,
   });
