@@ -47,7 +47,7 @@ export const removeCitizenFromGradeRequest = (citizenIds: number[], gradeId: num
 
 export const createNewGradeRequest = async (gradeName: string, orgId: number): Promise<GradeDTO> => {
   return axiosInstance
-    .post(`/grades`, { name: gradeName }, { params: { orgId } })
+    .post(`/grades/${orgId}`, { name: gradeName })
     .then((res) => res.data)
     .catch((error) => {
       throw new Error(error.message || "Fejl: Kunne ikke oprette klasse");
