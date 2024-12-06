@@ -164,7 +164,7 @@ test("updateActivity updates the activity in the list", async () => {
   });
 
   expect(queryClient.getQueryData<ActivityDTO[]>(key)).toEqual([
-    { ...localMock, activityId: 1, name: " " },
+    { ...localMock, activityId: 1 },
     { ...localMock, activityId: 2 },
   ]);
 });
