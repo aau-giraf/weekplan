@@ -93,7 +93,6 @@ const SwipeableList = <T,>({
       style={style}
       data={items}
       keyExtractor={keyExtractor}
-      bounces={false}
       itemLayoutAnimation={Platform.OS === "android" ? undefined : LinearTransition}
       renderItem={(info) => {
         const swipeableProps = reanimatedSwipeableProps?.(info.item);

@@ -1,6 +1,6 @@
 # Welcome to Weekplanner app 👋
 
-This is the **WeekPlanner App** for the Giraf system, a project developed at Aalborg University to support autistic children with little or no verbal communication. The app stores daily schedules and educational activities. This is the front-end component of the WeekPlanner, responsible for delivering an intuitive user interface for managing schedules. 
+This is the **WeekPlanner App** for the GIRAF project developed at Aalborg University to support autistic children with little or no verbal communication. The app stores daily schedules and educational activities. This is the frontend component of the WeekPlanner, responsible for delivering an intuitive user interface for managing schedules. 
 
 It relies on the **WeekPlanner-API** for functionality, including data retrieval, user authentication, and synchronisation with the production database.
 

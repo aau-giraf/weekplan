@@ -12,7 +12,6 @@ import { ActivityDTO } from "./useActivity";
 import { GradeDTO } from "./useGrades";
 import { createNewGradeRequest } from "../apis/gradeAPI";
 
-
 export type UserDTO = {
   id: string;
   firstName: string;

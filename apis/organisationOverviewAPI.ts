@@ -1,66 +1,43 @@
 import { OrgOverviewDTO } from "../hooks/useOrganisationOverview";
-import { BASE_URL } from "../utils/globals";
-import axios from "axios";
+import { axiosInstance } from "./axiosConfig";
 
-export const fetchAllOrganisationsRequest = async (userId: string) => {
+export const fetchAllOrganisationsRequest = (userId: string) => {
   if (!userId) {
     throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
   }
 
-  const url = `${BASE_URL}/organizations/user/${userId}`;
-  const res = await axios.get(url).catch((error) => {
-    if (error.response) {
-      throw new Error(error.message || "Fejl: Der opstod et problem med at hente organisationer");
-    }
-  });
-
-  if (!res) {
-    throw new Error("Fejl: Der opstod et problem med at hente organisationer");
-  }
-
-  return res.data;
-};
-
-export const deleteOrganisationRequest = async (userId: string | null, organisationId: number) => {
-  if (userId === null) {
-    throw new Error("FATAL FEJL: Bruger-ID er ikke korrekt initialiseret i din session.");
-  }
-
-  const url = `${BASE_URL}/organizations/${organisationId}`;
-  const res = await axios.delete(url).catch((error) => {
-    if (error.response) {
-      throw new Error(error.message || "Fejl: Der opstod et problem med at slette organisationen");
-    }
-  });
-
-  if (!res) {
-    throw new Error("Fejl: Der opstod et problem med at slette organisationen");
-  }
-};
-
-export const createOrganisationsRequest = async (
-  userId: string,
-  orgName: string
-): Promise<OrgOverviewDTO> => {
-  const params = new URLSearchParams();
-  params.append("id", userId);
-
-  const url = `${BASE_URL}/organizations?${params.toString()}`;
-  const payload = { name: orgName };
-
-  const res = await axios
-    .post(url, payload, {
-      headers: { "Content-Type": "application/json" },
-    })
-    .catch((error) => {
-      if (error.response) {
-        throw new Error(error.message || "Fejl: Der opstod et problem med at oprette organisation");
-      }
+  return axiosInstance
+    .get(`/organizations/user/${userId}`)
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Der opstod et problem med at hente organisationer");
     });
+};
 
-  if (!res) {
-    throw new Error("Fejl: Der opstod et problem med at oprette organisation");
-  }
+export const deleteOrganisationRequest = (organisationId: number) => {
+  return axiosInstance
+    .delete(`/organizations/${organisationId}`)
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Der opstod et problem med at slette organisationen");
+    });
+};
 
-  return res.data;
+export const createOrganisationsRequest = (userId: string, orgName: string): Promise<OrgOverviewDTO> => {
+  return axiosInstance
+    .post(
+      `/organizations`,
+      {
+        name: orgName,
+      },
+      {
+        params: {
+          id: userId,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Der opstod et problem med at oprette organisation");
+    });
 };

@@ -109,7 +109,6 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
       pictogram: formData.pictogram,
     };
 
-    console.log(data);
     updateActivity
       .mutateAsync(data)
       .catch((error) => addToast({ message: (error as any).message, type: "error" }))

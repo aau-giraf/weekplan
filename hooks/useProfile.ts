@@ -45,7 +45,7 @@ export default function useProfile() {
    * The query is enabled only if `userId` exists.
    */
   const fetchProfile = useQuery<ProfileDTO>({
-    queryFn: async () => fetchProfileRequest(userId),
+    queryFn: async () => await fetchProfileRequest(userId),
     queryKey: [userId, "Profile"],
     enabled: !!userId,
   });

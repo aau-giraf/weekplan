@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -183,8 +184,8 @@ const styles = StyleSheet.create({
     marginTop: "50%",
   },
   profilePicture: {
-    width: "20%",
-    maxHeight: ScaleSizeH(300),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
     aspectRatio: 1,
     borderRadius: 10000,
   },

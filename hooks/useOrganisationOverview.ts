@@ -44,7 +44,7 @@ const useOrganisationOverview = () => {
    * including optimistic updates to the cache.
    */
   const deleteOrganisation = useMutation({
-    mutationFn: (orgId: number) => deleteOrganisationRequest(userId!, orgId),
+    mutationFn: (orgId: number) => deleteOrganisationRequest(orgId),
     onMutate: async (orgId) => {
       await queryClient.cancelQueries({ queryKey });
 

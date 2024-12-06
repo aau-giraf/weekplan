@@ -18,7 +18,7 @@ import { InitialsPicture } from "../../../components/profilepicture_components/I
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const { userId } = useAuthentication();
+  const { userId, logout } = useAuthentication();
   const { data, isLoading, isError } = useProfile();
   const { data: orgData, isLoading: orgIsLoading, createOrganisation, refetch } = useOrganisationOverview();
   const { fetchByUser } = useInvitation();
@@ -35,7 +35,13 @@ const ProfilePage: React.FC = () => {
   if (isError || !data) {
     return (
       <View style={SharedStyles.centeredContainer}>
-        <Text>Profil data kunne ikke hentes</Text>
+        <TouchableOpacity
+          onPress={async () => {
+            await logout();
+            router.push("/auth/login");
+          }}>
+          <Text>Profil data kunne ikke hentes</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -72,7 +78,6 @@ const ProfilePage: React.FC = () => {
             renderItem={renderOrgContainer}
             keyExtractor={(item, index) => index.toString() + item.name}
             numColumns={1}
-            bounces={false}
             ListEmptyComponent={<Text style={styles.notFound}>Ingen organisationer fundet</Text>}
             ListHeaderComponent={
               <View style={styles.headerContainer}>

@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -16,7 +17,7 @@ import {
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 import { useToast } from "../../../../providers/ToastProvider";
-import { colors, ScaleSize, ScaleSizeH, SharedStyles } from "../../../../utils/SharedStyles";
+import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import RenderSetting from "../../../../components/RenderSetting";
 import { Ionicons } from "@expo/vector-icons";
@@ -56,7 +57,7 @@ const Settings = () => {
         },
       },
       {
-        icon: "aperture-outline",
+        icon: "image-outline",
         label: "Se Billeder",
         onPress: () =>
           router.push({
@@ -65,7 +66,7 @@ const Settings = () => {
           }),
       },
       {
-        icon: "image-outline",
+        icon: "aperture-outline",
         label: "Tilføj Billeder",
         onPress: () =>
           router.push({
@@ -114,13 +115,13 @@ const Settings = () => {
         .mutateAsync(userId)
         .then(() => {
           addToast({ message: "Du har forladt organisationen", type: "success" });
+          closeBS();
+          router.replace("/auth/profile/profilepage");
         })
         .catch((error) => {
           addToast({ message: error.message, type: "error" });
         });
     }
-    closeBS();
-    router.back();
   };
 
   const handleDeleteOrganisation = async () => {
@@ -299,8 +300,8 @@ const styles = StyleSheet.create({
     borderTopColor: colors.black,
   },
   mainProfilePicture: {
-    width: "50%",
-    maxHeight: ScaleSizeH(250),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
     aspectRatio: 1,
     borderRadius: 10000,
   },

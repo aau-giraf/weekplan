@@ -45,6 +45,7 @@ jest.mock("../apis/profileAPI", () => ({
 }));
 
 test("deleteUser should invoke deleteUserRequest with correct data", async () => {
+  jest.useFakeTimers();
   const { result } = renderHook(() => useProfile(), { wrapper });
 
   await act(async () => {
@@ -58,6 +59,7 @@ test("deleteUser should invoke deleteUserRequest with correct data", async () =>
 });
 
 test("deleteUser should handle edge case when userId is undefined", async () => {
+  jest.useFakeTimers();
   const { result } = renderHook(() => useProfile(), { wrapper });
 
   await act(async () => {
@@ -70,6 +72,7 @@ test("deleteUser should handle edge case when userId is undefined", async () => 
 });
 
 test("UpdateProfile should update profile data", async () => {
+  jest.useFakeTimers();
   const { result } = renderHook(() => useProfile(), { wrapper });
 
   await act(async () => {

@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
     marginBottom: ScaleSize(10),
   },
   gradeView: {
-    flexWrap: "wrap",
     backgroundColor: colors.lightBlue,
   },
   iconViewAddButton: {
