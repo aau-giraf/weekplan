@@ -25,8 +25,6 @@ const queryClient = new QueryClient({
 const mockActivity: FullActivityDTO = {
   citizenId: 1,
   activityId: 1,
-  name: " ",
-  description: " ",
   startTime: "19:00:00",
   endTime: "21:00:00",
   date: "2024-10-13",
@@ -158,7 +156,6 @@ test("updateActivity updates the activity in the list", async () => {
     ]);
     await result.current.updateActivity.mutateAsync({
       ...mockActivity,
-      name: " ",
     });
   });
 
