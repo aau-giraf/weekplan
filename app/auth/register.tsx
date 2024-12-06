@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormField from "../../components/forms/TextInput";
@@ -88,72 +88,74 @@ const RegisterScreen: React.FC = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
       <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
-        <View style={{ flexGrow: 1 }}>
-          <ProgressSteps ref={progressRef}>
-            <FormContainer style={styles.stepContainer}>
-              <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
-              <FormField
-                control={control}
-                name="firstName"
-                placeholder="Fornavn"
-                textContentType="givenName"
-              />
-              <FormField
-                control={control}
-                name="lastName"
-                placeholder="Efternavn"
-                textContentType="familyName"
-              />
-              <FormField
-                control={control}
-                name="email"
-                placeholder="E-mail"
-                textContentType={"emailAddress"}
-              />
-              <FormField
-                control={control}
-                name="password"
-                placeholder="Adgangskode"
-                secureTextEntry
-                textContentType="oneTimeCode"
-              />
-              <FormField
-                control={control}
-                name="confirmPassword"
-                placeholder="Bekræft adgangskode"
-                secureTextEntry
-                textContentType="oneTimeCode"
-              />
-              <PrivacyPolicy />
-              <SubmitButton
-                label="Opret bruger"
-                isValid={isValid}
-                isSubmitting={isSubmitting}
-                handleSubmit={handleRegister}
-              />
-              <SecondaryButton onPress={() => router.replace("/auth/login")} label="Tilbage til Log ind" />
-            </FormContainer>
-            <FormContainer style={styles.stepContainer}>
-              <View style={styles.profileContainer}>
-                <UploadProfilePicture
-                  style={styles.mainProfilePicture}
-                  label={label}
-                  imageURI={imageUri}
-                  key={imageUri}
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
+          <View style={{ flexGrow: 1 }}>
+            <ProgressSteps ref={progressRef}>
+              <FormContainer style={styles.stepContainer}>
+                <GirafIcon width={ScaleSizeW(300)} height={ScaleSizeH(300)} />
+                <FormField
+                  control={control}
+                  name="firstName"
+                  placeholder="Fornavn"
+                  textContentType="givenName"
                 />
-              </View>
-              <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
-              <SecondaryButton
-                style={{ backgroundColor: colors.green }}
-                label="Upload billede"
-                disabled={!imageUri}
-                onPress={handleSubmitPicture}
-              />
-              <SecondaryButton label="Spring over" onPress={() => router.replace("/auth/login")} />
-            </FormContainer>
-          </ProgressSteps>
-          <View style={styles.navigationButtons}></View>
-        </View>
+                <FormField
+                  control={control}
+                  name="lastName"
+                  placeholder="Efternavn"
+                  textContentType="familyName"
+                />
+                <FormField
+                  control={control}
+                  name="email"
+                  placeholder="E-mail"
+                  textContentType="emailAddress"
+                />
+                <FormField
+                  control={control}
+                  name="password"
+                  placeholder="Adgangskode"
+                  secureTextEntry
+                  textContentType="oneTimeCode"
+                />
+                <FormField
+                  control={control}
+                  name="confirmPassword"
+                  placeholder="Bekræft adgangskode"
+                  secureTextEntry
+                  textContentType="oneTimeCode"
+                />
+                <PrivacyPolicy />
+                <SubmitButton
+                  label="Opret bruger"
+                  isValid={isValid}
+                  isSubmitting={isSubmitting}
+                  handleSubmit={handleRegister}
+                />
+                <SecondaryButton onPress={() => router.replace("/auth/login")} label="Tilbage til Log ind" />
+              </FormContainer>
+              <FormContainer style={styles.stepContainer}>
+                <View style={styles.profileContainer}>
+                  <UploadProfilePicture
+                    style={styles.mainProfilePicture}
+                    label={label}
+                    imageURI={imageUri}
+                    key={imageUri}
+                  />
+                </View>
+                <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
+                <SecondaryButton
+                  style={{ backgroundColor: colors.green }}
+                  label="Upload billede"
+                  disabled={!imageUri}
+                  onPress={handleSubmitPicture}
+                />
+                <SecondaryButton label="Spring over" onPress={() => router.replace("/auth/login")} />
+              </FormContainer>
+            </ProgressSteps>
+            <View style={styles.navigationButtons}></View>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
