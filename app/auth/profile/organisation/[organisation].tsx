@@ -48,15 +48,7 @@ const ViewOrganisation = () => {
 
   const closeCreateBS = () => createBottomSheetRef.current?.close();
 
-  const handleCreateGrade = async (
-    gradeName: string,
-    control: Control<
-      {
-        gradeName: string;
-      },
-      any
-    >
-  ) => {
+  const handleCreateGrade = async (gradeName: string) => {
     await createGrade.mutateAsync(gradeName).catch((error: Error) => {
       addToast({ message: error.message, type: "error" });
     });

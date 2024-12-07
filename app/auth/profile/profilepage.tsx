@@ -169,7 +169,7 @@ const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps
           isValid={isValid}
           isSubmitting={isSubmitting}
           handleSubmit={handleSubmit}
-          label="Tilføj klasse"
+          label="Tilføj Organisation"
         />
       </BottomSheetScrollView>
     </BottomSheet>
