@@ -1,9 +1,9 @@
-import React, { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import IconButton from "../../../components/IconButton";
-import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import useProfile from "../../../hooks/useProfile";
 import useOrganisationOverview, { OrgOverviewDTO } from "../../../hooks/useOrganisationOverview";
 import { UseMutationResult } from "@tanstack/react-query";
@@ -11,10 +11,20 @@ import { useToast } from "../../../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import { router } from "expo-router";
-import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { InitialsPicture } from "../../../components/profilepicture_components/InitialsPicture";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import FormField from "../../../components/forms/TextInput";
+import SubmitButton from "../../../components/forms/SubmitButton";
+
+const schema = z.object({
+  name: z.string().trim().min(2, { message: "Navn er for kort" }),
+});
+
+export type FormData = z.infer<typeof schema>;
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -118,14 +128,20 @@ type BottomSheetProps = {
   createOrganisation: UseMutationResult<OrgOverviewDTO, Error, string, OrgOverviewDTO[]>;
 };
 const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps) => {
-  const [name, setName] = useState("");
+  const {
+    control,
+    formState: { isSubmitting, isValid },
+    getValues,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+  });
   const { addToast } = useToast();
 
   const handleSubmit = () => {
     createOrganisation
-      .mutateAsync(name)
+      .mutateAsync(getValues("name"))
       .then(() => {
-        setName("");
         bottomSheetRef.current?.close();
       })
       .catch((e) => {
@@ -139,20 +155,15 @@ const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
-      onClose={() => setName("")}
       style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
       <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
-        <BottomSheetTextInput
-          style={SharedStyles.inputValid}
-          placeholder="Navn på organisation"
-          value={name}
-          onChangeText={setName}
-        />
-        <SecondaryButton
-          label="Opret organisation"
-          style={{ backgroundColor: colors.green }}
-          onPress={handleSubmit}
+        <FormField control={control} name="name" placeholder="Organisations navn" />
+        <SubmitButton
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+          handleSubmit={handleSubmit}
+          label={"Opret organisation"}
         />
       </BottomSheetScrollView>
     </BottomSheet>
