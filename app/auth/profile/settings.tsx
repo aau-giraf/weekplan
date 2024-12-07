@@ -27,6 +27,7 @@ const Settings = () => {
         onPress: () => {
           router.push("/auth/profile/viewinvitation");
         },
+        notification: inviteData && inviteData.length > 0,
       },
       {
         icon: "person-outline",
@@ -68,7 +69,7 @@ const Settings = () => {
         },
       },
     ],
-    [logout]
+    [inviteData, logout]
   );
 
   useEffect(() => {
@@ -114,7 +115,6 @@ const Settings = () => {
                   item={item}
                   toggleStates={toggleStates}
                   handleToggleChange={handleToggleChange}
-                  hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
                 />
               </View>
             )}
