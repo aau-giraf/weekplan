@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -21,8 +21,8 @@ import FormContainer from "../../components/forms/FormContainer";
 const schema = z
   .object({
     email: z.string().email("Indtast en gyldig e-mailadresse").trim(),
-    firstName: z.string().min(2, "Fornavn skal være mindst 2 tegn").trim(),
-    lastName: z.string().min(2, "Efternavn skal være mindst 2 tegn").trim(),
+    firstName: z.string().trim().min(2, "Fornavn skal være mindst 2 tegn").trim(),
+    lastName: z.string().trim().min(2, "Efternavn skal være mindst 2 tegn").trim(),
     password: z
       .string()
       .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/, {

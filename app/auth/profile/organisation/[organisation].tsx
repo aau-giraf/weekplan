@@ -5,11 +5,21 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
-import React, { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { useToast } from "../../../../providers/ToastProvider";
-import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GradeView } from "../../../../components/organisationoverview_components/GradeView";
-import SecondaryButton from "../../../../components/forms/SecondaryButton";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import FormField from "../../../../components/forms/TextInput";
+import SubmitButton from "../../../../components/forms/SubmitButton";
+
+const schema = z.object({
+  gradeName: z.string().trim().min(2, { message: "Navn er for kort" }),
+});
+
+export type FormData = z.infer<typeof schema>;
 
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
@@ -120,7 +130,14 @@ type CreateGradeButtomSheetProps = {
 };
 
 const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeButtomSheetProps) => {
-  const [gradeName, setGradeName] = useState("");
+  const {
+    control,
+    formState: { isSubmitting, isValid },
+    getValues,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+  });
 
   return (
     <BottomSheet
@@ -128,20 +145,15 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
       enablePanDownToClose={true}
       keyboardBlurBehavior="restore"
       index={-1}
-      onClose={() => setGradeName("")}
       style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
       <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
-        <BottomSheetTextInput
-          style={SharedStyles.inputValid}
-          placeholder="Navn på klasse"
-          value={gradeName}
-          onChangeText={(value: string) => setGradeName(value)}
-        />
-        <SecondaryButton
-          label="Bekræft"
-          style={{ backgroundColor: colors.blue, width: ScaleSize(500), marginBottom: ScaleSize(25) }}
-          onPress={() => handleConfirm(gradeName)}
+        <FormField control={control} name="gradeName" placeholder="Navn på klasse" />
+        <SubmitButton
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+          handleSubmit={() => handleConfirm(getValues("gradeName"))}
+          label="Tilføj klasse"
         />
       </BottomSheetScrollView>
     </BottomSheet>
