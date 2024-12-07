@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import React, { Fragment, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
-import { colors } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { useToast } from "../../../../../providers/ToastProvider";
+import SafeArea from "../../../../../components/SafeArea";
 
 const ViewMembers = () => {
   const { members } = useLocalSearchParams();
@@ -27,26 +26,22 @@ const ViewMembers = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-      <ListView
-        data={filteredData}
-        loadingMessage="Henter medlemmer..."
-        errorMessage="Fejl med at hente medlemmer"
-        isLoading={isLoading}
-        error={!!error}
-        handleDelete={handleDelete}
-        getLabel={(member) => `${member.firstName} ${member.lastName}`}
-        keyExtractor={(member) => member.id.toString()}
-      />
-    </SafeAreaView>
+    <Fragment>
+      <SafeArea>
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
+        <ListView
+          data={filteredData}
+          loadingMessage="Henter medlemmer..."
+          errorMessage="Fejl med at hente medlemmer"
+          isLoading={isLoading}
+          error={!!error}
+          handleDelete={handleDelete}
+          getLabel={(member) => `${member.firstName} ${member.lastName}`}
+          keyExtractor={(member) => member.id.toString()}
+        />
+      </SafeArea>
+    </Fragment>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-});
 export default ViewMembers;

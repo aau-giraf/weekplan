@@ -10,8 +10,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { UploadProfilePicture } from "../../../../../components/profilepicture_components/UploadProfilePicture";
+import SafeArea from "../../../../../components/SafeArea";
 
 const schema = z.object({
   piktogramURI: z.string().nonempty("Piktogramnavn må ikke være tomt"),
@@ -61,7 +61,7 @@ const UploadPictogram = () => {
   };
 
   return (
-    <SafeAreaView style={{ flexGrow: 1, backgroundColor: colors.white }}>
+    <SafeArea>
       <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>
@@ -94,7 +94,7 @@ const UploadPictogram = () => {
           />
         </FormContainer>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

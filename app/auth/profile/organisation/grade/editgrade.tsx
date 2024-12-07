@@ -11,6 +11,7 @@ import FormHeader from "../../../../../components/forms/FormHeader";
 import FormField from "../../../../../components/forms/TextInput";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useToast } from "../../../../../providers/ToastProvider";
+import SafeArea from "../../../../../components/SafeArea";
 
 const schema = z.object({
   name: z.string().trim().min(2, { message: "Navn er for kort" }),
@@ -69,6 +70,7 @@ const EditGrade: React.FC = () => {
 
   return (
     <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
+      <SafeArea />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title={`Rediger klasse: ${currentGrade?.name}`} />
         <FormField control={control} name="name" placeholder={"Navn"} />

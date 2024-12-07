@@ -1,16 +1,9 @@
 import React, { Fragment } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  ListRenderItem,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, Text, View } from "react-native";
 import { colors, ScaleSize, SharedStyles } from "../../../utils/SharedStyles";
 import useInvitation from "../../../hooks/useInvitation";
 import { Ionicons } from "@expo/vector-icons";
+import SafeArea from "../../../components/SafeArea";
 
 type Invitation = {
   id: number;
@@ -72,7 +65,7 @@ const ViewInvitation = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <SafeArea style={{ backgroundColor: colors.white }} />
       <View style={styles.container}>
         <Text style={SharedStyles.header}>Invitations</Text>
         <FlatList

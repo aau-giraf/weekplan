@@ -5,11 +5,12 @@ import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { colors, ScaleSize, SharedStyles } from "../../../../../utils/SharedStyles";
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
+import SafeArea from "../../../../../components/SafeArea";
 
 type Citizen = {
   id: number | string;
@@ -90,8 +91,8 @@ const ViewCitizen = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-        <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+      <SafeArea>
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
         <ListView
           data={filteredData}
           loadingMessage="Henter borgere..."
@@ -113,7 +114,7 @@ const ViewCitizen = () => {
             router.push("/auth/profile/organisation/weekplanscreen");
           }}
         />
-      </SafeAreaView>
+      </SafeArea>
       <UpdateCitizenBottomSheet
         bottomSheetRef={bottomSheetRef}
         citizenInfo={citizenInfo}

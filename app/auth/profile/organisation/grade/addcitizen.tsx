@@ -4,7 +4,6 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  SafeAreaView,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
@@ -18,6 +17,7 @@ import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
 import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
+import SafeArea from "../../../../../components/SafeArea";
 
 type Params = {
   gradeId: string;
@@ -110,7 +110,7 @@ const AddCitizen = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeArea />
       <View style={styles.container}>
         <View>
           <Text style={SharedStyles.heading}>Tilføj elever til klasse</Text>
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    backgroundColor: colors.white,
   },
   citizenList: {
     flexGrow: 1,

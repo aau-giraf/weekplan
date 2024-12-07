@@ -9,6 +9,7 @@ import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../.
 import SearchBar from "../../../../../components/SearchBar";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
+import SafeArea from "../../../../../components/SafeArea";
 
 type Citizen = {
   firstName: string;
@@ -68,32 +69,31 @@ const ViewGrade = () => {
 
   return (
     <Fragment>
-      <SafeAreaView>
-        <View>
-          <View style={{ alignItems: "center" }}>
-            <Text style={styles.gradeName}>{currentGrade?.name ?? "Klasse"}</Text>
-            <IconButton
-              style={styles.settings}
-              onPress={() =>
-                router.push({
-                  pathname: "/auth/profile/organisation/grade/settings",
-                  params: { gradeId: grade },
-                })
-              }>
-              <Ionicons name="settings-outline" size={ScaleSize(64)} />
-            </IconButton>
-          </View>
+      <SafeArea>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.gradeName}>{currentGrade?.name ?? "Klasse"}</Text>
+          <IconButton
+            style={styles.settings}
+            onPress={() =>
+              router.push({
+                pathname: "/auth/profile/organisation/grade/settings",
+                params: { gradeId: grade },
+              })
+            }>
+            <Ionicons name="settings-outline" size={ScaleSize(64)} />
+          </IconButton>
         </View>
-      </SafeAreaView>
-      <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
-      <FlatList
-        bounces={false}
-        data={currentGrade ? sortedCitizen(currentGrade) : []}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.citizenList}
-        renderItem={({ item }) => renderCitizen(item)}
-        ListEmptyComponent={<Text style={styles.notFound}>Ingen elever fundet</Text>}
-      />
+
+        <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
+        <FlatList
+          bounces={false}
+          data={currentGrade ? sortedCitizen(currentGrade) : []}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.citizenList}
+          renderItem={({ item }) => renderCitizen(item)}
+          ListEmptyComponent={<Text style={styles.notFound}>Ingen elever fundet</Text>}
+        />
+      </SafeArea>
       <View style={styles.viewCalendarButton}>
         <IconButton
           style={styles.calendarButton}

@@ -1,4 +1,4 @@
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import CameraButton from "../../../components/CameraButton";
 import SecondaryButton from "../../../components/forms/SecondaryButton";
@@ -11,6 +11,7 @@ import FormContainer from "../../../components/forms/FormContainer";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useProfilePictureUpdater } from "../../../providers/ProfilePictureUpdaterProvider";
 import { UploadProfilePicture } from "../../../components/profilepicture_components/UploadProfilePicture";
+import SafeArea from "../../../components/SafeArea";
 
 const ChangeProfilePicture = () => {
   const [label] = useState<string>("");
@@ -31,7 +32,7 @@ const ChangeProfilePicture = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
+    <SafeArea>
       <FormContainer style={styles.container}>
         <View style={styles.profileContainer}>
           {imageUri ? (
@@ -47,9 +48,9 @@ const ChangeProfilePicture = () => {
           disabled={!imageUri}
           onPress={handleSubmitPicture}
         />
-        <SecondaryButton label="Gå tilbage" onPress={() => router.replace("/auth/profile/settings")} />
+        <SecondaryButton label="Gå tilbage" onPress={() => router.back()} />
       </FormContainer>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 
