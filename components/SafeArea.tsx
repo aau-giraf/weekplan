@@ -12,7 +12,6 @@ type SafeAreaProps = {
 
 const SafeArea = ({ children, style }: SafeAreaProps) => {
   if (router.canGoBack() && children) {
-    console.log("1");
     return (
       <SafeAreaView style={[styles.safeArea, style]}>
         <Pressable style={styles.backButton} onPress={() => router.back()}>
@@ -24,12 +23,10 @@ const SafeArea = ({ children, style }: SafeAreaProps) => {
   }
 
   if (children) {
-    console.log("2");
     return <SafeAreaView style={[styles.safeArea, style]}>{children}</SafeAreaView>;
   }
 
   if (router.canGoBack() && !children) {
-    console.log("3");
     return (
       <Fragment>
         <SafeAreaView style={[{ backgroundColor: colors.white }, style]} />
@@ -40,7 +37,6 @@ const SafeArea = ({ children, style }: SafeAreaProps) => {
     );
   }
 
-  console.log("4");
   return <SafeAreaView style={style} />;
 };
 

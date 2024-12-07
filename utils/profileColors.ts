@@ -28,7 +28,6 @@ export function hashNameToColour(name: string): string {
   });
 
   const index = Math.abs(hash % 20);
-  console.log("index", index);
   return colorMap[index];
 }
 
