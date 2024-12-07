@@ -7,12 +7,11 @@ import useOrganisation from "../../../../hooks/useOrganisation";
 import IconButton from "../../../../components/IconButton";
 import { Fragment, useRef } from "react";
 import { useToast } from "../../../../providers/ToastProvider";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { GradeView } from "../../../../components/organisationoverview_components/GradeView";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import FormField from "../../../../components/forms/TextInput";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import SafeArea from "../../../../components/SafeArea";
 
@@ -129,14 +128,13 @@ type CreateGradeButtomSheetProps = {
 
 const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeButtomSheetProps) => {
   const {
-    control,
     formState: { isSubmitting, isValid },
     getValues,
+    setValue,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "onChange",
   });
-
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -146,11 +144,20 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
       style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
       <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
-        <FormField control={control} name="gradeName" placeholder="Navn på klasse" />
+        <BottomSheetTextInput
+          label="Klassenavn"
+          name="gradeName"
+          style={SharedStyles.inputValid}
+          onChangeText={(value: string) => {
+            setValue("gradeName", value, { shouldValidate: true });
+          }}
+        />
         <SubmitButton
           isValid={isValid}
           isSubmitting={isSubmitting}
-          handleSubmit={() => handleConfirm(getValues("gradeName"))}
+          handleSubmit={() => {
+            handleConfirm(getValues("gradeName"));
+          }}
           label="Tilføj klasse"
         />
       </BottomSheetScrollView>
