@@ -116,6 +116,7 @@ const ViewCitizen = () => {
           }}
         />
       </SafeArea>
+
       <UpdateCitizenBottomSheet
         bottomSheetRef={bottomSheetRef}
         citizenInfo={citizenInfo}
