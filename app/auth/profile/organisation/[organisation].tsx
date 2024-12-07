@@ -145,8 +145,7 @@ const CreateGradeButtomSheet = ({ bottomSheetRef, handleConfirm }: CreateGradeBu
       <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Tilføj en klasse</Text>
         <BottomSheetTextInput
-          label="Klassenavn"
-          name="gradeName"
+          placeholder="Klasse navn"
           style={SharedStyles.inputValid}
           onChangeText={(value: string) => {
             setValue("gradeName", value, { shouldValidate: true });
