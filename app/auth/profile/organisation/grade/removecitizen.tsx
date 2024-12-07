@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import React, { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
@@ -60,7 +60,7 @@ const RemoveCitizen = () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await removeCitizenFromGrade
-        .mutateAsync(citizenIds)
+        .mutateAsync({ citizenIds, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Elever fjernet", type: "success" }, 1500);
           toggleCitizenSelection(null);

@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import React, { useState, useMemo, Fragment } from "react";
+import { useState, useMemo, Fragment } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
@@ -58,7 +58,7 @@ const AddCitizen = () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await addCitizenToGrade
-        .mutateAsync(citizenIds)
+        .mutateAsync({ citizenIds, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Elever tilføjet", type: "success" }, 1500);
           toggleCitizenSelection(null);

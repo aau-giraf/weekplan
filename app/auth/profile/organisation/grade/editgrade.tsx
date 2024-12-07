@@ -3,7 +3,6 @@ import { z } from "zod";
 import { router, useLocalSearchParams } from "expo-router";
 import useGrades from "../../../../../hooks/useGrades";
 import { colors, SharedStyles } from "../../../../../utils/SharedStyles";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormContainer from "../../../../../components/forms/FormContainer";
@@ -56,7 +55,7 @@ const EditGrade: React.FC = () => {
   const onSubmit = async (formData: FormData) => {
     if (formData.name !== data?.name) {
       await updateGrade
-        .mutateAsync(formData.name)
+        .mutateAsync({ gradeName: formData.name, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Klassen er blevet opdateret", type: "success" }, 2500);
           router.back();
