@@ -50,47 +50,57 @@ const ViewOrganisation = () => {
   return (
     <Fragment>
       <SafeArea>
-        <View style={{ flex: 1 }}>
-          <View style={{ alignItems: "center", flex: 1 }}>
-            <Text style={styles.OrgName}>{data?.name ?? "Organisation"}</Text>
-            <IconButton
-              style={styles.settings}
-              onPress={() =>
-                router.push({
-                  pathname: "/auth/profile/organisation/settings",
-                  params: { organisation: parsedId },
-                })
-              }>
-              <Ionicons name="settings-outline" size={ScaleSize(64)} />
-            </IconButton>
-            <Text style={styles.heading}>Medlemmer</Text>
-            <CutoffList
-              entries={data?.users ?? []}
-              onPress={() => {
-                router.push(`/auth/profile/organisation/members/${parsedId}`);
-              }}
-            />
-            <Text style={styles.heading}>Borger</Text>
-            <CutoffList
-              entries={data?.citizens ?? []}
-              onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
-            />
-            <FlatList
-              ListHeaderComponent={
-                <View style={styles.classContainer}>
-                  <Text style={styles.classText}>Klasser</Text>
+        <View style={{ flex: 1, backgroundColor: colors.lightBlue }}>
+          <FlatList
+            ListEmptyComponent={<Text style={styles.notFound}>Ingen klasser fundet</Text>}
+            contentContainerStyle={[styles.gradeView, { flexGrow: 1 }]}
+            data={data?.grades ?? []}
+            bounces={false}
+            numColumns={1}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <GradeView grades={[item]} />}
+            ListHeaderComponent={
+              <Fragment>
+                <View
+                  style={{
+                    alignItems: "center",
+                    borderBottomLeftRadius: 30,
+                    borderBottomRightRadius: 30,
+                    paddingBottom: ScaleSize(20),
+                    backgroundColor: colors.white,
+                  }}>
+                  <Text style={styles.OrgName}>{data?.name ?? "Organisation"}</Text>
+                  <IconButton
+                    style={styles.settings}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/auth/profile/organisation/settings",
+                        params: { organisation: parsedId },
+                      })
+                    }>
+                    <Ionicons name="settings-outline" size={ScaleSize(64)} />
+                  </IconButton>
+                  <Text style={styles.heading}>Medlemmer</Text>
+                  <CutoffList
+                    entries={data?.users ?? []}
+                    onPress={() => {
+                      router.push(`/auth/profile/organisation/members/${parsedId}`);
+                    }}
+                  />
+                  <Text style={styles.heading}>Borger</Text>
+                  <CutoffList
+                    entries={data?.citizens ?? []}
+                    onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}
+                  />
                 </View>
-              }
-              ListEmptyComponent={<Text style={styles.notFound}>Ingen klasser fundet</Text>}
-              contentContainerStyle={[styles.gradeView, { flexGrow: 1 }]}
-              data={data?.grades ?? []}
-              bounces={false}
-              numColumns={1}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <GradeView grades={[item]} />}
-            />
-          </View>
+                <View style={{ padding: 10 }}>
+                  <Text style={styles.heading}>Klasser</Text>
+                </View>
+              </Fragment>
+            }
+          />
         </View>
+
         <View style={styles.iconViewAddButton}>
           <IconButton onPress={openCreateBS} absolute={true} style={styles.iconAddButton}>
             <Ionicons name={"add-outline"} size={ScaleSize(50)} />
@@ -151,6 +161,12 @@ const styles = StyleSheet.create({
     ...SharedStyles.flexRow,
     gap: ScaleSizeW(10),
     alignItems: "center",
+  },
+  title: {
+    padding: ScaleSize(15),
+    fontSize: ScaleSize(40),
+    fontWeight: "bold",
+    textAlign: "center",
   },
   classContainer: {
     justifyContent: "center",
