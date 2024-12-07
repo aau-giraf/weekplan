@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Fragment, useCallback, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import SwipeableList from "../../../../components/swipeablelist/SwipeableList";
 import SubmitButton from "../../../../components/forms/SubmitButton";

@@ -1,5 +1,6 @@
 import { Fragment, useRef } from "react";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import IconButton from "../../../components/IconButton";
@@ -14,7 +15,6 @@ import { router } from "expo-router";
 import useInvitation from "../../../hooks/useInvitation";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { InitialsPicture } from "../../../components/profilepicture_components/InitialsPicture";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

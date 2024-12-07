@@ -1,5 +1,16 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { ScrollView, View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import RenderSetting from "../../../components/RenderSetting";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";

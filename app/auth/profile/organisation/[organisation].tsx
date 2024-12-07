@@ -14,13 +14,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import FormField from "../../../../components/forms/TextInput";
 import SubmitButton from "../../../../components/forms/SubmitButton";
+import SafeArea from "../../../../components/SafeArea";
 
 const schema = z.object({
   gradeName: z.string().trim().min(2, { message: "Navn er for kort" }),
 });
 
 export type FormData = z.infer<typeof schema>;
-import SafeArea from "../../../../components/SafeArea";
+
+
+
+
 
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
