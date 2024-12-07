@@ -24,8 +24,9 @@ export default function useGrades(gradeId: number) {
   });
 
   const addCitizenToGrade = useMutation({
-    mutationFn: (citizenIds: number[]) => addCitizenToGradeRequest(citizenIds, gradeId),
-    onMutate: async (citizenIds: number[]) => {
+    mutationFn: ({ citizenIds, orgId }: { citizenIds: number[]; orgId: number }) =>
+      addCitizenToGradeRequest(citizenIds, gradeId, orgId),
+    onMutate: async ({ citizenIds }: { citizenIds: number[] }) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousGrade = queryClient.getQueryData<FullOrgDTO>(queryKey);
@@ -62,8 +63,9 @@ export default function useGrades(gradeId: number) {
   });
 
   const removeCitizenFromGrade = useMutation({
-    mutationFn: async (citizenIds: number[]) => removeCitizenFromGradeRequest(citizenIds, gradeId),
-    onMutate: async (citizenIds: number[]) => {
+    mutationFn: async ({ citizenIds, orgId }: { citizenIds: number[]; orgId: number }) =>
+      removeCitizenFromGradeRequest(citizenIds, gradeId, orgId),
+    onMutate: async ({ citizenIds }: { citizenIds: number[] }) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
@@ -99,8 +101,9 @@ export default function useGrades(gradeId: number) {
   });
 
   const updateGrade = useMutation({
-    mutationFn: (gradeName: string) => updateGradeRequest(gradeId, gradeName),
-    onMutate: async (gradeName: string) => {
+    mutationFn: ({ gradeName, orgId }: { gradeName: string; orgId: number }) =>
+      updateGradeRequest(gradeId, gradeName, orgId),
+    onMutate: async ({ gradeName }: { gradeName: string }) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);

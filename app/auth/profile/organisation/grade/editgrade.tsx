@@ -57,7 +57,7 @@ const EditGrade: React.FC = () => {
   const onSubmit = async (formData: FormData) => {
     if (formData.name !== data?.name) {
       await updateGrade
-        .mutateAsync(formData.name)
+        .mutateAsync({ gradeName: formData.name, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Klassen er blevet opdateret", type: "success" }, 2500);
           router.back();
