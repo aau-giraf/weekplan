@@ -3,7 +3,7 @@ import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Fragment } from "react";
-import { colors } from "../utils/SharedStyles";
+import { colors, ScaleSize } from "../utils/SharedStyles";
 
 type SafeAreaProps = {
   children?: React.ReactNode;
@@ -16,7 +16,7 @@ const SafeArea = ({ children, style }: SafeAreaProps) => {
     return (
       <SafeAreaView style={[styles.safeArea, style]}>
         <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
+          <Ionicons name="arrow-back-outline" size={ScaleSize(40)} style={{ alignSelf: "center" }} />
         </Pressable>
         {children}
       </SafeAreaView>
@@ -34,7 +34,7 @@ const SafeArea = ({ children, style }: SafeAreaProps) => {
       <Fragment>
         <SafeAreaView style={[{ backgroundColor: colors.white }, style]} />
         <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
+          <Ionicons name="arrow-back-outline" size={ScaleSize(40)} style={{ alignSelf: "center" }} />
         </Pressable>
       </Fragment>
     );

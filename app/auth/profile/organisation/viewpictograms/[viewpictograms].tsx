@@ -1,13 +1,14 @@
 import { FlatList } from "react-native-gesture-handler";
-
-import { Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { Fragment } from "react";
+import SearchBar from "../../../../../components/SearchBar";
+import { Image, Text, StyleSheet, TouchableOpacity, Alert, View } from "react-native";
+import { Fragment, useState } from "react";
 import { BASE_URL } from "../../../../../utils/globals";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import { useLocalSearchParams } from "expo-router";
 import usePictogram, { Pictogram } from "../../../../../hooks/usePictogram";
 import { useToast } from "../../../../../providers/ToastProvider";
 import SafeArea from "../../../../../components/SafeArea";
+import useSearch from "../../../../../hooks/useSearch";
 
 const ViewPictograms = () => {
   const { viewpictograms } = useLocalSearchParams();
@@ -16,6 +17,8 @@ const ViewPictograms = () => {
   const { addToast } = useToast();
   const { data, fetchNextPage } = fetchAllPictrograms;
   const pictograms = data?.pages?.flat();
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleDelete = async (item: Pictogram) => {
     Alert.alert("Slet piktogram", `Er du sikker på at du vil slette ${item.pictogramName}?`, [
@@ -40,6 +43,8 @@ const ViewPictograms = () => {
     ]);
   };
 
+  const filteredPictures = useSearch(pictograms || [], searchQuery, (pictogram) => pictogram.pictogramName);
+
   const renderItem = ({ item }: { item: Pictogram }) => {
     const uri = `${BASE_URL}/${item.pictogramUrl}`;
     return (
@@ -52,17 +57,20 @@ const ViewPictograms = () => {
 
   return (
     <Fragment>
-      <SafeArea />
-      <FlatList
-        bounces={false}
-        contentContainerStyle={styles.flatListContent}
-        columnWrapperStyle={{ justifyContent: "space-around" }}
-        numColumns={2}
-        data={pictograms}
-        renderItem={renderItem}
-        onEndReached={() => fetchNextPage()}
-        onEndReachedThreshold={0.2}
-      />
+      <View style={{ backgroundColor: colors.white }}>
+        <SafeArea />
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 50 }} />
+        <FlatList
+          bounces={false}
+          contentContainerStyle={styles.flatListContent}
+          columnWrapperStyle={{ justifyContent: "space-around" }}
+          numColumns={2}
+          data={filteredPictures}
+          renderItem={renderItem}
+          onEndReached={() => fetchNextPage()}
+          onEndReachedThreshold={0.2}
+        />
+      </View>
     </Fragment>
   );
 };

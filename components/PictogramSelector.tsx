@@ -3,6 +3,9 @@ import { BASE_URL } from "../utils/globals";
 import usePictogram, { Pictogram } from "../hooks/usePictogram";
 import { colors, ScaleSize, ScaleSizeW, ScaleSizeH } from "../utils/SharedStyles";
 import { FlatList } from "react-native-gesture-handler";
+import SearchBar from "./SearchBar";
+import { useState } from "react";
+import useSearch from "../hooks/useSearch";
 
 type PictogramSelectorProps = {
   organisationId: number;
@@ -12,13 +15,16 @@ type PictogramSelectorProps = {
 
 const PictogramSelector = ({
   organisationId,
-
   selectedPictogram,
   setSelectedPictogram,
 }: PictogramSelectorProps) => {
   const { fetchAllPictrograms } = usePictogram(organisationId);
   const { data, fetchNextPage } = fetchAllPictrograms;
   const pictograms = data?.pages?.flat();
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredPictures = useSearch(pictograms || [], searchQuery, (pictogram) => pictogram.pictogramName);
 
   const renderItem = ({ item }: { item: Pictogram }) => {
     const uri = `${BASE_URL}/${item.pictogramUrl}`;
@@ -38,22 +44,31 @@ const PictogramSelector = ({
   };
 
   return (
-    <FlatList
-      bounces={false}
-      contentContainerStyle={styles.flatListContent}
-      columnWrapperStyle={{ justifyContent: "space-around" }}
-      numColumns={2}
-      data={pictograms}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-      onEndReached={() => fetchNextPage()}
-      onEndReachedThreshold={0.1}
-      maxToRenderPerBatch={8}
-    />
+    <>
+      <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={styles.searchBar} />
+      <FlatList
+        bounces={false}
+        contentContainerStyle={styles.flatListContent}
+        columnWrapperStyle={{ justifyContent: "space-around" }}
+        numColumns={2}
+        data={filteredPictures}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        onEndReached={() => fetchNextPage()}
+        onEndReachedThreshold={0.1}
+        maxToRenderPerBatch={8}
+      />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  searchBar: {
+    marginTop: 25,
+    width: "90%",
+    alignSelf: "center",
+    height: 50,
+  },
   flatListContent: {
     padding: ScaleSize(10),
     backgroundColor: colors.white,
