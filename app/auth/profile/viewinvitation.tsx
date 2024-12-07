@@ -1,16 +1,9 @@
 import React, { Fragment } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  ListRenderItem,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { colors, ScaleSize, SharedStyles } from "../../../utils/SharedStyles";
+import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, Text, View } from "react-native";
+import { colors, ScaleSize, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
 import useInvitation from "../../../hooks/useInvitation";
 import { Ionicons } from "@expo/vector-icons";
+import SafeArea from "../../../components/SafeArea";
 
 type Invitation = {
   id: number;
@@ -52,29 +45,29 @@ const ViewInvitation = () => {
           <Text>Organisation: {item.organizationName}</Text>
           <Text>Sendt af: {item.senderName}</Text>
         </View>
-        <Ionicons
-          name={"checkmark"}
-          size={ScaleSize(48)}
-          color={colors.green}
-          style={{ marginLeft: 15 }}
-          onPress={() => handleInvitation(item.id, true)}
-        />
-        <Ionicons
-          name={"close"}
-          size={ScaleSize(48)}
-          color={colors.red}
-          style={{ marginLeft: 15 }}
-          onPress={() => handleInvitation(item.id, false)}
-        />
+        <View style={{ flexDirection: "row", gap: ScaleSizeW(30) }}>
+          <Ionicons
+            name={"checkmark"}
+            size={ScaleSize(48)}
+            color={colors.green}
+            onPress={() => handleInvitation(item.id, true)}
+          />
+          <Ionicons
+            name={"close"}
+            size={ScaleSize(48)}
+            color={colors.red}
+            onPress={() => handleInvitation(item.id, false)}
+          />
+        </View>
       </View>
     );
   };
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <SafeArea style={{ backgroundColor: colors.white }} />
       <View style={styles.container}>
-        <Text style={SharedStyles.header}>Invitations</Text>
+        <Text style={styles.title}>Invitations</Text>
         <FlatList
           bounces={false}
           data={data}
@@ -89,7 +82,6 @@ const ViewInvitation = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
     backgroundColor: colors.white,
   },
   invitationContainer: {
@@ -99,12 +91,17 @@ const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     margin: 10,
-    borderColor: colors.black,
     backgroundColor: colors.lightBlue,
   },
   textContainer: {
     flexDirection: "column",
     justifyContent: "center",
+  },
+  title: {
+    padding: ScaleSize(15),
+    fontSize: ScaleSize(40),
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

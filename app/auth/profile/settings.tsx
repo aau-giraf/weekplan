@@ -1,15 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { ScrollView, View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
 import { router } from "expo-router";
 import RenderSetting from "../../../components/RenderSetting";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
@@ -18,6 +8,7 @@ import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/set
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import useProfile from "../../../hooks/useProfile";
 import useInvitation from "../../../hooks/useInvitation";
+import SafeArea from "../../../components/SafeArea";
 
 const Settings = () => {
   const { logout } = useAuthentication();
@@ -31,29 +22,12 @@ const Settings = () => {
   const settings: Setting[] = useMemo(
     () => [
       {
-        icon: "log-out-outline",
-        label: "Log ud",
-        onPress: async () => {
-          await logout();
-        },
-      },
-      {
         icon: "mail-outline",
         label: "Invitationer",
         onPress: () => {
           router.push("/auth/profile/viewinvitation");
         },
-      },
-      {
-        icon: "lock-open-outline",
-        label: "Husk mig",
-      },
-      {
-        icon: "key-outline",
-        label: "Skift adgangskode",
-        onPress: () => {
-          router.push("/auth/profile/changepassword");
-        },
+        notification: inviteData && inviteData.length > 0,
       },
       {
         icon: "person-outline",
@@ -70,14 +44,32 @@ const Settings = () => {
         },
       },
       {
+        icon: "key-outline",
+        label: "Skift adgangskode",
+        onPress: () => {
+          router.push("/auth/profile/changepassword");
+        },
+      },
+      {
+        icon: "lock-open-outline",
+        label: "Husk mig",
+      },
+      {
         icon: "trash-outline",
         onPress: () => {
           router.push("/auth/profile/deleteprofile");
         },
         label: "Slet profil",
       },
+      {
+        icon: "log-out-outline",
+        label: "Log ud",
+        onPress: async () => {
+          await logout();
+        },
+      },
     ],
-    [logout]
+    [inviteData, logout]
   );
 
   useEffect(() => {
@@ -95,12 +87,8 @@ const Settings = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeArea style={{ backgroundColor: colors.lightBlueMagenta }} />
       <ScrollView style={styles.container} bounces={false}>
-        <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back-outline" size={30} style={{ alignSelf: "center" }} />
-        </Pressable>
-
         <View style={{ backgroundColor: "#f0f0f5" }}>
           <View style={styles.profileContainer}>
             <ProfilePicture
@@ -127,7 +115,6 @@ const Settings = () => {
                   item={item}
                   toggleStates={toggleStates}
                   handleToggleChange={handleToggleChange}
-                  hasInvitations={item.label === "Invitationer" && inviteData && inviteData.length > 0}
                 />
               </View>
             )}
@@ -149,6 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 40,
+    paddingTop: 25,
     gap: 20,
   },
   settingsContainer: {

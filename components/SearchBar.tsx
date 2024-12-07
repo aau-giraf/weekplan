@@ -1,16 +1,17 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { colors } from "../utils/SharedStyles";
 import { Ionicons } from "@expo/vector-icons";
 
 type SearchBarProps = {
   value: string;
   onChangeText: (text: string) => void;
+  style?: StyleProp<ViewStyle>;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ value, onChangeText }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ value, onChangeText, style }) => {
   return (
-    <View style={styles.searchContainer}>
+    <View style={[styles.searchContainer, style]}>
       <TextInput
         placeholder={"Søg..."}
         value={value}

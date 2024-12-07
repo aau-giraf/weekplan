@@ -3,24 +3,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import { colors } from "../utils/SharedStyles";
+import { Setting } from "../utils/settingsUtils";
 
 type RenderSettingProps = {
-  item: {
-    icon: keyof typeof Ionicons.glyphMap;
-    label: string;
-    onPress?: () => void;
-  };
+  item: Setting;
   toggleStates?: { [key: string]: boolean };
   handleToggleChange?: (label: string, value: boolean) => void;
-  hasInvitations?: boolean;
 };
 
-const RenderSetting: React.FC<RenderSettingProps> = ({
-  item,
-  toggleStates = {},
-  handleToggleChange,
-  hasInvitations,
-}) => {
+const RenderSetting: React.FC<RenderSettingProps> = ({ item, toggleStates = {}, handleToggleChange }) => {
   const opacity = useSharedValue(1);
   const opacityAnimation = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -49,9 +40,24 @@ const RenderSetting: React.FC<RenderSettingProps> = ({
         onPress={onPress}
         style={styles.settingItem}>
         <View style={styles.settingItemContainerSeparator}>
-          <Ionicons name={item.icon} size={40} />
+          <View>
+            <Ionicons name={item.icon} size={40} />
+            {item.notification && (
+              <View
+                style={{
+                  backgroundColor: colors.crimson,
+                  width: 15,
+                  aspectRatio: 1,
+                  borderRadius: 10000000000000,
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                }}
+              />
+            )}
+          </View>
+
           <Text style={styles.settingItemText}>{item.label}</Text>
-          {hasInvitations && <View style={styles.notificationBadge} />}
         </View>
         {!item.onPress ? (
           <Switch
@@ -82,14 +88,6 @@ const styles = StyleSheet.create({
   },
   settingItemText: {
     fontSize: 20,
-  },
-  notificationBadge: {
-    top: -2,
-    right: -175,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: colors.red,
   },
 });
 

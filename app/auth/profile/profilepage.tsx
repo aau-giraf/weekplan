@@ -77,7 +77,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+      <SafeAreaView style={{ backgroundColor: colors.white, flexGrow: 1 }}>
         <View style={styles.container}>
           <Animated.FlatList
             refreshing={orgIsLoading}
@@ -99,7 +99,6 @@ const ProfilePage: React.FC = () => {
                     fontSize={100}
                   />
                   <View style={styles.profileTextContainer}>
-                    <Text style={SharedStyles.header}>{data.email}</Text>
                     <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
                   </View>
                   <IconButton style={styles.settings} onPress={() => router.push("/auth/profile/settings")}>
