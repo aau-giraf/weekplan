@@ -15,7 +15,7 @@ import SafeArea from "../../../../../components/SafeArea";
 
 const schema = z.object({
   piktogramURI: z.string().trim().min(2, { message: "Vælg et billede" }),
-  name: z.string().trim().min(2, { message: "Navn er for kort" }),
+  name: z.string().trim().min(1, { message: "Billede skal have et navn" }),
 });
 
 type UploadPictogramForm = z.infer<typeof schema>;
