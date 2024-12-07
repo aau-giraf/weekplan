@@ -22,28 +22,10 @@ const Settings = () => {
   const settings: Setting[] = useMemo(
     () => [
       {
-        icon: "log-out-outline",
-        label: "Log ud",
-        onPress: async () => {
-          await logout();
-        },
-      },
-      {
         icon: "mail-outline",
         label: "Invitationer",
         onPress: () => {
           router.push("/auth/profile/viewinvitation");
-        },
-      },
-      {
-        icon: "lock-open-outline",
-        label: "Husk mig",
-      },
-      {
-        icon: "key-outline",
-        label: "Skift adgangskode",
-        onPress: () => {
-          router.push("/auth/profile/changepassword");
         },
       },
       {
@@ -61,11 +43,29 @@ const Settings = () => {
         },
       },
       {
+        icon: "key-outline",
+        label: "Skift adgangskode",
+        onPress: () => {
+          router.push("/auth/profile/changepassword");
+        },
+      },
+      {
+        icon: "lock-open-outline",
+        label: "Husk mig",
+      },
+      {
         icon: "trash-outline",
         onPress: () => {
           router.push("/auth/profile/deleteprofile");
         },
         label: "Slet profil",
+      },
+      {
+        icon: "log-out-outline",
+        label: "Log ud",
+        onPress: async () => {
+          await logout();
+        },
       },
     ],
     [logout]
