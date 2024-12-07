@@ -15,10 +15,11 @@ import dateAndTimeToISO from "../../../utils/dateAndTimeToISO";
 import { useWeekplan } from "../../../providers/WeekplanProvider";
 import PictogramSelector from "../../PictogramSelector";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
-import { Keyboard, SafeAreaView, ScrollView, TouchableWithoutFeedback, Image } from "react-native";
+import { Keyboard, ScrollView, TouchableWithoutFeedback, Image } from "react-native";
 import ProgressSteps, { ProgressStepsMethods } from "../../ProgressSteps";
 import SecondaryButton from "../../forms/SecondaryButton";
 import { BASE_URL } from "../../../utils/globals";
+import SafeArea from "../../SafeArea";
 
 const schema = z
   .object({
@@ -114,7 +115,7 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+    <SafeArea>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ProgressSteps ref={progressRef}>
           <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
@@ -157,7 +158,7 @@ const ActivityEdit = ({ activity }: { activity: ActivityDTO }) => {
           </FormContainer>
         </ProgressSteps>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

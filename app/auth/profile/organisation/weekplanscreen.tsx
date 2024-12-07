@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import ActivityAddButton from "../../../../components/weekoverview_components/activity_components/ActivityAddButton";
 import WeekSelection from "../../../../components/weekoverview_components/WeekSelection";
 import DaysContainer from "../../../../components/weekoverview_components/DaysContainer";
@@ -8,6 +8,7 @@ import { Fragment, useEffect, useRef } from "react";
 import { useDate } from "../../../../providers/DateProvider";
 import BottomSheet from "@gorhom/bottom-sheet";
 import CopyDateActivitiesBottomSheet from "../../../../components/CopyDateActivitiesBottomSheet";
+import SafeArea from "../../../../components/SafeArea";
 
 const WeekPlanScreen = () => {
   const { setSelectedDate } = useDate();
@@ -21,7 +22,7 @@ const WeekPlanScreen = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+      <SafeArea>
         <View style={{ height: "100%" }}>
           <View style={{ backgroundColor: colors.white }}>
             <WeekSelection />
@@ -30,7 +31,7 @@ const WeekPlanScreen = () => {
           <ActivityItemList />
         </View>
         <ActivityAddButton />
-      </SafeAreaView>
+      </SafeArea>
       <CopyDateActivitiesBottomSheet bottomSheetRef={bottomSheetRef} />
     </Fragment>
   );

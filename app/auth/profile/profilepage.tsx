@@ -1,5 +1,5 @@
 import React, { Fragment, useRef, useState } from "react";
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import IconButton from "../../../components/IconButton";
@@ -15,6 +15,7 @@ import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useInvitation from "../../../hooks/useInvitation";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { InitialsPicture } from "../../../components/profilepicture_components/InitialsPicture";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ProfilePage: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -67,7 +68,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+      <SafeAreaView style={{ backgroundColor: colors.white, flexGrow: 1 }}>
         <View style={styles.container}>
           <Animated.FlatList
             refreshing={orgIsLoading}

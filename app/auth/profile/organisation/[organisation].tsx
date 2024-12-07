@@ -1,5 +1,5 @@
 import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,6 +10,7 @@ import { useToast } from "../../../../providers/ToastProvider";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { GradeView } from "../../../../components/organisationoverview_components/GradeView";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
+import SafeArea from "../../../../components/SafeArea";
 
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
@@ -48,7 +49,7 @@ const ViewOrganisation = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+      <SafeArea>
         <View style={{ flex: 1 }}>
           <View style={{ alignItems: "center", flex: 1 }}>
             <Text style={styles.OrgName}>{data?.name ?? "Organisation"}</Text>
@@ -108,7 +109,7 @@ const ViewOrganisation = () => {
             <Ionicons name={"add-outline"} size={ScaleSize(50)} />
           </IconButton>
         </View>
-      </SafeAreaView>
+      </SafeArea>
       <CreateGradeButtomSheet bottomSheetRef={createBottomSheetRef} handleConfirm={handleCreateGrade} />
     </Fragment>
   );

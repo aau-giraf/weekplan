@@ -12,6 +12,7 @@ import SecondaryButton from "../../../components/forms/SecondaryButton";
 import useProfile from "../../../hooks/useProfile";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { useToast } from "../../../providers/ToastProvider";
+import SafeArea from "../../../components/SafeArea";
 
 const schema = z
   .object({
@@ -90,6 +91,7 @@ const DeleteProfileScreen: React.FC = () => {
 
   return (
     <View style={{ flex: 1 }}>
+      <SafeArea />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Slet Profil" />
         <FormField

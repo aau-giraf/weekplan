@@ -11,6 +11,7 @@ import { useToast } from "../../../providers/ToastProvider";
 import { SharedStyles } from "../../../utils/SharedStyles";
 import FormContainer from "../../../components/forms/FormContainer";
 import FormHeader from "../../../components/forms/FormHeader";
+import SafeArea from "../../../components/SafeArea";
 
 const schema = z.object({
   firstName: z.string().trim().min(2, { message: "Fornavn er for kort" }),
@@ -55,6 +56,7 @@ const ProfileEdit: React.FC = () => {
 
   return (
     <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
+      <SafeArea />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Rediger Profil" />
         <FormField control={control} name="firstName" placeholder="Fornavn" />

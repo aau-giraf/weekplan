@@ -2,12 +2,12 @@ import { FlatList } from "react-native-gesture-handler";
 
 import { Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Fragment } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { BASE_URL } from "../../../../../utils/globals";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW } from "../../../../../utils/SharedStyles";
 import { useLocalSearchParams } from "expo-router";
 import usePictogram, { Pictogram } from "../../../../../hooks/usePictogram";
 import { useToast } from "../../../../../providers/ToastProvider";
+import SafeArea from "../../../../../components/SafeArea";
 
 const ViewPictograms = () => {
   const { viewpictograms } = useLocalSearchParams();
@@ -52,7 +52,7 @@ const ViewPictograms = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <SafeArea />
       <FlatList
         bounces={false}
         contentContainerStyle={styles.flatListContent}
