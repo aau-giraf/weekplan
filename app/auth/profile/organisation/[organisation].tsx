@@ -22,10 +22,6 @@ const schema = z.object({
 
 export type FormData = z.infer<typeof schema>;
 
-
-
-
-
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
