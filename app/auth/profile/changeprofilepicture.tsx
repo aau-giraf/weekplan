@@ -44,7 +44,7 @@ const ChangeProfilePicture = () => {
         <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
         <SecondaryButton
           style={{ backgroundColor: colors.green }}
-          label="Upload billede"
+          label="Skift profilbillede"
           disabled={!imageUri}
           onPress={handleSubmitPicture}
         />

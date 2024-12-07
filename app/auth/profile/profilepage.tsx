@@ -90,7 +90,6 @@ const ProfilePage: React.FC = () => {
                     fontSize={100}
                   />
                   <View style={styles.profileTextContainer}>
-                    <Text style={SharedStyles.header}>{data.email}</Text>
                     <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
                   </View>
                   <IconButton style={styles.settings} onPress={() => router.push("/auth/profile/settings")}>
