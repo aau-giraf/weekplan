@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { Text, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
@@ -6,6 +7,7 @@ import useSearch from "../../../../../hooks/useSearch";
 import SearchBar from "../../../../../components/SearchBar";
 import { useToast } from "../../../../../providers/ToastProvider";
 import SafeArea from "../../../../../components/SafeArea";
+import { ScaleSize } from "../../../../../utils/SharedStyles";
 
 const ViewMembers = () => {
   const { members } = useLocalSearchParams();
@@ -28,6 +30,7 @@ const ViewMembers = () => {
   return (
     <Fragment>
       <SafeArea>
+        <Text style={styles.title}>Medlemmer</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
         <ListView
           data={filteredData}
@@ -43,5 +46,14 @@ const ViewMembers = () => {
     </Fragment>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    padding: ScaleSize(15),
+    fontSize: ScaleSize(40),
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});
 
 export default ViewMembers;

@@ -92,6 +92,7 @@ const ViewCitizen = () => {
   return (
     <Fragment>
       <SafeArea>
+        <Text style={styles.title}>Borgere</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
         <ListView
           data={filteredData}
@@ -169,6 +170,12 @@ const UpdateCitizenBottomSheet = ({
 );
 
 const styles = StyleSheet.create({
+  title: {
+    padding: ScaleSize(15),
+    fontSize: ScaleSize(40),
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   sheetContent: {
     gap: ScaleSize(10),
     padding: ScaleSize(20),
