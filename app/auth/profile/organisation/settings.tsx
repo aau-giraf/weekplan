@@ -35,6 +35,16 @@ const Settings = () => {
   const settings: Setting[] = useMemo(
     () => [
       {
+        icon: "person-add-outline",
+        label: "Tilføj borger",
+        onPress: () => {
+          router.push({
+            pathname: "/auth/profile/organisation/addcitizen",
+            params: { orgId: parsedId },
+          });
+        },
+      },
+      {
         icon: "create-outline",
         label: "Rediger organisation",
         onPress: () => {

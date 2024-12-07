@@ -70,20 +70,7 @@ const ViewOrganisation = () => {
                 router.push(`/auth/profile/organisation/members/${parsedId}`);
               }}
             />
-            <View style={styles.alignHeader}>
-              <Text style={styles.heading}>Borger</Text>
-              <IconButton
-                onPress={() => {
-                  router.push({
-                    pathname: "/auth/profile/organisation/addcitizen",
-                    params: { orgId: parsedId },
-                  });
-                }}
-                absolute={false}
-                style={styles.iconButton}>
-                <Ionicons name={"add-circle-outline"} size={ScaleSize(25)} />
-              </IconButton>
-            </View>
+            <Text style={styles.heading}>Borger</Text>
             <CutoffList
               entries={data?.citizens ?? []}
               onPress={() => router.push(`/auth/profile/organisation/citizens/${parsedId}`)}

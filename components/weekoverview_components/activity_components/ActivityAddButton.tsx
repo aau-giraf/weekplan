@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.lightGreen,
     bottom: ScaleSize(20),
     right: ScaleSize(24),
     position: "absolute",
@@ -34,9 +33,9 @@ const styles = StyleSheet.create({
     bottom: ScaleSize(-9.8),
     right: ScaleSize(-9.8),
     position: "absolute",
-    backgroundColor: colors.lightGreen,
     borderRadius: 20,
     overflow: "hidden",
+    backgroundColor: colors.orange,
   },
 });
 
