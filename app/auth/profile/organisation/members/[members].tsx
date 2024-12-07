@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import ListView from "../../../../../components/ListView";
@@ -32,16 +32,18 @@ const ViewMembers = () => {
       <SafeArea>
         <Text style={styles.title}>Medlemmer</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
-        <ListView
-          data={filteredData}
-          loadingMessage="Henter medlemmer..."
-          errorMessage="Fejl med at hente medlemmer"
-          isLoading={isLoading}
-          error={!!error}
-          handleDelete={handleDelete}
-          getLabel={(member) => `${member.firstName} ${member.lastName}`}
-          keyExtractor={(member) => member.id.toString()}
-        />
+        <View style={{ flex: 1 }}>
+          <ListView
+            data={filteredData}
+            loadingMessage="Henter medlemmer..."
+            errorMessage="Fejl med at hente medlemmer"
+            isLoading={isLoading}
+            error={!!error}
+            handleDelete={handleDelete}
+            getLabel={(member) => `${member.firstName} ${member.lastName}`}
+            keyExtractor={(member) => member.id.toString()}
+          />
+        </View>
       </SafeArea>
     </Fragment>
   );

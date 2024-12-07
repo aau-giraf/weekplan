@@ -94,27 +94,29 @@ const ViewCitizen = () => {
       <SafeArea>
         <Text style={styles.title}>Borgere</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
-        <ListView
-          data={filteredData}
-          loadingMessage="Henter borgere..."
-          errorMessage="Fejl med at hente borgere"
-          isLoading={isLoading}
-          error={!!error}
-          handleDelete={handleDelete}
-          handleUpdate={(id) => {
-            const citizen = data?.citizens.find((c) => c.id === id);
-            if (citizen) {
-              openBottomSheet(citizen);
-            }
-          }}
-          getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
-          keyExtractor={(citizen) => citizen.id.toString()}
-          onPress={(item) => {
-            setId(item.id);
-            setIsCitizen(true);
-            router.push("/auth/profile/organisation/weekplanscreen");
-          }}
-        />
+        <View style={{ flex: 1 }}>
+          <ListView
+            data={filteredData}
+            loadingMessage="Henter borgere..."
+            errorMessage="Fejl med at hente borgere"
+            isLoading={isLoading}
+            error={!!error}
+            handleDelete={handleDelete}
+            handleUpdate={(id) => {
+              const citizen = data?.citizens.find((c) => c.id === id);
+              if (citizen) {
+                openBottomSheet(citizen);
+              }
+            }}
+            getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
+            keyExtractor={(citizen) => citizen.id.toString()}
+            onPress={(item) => {
+              setId(item.id);
+              setIsCitizen(true);
+              router.push("/auth/profile/organisation/weekplanscreen");
+            }}
+          />
+        </View>
       </SafeArea>
 
       <UpdateCitizenBottomSheet
