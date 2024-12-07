@@ -157,8 +157,7 @@ const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps
       <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
         <BottomSheetTextInput
-          label="Organisationnavn"
-          name="name"
+          placeholder="Organisations navn"
           style={SharedStyles.inputValid}
           onChangeText={(value: string) => {
             setValue("name", value, { shouldValidate: true });
