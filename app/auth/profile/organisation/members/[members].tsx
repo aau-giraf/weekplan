@@ -21,48 +21,67 @@ const ViewMembers = () => {
 
   const memberSearchFn = (member: { firstName: string; lastName: string }) =>
     `${member.firstName} ${member.lastName}`;
-
   const filteredData = useSearch(data?.users || [], searchQuery, memberSearchFn);
 
+  const organisationOwnerId = data?.users.find((u) => u.role === "OrgOwner")?.id;
+  const moderators = data?.users.filter((u) => u.role === "OrgAdmin" || u.role === "OrgOwner");
+
   const handleDelete = async (id: string) => {
+    if (userId === id) {
+      return addToast({ message: "Du kan ikke slette dig selv", type: "error" });
+    }
+
+    if (organisationOwnerId === id) {
+      return addToast({ message: "Du kan ikke slette ejeren af organisationen", type: "error" });
+    }
+
+    if (moderators?.some((moderator) => moderator.id === id) && userId !== organisationOwnerId) {
+      return addToast({ message: "Du kan ikke slette en moderator", type: "error" });
+    }
+
     await deleteMember.mutateAsync(id).catch((error) => {
       addToast({ message: error.message, type: "error" });
     });
   };
 
   const handleAdmin = async (userId: string, isAdmin: boolean) => {
-    if (isAdmin) {
-      await removeAdmin.mutateAsync(userId).catch((error) => {
-        addToast({ message: error.message, type: "error" });
-      });
-    } else {
-      await makeMemberAdmin.mutateAsync(userId).catch((error) => {
-        addToast({ message: error.message, type: "error" });
-      });
+    if (userId === organisationOwnerId) {
+      addToast({ message: "Du kan ikke ændre ejeren af organisationen", type: "error" });
+      return;
     }
+    await (isAdmin ? removeAdmin : makeMemberAdmin).mutateAsync(userId).catch((error) => {
+      addToast({ message: error.message, type: "error" });
+    });
   };
 
   const leftAction = (): Action<UserDTO>[] => {
-    const organisationOwner = data?.users.find((u) => u.role === "OrgOwner");
-    if (organisationOwner?.id === userId) {
+    if (organisationOwnerId === userId) {
       return [
         {
-          icon: (member) => (member.role === "OrgAdmin" ? "star" : "star-outline"),
+          icon: (member) =>
+            member.role === "OrgOwner" ? "key" : member.role === "OrgAdmin" ? "star" : "star-outline",
           color: colors.blue,
-          onPress: (member) => handleAdmin(member.id, member.role === "OrgAdmin"),
+          onPress: (member) => {
+            handleAdmin(member.id, member.role === "OrgAdmin" || member.role === "OrgOwner");
+          },
         },
       ];
     }
     return [];
   };
 
-  const rightActions: Action<UserDTO>[] = [
-    {
-      icon: "trash",
-      color: colors.crimson,
-      onPress: (member) => handleDelete(member.id),
-    },
-  ];
+  const rightActions = (): Action<UserDTO>[] => {
+    if (moderators?.some((moderator) => moderator.id === userId)) {
+      return [
+        {
+          icon: "trash",
+          color: colors.crimson,
+          onPress: (member) => handleDelete(member.id),
+        },
+      ];
+    }
+    return [];
+  };
 
   return (
     <Fragment>
@@ -75,7 +94,7 @@ const ViewMembers = () => {
             loadingMessage="Henter medlemmer..."
             isLoading={isLoading}
             error={!!error}
-            rightActions={rightActions}
+            rightActions={rightActions()}
             leftActions={leftAction()}
             getLabel={(member) => `${member.firstName} ${member.lastName}`}
             keyExtractor={(member) => member.id.toString()}

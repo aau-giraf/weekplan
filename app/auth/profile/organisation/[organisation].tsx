@@ -24,10 +24,7 @@ export type FormData = z.infer<typeof schema>;
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
-
   const { data, error, isLoading, createGrade } = useOrganisation(parsedId);
-
-  console.log(data?.users.forEach((user) => console.log(user.role)));
   const { addToast } = useToast();
   const createBottomSheetRef = useRef<BottomSheet>(null);
 
