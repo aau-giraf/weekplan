@@ -3,7 +3,7 @@ import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity, Vi
 import { Ionicons } from "@expo/vector-icons";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
 import IconButton from "../../../components/IconButton";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import useProfile from "../../../hooks/useProfile";
 import useOrganisationOverview, { OrgOverviewDTO } from "../../../hooks/useOrganisationOverview";
 import { UseMutationResult } from "@tanstack/react-query";
@@ -17,7 +17,6 @@ import { InitialsPicture } from "../../../components/profilepicture_components/I
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import FormField from "../../../components/forms/TextInput";
 import SubmitButton from "../../../components/forms/SubmitButton";
 
 const schema = z.object({
@@ -129,9 +128,9 @@ type BottomSheetProps = {
 };
 const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps) => {
   const {
-    control,
     formState: { isSubmitting, isValid },
     getValues,
+    setValue,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "onChange",
@@ -158,12 +157,19 @@ const AddBottomSheet = ({ bottomSheetRef, createOrganisation }: BottomSheetProps
       style={{ shadowRadius: 20, shadowOpacity: 0.3 }}>
       <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContent} bounces={false}>
         <Text style={SharedStyles.header}>Organisation navn</Text>
-        <FormField control={control} name="name" placeholder="Organisations navn" />
+        <BottomSheetTextInput
+          label="Organisationnavn"
+          name="name"
+          style={SharedStyles.inputValid}
+          onChangeText={(value: string) => {
+            setValue("name", value, { shouldValidate: true });
+          }}
+        />
         <SubmitButton
           isValid={isValid}
           isSubmitting={isSubmitting}
           handleSubmit={handleSubmit}
-          label={"Opret organisation"}
+          label="Tilføj klasse"
         />
       </BottomSheetScrollView>
     </BottomSheet>
