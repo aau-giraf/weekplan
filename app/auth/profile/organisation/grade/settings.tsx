@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
     borderTopColor: colors.black,
   },
   mainProfilePicture: {
-    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(200),
-    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(200),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
     aspectRatio: 1,
     borderRadius: 10000,
   },
