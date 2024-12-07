@@ -242,7 +242,7 @@ const useOrganisation = (orgId: number) => {
 
   const deleteGrade = useMutation({
     mutationFn: async (gradeId: number) => {
-      await deleteGradeRequest(gradeId);
+      await deleteGradeRequest(gradeId, orgId);
     },
     onMutate: async (gradeId) => {
       await queryClient.cancelQueries({ queryKey });

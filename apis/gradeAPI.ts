@@ -2,9 +2,13 @@ import { GradeDTO } from "../hooks/useGrades";
 import { CitizenDTO, FullOrgDTO } from "../hooks/useOrganisation";
 import { axiosInstance } from "./axiosConfig";
 
-export const addCitizenToGradeRequest = (citizenIds: number[], gradeId: number): Promise<GradeDTO> => {
+export const addCitizenToGradeRequest = (
+  citizenIds: number[],
+  gradeId: number,
+  orgId: number
+): Promise<GradeDTO> => {
   return axiosInstance
-    .put(`/grades/${gradeId}/add-citizens`, citizenIds)
+    .put(`/grades/${orgId}/${gradeId}/add-citizens`, citizenIds)
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke tilføje borger til klasse");
@@ -34,9 +38,13 @@ export const fetchOrganisationFromGradeRequest = (gradeId: number): Promise<Full
     });
 };
 
-export const removeCitizenFromGradeRequest = (citizenIds: number[], gradeId: number): Promise<GradeDTO> => {
+export const removeCitizenFromGradeRequest = (
+  citizenIds: number[],
+  gradeId: number,
+  orgId: number
+): Promise<GradeDTO> => {
   return axiosInstance
-    .put(`/grades/${gradeId}/remove-citizens`, citizenIds)
+    .put(`/grades/${orgId}/${gradeId}/remove-citizens`, citizenIds)
     .then((res) => res.data)
     .catch((error) => {
       if (error.response) {
@@ -54,18 +62,18 @@ export const createNewGradeRequest = async (gradeName: string, orgId: number): P
     });
 };
 
-export const updateGradeRequest = async (gradeId: number, newName: string) => {
+export const updateGradeRequest = async (gradeId: number, newName: string, orgId: number) => {
   return axiosInstance
-    .put(`/grades/${gradeId}/change-name`, {}, { params: { newName } })
+    .put(`/grades/${orgId}/${gradeId}/change-name`, {}, { params: { newName } })
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke opdatere klasse");
     });
 };
 
-export const deleteGradeRequest = async (gradeId: number) => {
+export const deleteGradeRequest = async (gradeId: number, orgId: number) => {
   return axiosInstance
-    .delete(`/grades/${gradeId}`)
+    .delete(`/grades/${orgId}/${gradeId}`)
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke slette din klasse");

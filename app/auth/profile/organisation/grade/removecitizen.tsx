@@ -60,7 +60,7 @@ const RemoveCitizen = () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await removeCitizenFromGrade
-        .mutateAsync(citizenIds)
+        .mutateAsync({ citizenIds, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Elever fjernet", type: "success" }, 1500);
           toggleCitizenSelection(null);
