@@ -5,12 +5,14 @@ type Toggle = {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
   onPress?: never;
+  notification?: boolean;
 };
 
 type Press = {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
   onPress: () => void;
+  notification?: boolean;
 };
 
 export type Setting = Toggle | Press;

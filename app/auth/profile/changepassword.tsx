@@ -11,6 +11,7 @@ import SubmitButton from "../../../components/forms/SubmitButton";
 import useProfile from "../../../hooks/useProfile";
 import { useToast } from "../../../providers/ToastProvider";
 import { SharedStyles } from "../../../utils/SharedStyles";
+import SafeArea from "../../../components/SafeArea";
 
 const schema = z
   .object({
@@ -67,6 +68,7 @@ const ChangePasswordScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
+      <SafeArea />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title="Skift password" />
         <FormField

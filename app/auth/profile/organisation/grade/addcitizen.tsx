@@ -4,11 +4,10 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  SafeAreaView,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import React, { useState, useMemo, Fragment } from "react";
+import { useState, useMemo, Fragment } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
@@ -18,6 +17,7 @@ import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
 import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
+import SafeArea from "../../../../../components/SafeArea";
 
 type Params = {
   gradeId: string;
@@ -58,7 +58,7 @@ const AddCitizen = () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await addCitizenToGrade
-        .mutateAsync(citizenIds)
+        .mutateAsync({ citizenIds, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Elever tilføjet", type: "success" }, 1500);
           toggleCitizenSelection(null);
@@ -110,7 +110,7 @@ const AddCitizen = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeArea />
       <View style={styles.container}>
         <View>
           <Text style={SharedStyles.heading}>Tilføj elever til klasse</Text>
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    backgroundColor: colors.white,
   },
   citizenList: {
     flexGrow: 1,

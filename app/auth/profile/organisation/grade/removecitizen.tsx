@@ -4,11 +4,10 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  SafeAreaView,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import React, { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
@@ -18,6 +17,7 @@ import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useCitizenSelection } from "../../../../../hooks/useCitizenSelection";
 import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
+import SafeArea from "../../../../../components/SafeArea";
 
 type Params = {
   gradeId: string;
@@ -60,7 +60,7 @@ const RemoveCitizen = () => {
     if (selectedCitizens.length > 0) {
       const citizenIds = selectedCitizens.map((citizen) => citizen.id);
       await removeCitizenFromGrade
-        .mutateAsync(citizenIds)
+        .mutateAsync({ citizenIds, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Elever fjernet", type: "success" }, 1500);
           toggleCitizenSelection(null);
@@ -110,7 +110,7 @@ const RemoveCitizen = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
+      <SafeArea />
       <View style={styles.container}>
         <View>
           <Text style={SharedStyles.heading}>Fjern elever fra klasse</Text>
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    backgroundColor: colors.white,
   },
   citizenList: {
     flexGrow: 1,

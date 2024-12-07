@@ -10,12 +10,12 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { UploadProfilePicture } from "../../../../../components/profilepicture_components/UploadProfilePicture";
+import SafeArea from "../../../../../components/SafeArea";
 
 const schema = z.object({
-  piktogramURI: z.string().nonempty("Piktogramnavn må ikke være tomt"),
-  name: z.string().nonempty("Navn må ikke være tomt"),
+  piktogramURI: z.string().trim().min(2, { message: "Vælg et billede" }),
+  name: z.string().trim().min(1, { message: "Billede skal have et navn" }),
 });
 
 type UploadPictogramForm = z.infer<typeof schema>;
@@ -61,7 +61,7 @@ const UploadPictogram = () => {
   };
 
   return (
-    <SafeAreaView style={{ flexGrow: 1, backgroundColor: colors.white }}>
+    <SafeArea>
       <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
         <FormContainer style={styles.stepContainer}>
           <View style={styles.profileContainer}>
@@ -85,7 +85,7 @@ const UploadPictogram = () => {
               />
             </View>
           </View>
-          <FormField control={control} name="name" />
+          <FormField control={control} name="name" placeholder="Billede navn" />
           <SubmitButton
             label="Upload billede"
             isSubmitting={isSubmitting}
@@ -94,7 +94,7 @@ const UploadPictogram = () => {
           />
         </FormContainer>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

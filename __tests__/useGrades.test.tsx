@@ -139,7 +139,7 @@ test("should add citizen to grade", async () => {
   });
 
   await act(async () => {
-    await result.current.addCitizenToGrade.mutateAsync([3]);
+    await result.current.addCitizenToGrade.mutateAsync({ citizenIds: [3], orgId: mockOrganisation.id });
   });
 
   await waitFor(() => {
@@ -155,7 +155,7 @@ test("should not update grade when attempting to add an invalid citizen", async 
   });
 
   await act(async () => {
-    await result.current.addCitizenToGrade.mutateAsync([4]);
+    await result.current.addCitizenToGrade.mutateAsync({ citizenIds: [4], orgId: mockOrganisation.id });
   });
 
   await waitFor(() => {
@@ -171,7 +171,10 @@ test("should remove citizens from grade", async () => {
   });
 
   await act(async () => {
-    await result.current.removeCitizenFromGrade.mutateAsync([1, 2]);
+    await result.current.removeCitizenFromGrade.mutateAsync({
+      citizenIds: [1, 2],
+      orgId: mockOrganisation.id,
+    });
   });
 
   await waitFor(() => {
@@ -187,7 +190,7 @@ test("should not update grade when attempting to remove an invalid citizen", asy
   });
 
   await act(async () => {
-    await result.current.removeCitizenFromGrade.mutateAsync([3]);
+    await result.current.removeCitizenFromGrade.mutateAsync({ citizenIds: [3], orgId: mockOrganisation.id });
   });
 
   await waitFor(() => {
@@ -203,7 +206,7 @@ test("should update grade", async () => {
   });
 
   await act(async () => {
-    await result.current.updateGrade.mutateAsync("Updated grade");
+    await result.current.updateGrade.mutateAsync({ gradeName: "Updated grade", orgId: mockOrganisation.id });
   });
 
   await waitFor(() => {

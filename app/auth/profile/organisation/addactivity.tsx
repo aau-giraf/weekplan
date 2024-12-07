@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Keyboard, SafeAreaView, TouchableWithoutFeedback, Image, View } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, Image, View } from "react-native";
 import { z } from "zod";
 import FormContainer from "../../../../components/forms/FormContainer";
 import FormHeader from "../../../../components/forms/FormHeader";
@@ -19,6 +19,7 @@ import { prettyDate } from "../../../../utils/prettyDate";
 import { colors, ScaleSizeH, ScaleSizeW } from "../../../../utils/SharedStyles";
 import ProgressSteps, { ProgressStepsMethods } from "../../../../components/ProgressSteps";
 import { BASE_URL } from "../../../../utils/globals";
+import SafeArea from "../../../../components/SafeArea";
 
 const schema = z
   .object({
@@ -108,7 +109,7 @@ const AddActivity = () => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: colors.white, flex: 1 }}>
+    <SafeArea>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ProgressSteps ref={progressRef}>
           <View style={{ flexGrow: 1 }}>
@@ -167,7 +168,7 @@ const AddActivity = () => {
           </FormContainer>
         </ProgressSteps>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
 

@@ -3,7 +3,6 @@ import { z } from "zod";
 import { router, useLocalSearchParams } from "expo-router";
 import useGrades from "../../../../../hooks/useGrades";
 import { colors, SharedStyles } from "../../../../../utils/SharedStyles";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormContainer from "../../../../../components/forms/FormContainer";
@@ -11,6 +10,7 @@ import FormHeader from "../../../../../components/forms/FormHeader";
 import FormField from "../../../../../components/forms/TextInput";
 import SubmitButton from "../../../../../components/forms/SubmitButton";
 import { useToast } from "../../../../../providers/ToastProvider";
+import SafeArea from "../../../../../components/SafeArea";
 
 const schema = z.object({
   name: z.string().trim().min(2, { message: "Navn er for kort" }),
@@ -56,7 +56,7 @@ const EditGrade: React.FC = () => {
   const onSubmit = async (formData: FormData) => {
     if (formData.name !== data?.name) {
       await updateGrade
-        .mutateAsync(formData.name)
+        .mutateAsync({ gradeName: formData.name, orgId: Number(data?.id) })
         .then(() => {
           addToast({ message: "Klassen er blevet opdateret", type: "success" }, 2500);
           router.back();
@@ -69,6 +69,7 @@ const EditGrade: React.FC = () => {
 
   return (
     <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
+      <SafeArea />
       <FormContainer style={{ padding: 30 }}>
         <FormHeader title={`Rediger klasse: ${currentGrade?.name}`} />
         <FormField control={control} name="name" placeholder={"Navn"} />

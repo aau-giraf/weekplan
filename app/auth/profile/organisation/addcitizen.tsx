@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { Fragment, useCallback, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Fragment, useCallback, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import SwipeableList from "../../../../components/swipeablelist/SwipeableList";
 import SubmitButton from "../../../../components/forms/SubmitButton";
@@ -12,14 +12,17 @@ import FormHeader from "../../../../components/forms/FormHeader";
 import { useForm } from "react-hook-form";
 import { useLocalSearchParams } from "expo-router";
 import { InitialsPicture } from "../../../../components/profilepicture_components/InitialsPicture";
+import SafeArea from "../../../../components/SafeArea";
 
 const citizenSchema = z.object({
   firstName: z
     .string()
+    .trim()
     .min(2, "Fornavn skal være mindst 2 karakterer langt")
     .max(20, "Fornavn må højst være 20 karakterer langt"),
   lastName: z
     .string()
+    .trim()
     .min(2, "Efternavn skal være mindst 2 karakterer langt")
     .max(20, "Efternavn må højst være 20 karakterer langt"),
 });
@@ -104,7 +107,7 @@ const AddCitizen: React.FC = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ backgroundColor: colors.white }} />
+      <SafeArea />
       <View style={styles.container}>
         <SwipeableList
           style={{ padding: 20 }}

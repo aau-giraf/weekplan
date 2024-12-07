@@ -5,11 +5,12 @@ import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { colors, ScaleSize, SharedStyles } from "../../../../../utils/SharedStyles";
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
+import SafeArea from "../../../../../components/SafeArea";
 
 type Citizen = {
   id: number | string;
@@ -90,30 +91,34 @@ const ViewCitizen = () => {
 
   return (
     <Fragment>
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-        <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-        <ListView
-          data={filteredData}
-          loadingMessage="Henter borgere..."
-          errorMessage="Fejl med at hente borgere"
-          isLoading={isLoading}
-          error={!!error}
-          handleDelete={handleDelete}
-          handleUpdate={(id) => {
-            const citizen = data?.citizens.find((c) => c.id === id);
-            if (citizen) {
-              openBottomSheet(citizen);
-            }
-          }}
-          getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
-          keyExtractor={(citizen) => citizen.id.toString()}
-          onPress={(item) => {
-            setId(item.id);
-            setIsCitizen(true);
-            router.push("/auth/profile/organisation/weekplanscreen");
-          }}
-        />
-      </SafeAreaView>
+      <SafeArea>
+        <Text style={styles.title}>Borgere</Text>
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
+        <View style={{ flex: 1 }}>
+          <ListView
+            data={filteredData}
+            loadingMessage="Henter borgere..."
+            errorMessage="Fejl med at hente borgere"
+            isLoading={isLoading}
+            error={!!error}
+            handleDelete={handleDelete}
+            handleUpdate={(id) => {
+              const citizen = data?.citizens.find((c) => c.id === id);
+              if (citizen) {
+                openBottomSheet(citizen);
+              }
+            }}
+            getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
+            keyExtractor={(citizen) => citizen.id.toString()}
+            onPress={(item) => {
+              setId(item.id);
+              setIsCitizen(true);
+              router.push("/auth/profile/organisation/weekplanscreen");
+            }}
+          />
+        </View>
+      </SafeArea>
+
       <UpdateCitizenBottomSheet
         bottomSheetRef={bottomSheetRef}
         citizenInfo={citizenInfo}
@@ -168,6 +173,12 @@ const UpdateCitizenBottomSheet = ({
 );
 
 const styles = StyleSheet.create({
+  title: {
+    padding: ScaleSize(15),
+    fontSize: ScaleSize(40),
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   sheetContent: {
     gap: ScaleSize(10),
     padding: ScaleSize(20),

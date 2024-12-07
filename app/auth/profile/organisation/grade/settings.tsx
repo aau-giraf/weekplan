@@ -1,9 +1,7 @@
 import React, { Fragment, useMemo, useRef } from "react";
 import {
-  SafeAreaView,
   ScrollView,
   View,
-  Pressable,
   StyleSheet,
   FlatList,
   Text,
@@ -11,7 +9,6 @@ import {
   Dimensions,
   TextInput,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import RenderSetting from "../../../../../components/RenderSetting";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
@@ -22,6 +19,7 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import useOrganisation from "../../../../../hooks/useOrganisation";
 import { useToast } from "../../../../../providers/ToastProvider";
+import SafeArea from "../../../../../components/SafeArea";
 
 type Params = {
   gradeId: string;
@@ -148,42 +146,41 @@ const Settings = () => {
 
   return (
     <Fragment>
-      <SafeAreaView />
-      <ScrollView style={styles.scrollContainer} bounces={false}>
-        <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back-outline" size={30} />
-        </Pressable>
-        <View style={styles.profileSection}>
-          <View style={styles.profileContainer}>
-            <InitialsPicture
-              style={styles.mainProfilePicture}
-              label={currentGrade?.name || "Ukendt klasse"}
-              fontSize={100}
-            />
-            <View style={{ gap: 5 }}>
-              <Text style={{ fontSize: 30, fontWeight: "500" }}>{currentGrade?.name}</Text>
+      <View style={{ flexGrow: 1, position: "relative" }}>
+        <SafeArea style={{ backgroundColor: colors.lightBlueMagenta }} />
+        <ScrollView style={styles.scrollContainer} bounces={false}>
+          <View style={styles.profileSection}>
+            <View style={styles.profileContainer}>
+              <InitialsPicture
+                style={styles.mainProfilePicture}
+                label={currentGrade?.name || "Ukendt klasse"}
+                fontSize={100}
+              />
+              <View style={{ gap: 5 }}>
+                <Text style={{ fontSize: 30, fontWeight: "500" }}>{currentGrade?.name}</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.settingsContainer}>
-          <FlatList
-            bounces={false}
-            data={settings}
-            scrollEnabled={false}
-            renderItem={({ item, index }) => (
-              <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
-                <RenderSetting item={item} />
-              </View>
-            )}
-            keyExtractor={(item) => item.label}
-          />
-        </View>
-        <DeleteBottomSheet
-          bottomSheetRef={deleteSheetRef}
-          handleDeleteGrade={handleDeleteGrade}
-          gradeName={currentGrade?.name!}
-        />
-      </ScrollView>
+          <View style={styles.settingsContainer}>
+            <FlatList
+              bounces={false}
+              data={settings}
+              scrollEnabled={false}
+              renderItem={({ item, index }) => (
+                <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
+                  <RenderSetting item={item} />
+                </View>
+              )}
+              keyExtractor={(item) => item.label}
+            />
+          </View>
+        </ScrollView>
+      </View>
+      <DeleteBottomSheet
+        bottomSheetRef={deleteSheetRef}
+        handleDeleteGrade={handleDeleteGrade}
+        gradeName={currentGrade?.name!}
+      />
     </Fragment>
   );
 };
@@ -196,6 +193,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 40,
+    paddingTop: 20,
     gap: 20,
   },
   scrollContainer: {
@@ -227,8 +225,8 @@ const styles = StyleSheet.create({
     borderTopColor: colors.black,
   },
   mainProfilePicture: {
-    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(200),
-    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(200),
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
     aspectRatio: 1,
     borderRadius: 10000,
   },

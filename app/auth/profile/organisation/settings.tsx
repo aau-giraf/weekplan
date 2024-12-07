@@ -7,9 +7,7 @@ import {
   Text,
   View,
   StyleSheet,
-  SafeAreaView,
   FlatList,
-  Pressable,
   ScrollView,
   TextInput,
   Dimensions,
@@ -20,9 +18,9 @@ import { useToast } from "../../../../providers/ToastProvider";
 import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
 import SecondaryButton from "../../../../components/forms/SecondaryButton";
 import RenderSetting from "../../../../components/RenderSetting";
-import { Ionicons } from "@expo/vector-icons";
 import useOrganisationOverview from "../../../../hooks/useOrganisationOverview";
 import { InitialsPicture } from "../../../../components/profilepicture_components/InitialsPicture";
+import SafeArea from "../../../../components/SafeArea";
 
 const Settings = () => {
   const { organisation } = useLocalSearchParams();
@@ -36,6 +34,16 @@ const Settings = () => {
 
   const settings: Setting[] = useMemo(
     () => [
+      {
+        icon: "person-add-outline",
+        label: "Tilføj borger",
+        onPress: () => {
+          router.push({
+            pathname: "/auth/profile/organisation/addcitizen",
+            params: { orgId: parsedId },
+          });
+        },
+      },
       {
         icon: "create-outline",
         label: "Rediger organisation",
@@ -209,12 +217,8 @@ const Settings = () => {
   return (
     <Fragment>
       <View style={{ flex: 1, position: "relative" }}>
-        <SafeAreaView />
+        <SafeArea style={{ backgroundColor: colors.lightBlueMagenta }} />
         <ScrollView style={styles.scrollContainer} bounces={false}>
-          <Pressable style={styles.backButton} onPress={() => router.back()}>
-            <Ionicons name="arrow-back-outline" size={30} />
-          </Pressable>
-
           <View style={styles.profileSection}>
             <View style={styles.profileContainer}>
               <InitialsPicture
@@ -269,6 +273,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 40,
+    paddingTop: 25,
     gap: 20,
   },
   scrollContainer: {
