@@ -14,8 +14,8 @@ import { UploadProfilePicture } from "../../../../../components/profilepicture_c
 import SafeArea from "../../../../../components/SafeArea";
 
 const schema = z.object({
-  piktogramURI: z.string().nonempty("Piktogramnavn må ikke være tomt"),
-  name: z.string().nonempty("Navn må ikke være tomt"),
+  piktogramURI: z.string().trim().min(2, { message: "Vælg et billede" }),
+  name: z.string().trim().min(2, { message: "Navn er for kort" }),
 });
 
 type UploadPictogramForm = z.infer<typeof schema>;
@@ -85,7 +85,7 @@ const UploadPictogram = () => {
               />
             </View>
           </View>
-          <FormField control={control} name="name" />
+          <FormField control={control} name="name" placeholder="Billede navn" />
           <SubmitButton
             label="Upload billede"
             isSubmitting={isSubmitting}

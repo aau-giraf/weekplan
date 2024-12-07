@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { Fragment, useCallback, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { z } from "zod";
 import SwipeableList from "../../../../components/swipeablelist/SwipeableList";
@@ -17,10 +17,12 @@ import SafeArea from "../../../../components/SafeArea";
 const citizenSchema = z.object({
   firstName: z
     .string()
+    .trim()
     .min(2, "Fornavn skal være mindst 2 karakterer langt")
     .max(20, "Fornavn må højst være 20 karakterer langt"),
   lastName: z
     .string()
+    .trim()
     .min(2, "Efternavn skal være mindst 2 karakterer langt")
     .max(20, "Efternavn må højst være 20 karakterer langt"),
 });
