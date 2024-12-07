@@ -11,7 +11,7 @@ import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorho
 import { GradeView } from "../../../../components/organisationoverview_components/GradeView";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Control, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 
 const schema = z.object({
