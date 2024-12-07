@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import React, { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
