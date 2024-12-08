@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Image, ViewStyle, StyleProp } from "react-native";
-import { ScaleSize, SharedStyles } from "../../utils/SharedStyles";
+import { Text, View, Image, ViewStyle, StyleProp } from "react-native";
+import { PictureSharedStyles, ScaleSize } from "../../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../../utils/profileColors";
 import { BASE_URL } from "../../utils/globals";
 
@@ -35,12 +35,12 @@ export const ProfilePicture = ({ label, userId, style, fontSize }: ProfilePictur
   const handleImageError = () => setImageError(true);
 
   return (
-    <View style={[styles.container, style, { backgroundColor: bgColor }]}>
+    <View style={[PictureSharedStyles.container, style, { backgroundColor: bgColor }]}>
       {!imageError && uri ? (
-        <Image source={{ uri }} style={styles.image} onError={handleImageError} />
+        <Image source={{ uri }} style={PictureSharedStyles.image} onError={handleImageError} />
       ) : (
         <Text
-          style={[styles.text, { color: textColor, fontSize: ScaleSize(fontSize ?? 50) }]}
+          style={[PictureSharedStyles.text, { color: textColor, fontSize: ScaleSize(fontSize ?? 50) }]}
           adjustsFontSizeToFit={true}
           numberOfLines={1}>
           {displayName}
@@ -49,21 +49,3 @@ export const ProfilePicture = ({ label, userId, style, fontSize }: ProfilePictur
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    ...SharedStyles.trueCenter,
-    shadowRadius: 15,
-    shadowOpacity: 0.2,
-    borderRadius: 10000,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 10000,
-  },
-  text: {
-    textShadowColor: "black",
-    textShadowRadius: 0.5,
-  },
-});

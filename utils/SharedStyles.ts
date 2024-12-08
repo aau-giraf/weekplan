@@ -310,4 +310,54 @@ const SettingsSharedStyles = StyleSheet.create({
   },
 });
 
-export { colors, CitizenSharedStyles, SettingsSharedStyles, SharedStyles, ScaleSizeH, ScaleSizeW, ScaleSize };
+const ButtonSharedStyles = StyleSheet.create({
+  iconViewAddButton: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    bottom: ScaleSize(20),
+    right: ScaleSize(20),
+  },
+  iconButton: {
+    height: ScaleSize(30),
+    width: ScaleSize(30),
+  },
+  settings: {
+    top: ScaleSize(10),
+    right: ScaleSize(30),
+  },
+  iconAddButton: {
+    height: ScaleSize(100),
+    width: ScaleSize(100),
+    marginBottom: ScaleSize(10),
+  },
+});
+
+const PictureSharedStyles = StyleSheet.create({
+  container: {
+    ...SharedStyles.trueCenter,
+    shadowRadius: 15,
+    shadowOpacity: 0.2,
+    borderRadius: 10000,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 10000,
+  },
+  text: {
+    textShadowColor: "black",
+    textShadowRadius: 0.5,
+  },
+});
+
+export {
+  colors,
+  PictureSharedStyles,
+  ButtonSharedStyles,
+  CitizenSharedStyles,
+  SettingsSharedStyles,
+  SharedStyles,
+  ScaleSizeH,
+  ScaleSizeW,
+  ScaleSize,
+};
