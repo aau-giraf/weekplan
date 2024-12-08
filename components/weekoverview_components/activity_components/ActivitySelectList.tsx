@@ -25,7 +25,6 @@ const ActivitySelectList = ({ activities, toggleCheck, selectedIds }: ActivitySe
       <TouchableOpacity
         onPress={() => toggleCheck(item.activityId)}
         style={[styles.activityEntry, { borderLeftWidth: selectedIds.includes(item.activityId) ? 5 : 0 }]}>
-        <Text style={{ fontSize: 23, marginLeft: 5 }}>{item.name}</Text>
         <Text style={{ fontSize: 23, marginRight: 10 }}>
           {item.startTime}-{item.endTime}
         </Text>

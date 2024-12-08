@@ -178,6 +178,136 @@ const SharedStyles = StyleSheet.create({
     fontSize: ScaleSize(18),
     textAlign: "center",
   },
+  sheetContentCitizen: {
+    gap: ScaleSize(10),
+    padding: ScaleSize(20),
+    alignItems: "center",
+  },
+  input: {
+    width: "100%",
+    padding: 5,
+    borderColor: colors.gray,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 5,
+  },
+  title: {
+    padding: ScaleSize(15),
+    fontSize: ScaleSize(40),
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  notFound: {
+    color: colors.black,
+    fontSize: ScaleSize(26),
+    textAlign: "center",
+    marginTop: "50%",
+  },
 });
 
-export { colors, SharedStyles, ScaleSizeH, ScaleSizeW, ScaleSize };
+const CitizenSharedStyles = StyleSheet.create({
+  citizenText: {
+    paddingLeft: ScaleSize(30),
+    fontSize: ScaleSize(30),
+    color: colors.black,
+  },
+  citizenList: {
+    flexGrow: 1,
+    width: "100%",
+  },
+  citizenContainer: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: colors.white,
+  },
+  searchbar: {
+    width: "100%",
+    minWidth: "100%",
+    paddingVertical: ScaleSize(15),
+  },
+  selection: {
+    paddingVertical: ScaleSizeH(15),
+    paddingHorizontal: ScaleSizeW(15),
+    borderRadius: 15,
+    backgroundColor: colors.lightBlue,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  profilePicture: {
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
+    aspectRatio: 1,
+    borderRadius: 10000,
+  },
+  container: {
+    display: "flex",
+    gap: ScaleSize(10),
+    padding: ScaleSize(5),
+    backgroundColor: colors.lightBlue,
+    alignItems: "center",
+  },
+});
+
+const SettingsSharedStyles = StyleSheet.create({
+  profileContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 40,
+    paddingTop: 20,
+    gap: 20,
+  },
+  profileSection: {
+    backgroundColor: colors.lightBlueMagenta,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    backgroundColor: colors.white,
+  },
+  headerContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  backButton: {
+    position: "absolute",
+    top: 0,
+    left: 5,
+    zIndex: 2,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+  },
+  settingsContainer: {
+    backgroundColor: colors.white,
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+  listItem: {
+    backgroundColor: colors.white,
+  },
+  itemWithTopSeparator: {
+    borderTopWidth: 0.32,
+    borderTopColor: colors.black,
+  },
+  mainProfilePicture: {
+    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
+    aspectRatio: 1,
+    borderRadius: 10000,
+  },
+  sheetContent: {
+    gap: ScaleSize(10),
+    padding: ScaleSize(90),
+    alignItems: "center",
+  },
+  input: {
+    width: ScaleSize(500),
+    height: ScaleSize(50),
+    borderColor: colors.black,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: ScaleSize(10),
+    marginBottom: ScaleSize(20),
+  },
+});
+
+export { colors, CitizenSharedStyles, SettingsSharedStyles, SharedStyles, ScaleSizeH, ScaleSizeW, ScaleSize };

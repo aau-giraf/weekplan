@@ -1,6 +1,13 @@
 import { CutoffList } from "../../../../components/organisationoverview_components/CutoffList";
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../utils/SharedStyles";
+import {
+  ButtonSharedStyles,
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../../utils/SharedStyles";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useOrganisation from "../../../../hooks/useOrganisation";
@@ -61,8 +68,10 @@ const ViewOrganisation = () => {
       <SafeArea>
         <View style={{ flex: 1, backgroundColor: colors.lightBlue }}>
           <FlatList
-            ListEmptyComponent={<Text style={styles.notFound}>Ingen klasser fundet</Text>}
-            contentContainerStyle={[styles.gradeView, { flexGrow: 1 }]}
+            ListEmptyComponent={
+              <Text style={[SharedStyles.notFound, { paddingTop: 20 }]}>Ingen klasser fundet</Text>
+            }
+            contentContainerStyle={[{ backgroundColor: colors.lightBlue }, { flexGrow: 1 }]}
             data={data?.grades ?? []}
             bounces={false}
             numColumns={1}
@@ -80,7 +89,7 @@ const ViewOrganisation = () => {
                   }}>
                   <Text style={styles.OrgName}>{data?.name ?? "Organisation"}</Text>
                   <IconButton
-                    style={styles.settings}
+                    style={ButtonSharedStyles.settings}
                     onPress={() =>
                       router.push({
                         pathname: "/auth/profile/organisation/settings",
@@ -110,8 +119,8 @@ const ViewOrganisation = () => {
           />
         </View>
 
-        <View style={styles.iconViewAddButton}>
-          <IconButton onPress={openCreateBS} absolute={true} style={styles.iconAddButton}>
+        <View style={ButtonSharedStyles.iconViewAddButton}>
+          <IconButton onPress={openCreateBS} absolute={true} style={ButtonSharedStyles.iconAddButton}>
             <Ionicons name={"add-outline"} size={ScaleSize(50)} />
           </IconButton>
         </View>
@@ -180,12 +189,6 @@ const styles = StyleSheet.create({
     gap: ScaleSizeW(10),
     alignItems: "center",
   },
-  title: {
-    padding: ScaleSize(15),
-    fontSize: ScaleSize(40),
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   classContainer: {
     justifyContent: "center",
     display: "flex",
@@ -204,34 +207,6 @@ const styles = StyleSheet.create({
     marginBottom: ScaleSize(10),
     textAlign: "center",
     fontWeight: "bold",
-  },
-  iconAddButton: {
-    height: ScaleSize(100),
-    width: ScaleSize(100),
-    marginBottom: ScaleSize(10),
-  },
-  gradeView: {
-    backgroundColor: colors.lightBlue,
-  },
-  iconViewAddButton: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    bottom: ScaleSize(20),
-    right: ScaleSize(20),
-  },
-  iconButton: {
-    height: ScaleSize(30),
-    width: ScaleSize(30),
-  },
-  settings: {
-    top: ScaleSize(10),
-    right: ScaleSize(30),
-  },
-  notFound: {
-    color: colors.black,
-    fontSize: ScaleSize(26),
-    textAlign: "center",
-    paddingTop: ScaleSize(200),
   },
 });
 

@@ -10,7 +10,7 @@ type GradeViewProps = {
 
 export const GradeView = ({ grades }: GradeViewProps) => {
   return (
-    <View style={styles.container}>
+    <View style={{ minWidth: "100%" }}>
       {grades.map((grade, index) => (
         <TouchableOpacity
           key={index}
@@ -23,7 +23,7 @@ export const GradeView = ({ grades }: GradeViewProps) => {
           </View>
           <Text
             adjustsFontSizeToFit={true}
-            style={styles.itemText}
+            style={{ fontSize: ScaleSize(24) }}
             maxFontSizeMultiplier={2}
             minimumFontScale={0.3}>
             {grade.name}
@@ -35,9 +35,6 @@ export const GradeView = ({ grades }: GradeViewProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    minWidth: "100%",
-  },
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -52,8 +49,5 @@ const styles = StyleSheet.create({
     width: ScaleSize(100),
     height: ScaleSize(100),
     borderRadius: 10000,
-  },
-  itemText: {
-    fontSize: 24,
   },
 });

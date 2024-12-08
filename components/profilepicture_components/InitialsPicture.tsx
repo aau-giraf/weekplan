@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, ViewStyle, StyleProp } from "react-native";
-import { ScaleSize, SharedStyles } from "../../utils/SharedStyles";
+import { Text, View, ViewStyle, StyleProp } from "react-native";
+import { PictureSharedStyles, ScaleSize } from "../../utils/SharedStyles";
 import { getContrastingTextColor, hashNameToColour } from "../../utils/profileColors";
 
 import initialsFromName from "../../utils/initialFromName";
@@ -26,9 +26,9 @@ export const InitialsPicture = ({ label, style, fontSize }: InitialsProps) => {
   const displayName = initialsFromName(label);
 
   return (
-    <View style={[styles.container, style, { backgroundColor: bgColor }]}>
+    <View style={[PictureSharedStyles.container, style, { backgroundColor: bgColor }]}>
       <Text
-        style={[styles.text, { color: textColor, fontSize: ScaleSize(fontSize ?? 50) }]}
+        style={[PictureSharedStyles.text, { color: textColor, fontSize: ScaleSize(fontSize ?? 50) }]}
         adjustsFontSizeToFit={true}
         numberOfLines={1}>
         {displayName}
@@ -36,21 +36,3 @@ export const InitialsPicture = ({ label, style, fontSize }: InitialsProps) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    ...SharedStyles.trueCenter,
-    shadowRadius: 15,
-    shadowOpacity: 0.2,
-    borderRadius: 10000,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 10000,
-  },
-  text: {
-    textShadowColor: "black",
-    textShadowRadius: 0.5,
-  },
-});

@@ -1,8 +1,8 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
-import { ScrollView, View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
+import { ScrollView, View, Text, StyleSheet, FlatList } from "react-native";
 import { router } from "expo-router";
 import RenderSetting from "../../../components/RenderSetting";
-import { colors, ScaleSizeH, ScaleSizeW } from "../../../utils/SharedStyles";
+import { colors, SettingsSharedStyles } from "../../../utils/SharedStyles";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
 import { Setting, loadSettingValues, setSettingsValue } from "../../../utils/settingsUtils";
 import { ProfilePicture } from "../../../components/profilepicture_components/ProfilePicture";
@@ -90,9 +90,9 @@ const Settings = () => {
       <SafeArea style={{ backgroundColor: colors.lightBlueMagenta }} />
       <ScrollView style={styles.container} bounces={false}>
         <View style={{ backgroundColor: "#f0f0f5" }}>
-          <View style={styles.profileContainer}>
+          <View style={SettingsSharedStyles.profileContainer}>
             <ProfilePicture
-              style={styles.mainProfilePicture}
+              style={SettingsSharedStyles.mainProfilePicture}
               label={`${data?.firstName} ${data?.lastName}`}
               userId={userId}
               fontSize={100}
@@ -104,13 +104,17 @@ const Settings = () => {
           </View>
         </View>
 
-        <View style={styles.settingsContainer}>
+        <View style={SettingsSharedStyles.settingsContainer}>
           <FlatList
             bounces={false}
             data={settings}
             scrollEnabled={false}
             renderItem={({ item, index }) => (
-              <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
+              <View
+                style={[
+                  SettingsSharedStyles.listItem,
+                  index > 0 && SettingsSharedStyles.itemWithTopSeparator,
+                ]}>
                 <RenderSetting
                   item={item}
                   toggleStates={toggleStates}
@@ -119,7 +123,7 @@ const Settings = () => {
               </View>
             )}
             keyExtractor={(item) => item.label}
-            ItemSeparatorComponent={() => <View style={styles.itemWithTopSeparator}></View>}
+            ItemSeparatorComponent={() => <View style={SettingsSharedStyles.itemWithTopSeparator}></View>}
           />
         </View>
       </ScrollView>
@@ -131,39 +135,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: colors.white,
-  },
-  profileContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 40,
-    paddingTop: 25,
-    gap: 20,
-  },
-  settingsContainer: {
-    backgroundColor: colors.white,
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
-  listItem: {
-    backgroundColor: colors.white,
-  },
-  itemWithTopSeparator: {
-    borderTopWidth: 0.32,
-    borderTopColor: colors.black,
-  },
-  backButton: {
-    position: "absolute",
-    top: 0,
-    left: 5,
-    zIndex: 2,
-    paddingHorizontal: 10,
-    paddingBottom: 10,
-  },
-  mainProfilePicture: {
-    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
-    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
-    aspectRatio: 1,
-    borderRadius: 10000,
   },
 });
 
