@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  copyActivitiesRequest,
+  copyActivitiesCitizenRequest,
+  copyActivitiesGradeRequest,
   createActivityCitizen,
   createActivityGrade,
   deleteRequest,
@@ -149,7 +150,19 @@ export default function useActivity({ date }: { date: Date }) {
 
   const copyActivities = useMutation({
     mutationFn: (variables: { activityIds: number[]; sourceDate: Date; destinationDate: Date }) =>
-      copyActivitiesRequest(id, variables.activityIds, variables.sourceDate, variables.destinationDate),
+      isCitizen
+        ? copyActivitiesCitizenRequest(
+            id,
+            variables.activityIds,
+            variables.sourceDate,
+            variables.destinationDate
+          )
+        : copyActivitiesGradeRequest(
+            id,
+            variables.activityIds,
+            variables.sourceDate,
+            variables.destinationDate
+          ),
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
