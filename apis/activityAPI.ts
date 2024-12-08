@@ -93,22 +93,38 @@ export const createActivityGrade = (activity: ActivityDTO, gradeId: number) => {
     });
 };
 
-export const copyActivitiesRequest = (
+export const copyActivitiesCitizenRequest = (
   citizenId: number,
   activityIds: number[],
   sourceDate: Date,
   destinationDate: Date
 ) => {
   return axiosInstance
-    .post(`/weekplan/activity/copy`, activityIds, {
-      params: {
-        citizenId: citizenId,
-        dateStr: formatQueryDate(sourceDate),
-        newDateStr: formatQueryDate(destinationDate),
-      },
-    })
+    .post(
+      `/weekplan/activities/copy-citizen/${citizenId}`,
+      { activityIds },
+      { params: { sourceDateStr: sourceDate, destinationDateStr: destinationDate } }
+    )
     .then((res) => res.data)
     .catch(() => {
-      throw new Error("Fejl: Kunne ikke kopiere aktiviteter");
+      throw new Error("Fejl: Kunne ikke kopiere aktiviteterne");
+    });
+};
+
+export const copyActivitiesGradeRequest = (
+  gradeId: number,
+  activityIds: number[],
+  sourceDate: Date,
+  destinationDate: Date
+) => {
+  return axiosInstance
+    .post(
+      `/weekplan/activities/copy-grade/${gradeId}`,
+      { activityIds },
+      { params: { sourceDateStr: sourceDate, destinationDateStr: destinationDate } }
+    )
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke kopiere aktiviteterne");
     });
 };
