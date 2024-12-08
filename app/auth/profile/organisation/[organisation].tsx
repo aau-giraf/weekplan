@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import SafeArea from "../../../../components/SafeArea";
+import { useAuthentication } from "../../../../providers/AuthenticationProvider";
 
 const schema = z.object({
   gradeName: z.string().trim().min(2, { message: "Navn er for kort" }),
@@ -26,7 +27,10 @@ const ViewOrganisation = () => {
   const parsedId = Number(organisation);
   const { data, error, isLoading, createGrade } = useOrganisation(parsedId);
   const { addToast } = useToast();
+  const { userId } = useAuthentication();
   const createBottomSheetRef = useRef<BottomSheet>(null);
+
+  const moderators = data?.users.filter((u) => u.role === "OrgAdmin" || u.role === "OrgOwner");
 
   if (isLoading) {
     return (
@@ -49,6 +53,9 @@ const ViewOrganisation = () => {
   const closeCreateBS = () => createBottomSheetRef.current?.close();
 
   const handleCreateGrade = async (gradeName: string) => {
+    if (!moderators?.some((moderator) => moderator.id === userId)) {
+      return addToast({ message: "Du kan ikke oprette en klasse", type: "error" });
+    }
     await createGrade.mutateAsync(gradeName).catch((error: Error) => {
       addToast({ message: error.message, type: "error" });
     });

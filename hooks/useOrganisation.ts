@@ -13,7 +13,6 @@ import {
 import { ActivityDTO } from "./useActivity";
 import { GradeDTO } from "./useGrades";
 import { createNewGradeRequest, deleteGradeRequest } from "../apis/gradeAPI";
-import { useAuthentication } from "../providers/AuthenticationProvider";
 
 export type UserDTO = {
   id: string;
@@ -47,9 +46,6 @@ export type FullOrgDTO = {
 const useOrganisation = (orgId: number) => {
   const queryClient = useQueryClient();
   const queryKey = [orgId, "Organisation"];
-  const { userId } = useAuthentication();
-  const data = queryClient.getQueryData<FullOrgDTO>(queryKey);
-  const userRole = data?.users.find((u) => u.id === userId)?.role;
 
   const fetchOrganisation = useQuery<FullOrgDTO>({
     queryFn: async () => fetchOrganisationRequest(orgId),
@@ -216,9 +212,6 @@ const useOrganisation = (orgId: number) => {
   const createGrade = useMutation({
     mutationFn: async (gradeName: string) => createNewGradeRequest(gradeName, orgId),
     onMutate: async (gradeName) => {
-      if (userRole === "OrgAdmin" || userRole === "OrgOwner") {
-        throw new Error("Du har ikke tilladelse til at oprette klassen");
-      }
       await queryClient.cancelQueries({ queryKey: queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
@@ -255,9 +248,6 @@ const useOrganisation = (orgId: number) => {
       await deleteGradeRequest(gradeId, orgId);
     },
     onMutate: async (gradeId) => {
-      if (userRole === "OrgAdmin" || userRole === "OrgOwner") {
-        throw new Error("Du har ikke tilladelse til at slette klassen");
-      }
       await queryClient.cancelQueries({ queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);

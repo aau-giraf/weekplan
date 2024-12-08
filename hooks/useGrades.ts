@@ -7,7 +7,6 @@ import {
   updateGradeRequest,
 } from "../apis/gradeAPI";
 import { CitizenDTO, FullOrgDTO } from "./useOrganisation";
-import { useAuthentication } from "../providers/AuthenticationProvider";
 
 export type GradeDTO = {
   id: number;
@@ -17,9 +16,6 @@ export type GradeDTO = {
 export default function useGrades(gradeId: number) {
   const queryClient = useQueryClient();
   const queryKey = [gradeId, "Grades"];
-  const { userId } = useAuthentication();
-  const data = queryClient.getQueryData<FullOrgDTO>(queryKey);
-  const userRole = data?.users.find((u) => u.id === userId)?.role;
 
   const fetchOrganisationWithGrade = useQuery<FullOrgDTO>({
     queryFn: async () => fetchOrganisationFromGradeRequest(gradeId),
@@ -107,9 +103,6 @@ export default function useGrades(gradeId: number) {
     mutationFn: ({ gradeName, orgId }: { gradeName: string; orgId: number }) =>
       updateGradeRequest(gradeId, gradeName, orgId),
     onMutate: async ({ gradeName }: { gradeName: string }) => {
-      if (userRole === "OrgAdmin" || userRole === "OrgOwner") {
-        throw new Error("You are not allowed to update a grade");
-      }
       await queryClient.cancelQueries({ queryKey });
 
       const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
