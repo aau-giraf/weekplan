@@ -4,6 +4,8 @@ import {
   deleteCitizenRequest,
   deleteMemberRequest,
   fetchOrganisationRequest,
+  makeAdminRequest,
+  removeAdminRequest,
   updateCitizenRequest,
   updateOrganisationRequest,
 } from "../apis/organisationAPI";
@@ -17,6 +19,7 @@ export type UserDTO = {
   firstName: string;
   lastName: string;
   email: string;
+  role: "OrgOwner" | "OrgAdmin" | "OrgMember";
 };
 
 export type CitizenDTO = {
@@ -269,6 +272,74 @@ const useOrganisation = (orgId: number) => {
     },
   });
 
+  const makeMemberAdmin = useMutation({
+    mutationFn: async (userId: string) => {
+      await makeAdminRequest(orgId, userId);
+    },
+    onMutate: async (userId) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            users: oldData.users.map((user) => {
+              if (user.id === userId) {
+                return { ...user, role: "OrgAdmin" };
+              }
+              return user;
+            }),
+          };
+        }
+        return previousOrg;
+      });
+      return { previousOrg };
+    },
+    onError: (_error, _userId, context) => {
+      if (context?.previousOrg) {
+        queryClient.setQueryData(queryKey, context.previousOrg);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
+  const removeAdmin = useMutation({
+    mutationFn: async (userId: string) => {
+      await removeAdminRequest(orgId, userId);
+    },
+    onMutate: async (userId) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousOrg = queryClient.getQueryData<FullOrgDTO>(queryKey);
+      queryClient.setQueryData<FullOrgDTO>(queryKey, (oldData) => {
+        if (oldData) {
+          return {
+            ...oldData,
+            users: oldData.users.map((user) => {
+              if (user.id === userId) {
+                return { ...user, role: "OrgMember" };
+              }
+              return user;
+            }),
+          };
+        }
+        return previousOrg;
+      });
+      return { previousOrg };
+    },
+    onError: (_error, _userId, context) => {
+      if (context?.previousOrg) {
+        queryClient.setQueryData(queryKey, context.previousOrg);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   return {
     data: fetchOrganisation.data,
     isLoading: fetchOrganisation.isLoading,
@@ -281,6 +352,8 @@ const useOrganisation = (orgId: number) => {
     updateOrganisation,
     createGrade,
     deleteGrade,
+    makeMemberAdmin,
+    removeAdmin,
   };
 };
 
