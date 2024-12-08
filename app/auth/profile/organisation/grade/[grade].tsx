@@ -90,29 +90,30 @@ const ViewGrade = () => {
             <Ionicons name="settings-outline" size={ScaleSize(64)} />
           </IconButton>
         </View>
-
-        <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
-        <FlatList
-          bounces={false}
-          data={currentGrade ? sortedCitizen(currentGrade) : []}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={CitizenSharedStyles.citizenList}
-          renderItem={({ item }) => renderCitizen(item)}
-          ListEmptyComponent={<Text style={SharedStyles.notFound}>Ingen elever fundet</Text>}
-        />
+        <View style={{ flex: 1, backgroundColor: colors.lightBlue }}>
+          <SearchBar value={searchedCitizens} onChangeText={setSearchedCitizens} />
+          <FlatList
+            bounces={false}
+            data={currentGrade ? sortedCitizen(currentGrade) : []}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={CitizenSharedStyles.citizenList}
+            renderItem={({ item }) => renderCitizen(item)}
+            ListEmptyComponent={<Text style={SharedStyles.notFound}>Ingen elever fundet</Text>}
+          />
+        </View>
+        <View style={styles.viewCalendarButton}>
+          <IconButton
+            style={styles.calendarButton}
+            onPress={() => {
+              setIsCitizen(false);
+              setId(parsedID);
+              router.push("/auth/profile/organisation/weekplanscreen");
+            }}
+            absolute={true}>
+            <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
+          </IconButton>
+        </View>
       </SafeArea>
-      <View style={styles.viewCalendarButton}>
-        <IconButton
-          style={styles.calendarButton}
-          onPress={() => {
-            setIsCitizen(false);
-            setId(parsedID);
-            router.push("/auth/profile/organisation/weekplanscreen");
-          }}
-          absolute={true}>
-          <Ionicons name={"calendar-outline"} size={ScaleSize(64)} />
-        </IconButton>
-      </View>
     </Fragment>
   );
 };
@@ -152,7 +153,6 @@ const styles = StyleSheet.create({
   calendarButton: {
     height: ScaleSize(100),
     width: ScaleSize(100),
-    marginBottom: ScaleSize(10),
   },
   viewCalendarButton: {
     justifyContent: "flex-end",
