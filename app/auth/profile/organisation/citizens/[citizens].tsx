@@ -5,7 +5,7 @@ import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { colors, ScaleSize, SharedStyles } from "../../../../../utils/SharedStyles";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { Text, View, ActivityIndicator } from "react-native";
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
@@ -114,7 +114,7 @@ const ViewCitizen = () => {
   return (
     <Fragment>
       <SafeArea>
-        <Text style={styles.title}>Borgere</Text>
+        <Text style={SharedStyles.title}>Borgere</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
         <View style={{ flex: 1 }}>
           <ListView
@@ -164,17 +164,17 @@ const UpdateCitizenBottomSheet = ({
     keyboardBlurBehavior="restore"
     index={-1}
     style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-    <BottomSheetScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
+    <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContentCitizen} bounces={false}>
       <Text style={SharedStyles.header}>Opdater fornavn</Text>
       <BottomSheetTextInput
-        style={styles.input}
+        style={SharedStyles.input}
         value={citizenInfo.firstName}
         placeholder="Fornavn"
         onChangeText={(text) => setCitizenInfo((prev) => ({ ...prev, firstName: text }))}
       />
       <Text style={SharedStyles.header}>Opdater efternavn</Text>
       <BottomSheetTextInput
-        style={styles.input}
+        style={SharedStyles.input}
         value={citizenInfo.lastName}
         placeholder="Efternavn"
         onChangeText={(text) => setCitizenInfo((prev) => ({ ...prev, lastName: text }))}
@@ -187,27 +187,5 @@ const UpdateCitizenBottomSheet = ({
     </BottomSheetScrollView>
   </BottomSheet>
 );
-
-const styles = StyleSheet.create({
-  title: {
-    padding: ScaleSize(15),
-    fontSize: ScaleSize(40),
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(20),
-    alignItems: "center",
-  },
-  input: {
-    width: "100%",
-    padding: 5,
-    borderColor: colors.gray,
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 5,
-  },
-});
 
 export default ViewCitizen;

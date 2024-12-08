@@ -9,7 +9,14 @@ import useOrganisationOverview, { OrgOverviewDTO } from "../../../hooks/useOrgan
 import { UseMutationResult } from "@tanstack/react-query";
 import { useToast } from "../../../providers/ToastProvider";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../utils/SharedStyles";
+import {
+  ButtonSharedStyles,
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../utils/SharedStyles";
 import { router } from "expo-router";
 import useInvitation from "../../../hooks/useInvitation";
 import { useAuthentication } from "../../../providers/AuthenticationProvider";
@@ -87,7 +94,7 @@ const ProfilePage: React.FC = () => {
             renderItem={renderOrgContainer}
             keyExtractor={(item, index) => index.toString() + item.name}
             numColumns={1}
-            ListEmptyComponent={<Text style={styles.notFound}>Ingen organisationer fundet</Text>}
+            ListEmptyComponent={<Text style={SharedStyles.notFound}>Ingen organisationer fundet</Text>}
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.profileHeader}>
@@ -100,7 +107,9 @@ const ProfilePage: React.FC = () => {
                   <View style={styles.profileTextContainer}>
                     <Text style={SharedStyles.header}>{`${data.firstName} ${data.lastName}`}</Text>
                   </View>
-                  <IconButton style={styles.settings} onPress={() => router.push("/auth/profile/settings")}>
+                  <IconButton
+                    style={ButtonSharedStyles.settings}
+                    onPress={() => router.push("/auth/profile/settings")}>
                     <Ionicons name="settings-outline" size={ScaleSize(64)} />
                     {inviteData && inviteData.length > 0 && <View style={styles.notificationBadge} />}
                   </IconButton>
@@ -113,7 +122,7 @@ const ProfilePage: React.FC = () => {
           />
         </View>
       </SafeAreaView>
-      <IconButton style={styles.iconAdd} onPress={() => bottomSheetRef.current?.expand()}>
+      <IconButton style={ButtonSharedStyles.iconButton} onPress={() => bottomSheetRef.current?.expand()}>
         <Ionicons name="add" size={ScaleSize(64)} />
       </IconButton>
       <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
@@ -201,12 +210,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.lightBlue,
   },
-  notFound: {
-    color: colors.black,
-    fontSize: ScaleSize(26),
-    textAlign: "center",
-    marginTop: "50%",
-  },
   profileHeader: {
     backgroundColor: colors.white,
     width: "100%",
@@ -240,10 +243,6 @@ const styles = StyleSheet.create({
     fontSize: ScaleSize(48),
     marginRight: ScaleSizeW(10),
   },
-  settings: {
-    top: ScaleSize(10),
-    right: ScaleSize(30),
-  },
   notificationBadge: {
     position: "absolute",
     top: 0,
@@ -252,10 +251,6 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     backgroundColor: colors.red,
-  },
-  iconAdd: {
-    bottom: ScaleSize(30),
-    right: ScaleSize(30),
   },
   profileContainer: {
     justifyContent: "center",

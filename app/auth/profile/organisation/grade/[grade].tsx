@@ -5,7 +5,14 @@ import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { FlatList } from "react-native-gesture-handler";
 import IconButton from "../../../../../components/IconButton";
 import useGrades, { GradeDTO } from "../../../../../hooks/useGrades";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
+import {
+  CitizenSharedStyles,
+  colors,
+  ScaleSize,
+  ScaleSizeH,
+  ScaleSizeW,
+  SharedStyles,
+} from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
@@ -59,7 +66,7 @@ const ViewGrade = () => {
         }}>
         <View style={styles.citizenRow}>
           <InitialsPicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
-          <Text numberOfLines={1} style={styles.citizenText}>
+          <Text numberOfLines={1} style={[CitizenSharedStyles.citizenText, { flex: 1 }]}>
             {`${item.firstName} ${item.lastName}`}
           </Text>
         </View>
@@ -89,9 +96,9 @@ const ViewGrade = () => {
             bounces={false}
             data={currentGrade ? sortedCitizen(currentGrade) : []}
             keyExtractor={(item) => item.id.toString()}
-            contentContainerStyle={styles.citizenList}
+            contentContainerStyle={CitizenSharedStyles.citizenList}
             renderItem={({ item }) => renderCitizen(item)}
-            ListEmptyComponent={<Text style={styles.notFound}>Ingen elever fundet</Text>}
+            ListEmptyComponent={<Text style={SharedStyles.notFound}>Ingen elever fundet</Text>}
           />
         </View>
         <View style={styles.viewCalendarButton}>
@@ -128,16 +135,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: ScaleSizeW(10),
   },
-  citizenList: {
-    flexGrow: 1,
-    width: "100%",
-  },
-  citizenText: {
-    paddingLeft: ScaleSize(30),
-    fontSize: ScaleSize(30),
-    color: colors.black,
-    flex: 1,
-  },
   citizenContainer: {
     gap: ScaleSize(10),
     padding: ScaleSize(5),
@@ -148,12 +145,6 @@ const styles = StyleSheet.create({
     maxHeight: ScaleSizeH(300),
     aspectRatio: 1,
     borderRadius: 10000,
-  },
-  notFound: {
-    color: colors.black,
-    fontSize: ScaleSize(26),
-    textAlign: "center",
-    marginTop: "50%",
   },
   settings: {
     top: ScaleSize(10),
