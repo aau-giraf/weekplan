@@ -10,7 +10,7 @@ import { LayoutChangeEvent, ListRenderItem, Platform, StyleProp, ViewStyle } fro
 import { SwipeableMethods, SwipeableProps } from "react-native-gesture-handler/ReanimatedSwipeable";
 
 export type Action<T> = {
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: keyof typeof Ionicons.glyphMap | ((item: T) => keyof typeof Ionicons.glyphMap);
   color: string;
   onPress: (item: T) => void;
   closeDelay?: number;

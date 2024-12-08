@@ -53,3 +53,21 @@ export const updateOrganisationRequest = (orgId: number, name: string) => {
       throw new Error("Fejl: Kunne ikke opdatere organisation");
     });
 };
+
+export const makeAdminRequest = (orgId: number, userId: string) => {
+  return axiosInstance
+    .post(`/organizations/${orgId}/add-admin/${userId}`)
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke gøre brugeren til admin");
+    });
+};
+
+export const removeAdminRequest = (orgId: number, userId: string) => {
+  return axiosInstance
+    .post(`/organizations/${orgId}/remove-admin/${userId}`)
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Fejl: Kunne ikke fjerne brugerens admin-rettigheder");
+    });
+};

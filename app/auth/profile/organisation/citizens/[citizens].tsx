@@ -11,9 +11,10 @@ import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 import SafeArea from "../../../../../components/SafeArea";
+import { Action } from "../../../../../components/swipeablelist/SwipeableList";
 
 type Citizen = {
-  id: number | string;
+  id: number;
   firstName: string;
   lastName: string;
 };
@@ -89,6 +90,27 @@ const ViewCitizen = () => {
     );
   }
 
+  const leftActions: Action<Citizen>[] = [
+    {
+      icon: "pencil-outline",
+      color: colors.blue,
+      onPress: (cit: Citizen) => {
+        const citizen = data?.citizens.find((c) => c.id === cit.id);
+        if (citizen) {
+          openBottomSheet(citizen);
+        }
+      },
+    },
+  ];
+
+  const rightActions: Action<Citizen>[] = [
+    {
+      icon: "trash-outline",
+      color: colors.crimson,
+      onPress: (citizen: Citizen) => handleDelete(citizen.id),
+    },
+  ];
+
   return (
     <Fragment>
       <SafeArea>
@@ -98,16 +120,10 @@ const ViewCitizen = () => {
           <ListView
             data={filteredData}
             loadingMessage="Henter borgere..."
-            errorMessage="Fejl med at hente borgere"
             isLoading={isLoading}
             error={!!error}
-            handleDelete={handleDelete}
-            handleUpdate={(id) => {
-              const citizen = data?.citizens.find((c) => c.id === id);
-              if (citizen) {
-                openBottomSheet(citizen);
-              }
-            }}
+            leftActions={leftActions}
+            rightActions={rightActions}
             getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
             keyExtractor={(citizen) => citizen.id.toString()}
             onPress={(item) => {

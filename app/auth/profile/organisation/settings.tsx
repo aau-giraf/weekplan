@@ -23,7 +23,9 @@ const Settings = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const deleteSheetRef = useRef<BottomSheet>(null);
 
-  const settings: Setting[] = useMemo(
+  const organisationOwnerId = data?.users.find((u) => u.role === "OrgOwner")?.id;
+
+  const baseSettings: Setting[] = useMemo(
     () => [
       {
         icon: "person-add-outline",
@@ -73,20 +75,41 @@ const Settings = () => {
             params: { uploadpictogram: organisation.toString() },
           }),
       },
+    ],
+    [organisation, parsedId]
+  );
+
+  const ownerSettings: Setting[] = useMemo(
+    () => [
+      {
+        icon: "trash-outline",
+        label: "Slet organisation",
+        onPress: () => {
+          deleteOpenBS();
+        },
+      },
+    ],
+    []
+  );
+
+  const nonOwnerSettings: Setting[] = useMemo(
+    () => [
       {
         icon: "exit-outline",
         label: "Forlad organisation",
         onPress: () => openBS(),
         testID: "leave-org-button",
       },
-      {
-        icon: "trash-outline",
-        label: "Slet organisation",
-        onPress: () => deleteOpenBS(),
-      },
     ],
-    [organisation, parsedId]
+    []
   );
+
+  const settings = useMemo(() => {
+    if (userId === organisationOwnerId) {
+      return [...baseSettings, ...ownerSettings];
+    }
+    return [...baseSettings, ...nonOwnerSettings];
+  }, [userId, organisationOwnerId, baseSettings, ownerSettings, nonOwnerSettings]);
 
   if (isLoading) {
     return (
