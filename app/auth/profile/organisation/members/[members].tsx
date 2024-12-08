@@ -7,7 +7,6 @@ import useSearch from "../../../../../hooks/useSearch";
 import SearchBar from "../../../../../components/SearchBar";
 import { useToast } from "../../../../../providers/ToastProvider";
 import SafeArea from "../../../../../components/SafeArea";
-import { SharedStyles } from "../../../../../utils/SharedStyles";
 import { colors, ScaleSize } from "../../../../../utils/SharedStyles";
 import { Action } from "../../../../../components/swipeablelist/SwipeableList";
 import { useAuthentication } from "../../../../../providers/AuthenticationProvider";
