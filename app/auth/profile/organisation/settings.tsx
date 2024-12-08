@@ -34,7 +34,7 @@ const Settings = () => {
 
   const organisationOwnerId = data?.users.find((u) => u.role === "OrgOwner")?.id;
 
-  const settings: Setting[] = useMemo(
+  const baseSettings: Setting[] = useMemo(
     () => [
       {
         icon: "person-add-outline",
@@ -113,11 +113,12 @@ const Settings = () => {
     []
   );
 
-  if (userId === organisationOwnerId) {
-    settings.push(...ownerSettings);
-  } else {
-    settings.push(...nonOwnerSettings);
-  }
+  const settings = useMemo(() => {
+    if (userId === organisationOwnerId) {
+      return [...baseSettings, ...ownerSettings];
+    }
+    return [...baseSettings, ...nonOwnerSettings];
+  }, [userId, organisationOwnerId, baseSettings, ownerSettings, nonOwnerSettings]);
 
   if (isLoading) {
     return (
