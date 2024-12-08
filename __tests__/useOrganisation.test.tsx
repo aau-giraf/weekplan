@@ -80,6 +80,12 @@ jest.mock("../apis/organisationAPI", () => ({
   updateOrganisationRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve(mockUpdatedOrganisation);
   }),
+  makeAdminRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
+  }),
+  removeAdminRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
+  }),
 }));
 
 jest.mock("../apis/gradeAPI", () => ({
