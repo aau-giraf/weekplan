@@ -94,7 +94,7 @@ const Settings = () => {
         addToast({ message: error.message, type: "error" });
       });
     deleteCloseBS();
-    router.push(`/auth/profile/organisation/${data?.id}`);
+    router.dismissTo(`/auth/profile/organisation/${data?.id}`);
   };
 
   type deleteBottomSheetProps = {
