@@ -111,13 +111,12 @@ const SharedStyles = StyleSheet.create({
     alignItems: "center",
   },
   inputValid: {
-    paddingVertical: ScaleSizeH(16),
-    paddingHorizontal: ScaleSizeW(85),
     borderWidth: 1,
     fontSize: ScaleSize(24),
     borderColor: colors.lightGray,
     backgroundColor: colors.white,
     borderRadius: 5,
+    width: "50%",
     marginVertical: ScaleSizeH(10),
   },
   sheetContent: {
