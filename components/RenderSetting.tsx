@@ -57,7 +57,7 @@ const RenderSetting: React.FC<RenderSettingProps> = ({ item, toggleStates = {}, 
             )}
           </View>
 
-          <Text style={styles.settingItemText}>{item.label}</Text>
+          <Text style={{ fontSize: 20 }}>{item.label}</Text>
         </View>
         {!item.onPress ? (
           <Switch
@@ -85,9 +85,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 15,
     position: "relative",
-  },
-  settingItemText: {
-    fontSize: 20,
   },
 });
 

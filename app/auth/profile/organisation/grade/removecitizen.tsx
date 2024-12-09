@@ -1,15 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Fragment, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScaleSize, ScaleSizeH, colors, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
+import { ScaleSizeH, colors, SharedStyles, CitizenSharedStyles } from "../../../../../utils/SharedStyles";
 import SearchBar from "../../../../../components/SearchBar";
 import useGrades from "../../../../../hooks/useGrades";
 import { useToast } from "../../../../../providers/ToastProvider";
@@ -72,18 +64,21 @@ const RemoveCitizen = () => {
   };
 
   const renderCitizen = (item: Citizen) => (
-    <View style={styles.citizenContainer}>
+    <View style={CitizenSharedStyles.container}>
       <TouchableOpacity
         style={[
-          styles.selection,
+          CitizenSharedStyles.selection,
           selectedCitizens.some((citizen) => citizen.id === item.id) && { backgroundColor: colors.red },
         ]}
         onPress={() => toggleCitizenSelection(item.id)}>
-        <InitialsPicture label={`${item.firstName} ${item.lastName}`} style={styles.profilePicture} />
+        <InitialsPicture
+          label={`${item.firstName} ${item.lastName}`}
+          style={CitizenSharedStyles.profilePicture}
+        />
         <Text
           numberOfLines={3}
           style={[
-            styles.citizenText,
+            CitizenSharedStyles.citizenText,
             selectedCitizens.some((citizen) => citizen.id === item.id) && { fontWeight: "bold" },
           ]}>
           {`${item.firstName} ${item.lastName}`}
@@ -94,7 +89,7 @@ const RemoveCitizen = () => {
 
   if (error) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <Text>{error.message}</Text>
       </View>
     );
@@ -102,7 +97,7 @@ const RemoveCitizen = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.centeredContainer}>
+      <View style={SharedStyles.centeredContainer}>
         <ActivityIndicator size={"large"} />
       </View>
     );
@@ -111,19 +106,19 @@ const RemoveCitizen = () => {
   return (
     <Fragment>
       <SafeArea />
-      <View style={styles.container}>
+      <View style={CitizenSharedStyles.citizenContainer}>
         <View>
           <Text style={SharedStyles.heading}>Fjern elever fra klasse</Text>
-          <View style={styles.searchbar}>
+          <View style={CitizenSharedStyles.searchbar}>
             <SearchBar value={searchInput} onChangeText={handleSearch} />
           </View>
         </View>
         <FlatList
           bounces={false}
           data={searchAssignedCitizens}
-          contentContainerStyle={styles.citizenList}
+          contentContainerStyle={CitizenSharedStyles.citizenList}
           renderItem={({ item }) => renderCitizen(item)}
-          ListEmptyComponent={<Text style={styles.notFound}>Ingen elever fundet</Text>}
+          ListEmptyComponent={<Text style={SharedStyles.notFound}>Ingen elever fundet</Text>}
           keyExtractor={(item) => item.id.toString()}
         />
         <View style={styles.buttonContainer}>
@@ -143,59 +138,6 @@ const RemoveCitizen = () => {
 export default RemoveCitizen;
 
 const styles = StyleSheet.create({
-  centeredContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  container: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: colors.white,
-  },
-  citizenList: {
-    flexGrow: 1,
-    width: "100%",
-  },
-  searchbar: {
-    width: "100%",
-    minWidth: "100%",
-    paddingVertical: ScaleSize(15),
-  },
-  notFound: {
-    color: colors.black,
-    fontSize: ScaleSize(26),
-    textAlign: "center",
-    marginTop: "50%",
-  },
-  selection: {
-    paddingVertical: ScaleSizeH(15),
-    paddingHorizontal: ScaleSizeW(15),
-    borderRadius: 15,
-    backgroundColor: colors.lightBlue,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  citizenContainer: {
-    display: "flex",
-    gap: ScaleSize(10),
-    padding: ScaleSize(5),
-    backgroundColor: colors.lightBlue,
-    alignItems: "center",
-  },
-  profilePicture: {
-    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
-    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(125) : ScaleSizeH(125),
-    aspectRatio: 1,
-    borderRadius: 10000,
-  },
-  citizenText: {
-    paddingLeft: ScaleSize(30),
-    fontSize: ScaleSize(30),
-    color: colors.black,
-    textAlign: "center",
-  },
   buttonContainer: {
     width: "100%",
     alignItems: "center",

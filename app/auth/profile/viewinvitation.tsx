@@ -67,7 +67,7 @@ const ViewInvitation = () => {
     <Fragment>
       <SafeArea style={{ backgroundColor: colors.white }} />
       <View style={styles.container}>
-        <Text style={styles.title}>Invitations</Text>
+        <Text style={SharedStyles.title}>Invitations</Text>
         <FlatList
           bounces={false}
           data={data}
@@ -96,12 +96,6 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: "column",
     justifyContent: "center",
-  },
-  title: {
-    padding: ScaleSize(15),
-    fontSize: ScaleSize(40),
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });
 

@@ -14,11 +14,10 @@ type ListItem = {
 type ListViewProps<T extends ListItem> = {
   data: T[];
   loadingMessage: string;
-  errorMessage: string;
   isLoading: boolean;
   error: boolean;
-  handleDelete: (id: T["id"]) => void;
-  handleUpdate?: (id: T["id"]) => void;
+  rightActions?: Action<T>[];
+  leftActions?: Action<T>[];
   getLabel: (item: T) => string;
   keyExtractor: (item: T) => string;
   onPress?: (item: T) => void;
@@ -26,11 +25,10 @@ type ListViewProps<T extends ListItem> = {
 
 const ListView = <T extends ListItem>({
   data,
-  errorMessage,
   isLoading,
   error,
-  handleDelete,
-  handleUpdate,
+  rightActions,
+  leftActions,
   getLabel,
   keyExtractor,
   onPress,
@@ -50,22 +48,6 @@ const ListView = <T extends ListItem>({
       </View>
     );
   }
-
-  const rightActions: Action<T>[] = [
-    {
-      icon: "person-remove-outline",
-      color: colors.crimson,
-      onPress: (item) => handleDelete(item.id),
-    },
-  ];
-
-  const leftActions: Action<T>[] = [
-    {
-      icon: "pencil",
-      color: colors.blue,
-      onPress: (item) => handleUpdate?.(item.id),
-    },
-  ];
 
   const renderItem = (item: T) => (
     <Pressable style={styles.itemContainer} key={keyExtractor(item)} onPress={() => onPress && onPress(item)}>
@@ -92,7 +74,7 @@ const ListView = <T extends ListItem>({
           contentContainerStyle: { flexGrow: 1 },
         }}
         rightActions={rightActions}
-        leftActions={handleUpdate ? leftActions : undefined}
+        leftActions={leftActions}
       />
     </Fragment>
   );

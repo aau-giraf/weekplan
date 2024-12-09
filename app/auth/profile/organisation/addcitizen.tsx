@@ -6,7 +6,7 @@ import SwipeableList from "../../../../components/swipeablelist/SwipeableList";
 import SubmitButton from "../../../../components/forms/SubmitButton";
 import FormField from "../../../../components/forms/TextInput";
 import useOrganisation from "../../../../hooks/useOrganisation";
-import { colors, ScaleSize } from "../../../../utils/SharedStyles";
+import { CitizenSharedStyles, colors, ScaleSize } from "../../../../utils/SharedStyles";
 import FormContainer from "../../../../components/forms/FormContainer";
 import FormHeader from "../../../../components/forms/FormHeader";
 import { useForm } from "react-hook-form";
@@ -108,7 +108,7 @@ const AddCitizen: React.FC = () => {
   return (
     <Fragment>
       <SafeArea />
-      <View style={styles.container}>
+      <View style={CitizenSharedStyles.citizenContainer}>
         <SwipeableList
           style={{ padding: 20 }}
           items={citizens}
@@ -136,11 +136,6 @@ const AddCitizen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    width: "100%",
-  },
   citizenContainer: {
     display: "flex",
     flexDirection: "row",

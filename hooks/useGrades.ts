@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addCitizenToGradeRequest,
-  createNewGradeRequest,
   fetchCitizenById,
   fetchOrganisationFromGradeRequest,
   removeCitizenFromGradeRequest,
@@ -142,7 +141,6 @@ export default function useGrades(gradeId: number) {
     addCitizenToGrade,
     removeCitizenFromGrade,
     updateGrade,
-    createNewGradeRequest: createNewGradeRequest,
     data: fetchOrganisationWithGrade.data,
     error: fetchOrganisationWithGrade.error,
     isLoading: fetchOrganisationWithGrade.isLoading,

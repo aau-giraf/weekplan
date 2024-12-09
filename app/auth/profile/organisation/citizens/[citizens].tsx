@@ -5,15 +5,16 @@ import ListView from "../../../../../components/ListView";
 import useSearch from "../../../../../hooks/useSearch";
 import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { colors, ScaleSize, SharedStyles } from "../../../../../utils/SharedStyles";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { Text, View, ActivityIndicator } from "react-native";
 import SearchBar from "../../../../../components/SearchBar";
 import SecondaryButton from "../../../../../components/forms/SecondaryButton";
 import { useToast } from "../../../../../providers/ToastProvider";
 import { useWeekplan } from "../../../../../providers/WeekplanProvider";
 import SafeArea from "../../../../../components/SafeArea";
+import { Action } from "../../../../../components/swipeablelist/SwipeableList";
 
 type Citizen = {
-  id: number | string;
+  id: number;
   firstName: string;
   lastName: string;
 };
@@ -89,25 +90,40 @@ const ViewCitizen = () => {
     );
   }
 
+  const leftActions: Action<Citizen>[] = [
+    {
+      icon: "pencil-outline",
+      color: colors.blue,
+      onPress: (cit: Citizen) => {
+        const citizen = data?.citizens.find((c) => c.id === cit.id);
+        if (citizen) {
+          openBottomSheet(citizen);
+        }
+      },
+    },
+  ];
+
+  const rightActions: Action<Citizen>[] = [
+    {
+      icon: "trash-outline",
+      color: colors.crimson,
+      onPress: (citizen: Citizen) => handleDelete(citizen.id),
+    },
+  ];
+
   return (
     <Fragment>
       <SafeArea>
-        <Text style={styles.title}>Borgere</Text>
+        <Text style={SharedStyles.title}>Borgere</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} style={{ marginTop: 25 }} />
         <View style={{ flex: 1 }}>
           <ListView
             data={filteredData}
             loadingMessage="Henter borgere..."
-            errorMessage="Fejl med at hente borgere"
             isLoading={isLoading}
             error={!!error}
-            handleDelete={handleDelete}
-            handleUpdate={(id) => {
-              const citizen = data?.citizens.find((c) => c.id === id);
-              if (citizen) {
-                openBottomSheet(citizen);
-              }
-            }}
+            leftActions={leftActions}
+            rightActions={rightActions}
             getLabel={(citizen) => `${citizen.firstName} ${citizen.lastName}`}
             keyExtractor={(citizen) => citizen.id.toString()}
             onPress={(item) => {
@@ -148,17 +164,17 @@ const UpdateCitizenBottomSheet = ({
     keyboardBlurBehavior="restore"
     index={-1}
     style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-    <BottomSheetScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
+    <BottomSheetScrollView contentContainerStyle={SharedStyles.sheetContentCitizen} bounces={false}>
       <Text style={SharedStyles.header}>Opdater fornavn</Text>
       <BottomSheetTextInput
-        style={styles.input}
+        style={SharedStyles.input}
         value={citizenInfo.firstName}
         placeholder="Fornavn"
         onChangeText={(text) => setCitizenInfo((prev) => ({ ...prev, firstName: text }))}
       />
       <Text style={SharedStyles.header}>Opdater efternavn</Text>
       <BottomSheetTextInput
-        style={styles.input}
+        style={SharedStyles.input}
         value={citizenInfo.lastName}
         placeholder="Efternavn"
         onChangeText={(text) => setCitizenInfo((prev) => ({ ...prev, lastName: text }))}
@@ -171,27 +187,5 @@ const UpdateCitizenBottomSheet = ({
     </BottomSheetScrollView>
   </BottomSheet>
 );
-
-const styles = StyleSheet.create({
-  title: {
-    padding: ScaleSize(15),
-    fontSize: ScaleSize(40),
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(20),
-    alignItems: "center",
-  },
-  input: {
-    width: "100%",
-    padding: 5,
-    borderColor: colors.gray,
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 5,
-  },
-});
 
 export default ViewCitizen;

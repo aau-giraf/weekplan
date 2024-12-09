@@ -1,17 +1,8 @@
 import React, { Fragment, useMemo, useRef } from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  FlatList,
-  Text,
-  ActivityIndicator,
-  Dimensions,
-  TextInput,
-} from "react-native";
+import { ScrollView, View, FlatList, Text, ActivityIndicator, TextInput } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import RenderSetting from "../../../../../components/RenderSetting";
-import { colors, ScaleSize, ScaleSizeH, ScaleSizeW, SharedStyles } from "../../../../../utils/SharedStyles";
+import { colors, ScaleSize, SettingsSharedStyles, SharedStyles } from "../../../../../utils/SharedStyles";
 import { Setting } from "../../../../../utils/settingsUtils";
 import useGrades from "../../../../../hooks/useGrades";
 import { InitialsPicture } from "../../../../../components/profilepicture_components/InitialsPicture";
@@ -121,13 +112,13 @@ const Settings = () => {
         keyboardBlurBehavior="restore"
         index={-1}
         style={{ shadowRadius: 20, shadowOpacity: 0.3, zIndex: 101 }}>
-        <BottomSheetScrollView contentContainerStyle={styles.sheetContent} bounces={false}>
+        <BottomSheetScrollView contentContainerStyle={SettingsSharedStyles.sheetContent} bounces={false}>
           <Text style={SharedStyles.header}>{`Vil du slette klassen \n "${gradeName}"`}</Text>
           <Text style={{ fontSize: 18, marginBottom: ScaleSize(20) }}>
             Indtast klassens navn for at bekræfte
           </Text>
           <TextInput
-            style={styles.input}
+            style={SettingsSharedStyles.input}
             onChangeText={(text: string) => setUserInput(text)}
             value={userInput}
             testID={"delete-org-input"}
@@ -148,11 +139,11 @@ const Settings = () => {
     <Fragment>
       <View style={{ flexGrow: 1, position: "relative" }}>
         <SafeArea style={{ backgroundColor: colors.lightBlueMagenta }} />
-        <ScrollView style={styles.scrollContainer} bounces={false}>
-          <View style={styles.profileSection}>
-            <View style={styles.profileContainer}>
+        <ScrollView style={SettingsSharedStyles.scrollContainer} bounces={false}>
+          <View style={SettingsSharedStyles.profileSection}>
+            <View style={SettingsSharedStyles.profileContainer}>
               <InitialsPicture
-                style={styles.mainProfilePicture}
+                style={SettingsSharedStyles.mainProfilePicture}
                 label={currentGrade?.name || "Ukendt klasse"}
                 fontSize={100}
               />
@@ -161,13 +152,17 @@ const Settings = () => {
               </View>
             </View>
           </View>
-          <View style={styles.settingsContainer}>
+          <View style={SettingsSharedStyles.settingsContainer}>
             <FlatList
               bounces={false}
               data={settings}
               scrollEnabled={false}
               renderItem={({ item, index }) => (
-                <View style={[styles.listItem, index > 0 && styles.itemWithTopSeparator]}>
+                <View
+                  style={[
+                    SettingsSharedStyles.listItem,
+                    index > 0 && SettingsSharedStyles.itemWithTopSeparator,
+                  ]}>
                   <RenderSetting item={item} />
                 </View>
               )}
@@ -184,66 +179,5 @@ const Settings = () => {
     </Fragment>
   );
 };
-
-const styles = StyleSheet.create({
-  profileSection: {
-    backgroundColor: colors.lightBlueMagenta,
-  },
-  profileContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 40,
-    paddingTop: 20,
-    gap: 20,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    backgroundColor: colors.white,
-  },
-  headerContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  backButton: {
-    position: "absolute",
-    top: 0,
-    left: 5,
-    zIndex: 2,
-    paddingHorizontal: 10,
-    paddingBottom: 10,
-  },
-  settingsContainer: {
-    backgroundColor: colors.white,
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
-  listItem: {
-    backgroundColor: colors.white,
-  },
-  itemWithTopSeparator: {
-    borderTopWidth: 0.32,
-    borderTopColor: colors.black,
-  },
-  mainProfilePicture: {
-    width: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
-    height: Dimensions.get("screen").width >= 1180 ? ScaleSizeW(250) : ScaleSizeH(250),
-    aspectRatio: 1,
-    borderRadius: 10000,
-  },
-  sheetContent: {
-    gap: ScaleSize(10),
-    padding: ScaleSize(90),
-    alignItems: "center",
-  },
-  input: {
-    width: ScaleSize(500),
-    height: ScaleSize(50),
-    borderColor: colors.black,
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: ScaleSize(10),
-    marginBottom: ScaleSize(20),
-  },
-});
 
 export default Settings;

@@ -27,7 +27,7 @@ export function SwipeAction<T>(
     <Reanimated.View style={[styleAnimation, { flexDirection: "row" }]}>
       {actions.map((act, index) => (
         <TouchableOpacity
-          key={act.icon}
+          key={typeof act.icon === "function" ? act.icon(item) : act.icon}
           onPress={() => {
             setTimeout(() => {
               ref?.current?.close();
@@ -37,7 +37,7 @@ export function SwipeAction<T>(
           testID={`${swipeDirection}-action-${index}`}
           style={[SharedStyles.trueCenter, { backgroundColor: act.color }, { width: actionDimensions }]}>
           <Ionicons
-            name={act.icon}
+            name={typeof act.icon === "function" ? act.icon(item) : act.icon}
             size={ScaleSize(48)}
             color={colors.white}
             testID={swipeDirection === "left" ? "left-action-icon" : "right-action-icon"}

@@ -80,6 +80,12 @@ jest.mock("../apis/organisationAPI", () => ({
   updateOrganisationRequest: jest.fn().mockImplementation(() => {
     return Promise.resolve(mockUpdatedOrganisation);
   }),
+  makeAdminRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
+  }),
+  removeAdminRequest: jest.fn().mockImplementation(() => {
+    return Promise.resolve();
+  }),
 }));
 
 jest.mock("../apis/gradeAPI", () => ({
@@ -243,5 +249,117 @@ test("Should update organisation", async () => {
 
   await waitFor(() => {
     expect(result.current.data).toEqual(mockUpdatedOrganisation);
+  });
+});
+
+test("Should make user admin", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.makeMemberAdmin.mutateAsync("1");
+  });
+
+  await waitFor(() => {
+    expect(result.current.makeMemberAdmin.isSuccess).toBe(true);
+  });
+});
+
+test("Should remove user as admin", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.removeAdmin.mutateAsync("1");
+  });
+
+  await waitFor(() => {
+    expect(result.current.removeAdmin.isSuccess).toBe(true);
+  });
+});
+
+test("Should not remove user as admin if user is owner", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.removeAdmin.mutateAsync("2");
+  });
+
+  await waitFor(() => {
+    expect(result.current.removeAdmin.isError).toBe(false);
+  });
+});
+
+test("Should not remove user as admin if user is not moderator", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.removeAdmin.mutateAsync("1");
+  });
+
+  await waitFor(() => {
+    expect(result.current.removeAdmin.isError).toBe(false);
+  });
+});
+
+test("Should not make user admin if user is owner", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.makeMemberAdmin.mutateAsync("2");
+  });
+
+  await waitFor(() => {
+    expect(result.current.makeMemberAdmin.isError).toBe(false);
+  });
+});
+
+test("Should not make user admin if user is already admin", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.makeMemberAdmin.mutateAsync("1");
+  });
+
+  await waitFor(() => {
+    expect(result.current.makeMemberAdmin.isError).toBe(false);
+  });
+});
+
+test("Should not remove owner admin role", async () => {
+  const { result } = renderHook(() => useOrganisation(1), { wrapper });
+
+  await waitFor(() => {
+    expect(result.current.data).toEqual(mockOrganisation);
+  });
+
+  await act(async () => {
+    await result.current.removeAdmin.mutateAsync("1");
+  });
+
+  await waitFor(() => {
+    expect(result.current.removeAdmin.isError).toBe(false);
   });
 });
