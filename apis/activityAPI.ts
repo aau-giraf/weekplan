@@ -46,7 +46,7 @@ export const updateRequest = (activity: FullActivityDTO, activityId: number) => 
   const { pictogram, ...deconstructedActivity } = activity;
   const data = {
     ...deconstructedActivity,
-    pictogramId: pictogram.id,
+    pictogramId: pictogram?.id,
   };
   return axiosInstance
     .put(`/weekplan/activity/${activityId}`, data)
@@ -69,7 +69,7 @@ export const createActivityCitizen = (activity: ActivityDTO, citizenId: number) 
   const { pictogram, ...deconstructedActivity } = activity;
   const dataWithOnlyPictogramId = {
     ...deconstructedActivity,
-    pictogramId: pictogram.id,
+    pictogramId: pictogram?.id,
   };
   return axiosInstance
     .post(`/weekplan/to-citizen/${citizenId}`, dataWithOnlyPictogramId)
@@ -83,7 +83,7 @@ export const createActivityGrade = (activity: ActivityDTO, gradeId: number) => {
   const { pictogram, ...deconstructedActivity } = activity;
   const data = {
     ...deconstructedActivity,
-    pictogramId: pictogram.id,
+    pictogramId: pictogram?.id,
   };
   return axiosInstance
     .post(`/weekplan/to-grade/${gradeId}`, data)
@@ -100,11 +100,9 @@ export const copyActivitiesCitizenRequest = (
   destinationDate: Date
 ) => {
   return axiosInstance
-    .post(
-      `/weekplan/activities/copy-citizen/${citizenId}`,
-      { activityIds },
-      { params: { sourceDateStr: sourceDate, destinationDateStr: destinationDate } }
-    )
+    .post(`/weekplan/activity/copy-citizen/${citizenId}`, activityIds, {
+      params: { dateStr: formatQueryDate(sourceDate), newDateStr: formatQueryDate(destinationDate) },
+    })
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke kopiere aktiviteterne");
@@ -118,11 +116,12 @@ export const copyActivitiesGradeRequest = (
   destinationDate: Date
 ) => {
   return axiosInstance
-    .post(
-      `/weekplan/activities/copy-grade/${gradeId}`,
-      { activityIds },
-      { params: { sourceDateStr: sourceDate, destinationDateStr: destinationDate } }
-    )
+    .post(`/weekplan/activity/copy-grade/${gradeId}`, activityIds, {
+      params: {
+        dateStr: formatQueryDate(sourceDate),
+        newDateStr: formatQueryDate(destinationDate),
+      },
+    })
     .then((res) => res.data)
     .catch(() => {
       throw new Error("Fejl: Kunne ikke kopiere aktiviteterne");
