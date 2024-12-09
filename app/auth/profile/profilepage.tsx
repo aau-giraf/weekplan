@@ -122,9 +122,11 @@ const ProfilePage: React.FC = () => {
           />
         </View>
       </SafeAreaView>
-      <IconButton style={ButtonSharedStyles.iconButton} onPress={() => bottomSheetRef.current?.expand()}>
-        <Ionicons name="add" size={ScaleSize(64)} />
-      </IconButton>
+      <View style={ButtonSharedStyles.iconViewAddButton}>
+        <IconButton onPress={() => bottomSheetRef.current?.expand()}>
+          <Ionicons name="add" size={ScaleSize(50)} />
+        </IconButton>
+      </View>
       <AddBottomSheet bottomSheetRef={bottomSheetRef} createOrganisation={createOrganisation} />
     </Fragment>
   );
