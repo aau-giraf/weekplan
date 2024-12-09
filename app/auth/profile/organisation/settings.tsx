@@ -156,7 +156,7 @@ const Settings = () => {
         addToast({ message: error.message, type: "error" });
       });
     deleteCloseBS();
-    router.push("/auth/profile/profilepage");
+    router.dismissTo("/auth/profile/profilepage");
   };
 
   type deleteBottomSheetProps = {
