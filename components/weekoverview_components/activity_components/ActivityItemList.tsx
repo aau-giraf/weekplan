@@ -34,7 +34,7 @@ const ActivityItemList = () => {
   const { data, error, isLoading, refetch } = useFetchActivities;
   const { addToast } = useToast();
   const [modalVisible, setModalVisible] = useState(false);
-  const [imageUri, setImageUri] = useState<string>();
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
   const renderActivityItem = useCallback(
     (item: ActivityDTO) => (
@@ -129,11 +129,15 @@ const ActivityItemList = () => {
           onRequestClose={() => setModalVisible(false)}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Image
-                source={{ uri: imageUri }}
-                style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
-                resizeMode="contain"
-              />
+              {imageUri ? (
+                <Image
+                  source={{ uri: imageUri }}
+                  style={{ width: ScaleSizeW(750), height: ScaleSizeH(750) }}
+                  resizeMode="contain"
+                />
+              ) : (
+                <Text>Intet billede for piktogram</Text>
+              )}
               <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
                 <Text style={styles.closeButtonText}>Luk</Text>
               </TouchableOpacity>

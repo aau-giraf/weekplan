@@ -27,7 +27,7 @@ export type FullActivityDTO = {
   endTime: string;
   startTime: string;
   isCompleted: boolean;
-  pictogram: Pictogram;
+  pictogram?: Pictogram;
 };
 
 export const dateToQueryKey = (date: Date, isCitizen: boolean, id: number) => {
