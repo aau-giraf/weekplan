@@ -6,7 +6,7 @@ import { BASE_URL } from "../../../utils/globals";
 
 type ActivityItemProps = {
   item: ActivityDTO;
-  setImageUri: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setImageUri: React.Dispatch<React.SetStateAction<string | null>>;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -30,7 +30,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ item, setImageUri, setModal
     setModalVisible(true);
   };
 
-  const uri = `${BASE_URL}/${item.pictogram.pictogramUrl}`;
+  const uri = `${BASE_URL}/${item.pictogram?.pictogramUrl}`;
 
   return (
     <View
@@ -52,7 +52,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ item, setImageUri, setModal
             />
           </Pressable>
         ) : (
-          <Text style={styles.iconPlaceholderText}>Intet ikon</Text>
+          <Text style={styles.iconPlaceholderText}>Intet piktogram</Text>
         )}
       </View>
     </View>
