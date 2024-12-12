@@ -19,7 +19,7 @@ export const getImage = async (imageSelector: getImageProps) => {
   }
 
   const options = {
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    mediaType: ["images"],
     allowsEditing: true,
     aspect: [1, 1] as [number, number],
   };
