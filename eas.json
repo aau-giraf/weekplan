@@ -10,7 +10,10 @@
     },
     "production": {
       "autoIncrement": true,
-      "distribution": "store"
+      "distribution": "store",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://130.225.59.5"
+      }
     }
   },
   "submit": {

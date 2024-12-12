@@ -24,13 +24,26 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.girafsvenner.ugeplan"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "plugins": [
+      ["expo-build-properties", {
+        "android": {
+          "usesCleartextTraffic": true
+        },
+        "ios": {
+          "infoPlist": {
+            "NSAppTransportSecurity": {
+              "NSAllowsArbitraryLoads": true
+            }
+          }
+        }
+      }],
       "expo-router",
       [
         "expo-image-picker",
@@ -43,7 +56,8 @@
         {
           "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
         }
-      ]
+      ],
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true
@@ -53,7 +67,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "6d78d9b1-dfb5-4ace-8a66-9956e42d069e"
+        "projectId": "94febb34-447a-4c6f-b065-cb40a75d52ed"
       }
     }
   }
