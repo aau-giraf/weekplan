@@ -32,7 +32,7 @@ export type FormData = z.infer<typeof schema>;
 const ViewOrganisation = () => {
   const { organisation } = useLocalSearchParams();
   const parsedId = Number(organisation);
-  const { data, error, isLoading, createGrade } = useOrganisation(parsedId);
+  const { data, error, isLoading, createGrade, refetch } = useOrganisation(parsedId);
   const { addToast } = useToast();
   const { userId } = useAuthentication();
   const createBottomSheetRef = useRef<BottomSheet>(null);
@@ -77,9 +77,10 @@ const ViewOrganisation = () => {
             ListEmptyComponent={
               <Text style={[SharedStyles.notFound, { paddingTop: 20 }]}>Ingen klasser fundet</Text>
             }
+            onRefresh={async () => await refetch()}
+            refreshing={isLoading}
             contentContainerStyle={[{ backgroundColor: colors.lightBlue }, { flexGrow: 1 }]}
             data={data?.grades ?? []}
-            bounces={false}
             numColumns={1}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <GradeView grades={[item]} />}
