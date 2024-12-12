@@ -163,7 +163,8 @@ export default function useActivity({ date }: { date: Date }) {
             variables.sourceDate,
             variables.destinationDate
           ),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+    onSuccess: (_data, variables) =>
+      queryClient.invalidateQueries({ queryKey: dateToQueryKey(variables.destinationDate, isCitizen, id) }),
   });
 
   const useToggleActivityStatus = useMutation({
