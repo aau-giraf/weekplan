@@ -10,7 +10,11 @@
     },
     "production": {
       "autoIncrement": true,
-      "distribution": "store"
+      "distribution": "store",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://weekpl.giraf.cs.aau.dk",
+        "EXPO_PUBLIC_API_PORT": "443"
+      }
     }
   },
   "submit": {
