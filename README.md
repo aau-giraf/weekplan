@@ -33,7 +33,7 @@ After running the above command, you will see options to open the app in a:
 
 The app uses [file-based routing](https://docs.expo.dev/router/introduction), so you can start customising by editing files in the app directory.
 
-3. Create a copy of the .env.example file, rename it to .env, and update the values inside. Set your IPV4 address, and for the PORT, it is recommended to use 5171.
+3. Create a copy of the .env.example file, rename it to .env, and update the values inside. Set your IPV4 address and ensure the PORT matches the one used by the backend.
 
 ## Additional Developer Resources
 
