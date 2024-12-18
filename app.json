@@ -18,8 +18,8 @@
       "bundleIdentifier": "com.girafsvenner.ugeplan",
       "usesBroadcastPushNotifications": false,
       "infoPlist": {
-        "NSCameraUsageDescription": "GIRAF Weekplan bruger kameraadgang til at tage billeder til profilbilleder og til upload af piktogrammer eller billeder for din organisation.",
-        "NSPhotoLibraryUsageDescription": "GIRAF Weekplan bruger adgang til dit fotobibliotek for at vælge billeder til profilbilleder eller piktogrammer/billeder for din organisation."
+        "NSCameraUsageDescription": "GIRAF Weekplan bruger kameraadgang til at tage billeder til profilbilleder eller til at uploade billeder for din organisation.",
+        "NSPhotoLibraryUsageDescription": "GIRAF Weekplan bruger adgang til dit fotobibliotek for at vælge billeder til profilbilleder eller til at uploade billeder for din organisation."
       }
     },
     "android": {

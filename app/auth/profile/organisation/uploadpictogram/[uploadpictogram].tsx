@@ -82,6 +82,7 @@ const UploadPictogram = () => {
                 absolute={false}
                 style={styles.cameraButton}
                 onImageSelect={(uri: string) => setValue("piktogramURI", uri, { shouldValidate: true })}
+                promptMessage="Weekplan skal bruge adgang til at tage et billede eller vælge et fra dit fotoalbum for at tilføje det til din organisations billeder."
               />
             </View>
           </View>
