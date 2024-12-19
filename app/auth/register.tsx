@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { SafeAreaView, View, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -143,7 +143,11 @@ const RegisterScreen: React.FC = () => {
                     key={imageUri}
                   />
                 </View>
-                <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
+                <CameraButton
+                  style={{ bottom: ScaleSizeH(230) }}
+                  onImageSelect={setImageUri}
+                  promptMessage="Weekplan skal bruge adgang til at tage et billede eller vælge et fra dit fotoalbum for dit profilbillede"
+                />
                 <SecondaryButton
                   style={{ backgroundColor: colors.green }}
                   label="Upload billede"

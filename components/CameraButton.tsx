@@ -10,11 +10,17 @@ type CameraButtonProps = {
   style?: StyleProp<ViewStyle>;
   onImageSelect: (imageUri: string) => void;
   absolute?: boolean;
+  promptMessage?: string;
 };
 
-const CameraButton = ({ style, onImageSelect, absolute = true }: CameraButtonProps) => {
+const CameraButton = ({
+  style,
+  onImageSelect,
+  absolute = true,
+  promptMessage = "Vil du tage et billede eller vælge et fra dit fotoalbum?",
+}: CameraButtonProps) => {
   const handlePress = async () => {
-    Alert.alert("Vælg billede-kilde", "Vil du tage et billede eller vælge et fra dit fotoalbum?", [
+    Alert.alert("Vælg billede-kilde", promptMessage, [
       { text: "Kamera", onPress: handleTakePhoto },
       { text: "Fotoalbum", onPress: handlePickImage },
       { text: "Annuller", style: "cancel" },

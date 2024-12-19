@@ -41,7 +41,11 @@ const ChangeProfilePicture = () => {
             <ProfilePicture style={styles.mainProfilePicture} label={label} userId={userId} />
           )}
         </View>
-        <CameraButton style={{ bottom: ScaleSizeH(230) }} onImageSelect={setImageUri} />
+        <CameraButton
+          style={{ bottom: ScaleSizeH(230) }}
+          onImageSelect={setImageUri}
+          promptMessage="Weekplan skal bruge adgang til at tage et billede eller vælge et fra dit fotoalbum for dit profilbillede"
+        />
         <SecondaryButton
           style={{ backgroundColor: colors.green }}
           label="Skift profilbillede"
