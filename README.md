@@ -11,6 +11,8 @@ To run the application, make sure you have the following configured or downloade
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
+- Node.js: Install [Node.js](https://nodejs.org/en) (version 16 or higher is recommended)
+
 1. Install dependencies
 
    ```bash
@@ -30,6 +32,8 @@ After running the above command, you will see options to open the app in a:
 - Expo Go
 
 The app uses [file-based routing](https://docs.expo.dev/router/introduction), so you can start customising by editing files in the app directory.
+
+3. Create a copy of the .env.example file, rename it to .env, and update the values inside. Set your IPV4 address and ensure the PORT matches the one used by the backend.
 
 ## Additional Developer Resources
 
